@@ -1,9 +1,12 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
-
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// unit tests for env file
+describe("env", () => {
+  it("should have an auth0 domain", () => {
+    expect(process.env.REACT_APP_AUTH0_DOMAIN).toBeDefined();
+  });
+  it("should have an auth0 clientID", () => {
+    expect(process.env.REACT_APP_AUTH0_CLIENTID).toBeDefined();
+  });
+  it("should have an auth0 audience", () => {
+    expect(process.env.REACT_APP_AUTH0_AUDIENCE).toBeDefined();
+  });
 });
