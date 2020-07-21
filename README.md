@@ -1,5 +1,7 @@
 # Association for Computing Machinery Portal
 
+![TrackIT Automated Testing and Continuous Integration](https://github.com/acmutd/portal/workflows/ACM%20Portal%20Automated%20Testing%20and%20Continuous%20Integration/badge.svg)
+
 Official front-end for the _ACM_ website & portal.
 
 ### Quick Start
