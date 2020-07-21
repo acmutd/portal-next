@@ -25,23 +25,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// 4 things we need to do
-
-// Add auth0
-// Add redux (this will take the most time)
-// Add api calling class to make stuff simple skip
-// Add device detect
-
-// provider/context pattern
-// variables that need to be accessed everywhere
-// isAuthenticated
-
-// Redux Tutorial
-
-// Store (just a json)
-// Action (enums that dictate what operations can be performed in english) Login, Logout !!!!!
-// Reducer (just a function that gets called when you want to do an action)
-
-// 7 dispatches, effects, ...
-// dispatches are basically setters, effects are asynchronous reducers ish

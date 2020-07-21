@@ -1,44 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Association for Computing Machinery Portal
 
-## Available Scripts
+Official front-end for the _ACM_ website & portal.
 
-In the project directory, you can run:
+### Quick Start
 
-### `npm start`
+ - Create `.env` file for Auth0 configuration, request ACM Development for domain and client ID. 
+ - Run `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Extended Start Guide
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+###### Mobile vs Web Development
 
-### `npm test`
+`App.tsx` splits what gets rendered into two separate views through `react-device-react`. Content stored in `/src/mobileviews` should contain views for smaller viewports wheras content in `/src/views` should contain full screen views. In situations where it is not necessary to create two separate views, save it in `/src/views` and duplicate the content in `App.tsx` so that it gets rendered in all situations. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###### Auth0 & Authentication
 
-### `npm run build`
+Refer to [ACM Development Authentication](https://github.com/acmutd/Auth-flow-template) for more information on using our authentication features. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###### Connecting to backend
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+In progress
+All communication with firebase should occur through the ACM Portal API. Refer to [ACM Portal Backend](https://github.com/acmutd/portal-backend) for more information on locally testing the backend. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### How to Contribute
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Join ACM Development
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Contributors
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ - [Harsha Srikara](https://harshasrikara.com)
+ - [David Richey](https://darichey.com)
+ - [Aliah Shaira De Guzman]()
+ - [Sivam Patel](https://github.com/sivampatel)
+ - [Kendra Huang](https://github.com/kendra-huang)
+ - [Jafar Ali](https://github.com/jafrilli)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Questions
 
-## Learn More
+Sometimes you may have additional questions. If the answer was not found in this readme please feel free to reach out to the [Director of Development](mailto:development@acmutd.co) for _ACM_
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We request that you be as detailed as possible in your questions, doubts, or concerns to ensure that we can be of maximum assistance. Thank you!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![ACM Development](https://www.acmutd.co/brand/Development/Banners/light_dark_background.png)
