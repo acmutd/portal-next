@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   authInterface,
@@ -6,6 +6,7 @@ import {
   logoutAction,
 } from "../actions/authenticate";
 import { connect } from "react-redux";
+import { useAcmApi } from "../acmApi";
 
 interface HomePageProps {
   isLoggedIn: boolean;
@@ -13,22 +14,35 @@ interface HomePageProps {
 }
 
 const HomePage = (props: HomePageProps) => {
-  const { loginWithRedirect, isLoading } = useAuth0();
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const { createRole } = useAcmApi();
+  const [response, setResponse] = useState("");
 
-  const wrapperFunction = () => {
-    // const result = callApi("/api/createDivison");
+  const wrapperFunction = async () => {
     props.login();
-    loginWithRedirect();
+    await loginWithRedirect();
   };
+
+  const helloWrapper = async () => {
+    // world()
+    // setResponse(JSON.stringify(await hello({ world: "hello" })));
+    setResponse(JSON.stringify(await createRole("test", {})));
+  }
 
   return (
     <div>
       <button onClick={wrapperFunction}>Click me to sign in</button>
-      {props.isLoggedIn && !isLoading ? (
-        <h1>authenticated</h1>
+      {isAuthenticated ? (
+          <div>
+            <h1>authenticated</h1>
+            <button onClick={helloWrapper}>Hello</button>
+          </div>
       ) : (
         <h1>Not Authenticated</h1>
       )}
+
+
+      {response}
     </div>
   );
 };
