@@ -29,6 +29,7 @@ export function useAcmApi() {
 
     return {
         createRole: authorized(createRole, getAccessTokenSilently),
-        updateRole: authorized(updateRole, getAccessTokenSilently)
+        updateRole: authorized(updateRole, getAccessTokenSilently),
+        deleteRole: authorized(deleteRole, getAccessTokenSilently)
     };
 }
