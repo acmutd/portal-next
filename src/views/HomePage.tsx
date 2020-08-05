@@ -1,5 +1,9 @@
-import React, {useState} from "react";
+
 import { useAuth0 } from "@auth0/auth0-react";
+import React, { Fragment, useState } from "react";
+import Navbar from "../components/Navbar/Navbar";
+import TileGrid from "../components/TileGrid/TileGrid";
+
 import {
   authInterface,
   loginAction,
@@ -7,13 +11,16 @@ import {
 } from "../actions/authenticate";
 import { connect } from "react-redux";
 import { useAcmApi } from "../acmApi";
+import Menu from '../components/Menu/menu'
 
-interface HomePageProps {
-  isLoggedIn: boolean;
-  login(): void;
-}
 
-const HomePage = (props: HomePageProps) => {
+// interface HomePageProps {
+//   isLoggedIn: boolean;
+//   login(): void;
+// }
+const HomePage = () => {
+
+  const [menu, setMenu] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const { createRole } = useAcmApi();
   const [response, setResponse] = useState("");
@@ -23,6 +30,7 @@ const HomePage = (props: HomePageProps) => {
     await loginWithRedirect();
   };
 
+
   const helloWrapper = async () => {
     // world()
     // setResponse(JSON.stringify(await hello({ world: "hello" })));
@@ -30,20 +38,11 @@ const HomePage = (props: HomePageProps) => {
   }
 
   return (
-    <div>
-      <button onClick={wrapperFunction}>Click me to sign in</button>
-      {isAuthenticated ? (
-          <div>
-            <h1>authenticated</h1>
-            <button onClick={helloWrapper}>Hello</button>
-          </div>
-      ) : (
-        <h1>Not Authenticated</h1>
-      )}
-
-
-      {response}
-    </div>
+    <Fragment>
+        <Menu active={menu} onClose={() => setMenu(false)}/>
+        <Navbar onMenu={() => setMenu(true)}/>
+        <TileGrid />
+    </Fragment>
   );
 };
 

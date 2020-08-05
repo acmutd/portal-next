@@ -1,3 +1,9 @@
+* {
+  box-sizing: border-box;
+  font-family: sharp-sans;
+  transition: all 0.2s ease-in-out
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +16,22 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: sharp-sans;
+  font-weight: lighter;
+  src: url(./assets/fonts/samsungsharpsans.otf)
+}
+
+@font-face {
+  font-family: sharp-sans;
+  font-weight: normal;
+  src: url(./assets/fonts/samsungsharpsans-medium.otf);
+}
+
+@font-face {
+  font-family: sharp-sans;
+  font-weight: bold;
+  src: url(./assets/fonts/samsungsharpsans-bold.otf)
 }

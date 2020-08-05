@@ -1,7 +1,6 @@
 import React from "react";
 import Homepage from "./views/HomePage";
 import Division from "./views/Divisions";
-import LabsPage from "./mobileviews/LabsPage";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
@@ -22,7 +21,7 @@ function App() {
 
         <MobileView>
         <Switch>
-            <Route path="/" component={LabsPage} exact />
+            <Route path="/" component={Homepage} exact />
             <Route path="/divisions" component={Division} exact />
           </Switch>
         </MobileView>
