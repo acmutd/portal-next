@@ -14,11 +14,11 @@ import { useAcmApi } from "../acmApi";
 import Menu from '../components/Menu/menu'
 
 
-// interface HomePageProps {
-//   isLoggedIn: boolean;
-//   login(): void;
-// }
-const HomePage = () => {
+interface HomePageProps {
+  isLoggedIn: boolean;
+  login(): void;
+}
+const HomePage = (props: HomePageProps) => {
 
   const [menu, setMenu] = useState(false);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -35,6 +35,7 @@ const HomePage = () => {
     // world()
     // setResponse(JSON.stringify(await hello({ world: "hello" })));
     setResponse(JSON.stringify(await createRole("test", {})));
+    console.log(response);
   }
 
   return (
