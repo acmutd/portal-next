@@ -1,5 +1,4 @@
 
-import { useAuth0 } from "@auth0/auth0-react";
 import React, { Fragment, useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import TileGrid from "../components/TileGrid/TileGrid";
@@ -10,7 +9,6 @@ import {
   logoutAction,
 } from "../actions/authenticate";
 import { connect } from "react-redux";
-import { useAcmApi } from "../acmApi";
 import Menu from '../components/Menu/menu'
 
 
@@ -21,22 +19,6 @@ interface HomePageProps {
 const HomePage = (props: HomePageProps) => {
 
   const [menu, setMenu] = useState(false);
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
-  const { createRole } = useAcmApi();
-  const [response, setResponse] = useState("");
-
-  const wrapperFunction = async () => {
-    props.login();
-    await loginWithRedirect();
-  };
-
-
-  const helloWrapper = async () => {
-    // world()
-    // setResponse(JSON.stringify(await hello({ world: "hello" })));
-    setResponse(JSON.stringify(await createRole("test", {})));
-    console.log(response);
-  }
 
   return (
     <Fragment>
