@@ -24,9 +24,9 @@ interface TypeformProps {
 }
 
 const Typeform = (props: TypeformProps): JSX.Element => {
-	const typeformRef = useRef(new HTMLDivElement());
+	const typeformRef = useRef(null);
 	useEffect(() => {
-		typeformEmbed.makeWidget(typeformRef.current, props.tfLink, props.options);
+		typeformEmbed.makeWidget(typeformRef.current as unknown as HTMLElement, props.tfLink, props.options);
 	}, [props.tfLink, props.options, typeformRef]);
 	return (
 		<div ref={typeformRef} className={props.className} style={props.style} />
