@@ -1,5 +1,6 @@
 /*
  * General utils for managing cookies in Typescript.
+ * Copied off of a gist attached to stack overflow & it works pretty well
  */
 export function setCookie(name: string, val: string) {
     const date = new Date();
@@ -16,7 +17,7 @@ export function getCookie(name: string) {
     const value = "; " + document.cookie;
     const parts = value.split("; " + name + "=");
     
-    if (parts.length == 2) {
+    if (parts.length === 2) {
         //@ts-ignore
         return parts.pop().split(";").shift();
     }
