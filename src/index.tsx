@@ -7,8 +7,6 @@ import config from "./config/auth0_config";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
-// console.log(config);
-
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider

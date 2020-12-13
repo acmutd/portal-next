@@ -5,9 +5,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.0.0",
     "@typeform/embed": "^0.25.1",
-    "@types/jsonwebtoken": "^8.5.0",
     "axios": "^0.19.2",
-    "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
