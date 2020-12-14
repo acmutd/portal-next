@@ -8,8 +8,13 @@ const Vanity = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [typeform, setTypeform] = useState("NxomQTLD");
 
   useEffect(() => {
+    load_data();
+  }, [email]);
+
+  const load_data = async () => {
     const authToken = getCookie("CF_Authorization") as string;
     const config = {
       headers: {
@@ -26,14 +31,23 @@ const Vanity = () => {
         const identifier = res.data.email.split("@")[0];
         setFirstName(identifier.split(".")[0]);
         setLastName(identifier.split(".")[1]);
+      })
+      .then(() => {
+        if(email === "") {
+          setTypeform("NxomQTLD");
+        }
+        else {
+          setTypeform(vanity as string);
+        }
       });
-  }, []);
+  };
+
   return (
     <div>
       <Typeform
         tfLink={
           "https://acmutd.typeform.com/to/" +
-          vanity +
+          typeform +
           "#email=" +
           email +
           "&name=" +
