@@ -2,6 +2,7 @@ import React from "react";
 import Homepage from "./views/HomePage";
 import Division from "./views/Divisions";
 import Vanity from "./views/Vanity";
+import DevForm from "./views/Dev_Application";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
@@ -15,10 +16,11 @@ function App() {
       <BrowserRouter>
         <BrowserView>
           <Switch>
-            <Route path="/" component={Vanity} exact />
+            <Route path="/" component={DevForm} exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
+            <Route path="/dev" component={DevForm} exact />
           </Switch>
         </BrowserView>
 
@@ -28,6 +30,7 @@ function App() {
             <Route path="/divisions" component={Division} exact />
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
+            <Route path="/dev" component={DevForm} exact />
           </Switch>
         </MobileView>
       </BrowserRouter>

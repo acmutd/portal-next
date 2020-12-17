@@ -1,2 +1,4 @@
 const vanity = process.env.REACT_APP_VANITY_TYPEFORM;
-export default vanity;
+const dev = process.env.REACT_APP_DEV_TYPEFORM;
+
+export { vanity, dev };

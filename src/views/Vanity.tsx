@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Typeform from "../components/Typeform/typeform";
-import vanity from "../config/vanity_config";
+import { vanity } from "../config/vanity_config";
 import axios from "axios";
 import { getCookie } from "../acmApi/cookieManager";
 
