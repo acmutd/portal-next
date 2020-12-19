@@ -9,6 +9,7 @@ import {
   BrowserView,
   MobileView,
 } from "react-device-detect";
+import Logout from "./views/Logout";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
+            <Route path="/logout" component={Logout} exact />
           </Switch>
         </BrowserView>
 
@@ -31,6 +33,7 @@ function App() {
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
+            <Route path="/logout" component={Logout} exact />
           </Switch>
         </MobileView>
       </BrowserRouter>

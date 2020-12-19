@@ -35,6 +35,8 @@ const DevForm = () => {
           setTypeform(dev as string);
         }
       } else {
+        setName("unauthorized");
+        setEmail("unauthorized");
         setTypeform("NxomQTLD");
       }
     }
@@ -50,10 +52,7 @@ const DevForm = () => {
     if (!isAuthenticated) {
       loginWithRedirect();
     }
-    const accessToken = await getAccessTokenSilently({
-      audience: `https://harshasrikara.com/api`,
-      scope: "read:current_user",
-    });
+    const accessToken = await getAccessTokenSilently();
     const config = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -70,6 +69,8 @@ const DevForm = () => {
       })
       .then(() => {
         if (email === "") {
+          setName("unauthorized");
+          setEmail("unauthorized");
           setTypeform("NxomQTLD");
         } else {
           setTypeform(dev as string);
