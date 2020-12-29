@@ -1,21 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import ReactLoading from 'react-loading';
 
-const Unauthorized = () => {
-    const retry = () => {
-        // console.log("reshmi is the best");
-    }
-
-    return <UnauthorizedComponent>
+const Loading = () => {
+    return <LoadingComponent>
         <div className="container">
             <img className="acm-logo" src="https://acmutd.co/brand/General/Assets/Logos/favicon.png"/>
-            <h1 className="text">Unauthorized</h1>
-            <button className="retry-button" onClick={() => retry()}>Start</button>
+            <h1 className="text">Loading</h1>
+            <ReactLoading type={"spinningBubbles"} color={"white"} height={'10%'} width={'10%'} />
         </div>
-    </UnauthorizedComponent>
+    </LoadingComponent>
 }
 
-const UnauthorizedComponent = styled.div`
+const LoadingComponent = styled.div`
     .container {
         display: flex;
         background-color: black;
@@ -49,4 +46,4 @@ const UnauthorizedComponent = styled.div`
     }
 `;
 
-export default Unauthorized;
+export default Loading;
