@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.0.0",
+    "@sentry/react": "^5.29.2",
+    "@sentry/tracing": "^5.29.2",
     "@typeform/embed": "^0.25.1",
     "axios": "^0.19.2",
     "react": "^16.13.1",

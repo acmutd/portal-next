@@ -3,6 +3,7 @@ import Homepage from "./views/HomePage";
 import Division from "./views/Divisions";
 import Vanity from "./views/Vanity";
 import DevForm from "./views/Dev_Application";
+import Form from "./views/Projects";
 import Unauthorized from "./views/Unauthorized";
 import Loading from "./views/Loading";
 import "./App.css";
@@ -31,7 +32,9 @@ function App() {
       <BrowserRouter>
         <BrowserView>
           <Switch>
-            <Route path="/" component={Unauthorized} exact />
+            <Route path="/" render={(props) => (
+              <Form {...props} typeform_id="YEN0HToX" />
+            )} exact />
             <Route path="/loading" component={Loading} exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/vanity" component={Vanity} exact />
