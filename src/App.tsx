@@ -6,6 +6,7 @@ import DevForm from "./views/Dev_Application";
 import Form from "./views/Projects";
 import Unauthorized from "./views/Unauthorized";
 import Loading from "./views/Loading";
+import Profile from "./views/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
@@ -40,6 +41,7 @@ function App() {
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
+            <Route path="/profile" component={Profile} exact />
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </BrowserView>
@@ -52,6 +54,7 @@ function App() {
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
+            <Route path="/profile" component={Profile} exact />
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </MobileView>
