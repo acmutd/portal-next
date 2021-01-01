@@ -6,13 +6,10 @@ import DevForm from "./views/Dev_Application";
 import Form from "./views/Projects";
 import Unauthorized from "./views/Unauthorized";
 import Loading from "./views/Loading";
-import Profile from "./views/Profile";
+import Profile from "./views/Profile/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import {
-  BrowserView,
-  MobileView,
-} from "react-device-detect";
+import { BrowserView, MobileView } from "react-device-detect";
 import Logout from "./views/Logout";
 
 /**
@@ -33,9 +30,11 @@ function App() {
       <BrowserRouter>
         <BrowserView>
           <Switch>
-            <Route path="/" render={(props) => (
-              <Form {...props} typeform_id="YEN0HToX" />
-            )} exact />
+            <Route
+              path="/"
+              render={(props) => <Form {...props} typeform_id="YEN0HToX" />}
+              exact
+            />
             <Route path="/loading" component={Loading} exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/vanity" component={Vanity} exact />
@@ -47,7 +46,7 @@ function App() {
         </BrowserView>
 
         <MobileView>
-        <Switch>
+          <Switch>
             <Route path="/" component={Unauthorized} exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/loading" component={Loading} exact />
