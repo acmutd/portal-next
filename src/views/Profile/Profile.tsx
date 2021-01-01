@@ -1,24 +1,15 @@
 import React from "react";
-import styled from "styled-components";
-import { Tabs, Layout, Menu, List, Avatar } from "antd";
-import ACMLogo from "../../assets/images/acm-light.png";
+import { Tabs, Layout, List, Avatar } from "antd";
+import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
-const { Header, Content } = Layout;
+const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
   return (
-    <Layout className="layout">
-      <Header>
-        <LogoComponent>
-          <img src={ACMLogo} />
-        </LogoComponent>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">Applications</Menu.Item>
-          <Menu.Item key="2">Profile</Menu.Item>
-        </Menu>
-      </Header>
-      <Content style={{ padding: "50px 50px" }}>
+    <Layout>
+      <Navbar selectedPage="profile" />
+      <Content>
         <Tabs defaultActiveKey="1" tabPosition="left">
           <TabPane tab="Events" key={1}>
             <List
@@ -51,14 +42,6 @@ const Profile = () => {
     </Layout>
   );
 };
-
-const LogoComponent = styled.div`
-  img {
-    height: 64px;
-    float: left;
-    padding: 10px;
-  }
-`;
 
 export default Profile;
 

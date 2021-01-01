@@ -7,6 +7,7 @@ import Form from "./views/Projects";
 import Unauthorized from "./views/Unauthorized";
 import Loading from "./views/Loading";
 import Profile from "./views/Profile/Profile";
+import Applications from "./views/Applications/Applications";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { BrowserView, MobileView } from "react-device-detect";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
             <Route path="/profile" component={Profile} exact />
+            <Route path="/apps" component={Applications} exact />
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </BrowserView>
@@ -54,6 +56,7 @@ function App() {
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
             <Route path="/profile" component={Profile} exact />
+            <Route path="/apps" component={Applications} exact />
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </MobileView>
