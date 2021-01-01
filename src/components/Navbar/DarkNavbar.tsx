@@ -19,7 +19,7 @@ const DarkNavbar = ({ selectedPage }: NavbarProps) => {
   return (
     <Header>
       <LogoComponent>
-        <img src={ACMLogo} />
+        <img alt="ACMLogo" src={ACMLogo} />
       </LogoComponent>
       <Menu
         theme="dark"
