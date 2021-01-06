@@ -3,16 +3,18 @@ import Homepage from "./views/HomePage";
 import Division from "./views/Divisions";
 import Vanity from "./views/Vanity";
 import DevForm from "./views/Dev_Application";
-import Form from "./views/Projects";
+import Form from "./views/Form";
 import Unauthorized from "./views/Unauthorized";
 import Loading from "./views/Loading";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
-  BrowserView,
-  MobileView,
-} from "react-device-detect";
+  AProtectedRoute,
+  GProtectedRoute,
+} from "./components/Routes/ProtectedRoute";
+import { BrowserView, MobileView } from "react-device-detect";
 import Logout from "./views/Logout";
+import Authorize from "./views/Authorize";
 
 /**
  * Goals for today
@@ -26,26 +28,47 @@ import Logout from "./views/Logout";
  *  - Pass on that information and any other metadata to the typeform
  */
 
+/**
+ * Note: Use Component with Capital C when using a protected route
+ * AProtectedRoute = protected by Auth0
+ * GProtectedRoute = protected by GSuite
+ * Refactor at some point so that we have one protected route with prop?
+ */
 function App() {
   return (
     <div>
       <BrowserRouter>
         <BrowserView>
           <Switch>
-            <Route path="/" render={(props) => (
-              <Form {...props} typeform_id="YEN0HToX" />
-            )} exact />
-            <Route path="/loading" component={Loading} exact />
+            <Route
+              path="/"
+              render={(props) => <Form {...props} typeform_id="YEN0HToX" />}
+              exact
+            />
+            <AProtectedRoute Component={Homepage} path="/test1" exact />
+            <GProtectedRoute Component={Homepage} path="/test2" exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/vanity" component={Vanity} exact />
             <Route path="/home" component={Homepage} exact />
             <Route path="/dev" component={DevForm} exact />
             <Route path="/logout" component={Logout} exact />
+
+            {/* Authorization Routes, Will get activated by Cloudflare Access */}
+            <Route
+              path="/auth0"
+              render={(props) => <Authorize {...props} idp="Auth0" />}
+              exact
+            />
+            <Route
+              path="/gsuite"
+              render={(props) => <Authorize {...props} idp="GSuite" />}
+              exact
+            />
           </Switch>
         </BrowserView>
 
         <MobileView>
-        <Switch>
+          <Switch>
             <Route path="/" component={Unauthorized} exact />
             <Route path="/divisions" component={Division} exact />
             <Route path="/loading" component={Loading} exact />

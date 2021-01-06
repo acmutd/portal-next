@@ -1,21 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
-const Unauthorized = () => {
+const Error = () => {
     const retry = () => {
         // console.log("reshmi is the best");
     }
 
-    return <UnauthorizedComponent>
+    return <ErrorComponent>
         <div className="container">
-            <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"/>
-            <h1 className="text">Unauthorized</h1>
-            <button className="retry-button" onClick={() => retry()}>Return</button>
+            <img className="acm-logo" src="https://acmutd.co/brand/General/Assets/Logos/favicon.png"/>
+            <h1 className="text">Oops. We've run into an error.</h1>
+            <h4 className="text">We're sorry about the inconvenience that this may have caused you</h4>
+            <h4 className="text">If this error happens again please report it to <a href="mailto:development@acmutd.co">ACM Development</a></h4>
+            <button className="retry-button" onClick={() => retry()}>Return Home</button>
         </div>
-    </UnauthorizedComponent>
+    </ErrorComponent>
 }
 
-const UnauthorizedComponent = styled.div`
+const ErrorComponent = styled.div`
     .container {
         display: flex;
         background-color: black;
@@ -49,4 +51,4 @@ const UnauthorizedComponent = styled.div`
     }
 `;
 
-export default Unauthorized;
+export default Error;

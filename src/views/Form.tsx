@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import axios from "axios";
 import { getCookie } from "../acmApi/cookieManager";
 import Unauthorized from "./Unauthorized";
+import Error from "./Error";
 
 interface typeform_info {
   typeform_id: string;

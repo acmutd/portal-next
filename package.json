@@ -7,7 +7,9 @@
     "@sentry/react": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
     "@typeform/embed": "^0.25.1",
+    "@types/jsonwebtoken": "^8.5.0",
     "axios": "^0.19.2",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
@@ -16,6 +18,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "react-stack-grid": "^0.7.1",
+    "recoil": "^0.1.2",
     "redux": "^4.0.5",
     "serve": "^11.3.2",
     "styled-components": "^5.1.1"
