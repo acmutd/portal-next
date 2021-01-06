@@ -8,13 +8,12 @@ import { Provider } from "react-redux";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import store from "./store/store";
-import Loading from "./views/Loading";
+import Loading from "./views/Message/Loading";
 import { RecoilRoot as GlobalState } from "recoil";
-import Error from "./views/Error";
+import Error from "./views/Message/Error";
 
 Sentry.init({
-  dsn:
-    "https://4fb39ad271904932a9d767d44e14fd47@o457361.ingest.sentry.io/5574798",
+  dsn: process.env.REACT_APP_SENTRY_DSN,
   autoSessionTracking: true,
   integrations: [new Integrations.BrowserTracing()],
 
@@ -22,7 +21,10 @@ Sentry.init({
   // for finer control
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV,
+  release: process.env.npm_package_version,
 });
+
+console.log(process.env);
 
 ReactDOM.render(
   <React.StrictMode>

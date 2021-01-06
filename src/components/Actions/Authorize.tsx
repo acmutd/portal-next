@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { jwt, auth } from "../api/state";
-import { getCookie } from "../acmApi/cookieManager";
+import { jwt, auth } from "../../api/state";
+import { getCookie } from "../../acmApi/cookieManager";
 
 interface props {
   idp: string;
@@ -14,13 +14,13 @@ const Authorize = ({idp}: props) => {
 
   useEffect(() => {
       setJwt(getCookie("CF_Authorization") as string);
-  }, []);
+  });
 
   useEffect(() => {
     if (auth_status.is_verified && auth_status.idp === idp) {
       window.location.href = "/";
     }
-  }, [auth_status])
+  }, [auth_status, idp])
 
   return (
     <AuthorizeComponent>
@@ -28,6 +28,7 @@ const Authorize = ({idp}: props) => {
         <img
           className="acm-logo"
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
+          alt="ACM Logo"
         />
         <h1 className="text">Authorization in Progress... { idp } </h1>
       </div>

@@ -1,23 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
-const Error = () => {
+const Welcome = () => {
     const retry = () => {
         // console.log("reshmi is the best");
     }
 
-    return <ErrorComponent>
+    return <WelcomeComponent>
         <div className="container">
-            <img className="acm-logo" src="https://acmutd.co/brand/General/Assets/Logos/favicon.png"/>
-            <h1 className="text">Oops. We've run into an error.</h1>
-            <h4 className="text">We're sorry about the inconvenience that this may have caused you</h4>
-            <h4 className="text">If this error happens again please report it to <a href="mailto:development@acmutd.co">ACM Development</a></h4>
-            <button className="retry-button" onClick={() => retry()}>Return Home</button>
+            <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png" alt="ACM Logo"/>
+            <h1 className="text">Welcome to ACM!</h1>
+            <button className="retry-button" onClick={() => retry()}>Hello!</button>
         </div>
-    </ErrorComponent>
+    </WelcomeComponent>
 }
 
-const ErrorComponent = styled.div`
+const WelcomeComponent = styled.div`
     .container {
         display: flex;
         background-color: black;
@@ -51,4 +49,4 @@ const ErrorComponent = styled.div`
     }
 `;
 
-export default Error;
+export default Welcome;

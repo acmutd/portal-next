@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Typeform from "../components/Typeform/typeform";
+import Typeform from "../Typeform/typeform";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Logout = () => {
@@ -26,7 +26,7 @@ const Logout = () => {
         logout({
           returnTo: "http://localhost:3000",
           client_id: process.env.REACT_APP_AUTH0_CLIENTID
-        })
+        });
       } else {
         setTypeform("mtluTuj7");
       }

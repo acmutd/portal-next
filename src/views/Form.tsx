@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Typeform from "../components/Typeform/typeform";
-import Loading from "./Loading";
+import Loading from "./Message/Loading";
 import axios from "axios";
 import { getCookie } from "../acmApi/cookieManager";
-import Unauthorized from "./Unauthorized";
-import Error from "./Error";
+import Unauthorized from "./Message/Unauthorized";
 
 interface typeform_info {
   typeform_id: string;
+  endpoint: string;
 }
 
-const Form = ({ typeform_id }: typeform_info) => {
+const Form = ({ typeform_id, endpoint }: typeform_info) => {
   const [loading, setLoading] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [signInAttempt, setSignInAttempt] = useState(false);
@@ -40,7 +40,7 @@ const Form = ({ typeform_id }: typeform_info) => {
       },
     }
     axios
-      .get(("http://localhost:5002/acm-core/us-central1/cf" as string) + "/verify", config)
+      .get((process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint, config)
       .then((res) => {
         setIsAuth(true);
 

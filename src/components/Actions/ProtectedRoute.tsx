@@ -6,7 +6,6 @@ import { Route, Redirect } from "react-router-dom";
 const AProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
 
-  console.log(auth_status);
   return (
     <Route
       {...rest}
@@ -24,13 +23,12 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
 const GProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
 
-  console.log(auth_status);
   return (
     <Route
       {...rest}
       render={() => {
         return (auth_status.is_verified === true && auth_status.idp === "GSuite") ? (
-          <Component />
+          Component
         ) : (
           <Redirect to="/gsuite" />
         );

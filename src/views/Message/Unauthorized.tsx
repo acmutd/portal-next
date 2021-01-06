@@ -8,7 +8,7 @@ const Unauthorized = () => {
 
     return <UnauthorizedComponent>
         <div className="container">
-            <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"/>
+            <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png" alt="ACM Logo"/>
             <h1 className="text">Unauthorized</h1>
             <button className="retry-button" onClick={() => retry()}>Return</button>
         </div>
