@@ -10,15 +10,16 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
     <Route
       {...rest}
       render={() => {
-        return (auth_status.is_verified === true && auth_status.idp === "Auth0") ? (
-          <Component />
+        return auth_status.is_verified === true &&
+          auth_status.idp === "Auth0" ? (
+          Component
         ) : (
           <Redirect to="/auth0" />
         );
       }}
     />
   );
-}
+};
 
 const GProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
@@ -27,7 +28,8 @@ const GProtectedRoute = ({ Component, ...rest }: any) => {
     <Route
       {...rest}
       render={() => {
-        return (auth_status.is_verified === true && auth_status.idp === "GSuite") ? (
+        return auth_status.is_verified === true &&
+          auth_status.idp === "GSuite" ? (
           Component
         ) : (
           <Redirect to="/gsuite" />
@@ -35,5 +37,5 @@ const GProtectedRoute = ({ Component, ...rest }: any) => {
       }}
     />
   );
-}
+};
 export { AProtectedRoute, GProtectedRoute };

@@ -29,10 +29,10 @@ console.log(process.env);
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain={config.domain as string}
-      clientId={config.clientId as string}
+      domain={config.domain}
+      clientId={config.clientId}
       redirectUri={window.location.origin + window.location.pathname}
-      audience={config.audience as string}
+      audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
     >
       <Provider store={store}>
