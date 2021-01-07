@@ -14,6 +14,17 @@ export const verify = async (authToken: string): Promise<auth_status> => {
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
+  Sentry.setUser({
+    id: decodedToken.sub,
+    email: decodedToken.email,
+  });
+
+  let decoded_idp;
+  if ("custom" in decodedToken) {
+    decoded_idp = "auth0";
+  } else {
+    decoded_idp = "gsuite";
+  }
 
   const config = {
     headers: {
@@ -22,7 +33,7 @@ export const verify = async (authToken: string): Promise<auth_status> => {
   };
   const auth: auth_status = await axios
     .get(
-      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/verify-idp",
+      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/" + decoded_idp + "/verify-idp",
       config
     )
     .then((res) => {

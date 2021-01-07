@@ -34,24 +34,24 @@ function App() {
 
             {/* Auth0 Protected Routes */}
             <AProtectedRoute
-              Component={<Form typeform_id={dev} endpoint="/verify" />}
+              Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
               path="/dev"
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={edu} endpoint="/verify" />}
+              Component={<Form typeform_id={edu} endpoint="/auth0/verify" />}
               path="/edu"
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={marketing} endpoint="/verify" />}
+              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
               path="/marketing"
               exact
             />
 
             {/* Officer Exclusive Routes */}
             <GProtectedRoute
-              Component={<Form typeform_id={vanity} endpoint="/verify" />}
+              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
               path="/vanity"
               exact
             />
@@ -59,12 +59,12 @@ function App() {
             {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
             <Route
               path="/auth0"
-              render={(props) => <Authorize {...props} idp="Auth0" />}
+              render={(props) => <Authorize {...props} idp="auth0" />}
               exact
             />
             <Route
               path="/gsuite"
-              render={(props) => <Authorize {...props} idp="GSuite" />}
+              render={(props) => <Authorize {...props} idp="gsuite" />}
               exact
             />
           </Switch>
@@ -80,24 +80,24 @@ function App() {
 
             {/* Auth0 Protected Routes */}
             <AProtectedRoute
-              Component={<Form typeform_id={dev} endpoint="/verify" />}
+              Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
               path="/dev"
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={edu} endpoint="/verify" />}
+              Component={<Form typeform_id={edu} endpoint="/auth0/verify" />}
               path="/edu"
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={marketing} endpoint="/verify" />}
+              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
               path="/marketing"
               exact
             />
 
             {/* Officer Exclusive Routes */}
             <GProtectedRoute
-              Component={<Form typeform_id={vanity} endpoint="/verify" />}
+              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
               path="/vanity"
               exact
             />
@@ -105,12 +105,12 @@ function App() {
             {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
             <Route
               path="/auth0"
-              render={(props) => <Authorize {...props} idp="Auth0" />}
+              render={(props) => <Authorize {...props} idp="auth0" />}
               exact
             />
             <Route
               path="/gsuite"
-              render={(props) => <Authorize {...props} idp="GSuite" />}
+              render={(props) => <Authorize {...props} idp="gsuite" />}
               exact
             />
           </Switch>

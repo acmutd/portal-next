@@ -24,8 +24,6 @@ Sentry.init({
   release: process.env.npm_package_version,
 });
 
-console.log(process.env);
-
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
