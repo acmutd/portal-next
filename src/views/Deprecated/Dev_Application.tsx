@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Typeform from "../components/Typeform/typeform";
-import { dev } from "../config/typeform_config";
+import Typeform from "../../components/Typeform/typeform";
+import { dev } from "../../config/typeform_config";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 

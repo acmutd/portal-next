@@ -10,3 +10,5 @@ describe("env", () => {
     expect(process.env.REACT_APP_AUTH0_AUDIENCE).toBeDefined();
   });
 });
+
+export const check = "hello";

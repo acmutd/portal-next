@@ -1,8 +1,7 @@
 import React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import "./DevPage.css";
 
-const HomePage = () => {
+const Auth0Test = () => {
 
     const { isAuthenticated, loginWithRedirect, isLoading } = useAuth0();
 
@@ -14,4 +13,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Auth0Test;

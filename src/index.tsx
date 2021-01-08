@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -8,30 +8,39 @@ import { Provider } from "react-redux";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import store from "./store/store";
+import Loading from "./views/Message/Loading";
+import { RecoilRoot as GlobalState } from "recoil";
+import Error from "./views/Message/Error";
 
 Sentry.init({
-  dsn: "https://4fb39ad271904932a9d767d44e14fd47@o457361.ingest.sentry.io/5574798",
+  dsn: process.env.REACT_APP_SENTRY_DSN,
   autoSessionTracking: true,
-  integrations: [
-    new Integrations.BrowserTracing(),
-  ],
+  integrations: [new Integrations.BrowserTracing()],
 
   // We recommend adjusting this value in production, or using tracesSampler
   // for finer control
   tracesSampleRate: 1.0,
+  environment: process.env.NODE_ENV,
+  release: process.env.npm_package_version,
 });
 
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain={config.domain as string}
-      clientId={config.clientId as string}
+      domain={config.domain}
+      clientId={config.clientId}
       redirectUri={window.location.origin + window.location.pathname}
-      audience={config.audience as string}
+      audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
     >
       <Provider store={store}>
-        <App />
+        <Sentry.ErrorBoundary fallback={<Error />}>
+          <React.Suspense fallback={<Loading />}>
+            <GlobalState>
+              <App />
+            </GlobalState>
+          </React.Suspense>
+        </Sentry.ErrorBoundary>
       </Provider>
     </Auth0Provider>
   </React.StrictMode>,

@@ -1,63 +1,118 @@
 import React from "react";
-import Homepage from "./views/HomePage";
-import Division from "./views/Divisions";
-import Vanity from "./views/Vanity";
-import DevForm from "./views/Dev_Application";
-import Form from "./views/Projects";
-import Unauthorized from "./views/Unauthorized";
-import Loading from "./views/Loading";
-import Profile from "./views/Profile/Profile";
-import Applications from "./views/Applications/Applications";
+import Homepage from "./views/Deprecated/HomePage";
+import Form from "./views/Form";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
+import {
+  AProtectedRoute,
+  GProtectedRoute,
+} from "./components/Actions/ProtectedRoute";
 import { BrowserView, MobileView } from "react-device-detect";
-import Logout from "./views/Logout";
+import Authorize from "./components/Actions/Authorize";
+import Welcome from "./views/Message/Welcome";
+import { vanity, dev, edu, marketing } from "./config/typeform_config";
 
 /**
- * Goals for today
- *  - Duplicate the repo
- *  - Set one to use G Suite login
- *  - Set one to use Auth0 login
- *  - Work on the Auth0 one today
- *  - Create a home page that displays a bunch of applications
- *  - Create a /projects, /research, /dev, /interview and so on pages
- *  - Fetch data from backend if person already has a submitted application
- *  - Pass on that information and any other metadata to the typeform
+ * Note: Use Component with Capital C when using a protected route
+ * AProtectedRoute = protected by Auth0
+ * GProtectedRoute = protected by GSuite
+ * Refactor at some point so that we have one protected route with prop?
+ * Now that we have protected routes there's no point in protecting individual components
+ * <Form /> has built in authentication verification, results in 2 api calls to the same endpoint
  */
-
 function App() {
   return (
     <div>
       <BrowserRouter>
         <BrowserView>
           <Switch>
-            <Route
-              path="/"
-              render={(props) => <Form {...props} typeform_id="YEN0HToX" />}
+            <Route path="/" component={Welcome} exact />
+
+            {/* General Routes for testing */}
+            <AProtectedRoute Component={<Homepage />} path="/test1" exact />
+            <GProtectedRoute Component={<Homepage />} path="/test2" exact />
+
+            {/* Auth0 Protected Routes */}
+            <AProtectedRoute
+              Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
+              path="/dev"
               exact
             />
-            <Route path="/loading" component={Loading} exact />
-            <Route path="/divisions" component={Division} exact />
-            <Route path="/vanity" component={Vanity} exact />
-            <Route path="/home" component={Homepage} exact />
-            <Route path="/dev" component={DevForm} exact />
-            <Route path="/profile" component={Profile} exact />
-            <Route path="/apps" component={Applications} exact />
-            <Route path="/logout" component={Logout} exact />
+            <AProtectedRoute
+              Component={<Form typeform_id={edu} endpoint="/auth0/verify" />}
+              path="/edu"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
+              path="/marketing"
+              exact
+            />
+
+            {/* Officer Exclusive Routes */}
+            <GProtectedRoute
+              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
+              path="/vanity"
+              exact
+            />
+
+            {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
+            <Route
+              path="/auth0"
+              render={(props) => <Authorize {...props} idp="auth0" />}
+              exact
+            />
+            <Route
+              path="/gsuite"
+              render={(props) => <Authorize {...props} idp="gsuite" />}
+              exact
+            />
           </Switch>
         </BrowserView>
 
         <MobileView>
           <Switch>
-            <Route path="/" component={Unauthorized} exact />
-            <Route path="/divisions" component={Division} exact />
-            <Route path="/loading" component={Loading} exact />
-            <Route path="/vanity" component={Vanity} exact />
-            <Route path="/home" component={Homepage} exact />
-            <Route path="/dev" component={DevForm} exact />
-            <Route path="/profile" component={Profile} exact />
-            <Route path="/apps" component={Applications} exact />
-            <Route path="/logout" component={Logout} exact />
+            <Route path="/" component={Welcome} exact />
+
+            {/* General Routes for testing */}
+            <AProtectedRoute Component={<Homepage />} path="/test1" exact />
+            <GProtectedRoute Component={<Homepage />} path="/test2" exact />
+
+            {/* Auth0 Protected Routes */}
+            <AProtectedRoute
+              Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
+              path="/dev"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Form typeform_id={edu} endpoint="/auth0/verify" />}
+              path="/edu"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
+              path="/marketing"
+              exact
+            />
+
+            {/* Officer Exclusive Routes */}
+            <GProtectedRoute
+              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
+              path="/vanity"
+              exact
+            />
+
+            {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
+            <Route
+              path="/auth0"
+              render={(props) => <Authorize {...props} idp="auth0" />}
+              exact
+            />
+            <Route
+              path="/gsuite"
+              render={(props) => <Authorize {...props} idp="gsuite" />}
+              exact
+            />
           </Switch>
         </MobileView>
       </BrowserRouter>

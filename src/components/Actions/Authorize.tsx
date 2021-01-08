@@ -1,24 +1,36 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { jwt, auth } from "../../api/state";
+import { getCookie } from "../../acmApi/cookieManager";
 
-const Authorize = () => {
-  useEffect(() => {});
+interface props {
+  idp: string;
+}
 
-  const signin = () => {
-    // console.log("reshmi is the best");
-  };
+const Authorize = ({idp}: props) => {
+  const setJwt = useSetRecoilState(jwt);
+  const auth_status = useRecoilValue(auth);
+
+  useEffect(() => {
+      setJwt(getCookie("CF_Authorization") as string);
+  });
+
+  useEffect(() => {
+    if (auth_status.is_verified && auth_status.idp === idp) {
+      window.location.href = "/";
+    }
+  }, [auth_status, idp])
 
   return (
     <AuthorizeComponent>
       <div className="container">
         <img
           className="acm-logo"
-          src="https://acmutd.co/brand/General/Assets/Logos/favicon.png"
+          src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
+          alt="ACM Logo"
         />
-        <h1 className="text">Authorization in Progress...</h1>
-        <button className="retry-button" onClick={() => signin()}>
-          Sign In
-        </button>
+        <h1 className="text">Authorization in Progress... { idp } </h1>
       </div>
     </AuthorizeComponent>
   );

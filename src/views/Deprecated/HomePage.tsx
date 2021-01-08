@@ -1,15 +1,15 @@
 
 import React, { Fragment, useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import TileGrid from "../components/TileGrid/TileGrid";
+import Navbar from "../../components/Navbar/Navbar";
+import TileGrid from "../../components/TileGrid/TileGrid";
 
 import {
   authInterface,
   loginAction,
   logoutAction,
-} from "../actions/authenticate";
+} from "../../actions/authenticate";
 import { connect } from "react-redux";
-import Menu from '../components/Menu/menu'
+import Menu from '../../components/Menu/menu'
 
 
 interface HomePageProps {
