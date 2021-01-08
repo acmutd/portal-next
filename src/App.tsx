@@ -11,6 +11,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import Authorize from "./components/Actions/Authorize";
 import Welcome from "./views/Message/Welcome";
 import { vanity, dev, edu, marketing } from "./config/typeform_config";
+import Logout from "./components/Actions/Logout";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -44,14 +45,25 @@ function App() {
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
+              Component={
+                <Form typeform_id={marketing} endpoint="/auth0/verify" />
+              }
               path="/marketing"
+              exact
+            />
+            <AProtectedRoute
+              Component={
+                <Form typeform_id="riFMnboH" endpoint="/auth0/profile" />
+              }
+              path="/profile"
               exact
             />
 
             {/* Officer Exclusive Routes */}
             <GProtectedRoute
-              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
+              Component={
+                <Form typeform_id={vanity} endpoint="/gsuite/verify" />
+              }
               path="/vanity"
               exact
             />
@@ -65,6 +77,11 @@ function App() {
             <Route
               path="/gsuite"
               render={(props) => <Authorize {...props} idp="gsuite" />}
+              exact
+            />
+            <Route
+              path="/logout"
+              component={Logout}
               exact
             />
           </Switch>
@@ -90,14 +107,18 @@ function App() {
               exact
             />
             <AProtectedRoute
-              Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
+              Component={
+                <Form typeform_id={marketing} endpoint="/auth0/verify" />
+              }
               path="/marketing"
               exact
             />
 
             {/* Officer Exclusive Routes */}
             <GProtectedRoute
-              Component={<Form typeform_id={vanity} endpoint="/gsuite/verify" />}
+              Component={
+                <Form typeform_id={vanity} endpoint="/gsuite/verify" />
+              }
               path="/vanity"
               exact
             />
@@ -111,6 +132,11 @@ function App() {
             <Route
               path="/gsuite"
               render={(props) => <Authorize {...props} idp="gsuite" />}
+              exact
+            />
+            <Route
+              path="/logout"
+              component={Logout}
               exact
             />
           </Switch>
