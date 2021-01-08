@@ -133,7 +133,7 @@ const Applications = () => {
 
   return (
     <Layout>
-      <Navbar selectedPage="apps" />
+      <Navbar selectedPage="applications" />
       <Content>
         <Grid container spacing={3}>
           {cardApps}

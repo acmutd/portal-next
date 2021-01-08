@@ -53,7 +53,7 @@ const Profile = () => {
               )}
             />
                   </TabPane>*/}
-          <TabPane tab="Applications" key={2}>
+          <TabPane tab="Past Applications" key={2}>
             Content 2
           </TabPane>
           {/*<TabPane tab="Badges" key={3}>
