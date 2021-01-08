@@ -2,13 +2,15 @@ import React from "react";
 import { Layout, Card, Button } from "antd";
 import Grid from "@material-ui/core/Grid";
 import Navbar from "../../components/Navbar/DarkNavbar";
+import { useHistory } from "react-router-dom";
 import "./Applications.css";
 const { Content } = Layout;
 
 const currApps = [
   {
     name: "Education Officer Application",
-    link: "https://apply.acmutd.co/education",
+    link: "/edu",
+    extra: "https://www.acmutd.co/education",
     description: (
       <p>
         Want to gain leadership experience, give back to the community, and
@@ -27,7 +29,7 @@ const currApps = [
   },
   {
     name: "Education Officer Application",
-    link: "https://apply.acmutd.co/education",
+    link: "/edu",
     description: (
       <p>
         Want to gain leadership experience, give back to the community, and
@@ -46,7 +48,7 @@ const currApps = [
   },
   {
     name: "Education Officer Application",
-    link: "https://apply.acmutd.co/education",
+    link: "/edu",
     description: (
       <p>
         Want to gain leadership experience, give back to the community, and
@@ -103,16 +105,32 @@ const currApps = [
   },
 ];
 
-const cardApps = currApps.map((app) => (
-  <Grid item xs={4}>
-    <Card title={app.name} bordered={false} hoverable>
-      {app.description}
-      <Button>Apply here!</Button>
-    </Card>
-  </Grid>
-));
-
 const Applications = () => {
+  const history = useHistory();
+
+  const cardApps = currApps.map((app) => (
+    <Grid item xs={4}>
+      <Card title={app.name} bordered={false} hoverable>
+        {app.description}
+        <div className="flex"></div>
+        <button
+          className="apply-button"
+          onClick={() => history.push(`${app.link}`)}
+        >
+          Apply here!
+        </button>
+        {app.extra && (
+          <button
+            className="apply-button"
+            onClick={() => (window.location.href = `${app.extra}`)}
+          >
+            Learn More
+          </button>
+        )}
+      </Card>
+    </Grid>
+  ));
+
   return (
     <Layout>
       <Navbar selectedPage="apps" />
