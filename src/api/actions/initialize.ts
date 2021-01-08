@@ -4,13 +4,13 @@ import * as Sentry from "@sentry/react";
 import { decoded_jwt, auth_status } from "../../config/interface";
 
 export const verify = async (authToken: string): Promise<auth_status> => {
-    console.log(authToken);
-    if (authToken === undefined ){
-        return {
-            jwt: authToken,
-            is_verified: false,
-        }
-    }
+  console.log(authToken);
+  if (authToken === undefined || authToken === "") {
+    return {
+      jwt: authToken,
+      is_verified: false,
+    };
+  }
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
@@ -33,7 +33,10 @@ export const verify = async (authToken: string): Promise<auth_status> => {
   };
   const auth: auth_status = await axios
     .get(
-      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/" + decoded_idp + "/verify-idp",
+      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
+        "/" +
+        decoded_idp +
+        "/verify-idp",
       config
     )
     .then((res) => {
