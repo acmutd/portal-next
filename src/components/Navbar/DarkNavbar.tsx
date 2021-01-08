@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Layout, Menu } from "antd";
 import ACMLogo from "../../assets/images/acm-light.png";
 import { useHistory } from "react-router-dom";
+import "./DarkNavbar.css";
 const { Header } = Layout;
 
 interface NavbarProps {
@@ -29,6 +30,9 @@ const DarkNavbar = ({ selectedPage }: NavbarProps) => {
       >
         <Menu.Item key="apps">Applications</Menu.Item>
         <Menu.Item key="profile">Profile</Menu.Item>
+        <Menu.Item style={{ float: "right" }} key="logout">
+          Logout
+        </Menu.Item>
       </Menu>
     </Header>
   );
