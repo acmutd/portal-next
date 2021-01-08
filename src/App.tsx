@@ -1,6 +1,7 @@
 import React from "react";
 import Homepage from "./views/Deprecated/HomePage";
 import Form from "./views/Form";
+import Applications from "./views/Applications/Applications";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
@@ -46,6 +47,11 @@ function App() {
             <AProtectedRoute
               Component={<Form typeform_id={marketing} endpoint="/auth0/verify" />}
               path="/marketing"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Applications />}
+              path="/applications"
               exact
             />
 

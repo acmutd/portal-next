@@ -1,45 +1,125 @@
 import React from "react";
-import { Layout, Card, Col, Row } from "antd";
+import { Layout, Card, Button } from "antd";
+import Grid from "@material-ui/core/Grid";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Applications.css";
 const { Content } = Layout;
-const { Meta } = Card;
+
+const currApps = [
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community! Applications
+        close January 31st, 2020 at 11:59 CST. But this semester we will be
+        doing <strong>rolling interviews</strong> and the positions may fill
+        before the deadline. Thus, it is recommended to submit your application
+        as soon as possible.
+      </p>
+    ),
+  },
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community! Applications
+        close January 31st, 2020 at 11:59 CST. But this semester we will be
+        doing <strong>rolling interviews</strong> and the positions may fill
+        before the deadline. Thus, it is recommended to submit your application
+        as soon as possible.
+      </p>
+    ),
+  },
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community! Applications
+        close January 31st, 2020 at 11:59 CST. But this semester we will be
+        doing <strong>rolling interviews</strong> and the positions may fill
+        before the deadline. Thus, it is recommended to submit your application
+        as soon as possible.
+      </p>
+    ),
+  },
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community! Applications
+        close January 31st, 2020 at 11:59 CST. But this semester we will be
+        doing <strong>rolling interviews</strong> and the positions may fill
+        before the deadline. Thus, it is recommended to submit your application
+        as soon as possible.
+      </p>
+    ),
+  },
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community! Applications
+        close January 31st, 2020 at 11:59 CST. But this semester we will be
+        doing <strong>rolling interviews</strong> and the positions may fill
+        before the deadline. Thus, it is recommended to submit your application
+        as soon as possible.
+      </p>
+    ),
+  },
+];
+
+const cardApps = currApps.map((app) => (
+  <Grid item xs={4}>
+    <Card title={app.name} bordered={false} hoverable>
+      {app.description}
+      <Button>Apply here!</Button>
+    </Card>
+  </Grid>
+));
 
 const Applications = () => {
   return (
     <Layout>
       <Navbar selectedPage="apps" />
       <Content>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card title="Education Officer Application" bordered={false}>
-              do u like 2 educate whoa
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt="appImg"
-                  src="https://upload.wikimedia.org/wikipedia/en/thumb/a/ad/ACM_SIGGRAPH_logo.svg/1200px-ACM_SIGGRAPH_logo.svg.png"
-                  style={{ height: 200, padding: 20 }}
-                />
-              }
-              actions={[<h3>click here to go to app</h3>]}
-            >
-              <Meta
-                title="Education Officer Application"
-                description="whoa wanna be an officer bc this is the best division??"
-              />
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
-          </Col>
-        </Row>
+        <Grid container spacing={3}>
+          {cardApps}
+        </Grid>
       </Content>
     </Layout>
   );
