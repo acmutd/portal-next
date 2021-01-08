@@ -59,7 +59,7 @@ function App() {
             />
             <AProtectedRoute
               Component={
-                <Form typeform_id="riFMnboH" endpoint="/auth0/profile" />
+                <Form typeform_id="riFMnboH" endpoint="/auth0/create-blank-profile" />
               }
               path="/profile"
               exact
