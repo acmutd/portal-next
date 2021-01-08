@@ -2,6 +2,7 @@ import React from "react";
 import Homepage from "./views/Deprecated/HomePage";
 import Form from "./views/Form";
 import Applications from "./views/Applications/Applications";
+import Profile from "./views/Profile/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
@@ -57,6 +58,7 @@ function App() {
               path="/applications"
               exact
             />
+            <AProtectedRoute Component={<Profile />} path="/profile" exact />
             <AProtectedRoute
               Component={
                 <Form typeform_id="riFMnboH" endpoint="/auth0/create-blank-profile" />
