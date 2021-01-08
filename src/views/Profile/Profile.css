@@ -1,0 +1,16 @@
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: rgb(243, 126, 3) !important;
+}
+
+.ant-tabs-tab:hover {
+  color: rgb(247, 152, 52) !important;
+}
+
+.ant-tabs-ink-bar {
+  background: rgb(243, 126, 3) !important;
+}
+
+.ant-tabs-tab,
+.ant-tabs-content {
+  color: white;
+}
