@@ -5,14 +5,16 @@ import { jwt, auth } from "../../api/state";
 import { deleteCookie } from "../../acmApi/cookieManager";
 import ReactLoading from "react-loading";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Logout = () => {
   const setJwt = useSetRecoilState(jwt);
   const auth_status = useRecoilValue(auth);
+  const history = useHistory();
 
   useEffect(() => {
     if (!auth_status.is_verified) {
-      window.location.href = "/";
+      history.push("/");
     }
   }, [auth_status])
 

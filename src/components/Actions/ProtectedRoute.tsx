@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRecoilValue } from "recoil";
 import { auth } from "../../api/state";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
 
 /**
  * The AProtectedRoute will validate if the user is signed in to Auth0
@@ -47,7 +47,7 @@ const GProtectedRoute = ({ Component, ...rest }: any) => {
           auth_status.idp === "gsuite" ? (
           Component
         ) : (
-          <Redirect to="/gsuite" />
+          <Redirect exact to="/gsuite" />
         );
       }}
     />

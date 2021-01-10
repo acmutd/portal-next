@@ -10,7 +10,7 @@
     "@typeform/embed": "^0.25.1",
     "@types/jsonwebtoken": "^8.5.0",
     "antd": "^4.9.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-device-detect": "^1.13.1",
