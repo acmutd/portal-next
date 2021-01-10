@@ -25,7 +25,7 @@ const Authorize = ({ idp }: props) => {
     if (auth_status.is_verified && auth_status.idp === idp) {
       window.location.href = "/";
     }
-    window.location.reload();
+    // window.location.reload();
   }, [auth_status, idp]);
 
   useEffect(() => {
