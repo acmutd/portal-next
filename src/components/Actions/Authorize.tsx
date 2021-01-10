@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { jwt, auth } from "../../api/state";
 import { getCookie } from "../../acmApi/cookieManager";
 
@@ -9,11 +9,15 @@ interface props {
 }
 
 const Authorize = ({ idp }: props) => {
-  const setJwt = useSetRecoilState(jwt);
+  const [Jwt, setJwt] = useRecoilState(jwt);
   const auth_status = useRecoilValue(auth);
+  const [wait, setWait] = useState(false);
 
   useEffect(() => {
     console.log("hello world");
+    if (Jwt === undefined || Jwt === "") {
+      return;
+    }
     setJwt(getCookie("CF_Authorization") as string);
   });
 
@@ -21,7 +25,18 @@ const Authorize = ({ idp }: props) => {
     if (auth_status.is_verified && auth_status.idp === idp) {
       window.location.href = "/";
     }
+    window.location.reload();
   }, [auth_status, idp]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setWait(true);
+    }, 5000);
+  });
+
+  const reload = () => {
+    window.location.reload();
+  }
 
   return (
     <AuthorizeComponent>
@@ -32,6 +47,7 @@ const Authorize = ({ idp }: props) => {
           alt="ACM Logo"
         />
         <h1 className="text">Authorization in Progress... {idp} </h1>
+        { wait ? <button className="retry-button" onClick={() => reload()}>Reauthenticate</button> : <div></div> }
       </div>
     </AuthorizeComponent>
   );

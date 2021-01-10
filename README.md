@@ -1,6 +1,6 @@
 # Association for Computing Machinery Portal
 
-![TrackIT Automated Testing and Continuous Integration](https://github.com/acmutd/portal/workflows/ACM%20Portal%20Automated%20Testing%20and%20Continuous%20Integration/badge.svg)
+![Portal Automated Testing and Continuous Integration](https://github.com/acmutd/portal/workflows/ACM%20Portal%20Automated%20Testing%20and%20Continuous%20Integration/badge.svg)
 
 Official front-end for the _ACM_ website & portal.
 
@@ -34,6 +34,7 @@ Join ACM Development
  - [Harsha Srikara](https://harshasrikara.com)
  - [David Richey](https://darichey.com)
  - [Aliah Shaira De Guzman]()
+ - [Reshmi Ranjith]()
  - [Sivam Patel](https://github.com/sivampatel)
  - [Kendra Huang](https://github.com/kendra-huang)
  - [Jafar Ali](https://github.com/jafrilli)
