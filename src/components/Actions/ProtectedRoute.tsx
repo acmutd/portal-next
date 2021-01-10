@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRecoilValue } from "recoil";
-import { auth } from "../../api/state";
-import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
+import { auth, profile } from "../../api/state";
+import { Route, Redirect } from "react-router-dom";
 
 /**
  * The AProtectedRoute will validate if the user is signed in to Auth0
@@ -20,14 +20,31 @@ import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
  */
 const AProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
+  const user_profile = useRecoilValue(profile);
 
   return (
+    // <Route
+    //   {...rest}
+    //   render={() => {
+    //     return auth_status.is_verified === true &&
+    //       auth_status.idp === "auth0" ? (
+    //       Component
+    //     ) : (
+    //       <Redirect to="/auth0" />
+    //     );
+    //   }}
+    // />
+
     <Route
       {...rest}
       render={() => {
         return auth_status.is_verified === true &&
           auth_status.idp === "auth0" ? (
-          Component
+          user_profile.exists ? (
+            Component
+          ) : (
+            <Redirect to="/new-profile" />
+          )
         ) : (
           <Redirect to="/auth0" />
         );

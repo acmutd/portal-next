@@ -1,35 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Tabs, Layout, List, Avatar } from "antd";
+import React from "react";
+import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
-import axios from "axios";
-import { getCookie } from "../../acmApi/cookieManager";
+import { profile } from "../../api/state";
+import { useRecoilValue } from "recoil";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState(null);
-
-  useEffect(() => {
-    load_data();
-  }, []);
-
-  const load_data = async () => {
-    const authToken = getCookie("CF_Authorization") as string;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    };
-    axios
-      .get(
-        (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/auth0/profile",
-        config
-      )
-      .then((res) => {
-        setProfileData(res.data);
-      });
-  };
+  const user_profile = useRecoilValue(profile);
+  console.log(user_profile);
 
   return (
     <Layout style={{ height: "100vh" }}>
@@ -71,7 +51,7 @@ const Profile = () => {
 
 export default Profile;
 
-const data = [
+/* const data = [
   {
     title: "Ant Design Title 1",
   },
@@ -84,4 +64,4 @@ const data = [
   {
     title: "Ant Design Title 4",
   },
-];
+]; */

@@ -3,8 +3,7 @@ import axios from "axios";
 import * as Sentry from "@sentry/react";
 import { decoded_jwt, auth_status } from "../../config/interface";
 
-export const verify = async (authToken: string): Promise<auth_status> => {
-  console.log(authToken);
+const verify = async (authToken: string): Promise<auth_status> => {
   if (authToken === undefined || authToken === "") {
     return {
       jwt: authToken,
@@ -58,3 +57,5 @@ export const verify = async (authToken: string): Promise<auth_status> => {
     });
   return auth;
 };
+
+export default verify;
