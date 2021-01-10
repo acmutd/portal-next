@@ -2,7 +2,7 @@ name: CI Deployment
 
 on:
   push:
-    branches: [master]
+    branches: [dev]
 
 jobs:
   build:
@@ -17,10 +17,20 @@ jobs:
           npm install
           npm run build
         env:
-          REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
-          REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
-          REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
-          REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
+          REACT_APP_AUTH0_DOMAIN: ${{ secrets.REACT_APP_AUTH0_DOMAIN }}
+          REACT_APP_AUTH0_CLIENTID: ${{ secrets.REACT_APP_AUTH0_CLIENTID }}
+          REACT_APP_AUTH0_AUDIENCE: ${{ secrets.REACT_APP_AUTH0_AUDIENCE }}
+          REACT_APP_AUTH0_PORTAL_CLIENTID: ${{ secrets.REACT_APP_AUTH0_PORTAL_CLIENTID }}
+          REACT_APP_VANITY_TYPEFORM: ${{ secrets.REACT_APP_VANITY_TYPEFORM }}
+          REACT_APP_DEV_TYPEFORM: ${{ secrets.REACT_APP_DEV_TYPEFORM }}
+          REACT_APP_EDU_TYPEFORM: ${{ secrets.REACT_APP_EDU_TYPEFORM }}
+          REACT_APP_MARKETING_TYPEFORM: ${{ secrets.REACT_APP_MARKETING_TYPEFORM }}
+          REACT_APP_CF_AUDIENCE: ${{ secrets.REACT_APP_CF_AUDIENCE }}
+          REACT_APP_CF_DOMAIN: ${{ secrets.REACT_APP_CF_DOMAIN }}
+          REACT_APP_LOCAL_FUNCTION_URL: ${{ secrets.REACT_APP_LOCAL_FUNCTION_URL }}
+          REACT_APP_CLOUD_FUNCTION_URL: ${{ secrets.REACT_APP_CLOUD_FUNCTION_URL }}
+          REACT_APP_CLOUD_FUNCTION_URL2: ${{ secrets.REACT_APP_CLOUD_FUNCTION_URL2 }}
+          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
