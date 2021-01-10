@@ -1,0 +1,31 @@
+name: CI Deployment
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+        env:
+          REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
+          REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
+          REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
+          REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
+          CLEAN: true
