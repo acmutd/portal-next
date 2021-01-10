@@ -32,8 +32,8 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
             Component
             // <Redirect to="/newprofile" />
           ) : (
-            Component
-            // <Redirect to="/newprofile" />
+            // Component
+            <Redirect to="/newprofile" />
           )
         ) : (
           <Redirect to="/auth0" />

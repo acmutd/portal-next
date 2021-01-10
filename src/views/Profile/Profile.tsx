@@ -2,14 +2,13 @@ import React from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
-import { profile } from "../../api/state";
-import { useRecoilValue } from "recoil";
+import { profile, auth } from "../../api/state";
+import { useRecoilValue, useRecoilState } from "recoil";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
   const user_profile = useRecoilValue(profile);
-  console.log(user_profile);
 
   return (
     <Layout style={{ height: "100vh" }}>
