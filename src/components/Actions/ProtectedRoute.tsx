@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
 import { auth, profile } from "../../api/state";
 import { Route, Redirect } from "react-router-dom";
@@ -23,18 +23,6 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
   const user_profile = useRecoilValue(profile);
 
   return (
-    // <Route
-    //   {...rest}
-    //   render={() => {
-    //     return auth_status.is_verified === true &&
-    //       auth_status.idp === "auth0" ? (
-    //       Component
-    //     ) : (
-    //       <Redirect to="/auth0" />
-    //     );
-    //   }}
-    // />
-
     <Route
       {...rest}
       render={() => {
@@ -42,9 +30,30 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
           auth_status.idp === "auth0" ? (
           user_profile.exists ? (
             Component
+            // <Redirect to="/newprofile" />
           ) : (
-            <Redirect to="/new-profile" />
+            Component
+            // <Redirect to="/newprofile" />
           )
+        ) : (
+          <Redirect to="/auth0" />
+        );
+      }}
+    />
+  );
+};
+
+//only used for the newprofile page
+const XProtectedRoute = ({ Component, ...rest }: any) => {
+  const auth_status = useRecoilValue(auth);
+
+  return (
+    <Route
+      {...rest}
+      render={() => {
+        return auth_status.is_verified === true &&
+          auth_status.idp === "auth0" ? (
+          Component
         ) : (
           <Redirect to="/auth0" />
         );
@@ -70,4 +79,4 @@ const GProtectedRoute = ({ Component, ...rest }: any) => {
     />
   );
 };
-export { AProtectedRoute, GProtectedRoute };
+export { AProtectedRoute, GProtectedRoute, XProtectedRoute };

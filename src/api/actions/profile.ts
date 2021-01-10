@@ -9,6 +9,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
     };
   }
 
+//   await new Promise(resolve => setTimeout(resolve, 5000));
   const config = {
     headers: {
       Authorization: `Bearer ${authToken}`,

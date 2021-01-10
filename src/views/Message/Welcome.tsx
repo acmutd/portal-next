@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const Welcome = () => {
+    const history = useHistory();
     const start = () => {
-        // console.log("reshmi is the best");
+        history.push("/applications");
     }
 
     return <WelcomeComponent>

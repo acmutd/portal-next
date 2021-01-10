@@ -21,4 +21,4 @@ export const profile = selector({
   get: async ({get}) => {
     return await get_profile(get(jwt));
   }
-})
+});

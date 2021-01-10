@@ -8,6 +8,7 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import {
   AProtectedRoute,
   GProtectedRoute,
+  XProtectedRoute,
 } from "./components/Actions/ProtectedRoute";
 import { BrowserView, MobileView } from "react-device-detect";
 import Authorize from "./components/Actions/Authorize";
@@ -60,11 +61,14 @@ function App() {
             />
             <AProtectedRoute Component={<Profile />} path="/profile" exact />
 
-            <AProtectedRoute
+            <XProtectedRoute
               Component={
-                <Form typeform_id="riFMnboH" endpoint="/auth0/create-blank-profile" />
+                <Form
+                  typeform_id="riFMnboH"
+                  endpoint="/auth0/create-blank-profile"
+                />
               }
-              path="/new-profile"
+              path="/newprofile"
               exact
             />
 
@@ -116,6 +120,17 @@ function App() {
                 <Form typeform_id={marketing} endpoint="/auth0/verify" />
               }
               path="/marketing"
+              exact
+            />
+
+            <XProtectedRoute
+              Component={
+                <Form
+                  typeform_id="riFMnboH"
+                  endpoint="/auth0/create-blank-profile"
+                />
+              }
+              path="/newprofile"
               exact
             />
 

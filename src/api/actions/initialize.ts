@@ -10,6 +10,8 @@ const verify = async (authToken: string): Promise<auth_status> => {
       is_verified: false,
     };
   }
+
+  // await new Promise(resolve => setTimeout(resolve, 5000));
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
