@@ -2,12 +2,14 @@ import React from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
-import { profile, auth } from "../../api/state";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { profile } from "../../api/state";
+import { useRecoilValue } from "recoil";
+import { useHistory } from "react-router-dom";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
+  const history = useHistory();
   const user_profile = useRecoilValue(profile);
 
   return (
@@ -33,14 +35,31 @@ const Profile = () => {
             />
                   </TabPane>*/}
           <TabPane tab="Past Applications" key={2}>
-            Content 2
+            {user_profile.profile?.past_applications ? (
+              user_profile.profile.past_applications.map((app) => (
+                <h1>{app.name}</h1>
+              ))
+            ) : (
+              <p>No applications submitted yet.</p>
+            )}
           </TabPane>
           {/*<TabPane tab="Badges" key={3}>
             Content 3
                 </TabPane>*/}
           <TabPane tab="Settings" key={4}>
-            hi
-            {/*profileData?.first_name*/}
+            <h2 style={{ color: "white" }}>Your Profile Data: </h2>
+            <p>Email: {user_profile.profile?.email}</p>
+            <p>
+              Name: {user_profile.profile?.first_name}{" "}
+              {user_profile.profile?.last_name}
+            </p>
+            <p>NetID: {user_profile.profile?.net_id}</p>
+            <button
+              className="apply-button"
+              onClick={() => history.push("/newprofile")}
+            >
+              Update Profile Information
+            </button>
           </TabPane>
         </Tabs>
       </Content>

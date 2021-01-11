@@ -29,6 +29,11 @@ export interface auth_status {
   is_verified: boolean;
 }
 
+type past_application = {
+  name: string;
+  submitted_at: Date;
+};
+
 export interface core_profile {
   email: string;
   first_name: string;
@@ -39,6 +44,7 @@ export interface core_profile {
   university: string;
   utd_student: boolean;
   classification: string;
+  past_applications?: past_application[];
 }
 
 export interface profile {
