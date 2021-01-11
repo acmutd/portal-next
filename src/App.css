@@ -8,3 +8,15 @@
   padding: 25px;
   background-color: #363636;
 }
+
+.linkList li {
+  margin-bottom: 20px;
+}
+
+a {
+  color: rgb(243, 126, 3);
+}
+
+a:hover {
+  color: rgb(247, 152, 52);
+}
