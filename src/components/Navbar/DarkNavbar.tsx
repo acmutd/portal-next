@@ -34,9 +34,9 @@ const DarkNavbar = ({ selectedPage }: NavbarProps) => {
       >
         <Menu.Item key="applications">Applications</Menu.Item>
         <Menu.Item key="profile">Profile</Menu.Item>
-        <Menu.Item style={{ float: "right" }} key="logout">
+        {/*<Menu.Item style={{ float: "right" }} key="logout">
           Logout
-        </Menu.Item>
+  </Menu.Item>*/}
       </Menu>
     </Header>
   );
