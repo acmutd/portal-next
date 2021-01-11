@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/react";
 import { profile } from "../../config/interface";
 
 const get_profile = async (authToken: string): Promise<profile> => {
+  
   if (authToken === undefined || authToken === "") {
     return {
       exists: false,
@@ -17,12 +18,12 @@ const get_profile = async (authToken: string): Promise<profile> => {
   };
   const result: profile = await axios
     .get(
-      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/auth0/profile",
+      (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/profile",
       config
     )
     .then((res) => {
       return {
-        exists: true,
+        exists: res.data.exists,
         profile: res.data,
       };
     })

@@ -15,10 +15,9 @@ const Authorize = ({ idp }: props) => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    // console.log("hello world");
-    // if (Jwt === undefined || Jwt === "") {
-    //   return;
-    // }
+    if (Jwt === getCookie("CF_Authorization")) {
+      return;
+    }
     setJwt(getCookie("CF_Authorization") as string);
   });
 

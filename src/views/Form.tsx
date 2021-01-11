@@ -42,7 +42,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
       },
     }
     axios
-      .get((process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint, config)
+      .get((process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint, config)
       .then((res) => {
         setIsAuth(true);
 
