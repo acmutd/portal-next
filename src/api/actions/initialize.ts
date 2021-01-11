@@ -34,7 +34,7 @@ const verify = async (authToken: string): Promise<auth_status> => {
   };
   const auth: auth_status = await axios
     .get(
-      (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) +
+      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
         "/" +
         decoded_idp +
         "/verify-idp",

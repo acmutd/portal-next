@@ -38,11 +38,7 @@ const currApps = [
         program, Technical Interview Prep, and various technical workshops
         throughout the semester. We are looking for creative individuals who are
         passionate about CS, understand the logistics of event planning, work
-        well in a team, and want to lend a hand to the community! Applications
-        close January 31st, 2020 at 11:59 CST. But this semester we will be
-        doing <strong>rolling interviews</strong> and the positions may fill
-        before the deadline. Thus, it is recommended to submit your application
-        as soon as possible.
+        well in a team, and want to lend a hand to the community!
       </p>
     ),
   },

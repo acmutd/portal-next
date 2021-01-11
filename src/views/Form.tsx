@@ -40,9 +40,12 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
         // Origin: "http://localhost:3000",
         Authorization: `Bearer ${authToken}`,
       },
-    }
+    };
     axios
-      .get((process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint, config)
+      .get(
+        (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint,
+        config
+      )
       .then((res) => {
         setIsAuth(true);
 
@@ -53,12 +56,13 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
             new URLSearchParams(res.data).toString()
         );
         setLoading(false);
-      }).catch((err) => {
+      })
+      .catch((err) => {
         Sentry.captureException(err);
         setIsAuth(false);
         setLoading(false);
       });
-  }
+  };
 
   if (loading) {
     return <Loading />;

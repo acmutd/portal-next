@@ -1,6 +1,12 @@
 .ant-card {
   min-height: 200px;
   text-align: center;
+  background-color: rgb(120, 119, 119) !important;
+}
+
+.ant-card p,
+.ant-card-head-title {
+  color: white;
 }
 
 .ant-card-hoverable:hover {

@@ -3,14 +3,13 @@ import * as Sentry from "@sentry/react";
 import { profile } from "../../config/interface";
 
 const get_profile = async (authToken: string): Promise<profile> => {
-  
   if (authToken === undefined || authToken === "") {
     return {
       exists: false,
     };
   }
 
-//   await new Promise(resolve => setTimeout(resolve, 5000));
+  //   await new Promise(resolve => setTimeout(resolve, 5000));
   const config = {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -18,7 +17,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
   };
   const result: profile = await axios
     .get(
-      (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/profile",
+      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/auth0/profile",
       config
     )
     .then((res) => {
