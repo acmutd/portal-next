@@ -14,3 +14,15 @@
 .ant-tabs-content {
   color: white;
 }
+
+.border {
+  background-color: rgba(114, 76, 35);
+  border-left: 6px solid rgb(243, 126, 3);
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.sepFlexBox {
+  display: flex;
+  justify-content: space-between;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
+import { Card } from "antd";
 import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
@@ -36,11 +37,16 @@ const Profile = () => {
                   </TabPane>*/}
           <TabPane tab="Past Applications" key={2}>
             <h1 style={{ color: "white", marginBottom: 20 }}>
-              Application Data:
+              Application History:
             </h1>
             {user_profile.profile?.past_applications ? (
               user_profile.profile.past_applications.map((app) => (
-                <h1>{app.name}</h1>
+                <div className="border sepFlexBox">
+                  <h2 style={{ color: "white" }}>{app.name}</h2>
+                  <h2 style={{ color: "white" }}>
+                    |&nbsp;&nbsp;&nbsp;{app.submitted_at}
+                  </h2>
+                </div>
               ))
             ) : (
               <p>No applications submitted yet.</p>

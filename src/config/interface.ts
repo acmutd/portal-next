@@ -31,7 +31,7 @@ export interface auth_status {
 
 type past_application = {
   name: string;
-  submitted_at: Date;
+  submitted_at: string;
 };
 
 export interface core_profile {
