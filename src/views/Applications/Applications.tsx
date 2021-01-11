@@ -43,21 +43,19 @@ const currApps = [
     ),
   },
   {
-    name: "Education Officer Application",
-    link: "/edu",
+    name: "Development Officer Application",
+    link: "/developer",
     description: (
       <p>
-        Want to gain leadership experience, give back to the community, and
-        become more involved with ACM? Become an{" "}
-        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
-        program, Technical Interview Prep, and various technical workshops
-        throughout the semester. We are looking for creative individuals who are
-        passionate about CS, understand the logistics of event planning, work
-        well in a team, and want to lend a hand to the community! Applications
-        close January 31st, 2020 at 11:59 CST. But this semester we will be
-        doing <strong>rolling interviews</strong> and the positions may fill
-        before the deadline. Thus, it is recommended to submit your application
-        as soon as possible.
+        ACM Development provides students a platform to follow their passion in
+        developing the next generation of software that{" "}
+        <strong>powers our community</strong> to new heights. Using advanced
+        cutting edge new technology, we seek to deliver{" "}
+        <strong>innovative solutions</strong> to simplify and accelerate student
+        growth and engagement within ACM. This application is for students at
+        The University of Texas at Dallas who are interested in contributing to
+        ACM Development's existing projects or leading the development of
+        something entirely new.
       </p>
     ),
   },

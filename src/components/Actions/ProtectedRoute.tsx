@@ -22,12 +22,6 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
   const user_profile = useRecoilValue(profile);
 
-  console.log(auth_status);
-  console.log(user_profile);
-  console.log((auth_status.is_verified === true &&
-    auth_status.idp === "auth0") ? (
-    user_profile.exists ? ("state1") : "state2"): "state3");
-
   return (
     <Route
       {...rest}

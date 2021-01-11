@@ -13,7 +13,14 @@ import {
 import { BrowserView, MobileView } from "react-device-detect";
 import Authorize from "./components/Actions/Authorize";
 import Welcome from "./views/Message/Welcome";
-import { vanity, dev, edu, marketing } from "./config/typeform_config";
+import {
+  vanity,
+  dev,
+  edu,
+  marketing,
+  pro,
+  developer,
+} from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 
 /**
@@ -55,16 +62,24 @@ function App() {
               exact
             />
             <AProtectedRoute
+              Component={
+                <Form typeform_id={developer} endpoint="/auth0/developer" />
+              }
+              path="/developer"
+              exact
+            />
+            <AProtectedRoute
               Component={<Applications />}
               path="/applications"
               exact
             />
             <AProtectedRoute Component={<Profile />} path="/profile" exact />
 
+            {/* XProtected Route means it only validates that they have signed in but doesn't check for profile completion */}
             <XProtectedRoute
               Component={
                 <Form
-                  typeform_id="riFMnboH"
+                  typeform_id={pro}
                   endpoint="/auth0/create-blank-profile"
                 />
               }
@@ -122,11 +137,24 @@ function App() {
               path="/marketing"
               exact
             />
+            <AProtectedRoute
+              Component={
+                <Form typeform_id={developer} endpoint="/auth0/developer" />
+              }
+              path="/developer"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Applications />}
+              path="/applications"
+              exact
+            />
+            <AProtectedRoute Component={<Profile />} path="/profile" exact />
 
             <XProtectedRoute
               Component={
                 <Form
-                  typeform_id="riFMnboH"
+                  typeform_id={pro}
                   endpoint="/auth0/create-blank-profile"
                 />
               }

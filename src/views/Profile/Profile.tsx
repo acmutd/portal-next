@@ -44,7 +44,7 @@ const Profile = () => {
                 <div className="border sepFlexBox">
                   <h2 style={{ color: "white" }}>{app.name}</h2>
                   <h2 style={{ color: "white" }}>
-                    |&nbsp;&nbsp;&nbsp;{app.submitted_at}
+                    |&nbsp;&nbsp;&nbsp;{new Date(app.submitted_at).toDateString()}
                   </h2>
                 </div>
               ))
