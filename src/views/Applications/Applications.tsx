@@ -7,41 +7,38 @@ import "./Applications.css";
 const { Content } = Layout;
 
 const currApps = [
-  // {
-  //   name: "Education Officer Application",
-  //   link: "/edu",
-  //   extra: "https://www.acmutd.co/education",
-  //   description: (
-  //     <p>
-  //       Want to gain leadership experience, give back to the community, and
-  //       become more involved with ACM? Become an{" "}
-  //       <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
-  //       program, Technical Interview Prep, and various technical workshops
-  //       throughout the semester. We are looking for creative individuals who are
-  //       passionate about CS, understand the basics of event planning, work well
-  //       in a team, and want to lend a hand to the community! Applications close{" "}
-  //       <strong>January 31st, 2020 at 11:59 CST</strong>. But this semester we
-  //       will be doing <strong>rolling interviews</strong> and the positions may
-  //       fill before the deadline. Thus, it is recommended to submit your
-  //       application as soon as possible.
-  //     </p>
-  //   ),
-  // },
-  // {
-  //   name: "Education Officer Application",
-  //   link: "/edu",
-  //   description: (
-  //     <p>
-  //       Want to gain leadership experience, give back to the community, and
-  //       become more involved with ACM? Become an{" "}
-  //       <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
-  //       program, Technical Interview Prep, and various technical workshops
-  //       throughout the semester. We are looking for creative individuals who are
-  //       passionate about CS, understand the logistics of event planning, work
-  //       well in a team, and want to lend a hand to the community!
-  //     </p>
-  //   ),
-  // },
+  {
+    name: "Technical Interview Prep Program Application",
+    link: "/tip",
+    extra: "https://www.acmutd.co/education",
+    description: (
+      <p>
+        Trying to land an internship? Most tech companies have{" "}
+        <strong>both behavioral and technical interviews</strong>. Our technical
+        interview prep program will prepare you for both and help you{" "}
+        <strong>nail your next interview</strong>! We are piloting the program
+        this Spring with a small cohort. The program consists of three parts
+        every week, one of which is weekly workshops on Thursdays from 8:30-10pm
+        CST.
+      </p>
+    ),
+  },
+  {
+    name: "Education Officer Application",
+    link: "https://apply.acmutd.co/education",
+    extra: "https://www.acmutd.co/education",
+    description: (
+      <p>
+        Want to gain leadership experience, give back to the community, and
+        become more involved with ACM? Become an{" "}
+        <strong>ACM Education Officer</strong>! ACM Education runs the Mentor
+        program, Technical Interview Prep, and various technical workshops
+        throughout the semester. We are looking for creative individuals who are
+        passionate about CS, understand the logistics of event planning, work
+        well in a team, and want to lend a hand to the community!
+      </p>
+    ),
+  },
   {
     name: "Development Officer Application",
     link: "/developer",
@@ -54,12 +51,8 @@ const currApps = [
         cutting edge new technology, we seek to deliver{" "}
         <strong>innovative solutions</strong> to simplify and accelerate student
         growth and engagement within ACM. If you are interested in building
-        applications like this portal and the several others (which can be
-        viewed on the{" "}
-        <a href="https://github.com/acmutd" target="_blank">
-          ACM Github
-        </a>
-        ) then fill out our application!
+        applications like this portal and the several others then fill out our
+        application!
       </p>
     ),
   },
@@ -74,14 +67,14 @@ const currApps = [
     ),
   },
   {
-    name: "Participation Survey $50",
+    name: "Win $30!",
     link: "/survey",
     description: (
       <p>
         Fill out the ACM Participation Survey so that we can help better support
         you with improved opportunities at ACM! This survey will cover questions
         about all the various divisions in ACM. By filling out this survey you
-        will be entered in a <strong>raffle to win $50</strong>!!! Your feedback
+        will be entered in a <strong>raffle to win $30</strong>!!! Your feedback
         about events at ACM will be taken into consideration and if you have
         more to share feel free to engage with us on Discord!
       </p>
@@ -92,21 +85,24 @@ const currApps = [
 const Applications = () => {
   const history = useHistory();
 
+  const linkRedirect = (link: string) => {
+    if (link.includes("http")) {
+      window.location.href = link;
+    } else history.push(link);
+  };
+
   const cardApps = currApps.map((app, index) => (
     <Grid item xs={12} md={6} lg={4} key={index}>
       <Card title={app.name} bordered={false} hoverable>
         {app.description}
         <div className="flex"></div>
-        <button
-          className="apply-button"
-          onClick={() => history.push(`${app.link}`)}
-        >
+        <button className="apply-button" onClick={() => linkRedirect(app.link)}>
           Apply here!
         </button>
         {app.extra && (
           <button
             className="apply-button"
-            onClick={() => (window.location.href = `${app.extra}`)}
+            onClick={() => linkRedirect(app.extra)}
           >
             Learn More
           </button>

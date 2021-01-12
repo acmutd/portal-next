@@ -21,6 +21,7 @@ import {
   pro,
   developer,
   survey,
+  tip,
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 
@@ -60,6 +61,11 @@ function App() {
                 <Form typeform_id={media} endpoint="/auth0/developer" />
               }
               path="/media"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
+              path="/tip"
               exact
             />
             <AProtectedRoute
@@ -143,6 +149,11 @@ function App() {
                 <Form typeform_id={media} endpoint="/auth0/developer" />
               }
               path="/media"
+              exact
+            />
+            <AProtectedRoute
+              Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
+              path="/tip"
               exact
             />
             <AProtectedRoute
