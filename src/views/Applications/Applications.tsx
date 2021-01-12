@@ -103,7 +103,7 @@ const Applications = () => {
   const history = useHistory();
 
   const cardApps = currApps.map((app, index) => (
-    <Grid item xs={4} key={index}>
+    <Grid item xs={12} md={6} lg={4} key={index}>
       <Card title={app.name} bordered={false} hoverable>
         {app.description}
         <div className="flex"></div>

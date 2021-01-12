@@ -20,6 +20,7 @@ import {
   marketing,
   pro,
   developer,
+  survey,
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 
@@ -66,6 +67,13 @@ function App() {
                 <Form typeform_id={developer} endpoint="/auth0/developer" />
               }
               path="/developer"
+              exact
+            />
+            <AProtectedRoute
+              Component={
+                <Form typeform_id={survey} endpoint="/auth0/developer" />
+              }
+              path="/survey"
               exact
             />
             <AProtectedRoute
@@ -142,6 +150,13 @@ function App() {
                 <Form typeform_id={developer} endpoint="/auth0/developer" />
               }
               path="/developer"
+              exact
+            />
+            <AProtectedRoute
+              Component={
+                <Form typeform_id={survey} endpoint="/auth0/developer" />
+              }
+              path="/survey"
               exact
             />
             <AProtectedRoute
