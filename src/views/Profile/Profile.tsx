@@ -43,7 +43,8 @@ const Profile = () => {
                 <div className="border sepFlexBox">
                   <h2 style={{ color: "white" }}>{app.name}</h2>
                   <h2 style={{ color: "white" }}>
-                    |&nbsp;&nbsp;&nbsp;{new Date(app.submitted_at).toDateString()}
+                    |&nbsp;&nbsp;&nbsp;
+                    {new Date(app.submitted_at).toDateString()}
                   </h2>
                 </div>
               ))
@@ -55,21 +56,32 @@ const Profile = () => {
             <h1 style={{ color: "white", marginBottom: 20 }}>Quick Links:</h1>
             <ul className="linkList" style={{ fontSize: 20 }}>
               <li>
-                <a href="https://acmutd.co/discord">ACM Discord</a>
+                <a target="_blank" href="https://acmutd.co/discord">
+                  ACM Discord
+                </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/acmatutd/">ACM Facebook</a>
+                <a target="_blank" href="https://www.facebook.com/acmatutd/">
+                  ACM Facebook
+                </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/acmutd/">ACM Instagram</a>
+                <a target="_blank" href="https://www.instagram.com/acmutd/">
+                  ACM Instagram
+                </a>
               </li>
               <li>
-                <a href="https://www.linkedin.com/company/acmutd/">
+                <a
+                  target="_blank"
+                  href="https://www.linkedin.com/company/acmutd/"
+                >
                   ACM LinkedIn
                 </a>
               </li>
               <li>
-                <a href="https://www.acmutd.co/">ACM Website</a>
+                <a target="_blank" href="https://www.acmutd.co/">
+                  ACM Website
+                </a>
               </li>
             </ul>
           </TabPane>
