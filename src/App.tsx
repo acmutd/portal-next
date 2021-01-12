@@ -17,7 +17,7 @@ import {
   vanity,
   dev,
   edu,
-  marketing,
+  media,
   pro,
   developer,
   survey,
@@ -57,9 +57,9 @@ function App() {
             />
             <AProtectedRoute
               Component={
-                <Form typeform_id={marketing} endpoint="/auth0/verify" />
+                <Form typeform_id={media} endpoint="/auth0/developer" />
               }
-              path="/marketing"
+              path="/media"
               exact
             />
             <AProtectedRoute
@@ -140,9 +140,9 @@ function App() {
             />
             <AProtectedRoute
               Component={
-                <Form typeform_id={marketing} endpoint="/auth0/verify" />
+                <Form typeform_id={media} endpoint="/auth0/developer" />
               }
-              path="/marketing"
+              path="/media"
               exact
             />
             <AProtectedRoute

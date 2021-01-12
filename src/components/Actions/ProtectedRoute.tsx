@@ -30,9 +30,7 @@ const AProtectedRoute = ({ Component, ...rest }: any) => {
           auth_status.idp === "auth0" ? (
           user_profile.exists ? (
             Component
-            // <Redirect to="/newprofile" />
           ) : (
-            // Component
             <Redirect to="/newprofile" />
           )
         ) : (

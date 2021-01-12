@@ -2,7 +2,6 @@ import React from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
-import { Card } from "antd";
 import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
@@ -14,7 +13,7 @@ const Profile = () => {
   const user_profile = useRecoilValue(profile);
 
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout>
       <Navbar selectedPage="profile" />
       <Content>
         <Tabs defaultActiveKey="1" tabPosition="left">

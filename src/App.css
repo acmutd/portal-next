@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+body {
+  background-color: #363636;
+}
+
 .ant-layout-content {
   padding: 25px;
   background-color: #363636;

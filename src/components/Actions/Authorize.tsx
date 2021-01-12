@@ -38,9 +38,8 @@ const Authorize = ({ idp }: props) => {
   useEffect(() => {
     if(!refresh) {
       setRefresh(true);
-
     }
-  });
+  }, [refresh]);
 
   const reload = () => {
     window.location.reload();
