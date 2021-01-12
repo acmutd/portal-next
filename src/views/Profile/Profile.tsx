@@ -38,16 +38,22 @@ const Profile = () => {
             <h1 style={{ color: "white", marginBottom: 20 }}>
               Application History:
             </h1>
+            <p>
+              Note: If you recently submitted an application, it may take a
+              short period of time before appearing
+            </p>
             {user_profile.profile?.past_applications ? (
-              user_profile.profile.past_applications.map((app) => (
-                <div className="border sepFlexBox">
-                  <h2 style={{ color: "white" }}>{app.name}</h2>
-                  <h2 style={{ color: "white" }}>
-                    |&nbsp;&nbsp;&nbsp;
-                    {new Date(app.submitted_at).toDateString()}
-                  </h2>
-                </div>
-              ))
+              user_profile.profile.past_applications
+                .map((app) => (
+                  <div className="border sepFlexBox">
+                    <h2 style={{ color: "white" }}>{app.name}</h2>
+                    <h2 style={{ color: "white" }}>
+                      |&nbsp;&nbsp;&nbsp;
+                      {new Date(app.submitted_at).toDateString()}
+                    </h2>
+                  </div>
+                ))
+                .reverse()
             ) : (
               <p>No applications submitted yet.</p>
             )}
@@ -56,22 +62,35 @@ const Profile = () => {
             <h1 style={{ color: "white", marginBottom: 20 }}>Quick Links:</h1>
             <ul className="linkList" style={{ fontSize: 20 }}>
               <li>
-                <a target="_blank" href="https://acmutd.co/discord">
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://acmutd.co/discord"
+                >
                   ACM Discord
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.facebook.com/acmatutd/">
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://www.facebook.com/acmatutd/"
+                >
                   ACM Facebook
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.instagram.com/acmutd/">
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://www.instagram.com/acmutd/"
+                >
                   ACM Instagram
                 </a>
               </li>
               <li>
                 <a
+                  rel="noopener noreferrer"
                   target="_blank"
                   href="https://www.linkedin.com/company/acmutd/"
                 >
@@ -79,7 +98,11 @@ const Profile = () => {
                 </a>
               </li>
               <li>
-                <a target="_blank" href="https://www.acmutd.co/">
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://www.acmutd.co/"
+                >
                   ACM Website
                 </a>
               </li>

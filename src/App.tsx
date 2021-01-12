@@ -24,6 +24,7 @@ import {
   tip,
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
+import CalendarPage from "./views/Calendar/Calendar";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -88,6 +89,7 @@ function App() {
               exact
             />
             <AProtectedRoute Component={<Profile />} path="/profile" exact />
+            <AProtectedRoute Component={<CalendarPage />} path="/calendar" exact />
 
             {/* XProtected Route means it only validates that they have signed in but doesn't check for profile completion */}
             <XProtectedRoute
@@ -176,6 +178,7 @@ function App() {
               exact
             />
             <AProtectedRoute Component={<Profile />} path="/profile" exact />
+            <AProtectedRoute Component={<CalendarPage />} path="/calendar" exact />
 
             <XProtectedRoute
               Component={
