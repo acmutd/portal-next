@@ -21,7 +21,7 @@ Refer to [ACM Development Authentication](https://github.com/acmutd/Auth-flow-te
 
 ###### Connecting to backend
 
-In progress
+In progress.
 All communication with firebase should occur through the ACM Portal API. Refer to [ACM Portal Backend](https://github.com/acmutd/portal-backend) for more information on locally testing the backend. 
 
 
