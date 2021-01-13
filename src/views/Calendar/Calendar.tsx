@@ -35,12 +35,30 @@ const CalendarPage = () => {
             break;
           case 1:
             switch (value.date()) {
+              case 11:
+                listData = [
+                  {
+                    color: "green",
+                    content: "Intern Fair Prep",
+                    link: "https://acmutd.co",
+                  },
+                ];
+                break;
               case 12:
                 listData = [
                   {
                     color: "purple",
                     content: "Fireside Talks with ACM Development",
                     link: "https://github.com/acmutd",
+                  },
+                ];
+                break;
+              case 24:
+                listData = [
+                  {
+                    color: "green",
+                    content: "Hacking the Hackathon",
+                    link: "https://acmutd.co",
                   },
                 ];
                 break;
@@ -81,6 +99,15 @@ const CalendarPage = () => {
                   },
                 ];
                 break;
+              case 28:
+                listData = [
+                  {
+                    color: "blue",
+                    content: "Projects Presentation Night",
+                    link: "https://github.com/acmutd",
+                  },
+                ];
+                break;
               default:
             }
           default:
@@ -117,7 +144,7 @@ const CalendarPage = () => {
     return num ? (
       <div className="notes-month">
         <section>{num}</section>
-        <span>Backlog number</span>
+        <span>ACM Fall Kickoff</span>
       </div>
     ) : null;
   };
