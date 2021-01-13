@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import { useRecoilValue } from "recoil";
-import { auth } from "../../api/state";
+import { auth, profile } from "../../api/state";
 import { Route, Redirect } from "react-router-dom";
 
 /**
@@ -19,6 +19,30 @@ import { Route, Redirect } from "react-router-dom";
     />
  */
 const AProtectedRoute = ({ Component, ...rest }: any) => {
+  const auth_status = useRecoilValue(auth);
+  const user_profile = useRecoilValue(profile);
+
+  return (
+    <Route
+      {...rest}
+      render={() => {
+        return auth_status.is_verified === true &&
+          auth_status.idp === "auth0" ? (
+          user_profile.exists ? (
+            Component
+          ) : (
+            <Redirect to="/newprofile" />
+          )
+        ) : (
+          <Redirect to="/auth0" />
+        );
+      }}
+    />
+  );
+};
+
+//only used for the newprofile page
+const XProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
 
   return (
@@ -47,10 +71,10 @@ const GProtectedRoute = ({ Component, ...rest }: any) => {
           auth_status.idp === "gsuite" ? (
           Component
         ) : (
-          <Redirect to="/gsuite" />
+          <Redirect exact to="/gsuite" />
         );
       }}
     />
   );
 };
-export { AProtectedRoute, GProtectedRoute };
+export { AProtectedRoute, GProtectedRoute, XProtectedRoute };

@@ -11,7 +11,7 @@ const Vanity = () => {
   const [typeform, setTypeform] = useState("NxomQTLD");
 
   useEffect(() => {
-    load_data();
+    // load_data();
   }, [email]);
 
   const load_data = async () => {
@@ -33,10 +33,9 @@ const Vanity = () => {
         setLastName(identifier.split(".")[1]);
       })
       .then(() => {
-        if(email === "") {
+        if (email === "") {
           setTypeform("NxomQTLD");
-        }
-        else {
+        } else {
           setTypeform(vanity as string);
         }
       });

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useRecoilValue, useSetRecoilState } from "recoil"
+import { useRecoilValue, useRecoilState } from "recoil";
 import { jwt, auth } from "../../api/state";
 import { getCookie } from "../../acmApi/cookieManager";
 
@@ -8,19 +8,42 @@ interface props {
   idp: string;
 }
 
-const Authorize = ({idp}: props) => {
-  const setJwt = useSetRecoilState(jwt);
+const Authorize = ({ idp }: props) => {
+  const [Jwt, setJwt] = useRecoilState(jwt);
   const auth_status = useRecoilValue(auth);
+  const [wait, setWait] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-      setJwt(getCookie("CF_Authorization") as string);
+    if (Jwt === getCookie("CF_Authorization")) {
+      return;
+    }
+    setJwt(getCookie("CF_Authorization") as string);
   });
 
   useEffect(() => {
     if (auth_status.is_verified && auth_status.idp === idp) {
       window.location.href = "/";
     }
-  }, [auth_status, idp])
+    // window.location.reload();
+  }, [auth_status, idp]);
+
+  useEffect(() => {
+      setTimeout(() => {
+        setWait(true);
+        window.location.reload();
+      }, 2000);
+  });
+
+  useEffect(() => {
+    if(!refresh) {
+      setRefresh(true);
+    }
+  }, [refresh]);
+
+  const reload = () => {
+    window.location.reload();
+  };
 
   return (
     <AuthorizeComponent>
@@ -30,7 +53,14 @@ const Authorize = ({idp}: props) => {
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
-        <h1 className="text">Authorization in Progress... { idp } </h1>
+        <h1 className="text">Authorization in Progress... {idp} </h1>
+        {wait ? (
+          <button className="retry-button" onClick={() => reload()}>
+            Reauthenticate
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
     </AuthorizeComponent>
   );

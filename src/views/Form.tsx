@@ -4,6 +4,7 @@ import Loading from "./Message/Loading";
 import axios from "axios";
 import { getCookie } from "../acmApi/cookieManager";
 import Unauthorized from "./Message/Unauthorized";
+import * as Sentry from "@sentry/react";
 
 interface typeform_info {
   typeform_id: string;
@@ -36,11 +37,15 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
 
     const config = {
       headers: {
+        // Origin: "http://localhost:3000",
         Authorization: `Bearer ${authToken}`,
       },
-    }
+    };
     axios
-      .get((process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint, config)
+      .get(
+        (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint,
+        config
+      )
       .then((res) => {
         setIsAuth(true);
 
@@ -51,8 +56,13 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
             new URLSearchParams(res.data).toString()
         );
         setLoading(false);
+      })
+      .catch((err) => {
+        Sentry.captureException(err);
+        setIsAuth(false);
+        setLoading(false);
       });
-  }
+  };
 
   if (loading) {
     return <Loading />;

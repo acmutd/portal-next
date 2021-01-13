@@ -1,16 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const Welcome = () => {
-    const retry = () => {
-        // console.log("reshmi is the best");
+    const history = useHistory();
+    const start = () => {
+        history.push("/applications");
     }
 
     return <WelcomeComponent>
         <div className="container">
             <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png" alt="ACM Logo"/>
             <h1 className="text">Welcome to ACM!</h1>
-            <button className="retry-button" onClick={() => retry()}>Hello!</button>
+            <button className="retry-button" onClick={() => start()}>Get Started!</button>
         </div>
     </WelcomeComponent>
 }
