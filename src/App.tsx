@@ -25,6 +25,7 @@ import {
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
+import PrivateRoute from "./components/Actions/PrivateRoute";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -41,6 +42,8 @@ function App() {
         <BrowserView>
           <Switch>
             <Route path="/" component={Welcome} exact />
+            <PrivateRoute path="/testing1" component={Homepage} exact/>
+
 
             {/* General Routes for testing */}
             <AProtectedRoute Component={<Homepage />} path="/test1" exact />

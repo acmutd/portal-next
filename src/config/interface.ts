@@ -10,7 +10,8 @@ type custom = {
 
 export interface decoded_jwt {
   aud: string[];
-  email: string;
+  email?: string;
+  "https://acmutd.co/email": string,
   exp: number;
   iat: number;
   nbf: number;

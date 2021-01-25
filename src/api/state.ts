@@ -1,11 +1,11 @@
 import { atom, selector } from "recoil";
-import { getCookie } from "../acmApi/cookieManager";
+// import { getCookie } from "../acmApi/cookieManager";
 import verify from "./actions/initialize";
 import get_profile from "./actions/profile";
 
 export const jwt = atom({
   key: "jwt",
-  default: getCookie("CF_Authorization") as string,
+  default: "",
 });
 
 // will automatically re-evaluate if the jwt changes
