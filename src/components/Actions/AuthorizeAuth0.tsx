@@ -1,50 +1,34 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+// import { useRecoilState } from "recoil";
+// import { useAuth0 } from "@auth0/auth0-react";
+import { jwt, auth } from "../../api/state";
 import { useHistory } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import { jwt } from "../../api/state";
-import { useRecoilState } from "recoil";
 
-const Welcome = () => {
+const AuthorizeAuth0 = () => {
+  // const { isAuthenticated, isLoading } = useAuth0();
+  // const [token, setToken] = useRecoilState(jwt);
   const history = useHistory();
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
-  const [token, setToken] = useRecoilState(jwt);
-
-  const start = () => {
-    history.push("/profile");
-  };
 
   useEffect(() => {
-    const fn = async () => {
-      if (isAuthenticated && !token.isSet) {
-        setToken({ token: await getAccessTokenSilently(), isSet: true });
-      }
-    };
-    fn();
-  }, [isLoading, isAuthenticated, token]);
+    history.push("/");
+  })
 
   return (
-    <WelcomeComponent>
+    <AuthorizeComponent>
       <div className="container">
         <img
           className="acm-logo"
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
-        <h1 className="text">Welcome to ACM!</h1>
-        <button className="retry-button" onClick={start}>
-          Access Protected Page
-        </button>
+        <h1 className="text">Thanks for signing in! Redirecting...</h1>
       </div>
-    </WelcomeComponent>
+    </AuthorizeComponent>
   );
 };
 
-const WelcomeComponent = styled.div`
+const AuthorizeComponent = styled.div`
   .container {
     display: flex;
     background-color: black;
@@ -78,4 +62,4 @@ const WelcomeComponent = styled.div`
   }
 `;
 
-export default Welcome;
+export default AuthorizeAuth0;

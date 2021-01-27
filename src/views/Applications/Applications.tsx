@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useEffect } from "react";
 import { Layout, Card } from "antd";
 import Grid from "@material-ui/core/Grid";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import { useHistory } from "react-router-dom";
 import "./Applications.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { jwt, profile } from "../../api/state";
 const { Content } = Layout;
 
 const currApps = [
@@ -86,7 +89,21 @@ const currApps = [
 ];
 
 const Applications = () => {
+  const {
+    isLoading,
+    isAuthenticated,
+  } = useAuth0();
+  const user_profile = useRecoilValue(profile);
   const history = useHistory();
+
+  useEffect(() => {
+    if (isLoading || user_profile.exists || user_profile.isLoading) {
+      return;
+    }
+    if (isAuthenticated) {
+      history.push("/newprofile");
+    }
+  }, [isLoading, isAuthenticated, user_profile]);
 
   const linkRedirect = (link: string) => {
     if (link.includes("http")) {

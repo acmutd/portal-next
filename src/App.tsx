@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Homepage from "./views/Deprecated/HomePage";
 import Form from "./views/Form";
 import Applications from "./views/Applications/Applications";
@@ -25,7 +25,11 @@ import {
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
-import PrivateRoute from "./components/Actions/PrivateRoute";
+import AuthRoute from "./components/Actions/AuthRoute";
+import ProfileRoute from "./components/Actions/ProfileRoute";
+import { useAuth0 } from "@auth0/auth0-react";
+import { jwt } from "./api/state";
+import { useRecoilState } from "recoil";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -36,21 +40,52 @@ import PrivateRoute from "./components/Actions/PrivateRoute";
  * <Form /> has built in authentication verification, results in 2 api calls to the same endpoint
  */
 function App() {
+  const {
+    isLoading,
+    isAuthenticated,
+    getAccessTokenSilently,
+  } = useAuth0();
+  const [token, setToken] = useRecoilState(jwt);
+
+  useEffect(() => {
+    const fn = async () => {
+      if (isAuthenticated && !token.isSet) {
+        setToken({ token: await getAccessTokenSilently(), isSet: true });
+      }
+    };
+    fn();
+  }, [isLoading, isAuthenticated, token]);
+
   return (
     <div>
       <BrowserRouter>
         <BrowserView>
           <Switch>
             <Route path="/" component={Welcome} exact />
-            <PrivateRoute path="/testing1" component={Homepage} exact/>
+            <AuthRoute
+              path="/newprofile"
+              Component={
+                <Form
+                  typeform_id={pro}
+                  endpoint="/auth0/create-blank-profile"
+                />
+              }
+              exact
+            />
+            <AuthRoute path="/calendar" Component={<CalendarPage />} exact />
+            <AuthRoute path="/profile" Component={<Profile />} exact />
+            <AuthRoute
+              path="/applications"
+              Component={<Applications />}
+              exact
+            />
 
-
-            {/* General Routes for testing */}
+            {/* General Routes for testing
             <AProtectedRoute Component={<Homepage />} path="/test1" exact />
             <GProtectedRoute Component={<Homepage />} path="/test2" exact />
 
             {/* Auth0 Protected Routes */}
-            <AProtectedRoute
+            {/* <AProtectedRoute
               Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
               path="/dev"
               exact
@@ -71,15 +106,15 @@ function App() {
               Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
               path="/tip"
               exact
-            />
-            <AProtectedRoute
+            />  */}
+            {/* <AProtectedRoute
               Component={
                 <Form typeform_id={developer} endpoint="/auth0/developer" />
               }
               path="/developer"
               exact
-            />
-            <AProtectedRoute
+            /> */}
+            {/* <AProtectedRoute
               Component={
                 <Form typeform_id={survey} endpoint="/auth0/developer" />
               }
@@ -91,32 +126,19 @@ function App() {
               path="/applications"
               exact
             />
-            <AProtectedRoute Component={<Profile />} path="/profile" exact />
-            <AProtectedRoute Component={<CalendarPage />} path="/calendar" exact />
-
-            {/* XProtected Route means it only validates that they have signed in but doesn't check for profile completion */}
-            <XProtectedRoute
-              Component={
-                <Form
-                  typeform_id={pro}
-                  endpoint="/auth0/create-blank-profile"
-                />
-              }
-              path="/newprofile"
-              exact
-            />
+            <AProtectedRoute Component={<Profile />} path="/profile" exact /> */}
 
             {/* Officer Exclusive Routes */}
-            <GProtectedRoute
+            {/* <GProtectedRoute
               Component={
                 <Form typeform_id={vanity} endpoint="/gsuite/verify" />
               }
               path="/vanity"
               exact
-            />
+            /> */}
 
             {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
-            <Route
+            {/* <Route
               path="/auth0"
               render={(props) => <Authorize {...props} idp="auth0" />}
               exact
@@ -125,7 +147,7 @@ function App() {
               path="/gsuite"
               render={(props) => <Authorize {...props} idp="gsuite" />}
               exact
-            />
+            /> */}
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </BrowserView>
@@ -133,13 +155,24 @@ function App() {
         <MobileView>
           <Switch>
             <Route path="/" component={Welcome} exact />
+            <AuthRoute
+              path="/newprofile"
+              Component={
+                <Form
+                  typeform_id={pro}
+                  endpoint="/auth0/create-blank-profile"
+                />
+              }
+              exact
+            />
+            <AuthRoute path="/calendar" Component={<CalendarPage />} exact />
 
             {/* General Routes for testing */}
-            <AProtectedRoute Component={<Homepage />} path="/test1" exact />
-            <GProtectedRoute Component={<Homepage />} path="/test2" exact />
+            {/* <AProtectedRoute Component={<Homepage />} path="/test1" exact />
+            <GProtectedRoute Component={<Homepage />} path="/test2" exact /> */}
 
             {/* Auth0 Protected Routes */}
-            <AProtectedRoute
+            {/* <AProtectedRoute
               Component={<Form typeform_id={dev} endpoint="/auth0/verify" />}
               path="/dev"
               exact
@@ -160,15 +193,15 @@ function App() {
               Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
               path="/tip"
               exact
-            />
-            <AProtectedRoute
+            /> */}
+            {/* <AProtectedRoute
               Component={
                 <Form typeform_id={developer} endpoint="/auth0/developer" />
               }
               path="/developer"
               exact
-            />
-            <AProtectedRoute
+            /> */}
+            {/* <AProtectedRoute
               Component={
                 <Form typeform_id={survey} endpoint="/auth0/developer" />
               }
@@ -181,30 +214,23 @@ function App() {
               exact
             />
             <AProtectedRoute Component={<Profile />} path="/profile" exact />
-            <AProtectedRoute Component={<CalendarPage />} path="/calendar" exact />
-
-            <XProtectedRoute
-              Component={
-                <Form
-                  typeform_id={pro}
-                  endpoint="/auth0/create-blank-profile"
-                />
-              }
-              path="/newprofile"
+            <AProtectedRoute
+              Component={<CalendarPage />}
+              path="/calendar"
               exact
-            />
+            /> */}
 
             {/* Officer Exclusive Routes */}
-            <GProtectedRoute
+            {/* <GProtectedRoute
               Component={
                 <Form typeform_id={vanity} endpoint="/gsuite/verify" />
               }
               path="/vanity"
               exact
-            />
+            /> */}
 
             {/* Authorization Routes, Will get activated by Cloudflare Access, Do Not Touch */}
-            <Route
+            {/* <Route
               path="/auth0"
               render={(props) => <Authorize {...props} idp="auth0" />}
               exact
@@ -213,7 +239,7 @@ function App() {
               path="/gsuite"
               render={(props) => <Authorize {...props} idp="gsuite" />}
               exact
-            />
+            /> */}
             <Route path="/logout" component={Logout} exact />
           </Switch>
         </MobileView>

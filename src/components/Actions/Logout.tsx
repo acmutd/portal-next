@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useRecoilValue, useSetRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { jwt, auth } from "../../api/state";
 import { deleteCookie } from "../../acmApi/cookieManager";
 import ReactLoading from "react-loading";
@@ -16,14 +16,18 @@ const Logout = () => {
     if (!auth_status.is_verified) {
       history.push("/");
     }
-  }, [auth_status])
+  }, [auth_status]);
 
   useEffect(() => {
     if (auth_status.is_verified) {
       deleteCookie("CF_Authorization");
-      setJwt("");
+      setJwt({ token: "", isSet: false });
       axios.get("http://acmutd.cloudflareaccess.com/cdn-cgi/access/logout");
-      axios.get(`https://acmutd.auth0.com/v2/logout?client_id=${process.env.REACT_APP_AUTH0_PORTAL_CLIENTID as string}&returnTo=https://app.acmutd.co`);
+      axios.get(
+        `https://acmutd.auth0.com/v2/logout?client_id=${
+          process.env.REACT_APP_AUTH0_PORTAL_CLIENTID as string
+        }&returnTo=https://app.acmutd.co`
+      );
     }
   });
 
@@ -36,7 +40,12 @@ const Logout = () => {
           alt="ACM Logo"
         />
         <h1 className="text">Logout in Progress...</h1>
-        <ReactLoading type={"spinningBubbles"} color={"white"} height={'10%'} width={'10%'} />
+        <ReactLoading
+          type={"spinningBubbles"}
+          color={"white"}
+          height={"10%"}
+          width={"10%"}
+        />
       </div>
     </LogoutComponent>
   );

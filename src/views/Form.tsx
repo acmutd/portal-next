@@ -5,6 +5,7 @@ import axios from "axios";
 import { getCookie } from "../acmApi/cookieManager";
 import Unauthorized from "./Message/Unauthorized";
 import * as Sentry from "@sentry/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface typeform_info {
   typeform_id: string;
@@ -16,6 +17,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
   const [isAuth, setIsAuth] = useState(false);
   const [signInAttempt, setSignInAttempt] = useState(false);
   const [url, setUrl] = useState("");
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     load_data();
@@ -28,7 +30,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
     setLoading(true);
     setSignInAttempt(true);
 
-    const authToken = getCookie("CF_Authorization") as string;
+    const authToken = await getAccessTokenSilently();
 
     if (authToken === undefined) {
       setLoading(false);
@@ -43,7 +45,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
     };
     axios
       .get(
-        (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint,
+        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint,
         config
       )
       .then((res) => {

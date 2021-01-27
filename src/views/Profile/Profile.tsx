@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
 import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
   const history = useHistory();
   const user_profile = useRecoilValue(profile);
+  const {
+    isLoading,
+    isAuthenticated,
+  } = useAuth0();
+
+  useEffect(() => {
+    if (isLoading || user_profile.exists || user_profile.isLoading) {
+      return;
+    }
+    if (isAuthenticated) {
+      history.push("/newprofile");
+    }
+  }, [isLoading, isAuthenticated, user_profile]);
 
   return (
     <Layout>

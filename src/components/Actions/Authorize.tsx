@@ -15,10 +15,10 @@ const Authorize = ({ idp }: props) => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    if (Jwt === getCookie("CF_Authorization")) {
+    if (Jwt.token === getCookie("CF_Authorization")) {
       return;
     }
-    setJwt(getCookie("CF_Authorization") as string);
+    setJwt({ token: getCookie("CF_Authorization") as string, isSet: true });
   });
 
   useEffect(() => {
@@ -29,14 +29,14 @@ const Authorize = ({ idp }: props) => {
   }, [auth_status, idp]);
 
   useEffect(() => {
-      setTimeout(() => {
-        setWait(true);
-        window.location.reload();
-      }, 2000);
+    setTimeout(() => {
+      setWait(true);
+      window.location.reload();
+    }, 2000);
   });
 
   useEffect(() => {
-    if(!refresh) {
+    if (!refresh) {
       setRefresh(true);
     }
   }, [refresh]);

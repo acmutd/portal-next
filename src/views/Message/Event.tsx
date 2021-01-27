@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwt } from "../../api/state";
 import { useRecoilState } from "recoil";
+import axios from "axios";
 
 const Welcome = () => {
   const history = useHistory();
@@ -13,6 +14,8 @@ const Welcome = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
+  const [apiComplete, setApiComplete] = useState(false);
+  const [event, setEvent] = useState("");
 
   const start = () => {
     history.push("/profile");
@@ -27,6 +30,24 @@ const Welcome = () => {
     fn();
   }, [isLoading, isAuthenticated, token]);
 
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${getAccessTokenSilently()}`,
+      },
+    };
+    const fn = async () => {
+      const result = await axios
+      .get(
+        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/checkin",
+        config
+      );
+      setApiComplete(true);
+      setEvent(result.data.event);
+    }
+    fn();
+  }, [])
+
   return (
     <WelcomeComponent>
       <div className="container">
@@ -35,9 +56,10 @@ const Welcome = () => {
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
-        <h1 className="text">Welcome to ACM!</h1>
+        <h1 className="text">Thanks for attending!</h1>
+        { apiComplete ? <h3 className="text">Your participation at { event } has been recorded</h3> : null }
         <button className="retry-button" onClick={start}>
-          Access Protected Page
+          Open Profile
         </button>
       </div>
     </WelcomeComponent>

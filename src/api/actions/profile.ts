@@ -6,6 +6,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
   if (authToken === undefined || authToken === "") {
     return {
       exists: false,
+      isLoading: true,
     };
   }
 
@@ -17,12 +18,13 @@ const get_profile = async (authToken: string): Promise<profile> => {
   };
   const result: profile = await axios
     .get(
-      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + "/auth0/profile",
+      (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/profile",
       config
     )
     .then((res) => {
       return {
         exists: res.data.exists,
+        isLoading: false,
         profile: res.data,
       };
     })
@@ -31,6 +33,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
       Sentry.captureException(err);
       return {
         exists: false,
+        isLoading: false,
       };
     });
   return result;

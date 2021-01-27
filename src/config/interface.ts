@@ -50,5 +50,6 @@ export interface core_profile {
 
 export interface profile {
   exists: boolean;
+  isLoading: boolean;
   profile?: core_profile;
 }
