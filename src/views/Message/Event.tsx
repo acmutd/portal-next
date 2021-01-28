@@ -5,7 +5,7 @@ import { jwt } from "../../api/state";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 
-const Welcome = () => {
+const EventPage = () => {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
   const [apiComplete, setApiComplete] = useState(false);
@@ -21,18 +21,21 @@ const Welcome = () => {
   }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${getAccessTokenSilently()}`,
-      },
-    };
     const fn = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${await getAccessTokenSilently()}`,
+        },
+      };
       const result = await axios.get(
-        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/checkin",
+        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) +
+          "/auth0/checkin" +
+          "?checkpath=" +
+          window.location.pathname,
         config
       );
       setApiComplete(true);
-      setEvent(result.data.event);
+      setEvent(result.data.event_name);
     };
     fn();
   }, [getAccessTokenSilently]);
@@ -48,4 +51,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default EventPage;

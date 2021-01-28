@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Typeform from "../components/Typeform/typeform";
 import Loading from "./Message/Loading";
 import axios from "axios";
+import { profile } from "../api/state";
+import { useRecoilValue } from "recoil";
 import { getCookie } from "../acmApi/cookieManager";
+import { useHistory } from "react-router-dom";
 import Unauthorized from "./Message/Unauthorized";
 import * as Sentry from "@sentry/react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -17,11 +20,22 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
   const [isAuth, setIsAuth] = useState(false);
   const [signInAttempt, setSignInAttempt] = useState(false);
   const [url, setUrl] = useState("");
-  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+  const user_profile = useRecoilValue(profile);
+  const history = useHistory();
 
   useEffect(() => {
     load_data();
-  });
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || user_profile.exists || user_profile.isLoading) {
+      return;
+    }
+    if (isAuthenticated) {
+      history.push("/newprofile");
+    }
+  }, [isLoading, isAuthenticated, user_profile]);
 
   const load_data = async (): Promise<void> => {
     if (loading || signInAttempt) {
@@ -39,7 +53,6 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
 
     const config = {
       headers: {
-        // Origin: "http://localhost:3000",
         Authorization: `Bearer ${authToken}`,
       },
     };

@@ -29,7 +29,7 @@ ReactDOM.render(
     <Auth0Provider
       domain={config.domain}
       clientId={config.clientId}
-      redirectUri={window.location.origin + window.location.pathname}
+      redirectUri={window.location.origin + window.location.pathname + window.location.search}
       audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
     >
