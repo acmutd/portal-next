@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Homepage from "./views/Deprecated/HomePage";
+import Message404 from "./views/Message/Message404";
 import Form from "./views/Form";
 import Applications from "./views/Applications/Applications";
 import Profile from "./views/Profile/Profile";
@@ -51,7 +52,7 @@ function App() {
       }
     };
     fn();
-  }, [isLoading, isAuthenticated, token]);
+  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   return (
     <div>
@@ -166,6 +167,7 @@ function App() {
               exact
             /> */}
             <Route path="/logout" component={Logout} exact />
+            <Route path="/*" component={Message404} />
           </Switch>
         </BrowserView>
 
@@ -265,6 +267,7 @@ function App() {
               exact
             /> */}
             <Route path="/logout" component={Logout} exact />
+            <Route path="/*" component={Message404} />
           </Switch>
         </MobileView>
       </BrowserRouter>
