@@ -15,7 +15,7 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
     }
     const fn = async () => {
       await loginWithRedirect({
-        appState: { targetUrl: "localhost:3000" },
+        appState: { targetUrl: path },
       });
       setToken({ token: await getAccessTokenSilently(), isSet: true});
     };

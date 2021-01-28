@@ -10,6 +10,7 @@ const Welcome = () => {
   const {
     isLoading,
     isAuthenticated,
+    logout,
     getAccessTokenSilently,
   } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
@@ -21,6 +22,7 @@ const Welcome = () => {
   useEffect(() => {
     const fn = async () => {
       if (isAuthenticated && !token.isSet) {
+        console.log(await getAccessTokenSilently());
         setToken({ token: await getAccessTokenSilently(), isSet: true });
       }
     };

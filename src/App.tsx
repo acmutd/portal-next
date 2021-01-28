@@ -25,6 +25,7 @@ import {
 } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
+import EventPage from "./views/Message/Event";
 import AuthRoute from "./components/Actions/AuthRoute";
 import ProfileRoute from "./components/Actions/ProfileRoute";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -40,11 +41,7 @@ import { useRecoilState } from "recoil";
  * <Form /> has built in authentication verification, results in 2 api calls to the same endpoint
  */
 function App() {
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
 
   useEffect(() => {
@@ -77,6 +74,26 @@ function App() {
             <AuthRoute
               path="/applications"
               Component={<Applications />}
+              exact
+            />
+            <AuthRoute path="/checkin" Component={<EventPage />} />
+            <AuthRoute
+              path="/tip"
+              Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
+              exact
+            />
+            <AuthRoute
+              path="/media"
+              Component={
+                <Form typeform_id={media} endpoint="/auth0/developer" />
+              }
+              exact
+            />
+            <AuthRoute
+              path="/developer"
+              Component={
+                <Form typeform_id={developer} endpoint="/auth0/developer" />
+              }
               exact
             />
 
@@ -166,6 +183,13 @@ function App() {
               exact
             />
             <AuthRoute path="/calendar" Component={<CalendarPage />} exact />
+            <AuthRoute path="/profile" Component={<Profile />} exact />
+            <AuthRoute
+              path="/applications"
+              Component={<Applications />}
+              exact
+            />
+            <AuthRoute path="/checkin/*" Component={<EventPage />} />
 
             {/* General Routes for testing */}
             {/* <AProtectedRoute Component={<Homepage />} path="/test1" exact />

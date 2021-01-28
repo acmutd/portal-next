@@ -6,13 +6,9 @@ import { jwt } from "../../api/state";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 
-const Welcome = () => {
+const EventPage = () => {
   const history = useHistory();
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
   const [apiComplete, setApiComplete] = useState(false);
   const [event, setEvent] = useState("");
@@ -31,25 +27,24 @@ const Welcome = () => {
   }, [isLoading, isAuthenticated, token]);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${getAccessTokenSilently()}`,
-      },
-    };
     const fn = async () => {
-      const result = await axios
-      .get(
-        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/checkin",
+      const config = {
+        headers: {
+          Authorization: `Bearer ${await getAccessTokenSilently()}`,
+        },
+      };
+      const result = await axios.get(
+        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + "/auth0/checkin" + "?checkpath=" + window.location.pathname,
         config
       );
       setApiComplete(true);
-      setEvent(result.data.event);
-    }
+      setEvent(result.data.event_name);
+    };
     fn();
-  }, [])
+  }, []);
 
   return (
-    <WelcomeComponent>
+    <EventComponent>
       <div className="container">
         <img
           className="acm-logo"
@@ -57,16 +52,20 @@ const Welcome = () => {
           alt="ACM Logo"
         />
         <h1 className="text">Thanks for attending!</h1>
-        { apiComplete ? <h3 className="text">Your participation at { event } has been recorded</h3> : null }
+        {apiComplete ? (
+          <h3 className="text">
+            Your participation at {event} has been recorded
+          </h3>
+        ) : null}
         <button className="retry-button" onClick={start}>
           Open Profile
         </button>
       </div>
-    </WelcomeComponent>
+    </EventComponent>
   );
 };
 
-const WelcomeComponent = styled.div`
+const EventComponent = styled.div`
   .container {
     display: flex;
     background-color: black;
@@ -100,4 +99,4 @@ const WelcomeComponent = styled.div`
   }
 `;
 
-export default Welcome;
+export default EventPage;

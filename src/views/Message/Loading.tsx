@@ -5,7 +5,7 @@ import ReactLoading from 'react-loading';
 const Loading = () => {
     return <LoadingComponent>
         <div className="container">
-            <img className="acm-logo" src="https://acmutd.co/brand/General/Assets/Logos/favicon.png" alt="ACM Logo"/>
+            <img className="acm-logo" src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png" alt="ACM Logo"/>
             <h1 className="text">Loading</h1>
             <ReactLoading type={"spinningBubbles"} color={"white"} height={'10%'} width={'10%'} />
         </div>
