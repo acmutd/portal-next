@@ -29,27 +29,26 @@ const Profile = () => {
       <Navbar selectedPage="profile" />
       <Content>
         <Tabs defaultActiveKey="1" tabPosition="left">
-          {/*<TabPane tab="Events" key={1}>
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={<a href="https://ant.design">{item.title}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                  />
-                </List.Item>
-              )}
-            />
-                  </TabPane>*/}
+          <TabPane tab="Event Participation" key={1}>
+            <h1 style={{ color: "white", marginBottom: 20 }}>Event History:</h1>
+            {user_profile.profile?.past_events ? (
+              user_profile.profile.past_events
+                .map((event) => (
+                  <div className="border sepFlexBox">
+                    <h2 style={{ color: "white" }}>{event.name}</h2>
+                    <h2 style={{ color: "white" }}>
+                      |&nbsp;&nbsp;&nbsp;
+                      {new Date(event.submitted_at).toDateString()}
+                    </h2>
+                  </div>
+                ))
+                .reverse()
+            ) : (
+              <p>No applications submitted yet.</p>
+            )}
+          </TabPane>
           <TabPane tab="Past Applications" key={2}>
-            <h1 style={{ color: "white", marginBottom: 20 }}>
-              Application History:
-            </h1>
+            <h1 style={{ color: "white" }}>Submitted Applications:</h1>
             <p>
               Note: If you recently submitted an application, it may take a
               short period of time before appearing
