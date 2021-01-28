@@ -7,6 +7,7 @@ import "./Applications.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRecoilValue } from "recoil";
 import { profile } from "../../api/state";
+import Button from "../../components/OrangeButton/OrangeButton";
 const { Content } = Layout;
 
 const currApps = [
@@ -112,18 +113,12 @@ const Applications = () => {
     <Grid item xs={12} md={6} lg={4} key={index}>
       <Card title={app.name} bordered={false} hoverable>
         {app.description}
-        <div className="flex"></div>
-        <button className="apply-button" onClick={() => linkRedirect(app.link)}>
-          Apply here!
-        </button>
-        {app.extra && (
-          <button
-            className="apply-button"
-            onClick={() => linkRedirect(app.extra)}
-          >
-            Learn More
-          </button>
-        )}
+        <div className="flex">
+          <Button text="Apply here!" onClick={() => linkRedirect(app.link)} />
+          {app.extra && (
+            <Button text="Learn more" onClick={() => linkRedirect(app.extra)} />
+          )}
+        </div>
       </Card>
     </Grid>
   ));

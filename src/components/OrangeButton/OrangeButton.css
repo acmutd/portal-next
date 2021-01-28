@@ -1,9 +1,9 @@
 .orange-button {
   outline: none;
   border: 1px solid transparent;
-  margin: 0px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 12px 0px;
-  padding: 8px 18px;
+  margin: 0px 10px;
+  padding: 6px 10px;
   min-height: 48px;
   background-color: rgb(243, 126, 3);
   color: rgb(255, 255, 255);

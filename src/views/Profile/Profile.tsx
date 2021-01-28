@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
+import Button from "../../components/OrangeButton/OrangeButton";
 import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
@@ -146,13 +147,10 @@ const Profile = () => {
               <strong>Classification:</strong>{" "}
               {user_profile.profile?.classification}
             </p>
-            <button
-              className="apply-button"
-              onClick={() => history.push("/newprofile")}
-              style={{ margin: 0 }}
-            >
-              Update Profile Information
-            </button>
+            <Button
+              text="Update Profile Information"
+              redirectURL="/newprofile"
+            />
           </TabPane>
         </Tabs>
       </Content>
