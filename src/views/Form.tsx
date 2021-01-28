@@ -4,7 +4,6 @@ import Loading from "./Message/Loading";
 import axios from "axios";
 import { profile } from "../api/state";
 import { useRecoilValue } from "recoil";
-import { getCookie } from "../acmApi/cookieManager";
 import { useHistory } from "react-router-dom";
 import Unauthorized from "./Message/Unauthorized";
 import * as Sentry from "@sentry/react";
@@ -25,8 +24,49 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
   const history = useHistory();
 
   useEffect(() => {
+    const load_data = async (): Promise<void> => {
+      if (loading || signInAttempt) {
+        return;
+      }
+      setLoading(true);
+      setSignInAttempt(true);
+
+      const authToken = await getAccessTokenSilently();
+
+      if (authToken === undefined) {
+        setLoading(false);
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      };
+      axios
+        .get(
+          (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint,
+          config
+        )
+        .then((res) => {
+          setIsAuth(true);
+
+          setUrl(
+            "https://acmutd.typeform.com/to/" +
+              typeform_id +
+              "#" +
+              new URLSearchParams(res.data).toString()
+          );
+          setLoading(false);
+        })
+        .catch((err) => {
+          Sentry.captureException(err);
+          setIsAuth(false);
+          setLoading(false);
+        });
+    };
     load_data();
-  }, []);
+  }, [endpoint, getAccessTokenSilently, loading, signInAttempt, typeform_id]);
 
   useEffect(() => {
     if (isLoading || user_profile.exists || user_profile.isLoading) {
@@ -35,49 +75,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
     if (isAuthenticated) {
       history.push("/newprofile");
     }
-  }, [isLoading, isAuthenticated, user_profile]);
-
-  const load_data = async (): Promise<void> => {
-    if (loading || signInAttempt) {
-      return;
-    }
-    setLoading(true);
-    setSignInAttempt(true);
-
-    const authToken = await getAccessTokenSilently();
-
-    if (authToken === undefined) {
-      setLoading(false);
-      return;
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    };
-    axios
-      .get(
-        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint,
-        config
-      )
-      .then((res) => {
-        setIsAuth(true);
-
-        setUrl(
-          "https://acmutd.typeform.com/to/" +
-            typeform_id +
-            "#" +
-            new URLSearchParams(res.data).toString()
-        );
-        setLoading(false);
-      })
-      .catch((err) => {
-        Sentry.captureException(err);
-        setIsAuth(false);
-        setLoading(false);
-      });
-  };
+  }, [isLoading, isAuthenticated, user_profile, history]);
 
   if (loading) {
     return <Loading />;

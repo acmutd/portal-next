@@ -7,12 +7,7 @@ import { useRecoilState } from "recoil";
 
 const Welcome = () => {
   const history = useHistory();
-  const {
-    isLoading,
-    isAuthenticated,
-    logout,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
 
   const start = () => {
@@ -27,7 +22,7 @@ const Welcome = () => {
       }
     };
     fn();
-  }, [isLoading, isAuthenticated, token]);
+  }, [isLoading, isAuthenticated, token, getAccessTokenSilently, setToken]);
 
   return (
     <WelcomeComponent>

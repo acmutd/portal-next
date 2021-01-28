@@ -6,7 +6,12 @@ import { jwt } from "../../api/state";
 import Loading from "../../views/Message/Loading";
 
 const AuthRoute = ({ Component, path, ...rest }: any): any => {
-  const { isLoading, isAuthenticated, loginWithRedirect, getAccessTokenSilently } = useAuth0();
+  const {
+    isLoading,
+    isAuthenticated,
+    loginWithRedirect,
+    getAccessTokenSilently,
+  } = useAuth0();
   const setToken = useSetRecoilState(jwt);
 
   useEffect(() => {
@@ -17,12 +22,19 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
       await loginWithRedirect({
         appState: { targetUrl: path },
       });
-      setToken({ token: await getAccessTokenSilently(), isSet: true});
+      setToken({ token: await getAccessTokenSilently(), isSet: true });
     };
     fn();
-  }, [isLoading, isAuthenticated, loginWithRedirect, path]);
+  }, [
+    isLoading,
+    isAuthenticated,
+    loginWithRedirect,
+    path,
+    setToken,
+    getAccessTokenSilently,
+  ]);
 
-  const render = (props: any) => {
+  const render = () => {
     return isAuthenticated === true ? Component : <Loading />;
   };
 
@@ -30,5 +42,3 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
 };
 
 export default withRouter(AuthRoute);
-
-

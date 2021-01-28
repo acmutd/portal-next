@@ -1,35 +1,18 @@
 import React, { useEffect } from "react";
-import Homepage from "./views/Deprecated/HomePage";
 import Message404 from "./views/Message/Message404";
 import Form from "./views/Form";
 import Applications from "./views/Applications/Applications";
 import Profile from "./views/Profile/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import {
-  AProtectedRoute,
-  GProtectedRoute,
-  XProtectedRoute,
-} from "./components/Actions/ProtectedRoute";
 import { BrowserView, MobileView } from "react-device-detect";
-import Authorize from "./components/Actions/Authorize";
 import Welcome from "./views/Message/Welcome";
-import {
-  vanity,
-  dev,
-  edu,
-  media,
-  pro,
-  developer,
-  survey,
-  tip,
-} from "./config/typeform_config";
+import { media, pro, developer, tip } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
-import AuthRoute from "./components/Actions/AuthRoute";
-import ProfileRoute from "./components/Actions/ProfileRoute";
 import { useAuth0 } from "@auth0/auth0-react";
+import AuthRoute from "./components/Actions/AuthRoute";
 import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
 

@@ -12,10 +12,7 @@ const { TabPane } = Tabs;
 const Profile = () => {
   const history = useHistory();
   const user_profile = useRecoilValue(profile);
-  const {
-    isLoading,
-    isAuthenticated,
-  } = useAuth0();
+  const { isLoading, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     if (isLoading || user_profile.exists || user_profile.isLoading) {
@@ -24,7 +21,7 @@ const Profile = () => {
     if (isAuthenticated) {
       history.push("/newprofile");
     }
-  }, [isLoading, isAuthenticated, user_profile]);
+  }, [isLoading, isAuthenticated, user_profile, history]);
 
   return (
     <Layout>

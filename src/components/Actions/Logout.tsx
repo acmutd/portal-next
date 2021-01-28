@@ -16,7 +16,7 @@ const Logout = () => {
     if (!auth_status.is_verified) {
       history.push("/");
     }
-  }, [auth_status]);
+  }, [auth_status, history]);
 
   useEffect(() => {
     if (auth_status.is_verified) {
