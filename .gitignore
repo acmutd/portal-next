@@ -24,3 +24,11 @@ yarn-error.log*
 
 # env
 .env
+
+# WebStorm stuff
+.idea
+misc.xml
+modules.xml
+portal.iml
+vcs.xml
+

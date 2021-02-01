@@ -1,35 +1,31 @@
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+
+import React, { Fragment, useState } from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import TileGrid from "../../components/TileGrid/TileGrid";
+
 import {
   authInterface,
   loginAction,
   logoutAction,
-} from "../actions/authenticate";
+} from "../../actions/authenticate";
 import { connect } from "react-redux";
+import Menu from '../../components/Menu/menu'
+
 
 interface HomePageProps {
   isLoggedIn: boolean;
   login(): void;
 }
-
 const HomePage = (props: HomePageProps) => {
-  const { loginWithRedirect, isLoading } = useAuth0();
 
-  const wrapperFunction = () => {
-    // const result = callApi("/api/createDivison");
-    props.login();
-    loginWithRedirect();
-  };
+  const [menu, setMenu] = useState(false);
 
   return (
-    <div>
-      <button onClick={wrapperFunction}>Click me to sign in</button>
-      {props.isLoggedIn && !isLoading ? (
-        <h1>authenticated</h1>
-      ) : (
-        <h1>Not Authenticated</h1>
-      )}
-    </div>
+    <Fragment>
+        <Menu active={menu} onClose={() => setMenu(false)}/>
+        <Navbar onMenu={() => setMenu(true)}/>
+        <TileGrid />
+    </Fragment>
   );
 };
 
