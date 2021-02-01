@@ -44,7 +44,7 @@ const Profile = () => {
                 ))
                 .reverse()
             ) : (
-              <p>No applications submitted yet.</p>
+              <p>No events attended yet.</p>
             )}
           </TabPane>
           <TabPane tab="Past Applications" key={2}>

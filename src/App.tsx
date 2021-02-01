@@ -11,6 +11,7 @@ import { media, pro, developer, tip } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
+import * as Sentry from "@sentry/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import AuthRoute from "./components/Actions/AuthRoute";
 import { jwt } from "./api/state";
@@ -25,13 +26,17 @@ import { useRecoilState } from "recoil";
  * <Form /> has built in authentication verification, results in 2 api calls to the same endpoint
  */
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const [token, setToken] = useRecoilState(jwt);
 
   useEffect(() => {
     const fn = async () => {
       if (isAuthenticated && !token.isSet) {
         setToken({ token: await getAccessTokenSilently(), isSet: true });
+        Sentry.setUser({
+          email: user.email,
+          id: user.sub,
+        });
       }
     };
     fn();

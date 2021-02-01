@@ -18,7 +18,7 @@ const GenericMessage = (props: message) => {
       <div className="container">
         <img
           className="acm-logo"
-          src="https://acmutd.co/brand/General/Assets/Logos/favicon.png"
+          src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
         <h1 className="text">{props.title}</h1>

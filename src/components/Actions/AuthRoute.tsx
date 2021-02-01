@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSetRecoilState } from "recoil";
 import { jwt } from "../../api/state";
 import Loading from "../../views/Message/Loading";
+import * as Sentry from "@sentry/react";
 
 const AuthRoute = ({ Component, path, ...rest }: any): any => {
   const {
@@ -11,6 +12,7 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
     isAuthenticated,
     loginWithRedirect,
     getAccessTokenSilently,
+    user,
   } = useAuth0();
   const setToken = useSetRecoilState(jwt);
 
@@ -22,7 +24,13 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
       await loginWithRedirect({
         appState: { targetUrl: path },
       });
-      setToken({ token: await getAccessTokenSilently(), isSet: true });
+      if (isAuthenticated) {
+        setToken({ token: await getAccessTokenSilently(), isSet: true });
+        Sentry.setUser({
+          email: user.email,
+          id: user.sub,
+        });
+      }
     };
     fn();
   }, [
