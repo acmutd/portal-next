@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/react";
 import { decoded_jwt, auth_status } from "../../config/interface";
 
 const verify = async (authToken: string): Promise<auth_status> => {
+
   if (authToken === undefined || authToken === "") {
     return {
       jwt: authToken,
@@ -15,17 +16,13 @@ const verify = async (authToken: string): Promise<auth_status> => {
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
+  const user_email = decodedToken["https://acmutd.co/email"];
   Sentry.setUser({
     id: decodedToken.sub,
-    email: decodedToken.email,
+    email: user_email,
   });
 
-  let decoded_idp;
-  if ("custom" in decodedToken) {
-    decoded_idp = "auth0";
-  } else {
-    decoded_idp = "gsuite";
-  }
+  const decoded_idp = "auth0";
 
   const config = {
     headers: {

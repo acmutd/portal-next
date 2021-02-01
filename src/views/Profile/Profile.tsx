@@ -1,43 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
+import Button from "../../components/OrangeButton/OrangeButton";
 import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
 const Profile = () => {
   const history = useHistory();
   const user_profile = useRecoilValue(profile);
+  const { isLoading, isAuthenticated } = useAuth0();
+
+  useEffect(() => {
+    if (isLoading || user_profile.exists || user_profile.isLoading) {
+      return;
+    }
+    if (isAuthenticated) {
+      history.push("/newprofile");
+    }
+  }, [isLoading, isAuthenticated, user_profile, history]);
 
   return (
     <Layout>
       <Navbar selectedPage="profile" />
       <Content>
         <Tabs defaultActiveKey="1" tabPosition="left">
-          {/*<TabPane tab="Events" key={1}>
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={<a href="https://ant.design">{item.title}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                  />
-                </List.Item>
-              )}
-            />
-                  </TabPane>*/}
+          <TabPane tab="Event Participation" key={1}>
+            <h1 style={{ color: "white", marginBottom: 20 }}>Event History:</h1>
+            {user_profile.profile?.past_events ? (
+              user_profile.profile.past_events
+                .map((event) => (
+                  <div className="border sepFlexBox">
+                    <h2 style={{ color: "white" }}>{event.name}</h2>
+                    <h2 style={{ color: "white" }}>
+                      |&nbsp;&nbsp;&nbsp;
+                      {new Date(event.submitted_at).toDateString()}
+                    </h2>
+                  </div>
+                ))
+                .reverse()
+            ) : (
+              <p>No events attended yet.</p>
+            )}
+          </TabPane>
           <TabPane tab="Past Applications" key={2}>
-            <h1 style={{ color: "white", marginBottom: 20 }}>
-              Application History:
-            </h1>
+            <h1 style={{ color: "white" }}>Submitted Applications:</h1>
             <p>
               Note: If you recently submitted an application, it may take a
               short period of time before appearing
@@ -135,13 +146,10 @@ const Profile = () => {
               <strong>Classification:</strong>{" "}
               {user_profile.profile?.classification}
             </p>
-            <button
-              className="apply-button"
-              onClick={() => history.push("/newprofile")}
-              style={{ margin: 0 }}
-            >
-              Update Profile Information
-            </button>
+            <Button
+              text="Update Profile Information"
+              redirectURL="/newprofile"
+            />
           </TabPane>
         </Tabs>
       </Content>

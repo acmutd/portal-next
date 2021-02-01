@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Layout, Menu } from "antd";
+import { useAuth0 } from "@auth0/auth0-react";
 import ACMLogo from "../../assets/images/acm-light.png";
 import { useHistory } from "react-router-dom";
 import "./DarkNavbar.css";
@@ -12,9 +13,12 @@ interface NavbarProps {
 
 const DarkNavbar = ({ selectedPage }: NavbarProps) => {
   const history = useHistory();
+  const { logout } = useAuth0();
 
   const navigate = (MenuParams: any) => {
-    history.push(`/${MenuParams.key}`);
+    if (MenuParams.key === "logout") {
+      logout();
+    } else history.push(`/${MenuParams.key}`);
   };
 
   return (
@@ -32,12 +36,12 @@ const DarkNavbar = ({ selectedPage }: NavbarProps) => {
         defaultSelectedKeys={[selectedPage]}
         onSelect={navigate}
       >
-        <Menu.Item key="applications">Applications</Menu.Item>
+        {/*<Menu.Item key="applications">Applications</Menu.Item>*/}
         <Menu.Item key="profile">Profile</Menu.Item>
         <Menu.Item key="calendar">Calendar</Menu.Item>
-        {/*<Menu.Item style={{ float: "right" }} key="logout">
+        <Menu.Item style={{ float: "right" }} key="logout">
           Logout
-  </Menu.Item>*/}
+        </Menu.Item>
       </Menu>
     </Header>
   );

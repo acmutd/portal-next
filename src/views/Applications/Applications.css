@@ -13,20 +13,9 @@
   box-shadow: 0 5px 12px 4px rgba(226, 224, 224, 0.4) !important;
 }
 
-.apply-button {
-  outline: none;
-  border: 1px solid transparent;
+.yeet {
   margin: 0px 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 12px 0px;
   padding: 4px 10px;
-  min-height: 48px;
-  background-color: rgb(243, 126, 3);
-  color: rgb(255, 255, 255);
-  border-radius: 4px;
-  font-size: 15px;
-}
-.apply-button:hover {
-  background-color: rgb(247, 152, 52);
 }
 
 .flex {

@@ -10,7 +10,8 @@ type custom = {
 
 export interface decoded_jwt {
   aud: string[];
-  email: string;
+  email?: string;
+  "https://acmutd.co/email": string;
   exp: number;
   iat: number;
   nbf: number;
@@ -29,7 +30,7 @@ export interface auth_status {
   is_verified: boolean;
 }
 
-type past_application = {
+type past_entry = {
   name: string;
   submitted_at: string;
 };
@@ -44,10 +45,12 @@ export interface core_profile {
   university: string;
   utd_student: boolean;
   classification: string;
-  past_applications?: past_application[];
+  past_applications?: past_entry[];
+  past_events?: past_entry[];
 }
 
 export interface profile {
   exists: boolean;
+  isLoading: boolean;
   profile?: core_profile;
 }

@@ -6,10 +6,10 @@ const get_profile = async (authToken: string): Promise<profile> => {
   if (authToken === undefined || authToken === "") {
     return {
       exists: false,
+      isLoading: true,
     };
   }
 
-  //   await new Promise(resolve => setTimeout(resolve, 5000));
   const config = {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -23,6 +23,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
     .then((res) => {
       return {
         exists: res.data.exists,
+        isLoading: false,
         profile: res.data,
       };
     })
@@ -31,6 +32,7 @@ const get_profile = async (authToken: string): Promise<profile> => {
       Sentry.captureException(err);
       return {
         exists: false,
+        isLoading: false,
       };
     });
   return result;

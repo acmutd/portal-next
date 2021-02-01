@@ -12,7 +12,6 @@ const DevForm = () => {
   const {
     isAuthenticated,
     loginWithRedirect,
-    logout,
     isLoading,
     getAccessTokenSilently,
     user,
@@ -29,7 +28,7 @@ const DevForm = () => {
       setTypeform("zrktcrjl");
     } else {
       if (isAuthenticated) {
-        if (email == "") {
+        if (email === "") {
           setEmail(user.email);
           setName(user.nickname);
           setTypeform(dev as string);
@@ -40,43 +39,50 @@ const DevForm = () => {
         setTypeform("NxomQTLD");
       }
     }
-  }, [isLoading]);
+  }, [email, isAuthenticated, isLoading, user.email, user.nickname]);
 
   useEffect(() => {
+    const load_data = async () => {
+      if (!isAuthenticated) {
+        loginWithRedirect();
+      }
+      const accessToken = await getAccessTokenSilently();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      axios
+        .get(
+          (process.env.REACT_APP_CLOUD_FUNCTION_URL2 as string) + "/verify",
+          config
+        )
+        .then((res) => {
+          setEmail(user.email);
+          setName(user.nickname);
+        })
+        .then(() => {
+          if (email === "") {
+            setName("unauthorized");
+            setEmail("unauthorized");
+            setTypeform("NxomQTLD");
+          } else {
+            setTypeform(dev as string);
+          }
+        });
+    };
     if (!isAuthenticated && !isLoading) {
       load_data();
     }
-  }, [isAuthenticated, isLoading]);
-
-  const load_data = async () => {
-    if (!isAuthenticated) {
-      loginWithRedirect();
-    }
-    const accessToken = await getAccessTokenSilently();
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    axios
-      .get(
-        (process.env.REACT_APP_CLOUD_FUNCTION_URL2 as string) + "/verify",
-        config
-      )
-      .then((res) => {
-        setEmail(user.email);
-        setName(user.nickname);
-      })
-      .then(() => {
-        if (email === "") {
-          setName("unauthorized");
-          setEmail("unauthorized");
-          setTypeform("NxomQTLD");
-        } else {
-          setTypeform(dev as string);
-        }
-      });
-  };
+  }, [
+    email,
+    getAccessTokenSilently,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    user.email,
+    user.nickname,
+  ]);
 
   return (
     <div>

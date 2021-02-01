@@ -5,8 +5,8 @@ import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./config/auth0_config";
 import { Provider } from "react-redux";
-import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import * as Sentry from "@sentry/react";
 import store from "./store/store";
 import Loading from "./views/Message/Loading";
 import { RecoilRoot as GlobalState } from "recoil";
@@ -29,7 +29,7 @@ ReactDOM.render(
     <Auth0Provider
       domain={config.domain}
       clientId={config.clientId}
-      redirectUri={window.location.origin + window.location.pathname}
+      redirectUri={window.location.origin + window.location.pathname + window.location.search}
       audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
     >

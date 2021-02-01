@@ -1,9 +1,7 @@
 import React from "react";
 import { Layout, Calendar, Badge } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
-import { useHistory } from "react-router-dom";
 import "./Calendar.css";
-const { Content } = Layout;
 
 interface calendarEvent {
   color: string;
@@ -12,8 +10,6 @@ interface calendarEvent {
 }
 
 const CalendarPage = () => {
-  const history = useHistory();
-
   const getListData = (value: any) => {
     let listData: calendarEvent[] = [];
     switch (value.year()) {
@@ -110,6 +106,7 @@ const CalendarPage = () => {
                 break;
               default:
             }
+            break;
           default:
         }
         break;
