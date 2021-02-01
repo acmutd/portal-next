@@ -28,7 +28,7 @@ const EventPage = () => {
         },
       };
       const result = await axios.get(
-        (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) +
+        (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
           "/auth0/checkin" +
           "?checkpath=" +
           window.location.pathname,

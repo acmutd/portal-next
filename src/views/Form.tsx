@@ -45,7 +45,7 @@ const Form = ({ typeform_id, endpoint }: typeform_info) => {
       };
       axios
         .get(
-          (process.env.REACT_APP_LOCAL_FUNCTION_URL as string) + endpoint,
+          (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) + endpoint,
           config
         )
         .then((res) => {
