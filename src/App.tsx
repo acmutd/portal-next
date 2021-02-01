@@ -40,7 +40,7 @@ function App() {
       }
     };
     fn();
-  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
+  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently, user]);
 
   return (
     <div>

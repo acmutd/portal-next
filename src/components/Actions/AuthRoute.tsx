@@ -40,6 +40,7 @@ const AuthRoute = ({ Component, path, ...rest }: any): any => {
     path,
     setToken,
     getAccessTokenSilently,
+    user,
   ]);
 
   const render = () => {
