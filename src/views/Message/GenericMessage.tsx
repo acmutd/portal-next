@@ -30,7 +30,7 @@ const GenericMessage = (props: message) => {
             width={"10%"}
           />
         ) : (
-          <div className="container">
+          <div className="column">
             <h4 className="text">{props.desc}</h4>
             {props.buttonText && (
               <Button
@@ -62,6 +62,11 @@ const MessageComponent = styled.div`
     color: white;
     margin: 30px;
     font-family: ;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
