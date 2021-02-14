@@ -30,7 +30,7 @@ const GenericMessage = (props: message) => {
             width={"10%"}
           />
         ) : (
-          <div>
+          <div className="container">
             <h4 className="text">{props.desc}</h4>
             {props.buttonText && (
               <Button
