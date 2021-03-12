@@ -2,6 +2,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { authorized } from "./authHelper";
 import { AxiosInstance } from "axios";
 
+/*
+API WRAPPER
+This contains a detached means to access and edit the backend through simple functions.
+Each function is accessable through out the application and provides basic CRUD
+functionality for accesing the backend. The name of each function provides an 
+intuitive description of its use.
+
+NOTE: This file is not used in the application currently. 
+*/
+
 interface Result {
     message: string;
     result: any;
