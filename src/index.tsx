@@ -12,6 +12,18 @@ import Loading from "./views/Message/Loading";
 import { RecoilRoot as GlobalState } from "recoil";
 import Error from "./views/Message/Error";
 
+/*
+Sentry Initialization:
+
+Sentry acts to organize error reports in an intuitive fashion.
+It is a catch all that records most issues that take place in
+your application on the sentry dashboard. The set up for sentry in this application is 
+seen below. For more info go to:
+
+ACM Sentry how to guide: https://docs.google.com/document/d/1jD4rd2_0TvC2RyjU3XNs1HudUsQBH8kBFLHsKOEvPgc
+Sentry docs: https://docs.sentry.io/
+*/
+
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   autoSessionTracking: true,
