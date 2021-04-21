@@ -15,6 +15,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AuthRoute from "./components/Actions/AuthRoute";
 import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
+import CustomForm from "./views/Message/CustomForm";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -69,6 +70,7 @@ function App() {
           <AuthRoute path="/profile" Component={<Profile />} exact />
           <AuthRoute path="/applications" Component={<Applications />} exact />
           <AuthRoute path="/checkin" Component={<EventPage />} />
+          <AuthRoute path="/forms" Component={<CustomForm />} />
           <AuthRoute
             path="/tip"
             Component={<Form typeform_id={tip} endpoint="/auth0/developer" />}
