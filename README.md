@@ -7,7 +7,7 @@ Official front-end for the _ACM_ website & portal.
 ### Quick Start
 
  - Create `.env` file for Auth0 configuration, request ACM Development for domain and client ID. 
- - Run `npm start`
+ - Run `npm run dev`
 
 ### Extended Start Guide
 
