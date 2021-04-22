@@ -33,8 +33,8 @@ const Profile = () => {
             <h1 style={{ color: "white", marginBottom: 20 }}>Event History:</h1>
             {user_profile.profile?.past_events ? (
               user_profile.profile.past_events
-                .map((event) => (
-                  <div className="border sepFlexBox">
+                .map((event, index) => (
+                  <div className="border sepFlexBox" key={index}>
                     <h2 style={{ color: "white" }}>{event.name}</h2>
                     <h2 style={{ color: "white" }}>
                       |&nbsp;&nbsp;&nbsp;
@@ -55,8 +55,8 @@ const Profile = () => {
             </p>
             {user_profile.profile?.past_applications ? (
               user_profile.profile.past_applications
-                .map((app) => (
-                  <div className="border sepFlexBox">
+                .map((app, index) => (
+                  <div className="border sepFlexBox" key={index}>
                     <h2 style={{ color: "white" }}>{app.name}</h2>
                     <h2 style={{ color: "white" }}>
                       |&nbsp;&nbsp;&nbsp;

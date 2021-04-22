@@ -54,3 +54,19 @@ export interface profile {
   isLoading: boolean;
   profile?: core_profile;
 }
+
+export interface application {
+  typeform_id: string;
+  typeform_name: string;
+  description: string;
+  endpoint: string;
+  external_link: string;
+  active: boolean;
+  path_name: string;
+}
+
+export interface application_set {
+  applications?: application[];
+  total?: number;
+  isLoading: boolean;
+}
