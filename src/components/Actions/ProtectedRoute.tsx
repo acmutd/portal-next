@@ -1,3 +1,5 @@
+// Deprecated
+
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { auth, profile } from "../../api/state";
@@ -60,6 +62,7 @@ const XProtectedRoute = ({ Component, ...rest }: any) => {
   );
 };
 
+// TODO: replicate for issue 17
 const GProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth);
 

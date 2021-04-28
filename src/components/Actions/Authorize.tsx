@@ -1,3 +1,5 @@
+// Deprecated
+// TODO: Need to replicate function in lines 19-30
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
