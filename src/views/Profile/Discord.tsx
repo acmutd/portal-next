@@ -1,23 +1,26 @@
 import { Steps, Button, message } from "antd";
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button2 from "../../components/OrangeButton/OrangeButton";
-import * as Sentry from "@sentry/react";
 import axios from "axios";
 import "./Discord.css";
 
 const { Step } = Steps;
+interface discord_profile {
+  snowflake: string;
+  username: string;
+  discriminator: string;
+}
 
 const DiscordPane = () => {
   const [current, setCurrent] = useState(0);
   const [stepComplete, setStepComplete] = useState(false);
-  const {
-    isAuthenticated,
-    isLoading,
-    getAccessTokenSilently,
-    user,
-    loginWithRedirect,
-  } = useAuth0();
+  const [step2Complete, setStep2Complete] = useState(false);
+  const [access_token, setAccessToken] = useState("");
+  const [successVerification, setSuccessVerification] = useState(false);
+  const [discordProfile, setDiscordProfile] =
+    useState<discord_profile | undefined>(undefined);
+  const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
   const next = () => {
     setStepComplete(false);
@@ -37,12 +40,43 @@ const DiscordPane = () => {
     console.log(result);
     if (result.data.discord_authentication) {
       setStepComplete(true);
+      setAccessToken(result.data.access_token);
+      setDiscordProfile({
+        snowflake: result.data.snowflake,
+        username: result.data.username,
+        discriminator: result.data.discriminator,
+      });
     } else {
       await loginWithRedirect({
         appState: { targetUrl: "/profile" },
         connection: "Discord",
       });
     }
+  };
+
+  const verify = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${await getAccessTokenSilently()}`,
+      },
+    };
+    const data = {
+      access_token: access_token,
+      snowflake: discordProfile?.snowflake,
+    };
+    const result = await axios.post(
+      (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
+        "/auth0/verify-discord",
+      data,
+      config
+    );
+
+    if (result.data.is_present && result.data.is_verified) {
+      setSuccessVerification(true);
+      setStepComplete(true);
+    }
+    console.log(result);
+    setStep2Complete(true);
   };
 
   const steps = [
@@ -65,42 +99,69 @@ const DiscordPane = () => {
               <Button2 text="Sign in" onClick={signin} />{" "}
             </Fragment>
           ) : (
-            <p>Thank you, please click next.</p>
-          )}
-        </Fragment>
-      ),
-    },
-    {
-      title: "Joining",
-      content: (
-        <Fragment>
-          <h3>Joining the ACM Discord Server</h3>
-          <p>
-            Next we would like you to join the ACM Discord Server. 
-          </p>
-          <p>
-            This will help you sync your event attendence and activity from
-            discord over to the portal.
-          </p>
-          {!stepComplete ? (
             <Fragment>
-              {" "}
-              <p>Step 1: Sign in with discord</p>{" "}
-              <Button2 text="Sign in" onClick={signin} />{" "}
+              <p>
+                Discord Username:{" "}
+                {discordProfile?.username + "#" + discordProfile?.discriminator}
+              </p>
+              <p>Thank you, please click next.</p>
             </Fragment>
-          ) : (
-            <p>Thank you, please click next.</p>
           )}
         </Fragment>
       ),
     },
     {
       title: "Verification",
-      content: "Last-content",
+      content: (
+        <Fragment>
+          <h3>Joining the ACM Discord Server</h3>
+          <p>
+            All our events take place on the ACM Discord Server. Clicking verify
+            will check whether you have joined the ACM Discord Server. You can
+            join the{" "}
+            <a href="https://acmutd.co/discord">
+              ACM Discord Server by clicking here.
+            </a>
+          </p>
+          <p>
+            Once you join the ACM Discord Server please complete verifying
+            yourself in the #verify-here channel before returning here.
+          </p>
+
+          {!step2Complete ? (
+            <Fragment>
+              {" "}
+              <p>Step 2: Verify</p> <Button2 text="Verify" onClick={verify} />{" "}
+            </Fragment>
+          ) : successVerification ? (
+            <p>Thank you, please click next.</p>
+          ) : (
+            <Fragment>
+              {" "}
+              <p>
+                Verification Failed. Please review steps and try again.
+              </p>{" "}
+              <Button2 text="Verify" onClick={verify} />{" "}
+            </Fragment>
+          )}
+        </Fragment>
+      ),
     },
     {
       title: "Confirmation",
-      content: "Last-content",
+      content: (
+        <Fragment>
+          <p>
+            Thank you for linking your discord account with the ACM Portal. You'll
+            now be eligible to receive additional benefits.
+          </p>
+          <p>
+            You'll also find that you now that have a verified role on discord
+            to confirm that the linking was successful.
+          </p>
+          <p>You can refresh this page to review your linked discord profile information</p>
+        </Fragment>
+      ),
     },
   ];
 

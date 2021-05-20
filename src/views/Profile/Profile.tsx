@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
@@ -24,6 +24,26 @@ const Profile = () => {
       history.push("/newprofile");
     }
   }, [isLoading, isAuthenticated, user_profile, history]);
+
+  const discPane =
+    user_profile.profile?.discord_verified || false ? (
+      <Fragment>
+        <h1 style={{ color: "white", marginBottom: 20 }}>
+          Your Discord Profile:
+        </h1>
+        <p>
+          <strong>Discord ID:</strong> {user_profile.profile?.snowflake}
+        </p>
+        <p>
+          <strong>Username:</strong>{" "}
+          {user_profile.profile?.username +
+            "#" +
+            user_profile.profile?.discriminator}
+        </p>
+      </Fragment>
+    ) : (
+      <DiscordPane />
+    );
 
   return (
     <Layout>
@@ -153,7 +173,7 @@ const Profile = () => {
             />
           </TabPane>
           <TabPane tab="Discord" key={5}>
-            <DiscordPane />
+            {discPane}
           </TabPane>
         </Tabs>
       </Content>
