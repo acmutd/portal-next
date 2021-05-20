@@ -7,6 +7,7 @@ import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import DiscordPane from "./Discord";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
@@ -150,6 +151,9 @@ const Profile = () => {
               text="Update Profile Information"
               redirectURL="/newprofile"
             />
+          </TabPane>
+          <TabPane tab="Discord" key={5}>
+            <DiscordPane />
           </TabPane>
         </Tabs>
       </Content>
