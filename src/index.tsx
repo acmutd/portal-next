@@ -44,6 +44,7 @@ ReactDOM.render(
       redirectUri={window.location.origin + window.location.pathname + window.location.search}
       audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
+      useRefreshTokens={true}
     >
       <Provider store={store}>
         <Sentry.ErrorBoundary fallback={<Error />}>
