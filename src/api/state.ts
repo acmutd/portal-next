@@ -33,3 +33,19 @@ export const application = selector({
     return await get_applications(get(jwt).token);
   }
 });
+
+export const jwt_gsuite = atom({
+  key: "jwt_gsuite",
+  default: {
+    token: "",
+    isSet: false,
+  },
+});
+
+// will automatically re-evaluate if the jwt_gsuite changes
+export const auth_gsuite = selector({
+    key: "auth_gsuite",
+    get: async ({get}) => {
+        return await verify(get(jwt_gsuite).token);
+    },
+});
