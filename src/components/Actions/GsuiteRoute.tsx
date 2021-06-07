@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { auth_gsuite } from "../../api/state";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
 
 const GsuiteProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth_gsuite);
@@ -19,4 +19,4 @@ const GsuiteProtectedRoute = ({ Component, ...rest }: any) => {
     />
   );
 };
-export { GsuiteProtectedRoute };
+export default withRouter(GsuiteProtectedRoute);
