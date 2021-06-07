@@ -13,6 +13,7 @@ import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import AuthRoute from "./components/Actions/AuthRoute";
+import GsuiteProtectedRoute from "./components/Actions/GsuiteRoute";
 import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
@@ -88,7 +89,7 @@ function App() {
             }
             exact
           />
-
+          <GsuiteProtectedRoute path="/gsuite" Component={Welcome} exact />
           <Route path="/logout" component={Logout} exact />
           <Route path="/*" component={Message404} />
         </Switch>
