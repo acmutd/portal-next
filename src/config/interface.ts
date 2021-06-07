@@ -30,6 +30,12 @@ export interface auth_status {
   is_verified: boolean;
 }
 
+export interface auth_status_gsuite {
+  jwt: string;
+  decoded_jwt?: decoded_jwt;
+  is_verified: boolean;
+}
+
 type past_entry = {
   name: string;
   submitted_at: string;
