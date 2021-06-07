@@ -1,6 +1,7 @@
 import { atom, selector } from "recoil";
 // import { getCookie } from "../acmApi/cookieManager";
 import verify from "./actions/initialize";
+import verify_gsuite from "./actions/initialize_gsuite";
 import get_profile from "./actions/profile";
 import get_applications from "./actions/application";
 
@@ -46,6 +47,6 @@ export const jwt_gsuite = atom({
 export const auth_gsuite = selector({
     key: "auth_gsuite",
     get: async ({get}) => {
-        return await verify(get(jwt_gsuite).token);
+        return await verify_gsuite(get(jwt_gsuite).token);
     },
 });
