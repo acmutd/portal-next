@@ -1,7 +1,8 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { auth_gsuite } from "../../api/state";
-import { Route, Redirect, withRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Authorize from "./Authorize";
 
 const GsuiteProtectedRoute = ({ Component, ...rest }: any) => {
   const auth_status = useRecoilValue(auth_gsuite);
@@ -10,13 +11,9 @@ const GsuiteProtectedRoute = ({ Component, ...rest }: any) => {
     <Route
       {...rest}
       render={() => {
-        return auth_status.is_verified === true ? (
-          Component
-        ) : (
-          <Redirect exact to="/gsuite" />
-        );
+        return auth_status.is_verified === true ? Component : <Authorize />;
       }}
     />
   );
 };
-export default withRouter(GsuiteProtectedRoute);
+export default GsuiteProtectedRoute;
