@@ -27,12 +27,8 @@ import CustomForm from "./views/Message/CustomForm";
  * <Form /> has built in authentication verification, results in 2 api calls to the same endpoint
  */
 function App() {
-  const {
-    isLoading,
-    isAuthenticated,
-    getAccessTokenSilently,
-    user,
-  } = useAuth0();
+  const { isLoading, isAuthenticated, getAccessTokenSilently, user } =
+    useAuth0();
   const [token, setToken] = useRecoilState(jwt);
 
   useEffect(() => {
@@ -89,7 +85,7 @@ function App() {
             }
             exact
           />
-          <GsuiteProtectedRoute path="/gsuite" Component={Welcome} exact />
+          <GsuiteProtectedRoute path="/gsuite" Component={<Welcome />} exact />
           <Route path="/logout" component={Logout} exact />
           <Route path="/*" component={Message404} />
         </Switch>
