@@ -1,18 +1,17 @@
-// Deprecated
-// TODO: Need to replicate function in lines 19-30
+//TODO: fix memory leak in effect
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { jwt, auth } from "../../api/state";
+import { jwt_gsuite, auth_gsuite } from "../../api/state";
 import { getCookie } from "../../acmApi/cookieManager";
 
 interface props {
   idp: string;
 }
 
-const Authorize = ({ idp }: props) => {
-  const [Jwt, setJwt] = useRecoilState(jwt);
-  const auth_status = useRecoilValue(auth);
+const Authorize = () => {
+  const [Jwt, setJwt] = useRecoilState(jwt_gsuite);
+  const auth_status = useRecoilValue(auth_gsuite);
   const [wait, setWait] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
@@ -24,11 +23,11 @@ const Authorize = ({ idp }: props) => {
   });
 
   useEffect(() => {
-    if (auth_status.is_verified && auth_status.idp === idp) {
+    if (auth_status.is_verified) {
       window.location.href = "/";
     }
     // window.location.reload();
-  }, [auth_status, idp]);
+  }, [auth_status]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,7 +54,7 @@ const Authorize = ({ idp }: props) => {
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
-        <h1 className="text">Authorization in Progress... {idp} </h1>
+        <h1 className="text">Authorization in Progress... </h1>
         {wait ? (
           <button className="retry-button" onClick={() => reload()}>
             Reauthenticate
