@@ -1,10 +1,10 @@
 import * as jwt from "jsonwebtoken";
 import axios from "axios";
 import * as Sentry from "@sentry/react";
-import { decoded_jwt, auth_status_gsuite } from "../../config/interface";
+import { decoded_jwt, auth_status } from "../../config/interface";
+import { getCookie } from "../../acmApi/cookieManager";
 
-const verify_gsuite = async (authToken: string): Promise<auth_status_gsuite> => {
-
+const verify_gsuite = async (authToken: string): Promise<auth_status> => {
   if (authToken === undefined || authToken === "") {
     return {
       jwt: authToken,
@@ -16,7 +16,7 @@ const verify_gsuite = async (authToken: string): Promise<auth_status_gsuite> => 
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
-  const user_email = decodedToken["https://acmutd.co/email"];
+  const user_email = decodedToken["email"];
   Sentry.setUser({
     id: decodedToken.sub,
     email: user_email,
@@ -29,7 +29,7 @@ const verify_gsuite = async (authToken: string): Promise<auth_status_gsuite> => 
       Authorization: `Bearer ${authToken}`,
     },
   };
-  const auth: auth_status_gsuite = await axios
+  const auth: auth_status = await axios
     .get(
       (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
         "/" +
