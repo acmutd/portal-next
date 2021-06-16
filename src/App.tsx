@@ -17,6 +17,7 @@ import GsuiteProtectedRoute from "./components/Actions/GsuiteRoute";
 import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
+import Authorize from "./components/Actions/Authorize";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -85,7 +86,12 @@ function App() {
             }
             exact
           />
-          <GsuiteProtectedRoute path="/gsuite" Component={<Welcome />} exact />
+          <Route path="/gsuite" Component={<Authorize />} />
+          // An example route
+          <GsuiteProtectedRoute
+            path="/gprotectedroute"
+            Component={<Welcome />}
+          />
           <Route path="/logout" component={Logout} exact />
           <Route path="/*" component={Message404} />
         </Switch>
