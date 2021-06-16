@@ -86,7 +86,7 @@ function App() {
             }
             exact
           />
-          <Route path="/gsuite" Component={<Authorize />} />
+          <Route path="/gsuite" component={Authorize} />
           // An example route
           <GsuiteProtectedRoute
             path="/gprotectedroute"
