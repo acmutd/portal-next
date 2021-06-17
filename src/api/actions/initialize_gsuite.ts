@@ -33,7 +33,7 @@ const verify_gsuite = async (authToken: string): Promise<auth_status> => {
       (process.env.REACT_APP_CLOUD_FUNCTION_URL as string) +
         "/" +
         decoded_idp +
-        "/verify-idp",
+        "/verify-jwt",
       config
     )
     .then((res) => {
