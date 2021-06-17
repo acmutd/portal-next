@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
@@ -7,6 +7,7 @@ import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import DiscordPane from "./Discord";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
@@ -23,6 +24,26 @@ const Profile = () => {
       history.push("/newprofile");
     }
   }, [isLoading, isAuthenticated, user_profile, history]);
+
+  const discPane =
+    user_profile.profile?.discord_verified || false ? (
+      <Fragment>
+        <h1 style={{ color: "white", marginBottom: 20 }}>
+          Your Discord Profile:
+        </h1>
+        <p>
+          <strong>Discord ID:</strong> {user_profile.profile?.snowflake}
+        </p>
+        <p>
+          <strong>Username:</strong>{" "}
+          {user_profile.profile?.username +
+            "#" +
+            user_profile.profile?.discriminator}
+        </p>
+      </Fragment>
+    ) : (
+      <DiscordPane />
+    );
 
   return (
     <Layout>
@@ -150,6 +171,9 @@ const Profile = () => {
               text="Update Profile Information"
               redirectURL="/newprofile"
             />
+          </TabPane>
+          <TabPane tab="Discord" key={5}>
+            {discPane}
           </TabPane>
         </Tabs>
       </Content>
