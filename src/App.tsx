@@ -6,6 +6,7 @@ import Profile from "./views/Profile/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
+import GenericMessage from "./views/Message/GenericMessage";
 import { media, pro, developer, tip } from "./config/typeform_config";
 import Logout from "./components/Actions/Logout";
 import CalendarPage from "./views/Calendar/Calendar";
@@ -87,10 +88,9 @@ function App() {
             exact
           />
           <Route path="/gsuite" component={Authorize} />
-          // An example route
           <GsuiteProtectedRoute
-            path="/gprotectedroute"
-            Component={<Welcome />}
+            path="/tothemoon"
+            Component={<GenericMessage title="Yay gsuite auth works! 🚀" />}
           />
           <Route path="/logout" component={Logout} exact />
           <Route path="/*" component={Message404} />
