@@ -58,10 +58,6 @@ const Authorize = () => {
     }
   }, [auth_status, history, Jwt.token, setJwt]);
 
-  const reload = () => {
-    window.location.reload();
-  };
-
   return (
     <AuthorizeComponent>
       <div className="container">
