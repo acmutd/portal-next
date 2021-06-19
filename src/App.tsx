@@ -6,7 +6,6 @@ import Profile from "./views/Profile/Profile";
 import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
-import GenericMessage from "./views/Message/GenericMessage";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
 import { pro } from "./config/typeform_config";
 import CalendarPage from "./views/Calendar/Calendar";
