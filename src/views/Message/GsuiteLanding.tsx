@@ -16,7 +16,7 @@ const GsuiteLanding = (props: message) => {
   const auth_status = useRecoilValue(auth_gsuite);
   const email =
     auth_status.decoded_jwt === undefined
-      ? ""
+      ? undefined
       : auth_status.decoded_jwt["email"];
 
   return (
