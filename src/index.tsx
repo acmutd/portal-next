@@ -46,6 +46,7 @@ ReactDOM.render(
       }
       audience={config.audience}
       scope={"read:current_user update:current_user_metadata"}
+      useRefreshTokens={true}
     >
       <Sentry.ErrorBoundary fallback={<Error />}>
         <React.Suspense fallback={<Loading />}>

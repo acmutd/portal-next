@@ -46,6 +46,10 @@ export interface core_profile {
   classification: string;
   past_applications?: past_entry[];
   past_events?: past_entry[];
+  discord_verified?: boolean;
+  username?: string;
+  discriminator?: string;
+  snowflake?: string;
 }
 
 export interface profile {
