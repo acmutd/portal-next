@@ -1,4 +1,4 @@
-import { Steps, Button, message } from "antd";
+import { Steps, Button, message, Alert } from "antd";
 import React, { Fragment, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Button2 from "../../components/OrangeButton/OrangeButton";
@@ -18,8 +18,9 @@ const DiscordPane = () => {
   const [step2Complete, setStep2Complete] = useState(false);
   const [access_token, setAccessToken] = useState("");
   const [successVerification, setSuccessVerification] = useState(false);
-  const [discordProfile, setDiscordProfile] =
-    useState<discord_profile | undefined>(undefined);
+  const [discordProfile, setDiscordProfile] = useState<
+    discord_profile | undefined
+  >(undefined);
   const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
   const next = () => {
@@ -152,14 +153,17 @@ const DiscordPane = () => {
       content: (
         <Fragment>
           <p>
-            Thank you for linking your discord account with the ACM Portal. You'll
-            now be eligible to receive additional benefits.
+            Thank you for linking your discord account with the ACM Portal.
+            You'll now be eligible to receive additional benefits.
           </p>
           <p>
             You'll also find that you now that have a verified role on discord
             to confirm that the linking was successful.
           </p>
-          <p>You can refresh this page to review your linked discord profile information</p>
+          <p>
+            You can refresh this page to review your linked discord profile
+            information
+          </p>
         </Fragment>
       ),
     },
@@ -167,6 +171,14 @@ const DiscordPane = () => {
 
   return (
     <Fragment>
+      <Alert
+        message="Warning"
+        description="Hello, this feature is still in development, you're welcome to try it out but be warned that it may switch you out of your current account depending on your email."
+        type="warning"
+        showIcon
+        closable
+      />
+      <br></br>
       <Steps current={current}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />

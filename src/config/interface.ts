@@ -26,7 +26,6 @@ export interface decoded_jwt {
 export interface auth_status {
   jwt: string;
   decoded_jwt?: decoded_jwt;
-  idp?: string; // Auth0 or GSuite
   is_verified: boolean;
 }
 

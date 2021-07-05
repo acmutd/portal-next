@@ -3,8 +3,7 @@ import axios from "axios";
 import * as Sentry from "@sentry/react";
 import { decoded_jwt, auth_status } from "../../config/interface";
 
-const verify = async (authToken: string): Promise<auth_status> => {
-
+const verify_gsuite = async (authToken: string): Promise<auth_status> => {
   if (authToken === undefined || authToken === "") {
     return {
       jwt: authToken,
@@ -16,13 +15,13 @@ const verify = async (authToken: string): Promise<auth_status> => {
   const decodedToken: decoded_jwt = (jwt.decode(authToken, {
     complete: true,
   }) as any).payload;
-  const user_email = decodedToken["https://acmutd.co/email"];
+  const user_email = decodedToken["email"];
   Sentry.setUser({
     id: decodedToken.sub,
     email: user_email,
   });
 
-  const decoded_idp = "auth0";
+  const decoded_idp = "gsuite";
 
   const config = {
     headers: {
@@ -41,7 +40,6 @@ const verify = async (authToken: string): Promise<auth_status> => {
       return {
         jwt: authToken,
         decoded_jwt: decodedToken,
-        idp: res.data.idp,
         is_verified: true,
       };
     })
@@ -57,4 +55,4 @@ const verify = async (authToken: string): Promise<auth_status> => {
   return auth;
 };
 
-export default verify;
+export default verify_gsuite;
