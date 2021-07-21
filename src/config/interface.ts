@@ -26,7 +26,6 @@ export interface decoded_jwt {
 export interface auth_status {
   jwt: string;
   decoded_jwt?: decoded_jwt;
-  idp?: string; // Auth0 or GSuite
   is_verified: boolean;
 }
 
@@ -47,10 +46,30 @@ export interface core_profile {
   classification: string;
   past_applications?: past_entry[];
   past_events?: past_entry[];
+  discord_verified?: boolean;
+  username?: string;
+  discriminator?: string;
+  snowflake?: string;
 }
 
 export interface profile {
   exists: boolean;
   isLoading: boolean;
   profile?: core_profile;
+}
+
+export interface application {
+  typeform_id: string;
+  typeform_name: string;
+  description: string;
+  endpoint: string;
+  external_link: string;
+  active: boolean;
+  path_name: string;
+}
+
+export interface application_set {
+  applications?: application[];
+  total?: number;
+  isLoading: boolean;
 }

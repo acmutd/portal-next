@@ -1,3 +1,4 @@
+// Not in use, bug for future issue
 import React, { useEffect } from "react";
 import { Route, withRouter, useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";

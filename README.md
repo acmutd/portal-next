@@ -7,13 +7,7 @@ Official front-end for the _ACM_ website & portal.
 ### Quick Start
 
  - Create `.env` file for Auth0 configuration, request ACM Development for domain and client ID. 
- - Run `npm start`
-
-### Extended Start Guide
-
-###### Mobile vs Web Development
-
-`App.tsx` splits what gets rendered into two separate views through `react-device-react`. Content stored in `/src/mobileviews` should contain views for smaller viewports wheras content in `/src/views` should contain full screen views. In situations where it is not necessary to create two separate views, save it in `/src/views` and duplicate the content in `App.tsx` so that it gets rendered in all situations. 
+ - Run `npm run dev`
 
 ###### Auth0 & Authentication
 

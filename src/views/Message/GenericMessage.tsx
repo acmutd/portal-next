@@ -30,14 +30,16 @@ const GenericMessage = (props: message) => {
             width={"10%"}
           />
         ) : (
-          <h4 className="text">{props.desc}</h4>
-        )}
-        {props.buttonText && (
-          <Button
-            text={props.buttonText}
-            onClick={props.buttonAction}
-            redirectURL={props.buttonURL}
-          />
+          <div className="column">
+            <h4 className="text">{props.desc}</h4>
+            {props.buttonText && (
+              <Button
+                text={props.buttonText}
+                onClick={props.buttonAction}
+                redirectURL={props.buttonURL}
+              />
+            )}
+          </div>
         )}
       </div>
     </MessageComponent>
@@ -60,6 +62,11 @@ const MessageComponent = styled.div`
     color: white;
     margin: 30px;
     font-family: ;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

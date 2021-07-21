@@ -1,49 +1,62 @@
-import React, { useEffect, useState } from "react";
+//TODO: fix memory leak in effect
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { jwt, auth } from "../../api/state";
+import { jwt_gsuite, auth_gsuite } from "../../api/state";
 import { getCookie } from "../../acmApi/cookieManager";
+import { useHistory } from "react-router-dom";
 
 interface props {
   idp: string;
 }
 
-const Authorize = ({ idp }: props) => {
-  const [Jwt, setJwt] = useRecoilState(jwt);
-  const auth_status = useRecoilValue(auth);
-  const [wait, setWait] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+const Authorize = () => {
+  const [Jwt, setJwt] = useRecoilState(jwt_gsuite);
+  const auth_status = useRecoilValue(auth_gsuite);
+  //const [wait, setWait] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    if (Jwt.token === getCookie("CF_Authorization")) {
-      return;
+    // Case 1: user has no cf cookie and is not verified
+    //            trigger cf to get cookie, go to case 2
+    // Case 2: user has cf cookie and is not verified
+    //            copy cookie to jwt_gsuite, verify, go to case 3
+    // Case 3: user has cf cookie and is verified
+    //            take user back to where they were going.
+    // Case 4: user has no cf cookie and is verified
+    //            copy case 1
+    // Jwt.token === "" when initialized, Jwt.token === undefined when not initialized
+    if (auth_status.is_verified) {
+      // Case 3
+      console.log("case 3");
+      // If user is verified, take user back to where they were going
+      let userPath = sessionStorage.getItem("og-path");
+      userPath = userPath === null ? "/" : userPath;
+      history.push(userPath);
+    } else {
+      // If auth_status is not verified
+      if (getCookie("CF_Authorization") === undefined) {
+        console.log("case 1 & 4");
+        // Case 1 & 4, CF cookie is missing
+        // Refresh screen to trigger CF Access to get cookie
+        console.log("Trigger cloudflare");
+        window.location.reload();
+        // setTimeout(() => {
+        //   setWait(true);
+        //   console.log("Trigger cloudflare");
+        //   window.location.reload();
+        // }, 10000);
+        // Go to case 2
+      } else if (getCookie("CF_Authorization") !== undefined) {
+        // Case 2, cookie present
+        console.log("case 2");
+        setJwt({ token: getCookie("CF_Authorization") as string, isSet: true });
+      } else {
+        console.log("return");
+        return;
+      }
     }
-    setJwt({ token: getCookie("CF_Authorization") as string, isSet: true });
-  });
-
-  useEffect(() => {
-    if (auth_status.is_verified && auth_status.idp === idp) {
-      window.location.href = "/";
-    }
-    // window.location.reload();
-  }, [auth_status, idp]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setWait(true);
-      window.location.reload();
-    }, 2000);
-  });
-
-  useEffect(() => {
-    if (!refresh) {
-      setRefresh(true);
-    }
-  }, [refresh]);
-
-  const reload = () => {
-    window.location.reload();
-  };
+  }, [auth_status, history, Jwt.token, setJwt]);
 
   return (
     <AuthorizeComponent>
@@ -53,14 +66,14 @@ const Authorize = ({ idp }: props) => {
           src="https://www.acmutd.co/brand/General/Assets/Logos/favicon.png"
           alt="ACM Logo"
         />
-        <h1 className="text">Authorization in Progress... {idp} </h1>
-        {wait ? (
+        <h1 className="text">Authorization in Progress... </h1>
+        {/*wait ? (
           <button className="retry-button" onClick={() => reload()}>
             Reauthenticate
           </button>
         ) : (
           <div></div>
-        )}
+        )*/}
       </div>
     </AuthorizeComponent>
   );

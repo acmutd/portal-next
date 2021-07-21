@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Tabs, Layout } from "antd";
 import Navbar from "../../components/Navbar/DarkNavbar";
 import "./Profile.css";
@@ -7,6 +7,7 @@ import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import DiscordPane from "./Discord";
 const { Content } = Layout;
 const { TabPane } = Tabs;
 
@@ -24,6 +25,26 @@ const Profile = () => {
     }
   }, [isLoading, isAuthenticated, user_profile, history]);
 
+  const discPane =
+    user_profile.profile?.discord_verified || false ? (
+      <Fragment>
+        <h1 style={{ color: "white", marginBottom: 20 }}>
+          Your Discord Profile:
+        </h1>
+        <p>
+          <strong>Discord ID:</strong> {user_profile.profile?.snowflake}
+        </p>
+        <p>
+          <strong>Username:</strong>{" "}
+          {user_profile.profile?.username +
+            "#" +
+            user_profile.profile?.discriminator}
+        </p>
+      </Fragment>
+    ) : (
+      <DiscordPane />
+    );
+
   return (
     <Layout>
       <Navbar selectedPage="profile" />
@@ -33,8 +54,8 @@ const Profile = () => {
             <h1 style={{ color: "white", marginBottom: 20 }}>Event History:</h1>
             {user_profile.profile?.past_events ? (
               user_profile.profile.past_events
-                .map((event) => (
-                  <div className="border sepFlexBox">
+                .map((event, index) => (
+                  <div className="border sepFlexBox" key={index}>
                     <h2 style={{ color: "white" }}>{event.name}</h2>
                     <h2 style={{ color: "white" }}>
                       |&nbsp;&nbsp;&nbsp;
@@ -55,8 +76,8 @@ const Profile = () => {
             </p>
             {user_profile.profile?.past_applications ? (
               user_profile.profile.past_applications
-                .map((app) => (
-                  <div className="border sepFlexBox">
+                .map((app, index) => (
+                  <div className="border sepFlexBox" key={index}>
                     <h2 style={{ color: "white" }}>{app.name}</h2>
                     <h2 style={{ color: "white" }}>
                       |&nbsp;&nbsp;&nbsp;
@@ -150,6 +171,9 @@ const Profile = () => {
               text="Update Profile Information"
               redirectURL="/newprofile"
             />
+          </TabPane>
+          <TabPane tab="Discord" key={5}>
+            {discPane}
           </TabPane>
         </Tabs>
       </Content>
