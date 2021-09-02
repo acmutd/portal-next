@@ -7,7 +7,7 @@ import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
-import { pro } from "./config/typeform_config";
+import { pro, vanity, email, event, form } from "./config/typeform_config";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
@@ -18,6 +18,7 @@ import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
 import Authorize from "./components/Actions/Authorize";
+import ProfileInjectedTypeform from "./views/ProfileInjectedTypeform";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -71,6 +72,22 @@ function App() {
           <GsuiteProtectedRoute
             path="/tothemoon"
             Component={<GsuiteLanding title="Yay gsuite auth works! 🚀" />}
+          />
+          <GsuiteProtectedRoute
+            path="/vanity"
+            Component={<ProfileInjectedTypeform typeform_id={vanity} />}
+          />
+          <GsuiteProtectedRoute
+            path="/event"
+            Component={<ProfileInjectedTypeform typeform_id={event} />}
+          />
+          <GsuiteProtectedRoute
+            path="/email"
+            Component={<ProfileInjectedTypeform typeform_id={email} />}
+          />
+          <GsuiteProtectedRoute
+            path="/form"
+            Component={<ProfileInjectedTypeform typeform_id={form} />}
           />
           <Route path="/*" component={Message404} />
         </Switch>
