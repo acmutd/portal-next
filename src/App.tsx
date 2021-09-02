@@ -7,7 +7,15 @@ import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
-import { pro, vanity, email, event, form } from "./config/typeform_config";
+import {
+  pro,
+  vanity,
+  email,
+  event,
+  form,
+  mentor,
+  mentee,
+} from "./config/typeform_config";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
@@ -19,6 +27,7 @@ import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
 import Authorize from "./components/Actions/Authorize";
 import ProfileInjectedTypeform from "./views/ProfileInjectedTypeform";
+import Typeform from "./components/Typeform/typeform";
 
 /**
  * Note: Use Component with Capital C when using a protected route
@@ -88,6 +97,24 @@ function App() {
           <GsuiteProtectedRoute
             path="/form"
             Component={<ProfileInjectedTypeform typeform_id={form} />}
+          />
+          <AuthRoute
+            path="/mentor"
+            Component={
+              <Typeform
+                tfLink={"https://acmutd.typeform.com/to/" + mentor}
+                style={{ height: "100vh" }}
+              />
+            }
+          />
+          <AuthRoute
+            path="/mentee"
+            Component={
+              <Typeform
+                tfLink={"https://acmutd.typeform.com/to/" + mentee}
+                style={{ height: "100vh" }}
+              />
+            }
           />
           <Route path="/*" component={Message404} />
         </Switch>
