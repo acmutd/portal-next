@@ -7,7 +7,7 @@ import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
-import { pro, vanity, email, event } from "./config/typeform_config";
+import { pro, vanity, email, event, form } from "./config/typeform_config";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
@@ -84,6 +84,10 @@ function App() {
           <GsuiteProtectedRoute
             path="/email"
             Component={<ProfileInjectedTypeform typeform_id={email} />}
+          />
+          <GsuiteProtectedRoute
+            path="/form"
+            Component={<ProfileInjectedTypeform typeform_id={form} />}
           />
           <Route path="/*" component={Message404} />
         </Switch>
