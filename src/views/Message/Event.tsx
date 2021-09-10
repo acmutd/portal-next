@@ -6,19 +6,10 @@ import { useRecoilState } from "recoil";
 import axios from "axios";
 
 const EventPage = () => {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useRecoilState(jwt);
+  const { getAccessTokenSilently } = useAuth0();
+  const [token] = useRecoilState(jwt);
   const [apiComplete, setApiComplete] = useState(false);
   const [event, setEvent] = useState("");
-
-  useEffect(() => {
-    const fn = async () => {
-      if (isAuthenticated && !token.isSet) {
-        setToken({ token: await getAccessTokenSilently(), isSet: true });
-      }
-    };
-    fn();
-  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   useEffect(() => {
     const fn = async () => {
@@ -38,7 +29,7 @@ const EventPage = () => {
       setEvent(result.data.event_name);
     };
     fn();
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, token]);
 
   return (
     <Message

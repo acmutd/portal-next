@@ -2,9 +2,25 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { jwt } from "../../api/state";
+import { useRecoilState } from "recoil";
 
 const Auth0Authorize = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const [token, setToken] = useRecoilState(jwt);
+  const {
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    getAccessTokenSilently,
+  } = useAuth0();
+
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated && !token.isSet) {
+        setToken({ token: await getAccessTokenSilently(), isSet: true });
+      }
+    })();
+  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   useEffect(() => {
     if (isLoading || isAuthenticated) {

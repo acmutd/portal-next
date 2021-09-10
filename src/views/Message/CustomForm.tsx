@@ -11,20 +11,11 @@ import { application as application_interface } from "../../config/interface";
 
 const CustomForm = () => {
   const [typeformID, setTypeformID] = useState("NxomQTLD");
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useRecoilState(jwt);
+  const { isLoading, isAuthenticated } = useAuth0();
+  const [token] = useRecoilState(jwt);
   const history = useHistory();
   const user_profile = useRecoilValue(profile);
   const apps = useRecoilValue(application);
-
-  useEffect(() => {
-    const fn = async () => {
-      if (isAuthenticated && !token.isSet) {
-        setToken({ token: await getAccessTokenSilently(), isSet: true });
-      }
-    };
-    fn();
-  }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   useEffect(() => {
     if (isLoading || user_profile.exists || user_profile.isLoading) {
