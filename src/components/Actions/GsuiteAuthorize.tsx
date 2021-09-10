@@ -1,19 +1,13 @@
-//TODO: fix memory leak in effect
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { jwt_gsuite, auth_gsuite } from "../../api/state";
 import { getCookie } from "../../acmApi/cookieManager";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
-interface props {
-  idp: string;
-}
-
-const Authorize = () => {
+const GsuiteAuthorize = () => {
   const [Jwt, setJwt] = useRecoilState(jwt_gsuite);
   const auth_status = useRecoilValue(auth_gsuite);
-  //const [wait, setWait] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -30,9 +24,10 @@ const Authorize = () => {
       // Case 3
       console.log("case 3");
       // If user is verified, take user back to where they were going
-      let userPath = sessionStorage.getItem("og-path");
-      userPath = userPath === null ? "/" : userPath;
-      history.push(userPath);
+      // let userPath = sessionStorage.getItem("og-path");
+      // userPath = userPath === null ? "/" : userPath;
+      // history.push(userPath);
+      return;
     } else {
       // If auth_status is not verified
       if (getCookie("CF_Authorization") === undefined) {
@@ -58,6 +53,11 @@ const Authorize = () => {
     }
   }, [auth_status, history, Jwt.token, setJwt]);
 
+  if (auth_status.is_verified) {
+    let userPath = sessionStorage.getItem("og-path");
+    userPath = userPath === null ? "/" : userPath;
+    return <Redirect to={userPath} />; // use Redirect in place of history.push() to keep from updating during existing state transition
+  }
   return (
     <AuthorizeComponent>
       <div className="container">
@@ -67,13 +67,6 @@ const Authorize = () => {
           alt="ACM Logo"
         />
         <h1 className="text">Authorization in Progress... </h1>
-        {/*wait ? (
-          <button className="retry-button" onClick={() => reload()}>
-            Reauthenticate
-          </button>
-        ) : (
-          <div></div>
-        )*/}
       </div>
     </AuthorizeComponent>
   );
@@ -113,4 +106,4 @@ const AuthorizeComponent = styled.div`
   }
 `;
 
-export default Authorize;
+export default GsuiteAuthorize;
