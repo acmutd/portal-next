@@ -6,7 +6,7 @@ const Auth0ProtectedRoute = ({ Component, path, ...rest }: any) => {
   const { isAuthenticated } = useAuth0();
 
   //Save user location for redirect in Authorize
-  sessionStorage.setItem("og-path", path);
+  sessionStorage.setItem("og-path", window.location.pathname);
 
   const render = () => {
     return isAuthenticated === true ? (
