@@ -88,8 +88,8 @@ function App() {
           <Auth0ProtectedRoute path="/checkin" Component={<EventPage />} />
           <Auth0ProtectedRoute path="/forms" Component={<CustomForm />} />
           <Auth0ProtectedRoute
-            path="/tomars"
-            Component={<GenericMessage title="We made it! 🚀" />}
+            path="/tobor"
+            Component={<GenericMessage title="🤖" />}
           />
           <Route path="/gsuite" component={GsuiteAuthorize} />
           <GsuiteProtectedRoute
