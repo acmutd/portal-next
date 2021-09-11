@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwt } from "../../api/state";
-import { useRecoilState } from "recoil";
 import { profile, application } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
@@ -12,7 +11,7 @@ import { application as application_interface } from "../../config/interface";
 const CustomForm = () => {
   const [typeformID, setTypeformID] = useState("NxomQTLD");
   const { isLoading, isAuthenticated } = useAuth0();
-  const [token] = useRecoilState(jwt);
+  const token = useRecoilValue(jwt);
   const history = useHistory();
   const user_profile = useRecoilValue(profile);
   const apps = useRecoilValue(application);
