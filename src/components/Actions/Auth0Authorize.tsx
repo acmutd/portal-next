@@ -15,11 +15,12 @@ const Auth0Authorize = () => {
   } = useAuth0();
 
   useEffect(() => {
-    (async () => {
+    const fn = async () => {
       if (isAuthenticated && !token.isSet) {
         setToken({ token: await getAccessTokenSilently(), isSet: true });
       }
-    })();
+    };
+    fn(); // Need an inner function to use await since useEffect isn't an async function
   }, [isLoading, isAuthenticated, token, setToken, getAccessTokenSilently]);
 
   useEffect(() => {
@@ -27,11 +28,12 @@ const Auth0Authorize = () => {
       return;
     }
 
-    (async (): Promise<void> => {
+    const fn = async (): Promise<void> => {
       await loginWithRedirect({
         redirectUri: `${window.location.origin}/authorize`,
       });
-    })();
+    };
+    fn(); // Need an inner function to use await since useEffect isn't an async function
   }, [isLoading, isAuthenticated, loginWithRedirect]);
 
   if (isAuthenticated) {
