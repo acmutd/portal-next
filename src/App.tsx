@@ -7,6 +7,7 @@ import "./App.css";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
+import GenericMessage from "./views/Message/GenericMessage";
 import {
   pro,
   vanity,
@@ -20,15 +21,15 @@ import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import AuthRoute from "./components/Actions/AuthRoute";
 import GsuiteProtectedRoute from "./components/Actions/GsuiteRoute";
 import { jwt } from "./api/state";
 import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
-import Authorize from "./components/Actions/Authorize";
+import GsuiteAuthorize from "./components/Actions/GsuiteAuthorize";
 import ProfileInjectedTypeform from "./views/ProfileInjectedTypeform";
 import Typeform from "./components/Typeform/typeform";
-
+import Auth0ProtectedRoute from "./components/Actions/Auth0Route";
+import Auth0Authorize from "./components/Actions/Auth0Authorize";
 /**
  * Note: Use Component with Capital C when using a protected route
  * AuthRoute = protected by Auth0
@@ -65,19 +66,32 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" component={Welcome} exact />
-          <AuthRoute
+          <Route path="/authorize" component={Auth0Authorize} />
+          <Auth0ProtectedRoute
             path="/newprofile"
             Component={
               <Form typeform_id={pro} endpoint="/auth0/create-blank-profile" />
             }
             exact
           />
-          <AuthRoute path="/calendar" Component={<CalendarPage />} exact />
-          <AuthRoute path="/profile" Component={<Profile />} exact />
-          <AuthRoute path="/applications" Component={<Applications />} exact />
-          <AuthRoute path="/checkin" Component={<EventPage />} />
-          <AuthRoute path="/forms" Component={<CustomForm />} />
-          <Route path="/gsuite" component={Authorize} />
+          <Auth0ProtectedRoute
+            path="/calendar"
+            Component={<CalendarPage />}
+            exact
+          />
+          <Auth0ProtectedRoute path="/profile" Component={<Profile />} exact />
+          <Auth0ProtectedRoute
+            path="/applications"
+            Component={<Applications />}
+            exact
+          />
+          <Auth0ProtectedRoute path="/checkin" Component={<EventPage />} />
+          <Auth0ProtectedRoute path="/forms" Component={<CustomForm />} />
+          <Auth0ProtectedRoute
+            path="/tobor"
+            Component={<GenericMessage title="🤖" />}
+          />
+          <Route path="/gsuite" component={GsuiteAuthorize} />
           <GsuiteProtectedRoute
             path="/tothemoon"
             Component={<GsuiteLanding title="Yay gsuite auth works! 🚀" />}
@@ -98,7 +112,7 @@ function App() {
             path="/form"
             Component={<ProfileInjectedTypeform typeform_id={form} />}
           />
-          <AuthRoute
+          <Auth0ProtectedRoute
             path="/mentor"
             Component={
               <Typeform
@@ -107,7 +121,7 @@ function App() {
               />
             }
           />
-          <AuthRoute
+          <Auth0ProtectedRoute
             path="/mentee"
             Component={
               <Typeform
