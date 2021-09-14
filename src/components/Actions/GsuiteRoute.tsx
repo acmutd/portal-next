@@ -6,7 +6,7 @@ import { Route, Redirect } from "react-router-dom";
 const GsuiteProtectedRoute = ({ Component, path, ...rest }: any) => {
   const auth_status = useRecoilValue(auth_gsuite);
   //Save user location for redirect in Authorize
-  sessionStorage.setItem("og-path", path);
+  sessionStorage.setItem("og-path", window.location.pathname);
 
   const render = () => {
     return auth_status.is_verified === true ? (
