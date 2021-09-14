@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import axios from "axios";
 
 const EventPage = () => {
-  const token = useRecoilValue(jwt);
+  const token = useRecoilValue(jwt).token;
   const [apiComplete, setApiComplete] = useState(false);
   const [event, setEvent] = useState("");
 
