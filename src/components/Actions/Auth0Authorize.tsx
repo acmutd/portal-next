@@ -36,7 +36,7 @@ const Auth0Authorize = () => {
     fn(); // Need an inner function to use await since useEffect isn't an async function
   }, [isLoading, isAuthenticated, loginWithRedirect]);
 
-  if (isAuthenticated) {
+  if (isAuthenticated && token.isSet) {
     let userPath = sessionStorage.getItem("og-path");
     userPath = userPath === null ? "/" : userPath;
     return <Redirect to={userPath} />; // use Redirect in place of history.push() to keep from updating during existing state transition
