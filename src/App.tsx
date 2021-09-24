@@ -8,15 +8,7 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Welcome from "./views/Message/Welcome";
 import GsuiteLanding from "./views/Message/GsuiteLanding";
 import GenericMessage from "./views/Message/GenericMessage";
-import {
-  pro,
-  vanity,
-  email,
-  event,
-  form,
-  mentor,
-  mentee,
-} from "./config/typeform_config";
+import { pro, vanity, email, event, form } from "./config/typeform_config";
 import CalendarPage from "./views/Calendar/Calendar";
 import EventPage from "./views/Message/Event";
 import * as Sentry from "@sentry/react";
@@ -27,7 +19,6 @@ import { useRecoilState } from "recoil";
 import CustomForm from "./views/Message/CustomForm";
 import GsuiteAuthorize from "./components/Actions/GsuiteAuthorize";
 import ProfileInjectedTypeform from "./views/ProfileInjectedTypeform";
-import Typeform from "./components/Typeform/typeform";
 import Auth0ProtectedRoute from "./components/Actions/Auth0Route";
 import Auth0Authorize from "./components/Actions/Auth0Authorize";
 /**
@@ -111,24 +102,6 @@ function App() {
           <GsuiteProtectedRoute
             path="/form"
             Component={<ProfileInjectedTypeform typeform_id={form} />}
-          />
-          <Auth0ProtectedRoute
-            path="/mentor"
-            Component={
-              <Typeform
-                tfLink={"https://acmutd.typeform.com/to/" + mentor}
-                style={{ height: "100vh" }}
-              />
-            }
-          />
-          <Auth0ProtectedRoute
-            path="/mentee"
-            Component={
-              <Typeform
-                tfLink={"https://acmutd.typeform.com/to/" + mentee}
-                style={{ height: "100vh" }}
-              />
-            }
           />
           <Route path="/*" component={Message404} />
         </Switch>
