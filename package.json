@@ -28,7 +28,7 @@
     "start": "serve -s build",
     "dev": "doppler run -- react-scripts start",
     "dev2": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild": "react-scripts build"
