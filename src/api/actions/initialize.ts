@@ -1,8 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import axios from "axios";
 import * as Sentry from "@sentry/react";
-import { initializeApp } from 'firebase/app';
-import { getStorage } from 'firebase/storage';
 import { decoded_jwt, auth_status } from "../../config/interface";
 
 const verify = async (authToken: string): Promise<auth_status> => {
@@ -58,12 +56,5 @@ const verify = async (authToken: string): Promise<auth_status> => {
     });
   return auth;
 };
-
-export const firebaseApp = initializeApp({
-  apiKey: process.env.REACT_APP_GCP_APIKEY,
-  storageBucket: process.env.REACT_APP_GCP_BUCKET_URL,
-});
-
-export const firebaseStorage = getStorage(firebaseApp);
 
 export default verify;

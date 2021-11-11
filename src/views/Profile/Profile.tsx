@@ -7,7 +7,7 @@ import { profile } from "../../api/state";
 import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { firebaseStorage as storage } from '../../api/actions/initialize';
+import { firebaseStorage as storage } from '../../api/firebase/config';
 import { ref, uploadBytes } from 'firebase/storage';
 // import DiscordPane from "./Discord";
 const { Content } = Layout;
@@ -32,8 +32,8 @@ const Profile = () => {
   const handleResumeUploadReady = () => {
     if (uploadRef.current.files.length !== 1 ||
       (!uploadRef.current.files[0].name.endsWith(".pdf") &&
-      !uploadRef.current.files[0].name.endsWith(".doc") &&
-      !uploadRef.current.files[0].name.endsWith(".docx"))) return alert("Please make sure you upload a single file ending in .pdf, doc, or docx");
+        !uploadRef.current.files[0].name.endsWith(".doc") &&
+        !uploadRef.current.files[0].name.endsWith(".docx"))) return alert("Please make sure you upload a single file ending in .pdf, doc, or docx");
     setUploadReady(true);
   };
   const handleResumeUpload = () => {
@@ -42,7 +42,7 @@ const Profile = () => {
     if (file.name.endsWith(".doc")) extension = "doc";
     else if (file.name.endsWith(".docx")) extension = "docx";
 
-    const resumeRef = ref(storage, `${process.env.REACT_APP_GCP_RESUME_PATH}/${user_profile.profile?.net_id}.${extension}`);
+    const resumeRef = ref(storage, `${process.env.REACT_APP_GCP_RESUME_PATH}/${user_profile.profile?.sub}.${extension}`);
     uploadBytes(resumeRef, uploadRef.current.files[0]).then((result) => alert("Upload succeeded...")).catch((err) => alert("Upload failed. Please try again later..."));
     setUploadReady(false);
   };
@@ -166,13 +166,13 @@ const Profile = () => {
             <div id="upload_container">
               <input id="resume_input" type="file" ref={uploadRef} onChange={handleResumeUploadReady} />
               {!uploadReady ?
-              <>
-                <label id="resume_input_label" htmlFor="resume_input">Upload Resume</label>
-              </> :
-              <Button
-                text="Confirm Upload"
-                onClick={handleResumeUpload}
-              />}
+                <>
+                  <label id="resume_input_label" htmlFor="resume_input">Upload Resume</label>
+                </> :
+                <Button
+                  text="Confirm Upload"
+                  onClick={handleResumeUpload}
+                />}
             </div>
           </TabPane>
           {/*<TabPane tab="Badges" key={3}>
