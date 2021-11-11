@@ -11,6 +11,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "antd": "^4.9.4",
     "axios": "^0.21.1",
+    "firebase": "^9.4.0",
     "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-device-detect": "^1.13.1",
@@ -26,6 +27,7 @@
   "scripts": {
     "start": "serve -s build",
     "dev": "doppler run -- react-scripts start",
+    "dev2": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
