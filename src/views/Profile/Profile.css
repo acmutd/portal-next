@@ -26,3 +26,22 @@
   display: flex;
   justify-content: space-between;
 }
+
+#upload_container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+#resume_input {
+  display: none;
+}
+#resume_input_label {
+  background-color: rgb(243, 126, 3);
+  border-radius: 9px;
+  padding: 10px 15px;
+  transition: background-color 0.2s;
+}
+#resume_input_label:hover {
+  background-color: rgb(247, 152, 52);
+  cursor: pointer;
+}
