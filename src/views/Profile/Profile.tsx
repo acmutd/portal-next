@@ -8,7 +8,7 @@ import { useRecoilValue } from "recoil";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { firebaseStorage as storage } from '../../api/firebase/config';
-import { ref, uploadBytes, getMetadata, list } from 'firebase/storage';
+import { ref, uploadBytes, list } from 'firebase/storage';
 // import DiscordPane from "./Discord";
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -26,7 +26,7 @@ const Profile = () => {
       const resumeRef = ref(storage, `${process.env.REACT_APP_GCP_RESUME_PATH}/${user_profile.profile?.sub}.pdf`);
       list(ref(storage, `${process.env.REACT_APP_GCP_RESUME_PATH}/`)).then((data) => {
         data.items.forEach((i) => {
-          if (i.name == resumeRef.name) setPreviousUpload(true);
+          if (i.name === resumeRef.name) setPreviousUpload(true);
         });
       });
       return;
