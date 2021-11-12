@@ -4,6 +4,7 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 12px 0px;
   margin: 0px 10px;
   padding: 6px 10px;
+  width: fit-content;
   min-height: 48px;
   background-color: rgb(243, 126, 3);
   color: rgb(255, 255, 255);
