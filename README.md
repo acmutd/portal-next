@@ -1,42 +1,34 @@
-# Association for Computing Machinery Portal
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-![Portal Automated Testing and Continuous Integration](https://github.com/acmutd/portal/workflows/ACM%20Portal%20Automated%20Testing%20and%20Continuous%20Integration/badge.svg)
+## Getting Started
 
-Official front-end for the _ACM_ website & portal.
+First, run the development server:
 
-### Quick Start
+```bash
+npm run dev
+# or
+yarn dev
+```
 
- - Create `.env` file for Auth0 configuration, request ACM Development for domain and client ID. 
- - Run `npm run dev`
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-###### Auth0 & Authentication
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-Refer to [ACM Development Authentication](https://github.com/acmutd/Auth-flow-template) for more information on using our authentication features. 
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-###### Connecting to backend
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-In progress.
-All communication with firebase should occur through the ACM Portal API. Refer to [ACM Portal Backend](https://github.com/acmutd/portal-backend) for more information on locally testing the backend. 
+## Learn More
 
+To learn more about Next.js, take a look at the following resources:
 
-### How to Contribute
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Join ACM Development
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-### Contributors
+## Deploy on Vercel
 
- - [Harsha Srikara](https://harshasrikara.com)
- - [David Richey](https://darichey.com)
- - [Aliah Shaira De Guzman]()
- - [Reshmi Ranjith]()
- - [Sivam Patel](https://github.com/sivampatel)
- - [Kendra Huang](https://github.com/kendra-huang)
- - [Jafar Ali](https://github.com/jafrilli)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-### Questions
-
-Sometimes you may have additional questions. If the answer was not found in this readme please feel free to reach out to the [Director of Development](mailto:development@acmutd.co) for _ACM_
-
-We request that you be as detailed as possible in your questions, doubts, or concerns to ensure that we can be of maximum assistance. Thank you!
-
-![ACM Development](https://www.acmutd.co/brand/Development/Banners/light_dark_background.png)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
