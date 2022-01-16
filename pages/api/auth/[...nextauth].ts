@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
-import ACMAdminProvider from "../../../lib/admin/ACMAdminProvider";
+import ACMAdminProvider from "../../../lib/providers/ACMAdminProvider";
 
 export default NextAuth({
   providers: [
