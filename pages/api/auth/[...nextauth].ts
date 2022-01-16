@@ -18,4 +18,5 @@ export default NextAuth({
       clientSecret: process.env.OAUTH_DISCORD_SECRET!,
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET!,
 });
