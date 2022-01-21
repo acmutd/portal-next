@@ -1,13 +1,13 @@
 {
-  "extends": ["next", "next/core-web-vitals", "prettier", "airbnb", "plugin:node/recommended"],
+  "extends": ["next", "next/core-web-vitals", "prettier", "airbnb", "airbnb-typescript"],
   "plugins": ["prettier"],
+  "ignorePatterns": ["*.config.js"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "rules": {
-    "prettier/prettier": "error",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "object-shorthand": "off",
-    "class-methods-use-this": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off"
   }
 }
