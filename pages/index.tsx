@@ -17,7 +17,7 @@ const Home: NextPage = () => {
         >
           Sign out
         </button>
-        <Link href="/api/auth/signin">
+        <Link href="/auth/signin">
           <button className="p-3 rounded-lg bg-green-400">
             Add another account
           </button>
