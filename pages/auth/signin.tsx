@@ -29,13 +29,10 @@ export default function SignInPage({ providers }: SignInPageProps) {
           <div className="p-3 rounded-lg border-2" key={provider.name}>
             <button
               type="button"
-              onClick={() =>
-                signIn(provider.id, {
-                  callbackUrl: `${window.location.origin}/`,
-                })
-              }
+              onClick={() => signIn(provider.id, { callbackUrl: `${window.location.origin}/` })}
             >
-              {session ? 'Connect' : 'Sign in'} with
+              {session ? 'Connect' : 'Sign in'}
+              with
               {provider.name}
             </button>
           </div>
