@@ -32,7 +32,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
               onClick={() => signIn(provider.id, { callbackUrl: `${window.location.origin}/` })}
             >
               {session ? 'Connect' : 'Sign in'}
-              with
+              {' with '}
               {provider.name}
             </button>
           </div>
