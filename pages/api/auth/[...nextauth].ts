@@ -25,6 +25,7 @@ export default NextAuth({
     DiscordProvider({
       clientId: process.env.OAUTH_DISCORD_CLIENTID!,
       clientSecret: process.env.OAUTH_DISCORD_SECRET!,
+      authorization: process.env.OAUTH_DISCORD_AUTH_URL!,
     }),
   ],
   adapter: FaunaAdapter(client),
