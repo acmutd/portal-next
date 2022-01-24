@@ -14,6 +14,13 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.OAUTH_GOOGLE_CLIENTID!,
       clientSecret: process.env.OAUTH_GOOGLE_SECRET!,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     }),
     DiscordProvider({
       clientId: process.env.OAUTH_DISCORD_CLIENTID!,
