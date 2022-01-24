@@ -6,4 +6,9 @@ export default class HelloWorldResolver {
   hello() {
     return 'hello';
   }
+
+  @Query(() => String)
+  anotherQuery() {
+    return 'This is a test query';
+  }
 }
