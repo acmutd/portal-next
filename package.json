@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.0.1",
+    "apollo-server-core": "^3.6.2",
     "apollo-server-micro": "^3.6.2",
     "class-validator": "^0.13.2",
     "graphql": "^15.8.0",

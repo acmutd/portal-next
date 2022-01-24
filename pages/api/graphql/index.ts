@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-micro';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
 import HelloWorldResolver from '../../../lib/graphql/resolvers/HelloWorld';
@@ -10,6 +11,7 @@ const apolloServer = new ApolloServer({
     resolvers: [HelloWorldResolver],
   }),
   introspection: true,
+  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
 });
 
 const startServer = apolloServer.start();
