@@ -9,6 +9,7 @@ const apolloServer = new ApolloServer({
   schema: await buildSchema({
     resolvers: [HelloWorldResolver],
   }),
+  introspection: true,
 });
 
 const startServer = apolloServer.start();
