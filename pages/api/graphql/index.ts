@@ -1,24 +1,27 @@
 import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-micro';
-import type { PageConfig } from 'next';
 import { buildSchema } from 'type-graphql';
+import Cors from 'micro-cors';
 import HelloWorldResolver from '../../../lib/graphql/resolvers/HelloWorld';
 
-export const config: PageConfig = {
+const cors = Cors();
+const apolloServer = new ApolloServer({
+  schema: await buildSchema({
+    resolvers: [HelloWorldResolver],
+  }),
+});
+
+const startServer = apolloServer.start();
+
+export default cors(async (req, res) => {
+  await startServer;
+  await apolloServer.createHandler({
+    path: '/api/graphql',
+  })(req, res);
+});
+
+export const config = {
   api: {
     bodyParser: false,
   },
-};
-
-export default async (req, res) => {
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [HelloWorldResolver],
-    }),
-    introspection: true,
-  });
-
-  const startServer = apolloServer.start();
-  await startServer;
-  await apolloServer.createHandler({ path: '/api/graphql' })(req, res);
 };
