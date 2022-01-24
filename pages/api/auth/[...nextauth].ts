@@ -1,16 +1,9 @@
 import NextAuth from 'next-auth';
-import { Client as FaunaClient } from 'faunadb';
-import { FaunaAdapter } from '@next-auth/fauna-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
-
-const client = new FaunaClient({
-  secret: process.env.FAUNADB_SECRET_KEY!,
-  scheme: 'https',
-  domain: 'db.us.fauna.com',
-  port: 443,
-});
+import clientPromise from '../../../lib/database/mongodb';
 
 export default NextAuth({
   providers: [
@@ -28,7 +21,7 @@ export default NextAuth({
       authorization: process.env.OAUTH_DISCORD_AUTH_URL!,
     }),
   ],
-  adapter: FaunaAdapter(client),
+  adapter: MongoDBAdapter(clientPromise),
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/auth/signin',
