@@ -3,12 +3,12 @@ import { ApolloServer } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
-import HelloWorldResolver from '../../../lib/graphql/resolvers/HelloWorld';
+import { resolvers } from '../../../lib/graphql/resolvers';
 
 const cors = Cors();
 const apolloServer = new ApolloServer({
   schema: await buildSchema({
-    resolvers: [HelloWorldResolver],
+    resolvers,
   }),
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
