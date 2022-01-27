@@ -1,54 +1,130 @@
-import { prop, Ref } from '@typegoose/typegoose';
+import { getModelForClass, prop, PropType } from '@typegoose/typegoose';
 import { Date } from 'mongoose';
-import User from './User.schema';
+import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
 
-export default class Profile {
-  @prop({ required: true })
-  public firstName!: string;
+@ObjectType()
+@InputType()
+class GraduationInputType {
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  semester: string;
 
-  @prop({ required: true })
-  public lastName!: string;
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  year: string;
+}
 
-  @prop({ required: true })
-  public email!: string;
+@ObjectType()
+@InputType()
+class GraduationData extends GraduationInputType {}
 
-  @prop({ required: true })
-  public roles!: [string];
+@ObjectType()
+@InputType()
+class DiscordMetaData {
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  snowflake: string;
 
-  @prop({ required: true })
-  public netid!: string;
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  username: string;
 
-  @prop({ required: true })
-  public classStanding!: string;
+  @Field(() => String)
+  @prop({ type: () => String, required: true })
+  discriminator: string;
+}
 
-  @prop({ required: true })
-  public graduation!: { semester: string; year: string };
+@InputType()
+@ObjectType()
+class IProfile {
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public firstName: string;
 
-  @prop({ required: true })
-  public major!: string;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public lastName: string;
 
-  @prop({ required: true })
-  public utdStudent!: boolean;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public email: string;
 
-  @prop({ required: true })
-  public membershipStatus!: boolean;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public netid: string;
 
-  @prop()
-  public membershipTS!: Date;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public classStanding: string;
 
-  @prop({ required: true })
-  public resume!: boolean;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public major: string;
 
-  @prop()
-  public resumeTS!: Date;
+  @Field(() => Boolean)
+  @prop({ required: true, type: () => Boolean })
+  public utdStudent: boolean;
+}
 
-  @prop()
+@InputType()
+@ObjectType()
+export class ProfileInput extends IProfile {
+  @Field(() => GraduationInputType)
+  @prop({
+    required: true,
+    type: () => GraduationInputType,
+  })
+  public graduation: GraduationInputType;
+}
+
+@ObjectType()
+@InputType()
+export default class Profile extends ProfileInput {
+  // Subclass must have same decorators as parent class
+
+  @Field(() => String)
+  @prop({ type: () => String })
+  public _id: string;
+
+  @Field(() => GraduationData)
+  @prop({
+    required: true,
+    type: () => GraduationData,
+  })
+  public graduation: GraduationData;
+
+  @Field(() => [String])
+  @prop({ type: () => [String], default: ['user'] }, PropType.ARRAY)
+  public roles: string[];
+
+  @Field(() => Boolean)
+  @prop({ default: false, type: () => Boolean })
+  public membershipStatus: boolean;
+
+  @Field(() => GraphQLTimestamp, { nullable: true })
+  @prop({ type: () => Date })
+  public membershipTS: Date;
+
+  @Field(() => Boolean)
+  @prop({ required: false, default: false, type: () => Boolean })
+  public resume: boolean;
+
+  @Field(() => GraphQLTimestamp, { nullable: true })
+  @prop({ type: () => Date })
+  public resumeTS: Date;
+
+  @Field(() => DiscordMetaData, { nullable: true })
+  @prop({
+    type: () => DiscordMetaData,
+  })
   public discordMeta?: {
     snowflake: string;
     username: string;
     discriminator: string;
   };
-
-  @prop()
-  public userId: Ref<User>;
+  // @Field(() => String)
+  // @prop({ type: mongoose.Types.ObjectId })
+  // public userId: Ref<User>;
 }
+
+export const ProfileModel = getModelForClass(Profile);

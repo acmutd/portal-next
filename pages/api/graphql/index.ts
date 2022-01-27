@@ -3,12 +3,15 @@ import { ApolloServer } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
+import * as mongoose from 'mongoose';
 import { resolvers } from '../../../lib/graphql/resolvers';
 
 const cors = Cors();
+
 const apolloServer = new ApolloServer({
   schema: await buildSchema({
     resolvers,
+    dateScalarMode: 'timestamp',
   }),
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
@@ -28,6 +31,7 @@ export default cors(async (req, res) => {
     res.end();
     return false;
   }
+  await mongoose.connect(process.env.MONGODB_URI);
   await startServer;
   await apolloServer.createHandler({
     path: '/api/graphql',

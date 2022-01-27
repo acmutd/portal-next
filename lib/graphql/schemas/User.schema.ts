@@ -1,15 +1,27 @@
-import { prop } from '@typegoose/typegoose';
+import { getModelForClass, prop } from '@typegoose/typegoose';
+import { Field, ObjectType } from 'type-graphql';
 
+@ObjectType()
 export default class User {
-  @prop()
+  @prop({ type: () => String })
+  @Field(() => String)
+  public _id: string;
+
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
   public name: string;
 
-  @prop()
+  @prop({ type: () => String })
+  @Field(() => String)
   public email: string;
 
-  @prop()
-  public emailVerified: boolean;
+  @prop({ type: () => Boolean })
+  @Field(() => Boolean, { nullable: true })
+  public emailVerified?: boolean;
 
-  @prop()
+  @prop({ type: () => String })
+  @Field(() => String)
   public image: string;
 }
+
+export const UserModel = getModelForClass(User);

@@ -1,4 +1,5 @@
 /* eslint import/prefer-default-export: "off" */
-import HelloWorldResolver from './HelloWorld';
+import UserResolver from './User.resolver';
+import ProfileResolver from './Profile.resolver';
 
-export const resolvers = [HelloWorldResolver] as const;
+export const resolvers = [UserResolver, ProfileResolver] as const;
