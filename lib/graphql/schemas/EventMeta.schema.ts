@@ -1,26 +1,38 @@
-import { prop, Ref } from '@typegoose/typegoose';
+import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
 import { Date } from 'mongoose';
 import User from './User.schema';
 
+@ObjectType()
+@InputType('EventMetaInput')
 export default class EventMeta {
-  @prop()
-  public icalId: string;
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
+  public eventId: string;
 
-  @prop()
+  @Field(() => String, { nullable: true })
+  @prop({ type: () => String })
   public SUMMARY: string;
 
-  @prop()
+  @Field(() => String)
+  @prop({ required: true, type: () => String })
   public userId: Ref<User>;
 
-  @prop()
+  @Field(() => String)
+  @prop({ required: true, default: false, type: () => Boolean })
   public rsvp: boolean;
 
-  @prop()
+  @Field(() => String)
+  @prop({ default: null, type: () => Date })
   public rsvpTS: Date;
 
-  @prop()
+  @Field(() => String)
+  @prop({ required: true, default: false, type: () => Boolean })
   public checkedIn: boolean;
 
-  @prop()
+  @Field(() => GraphQLTimestamp, { nullable: true })
+  @prop({ default: null, type: () => Date })
   public checkedInTS: Date;
 }
+
+export const EventMetaModel = getModelForClass(EventMeta);
