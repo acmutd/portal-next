@@ -12,6 +12,8 @@
     "react/jsx-one-expression-per-line": "off",
     "class-methods-use-this": "off",
     "consistent-return": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "off"
   }
 }
