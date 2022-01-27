@@ -5,11 +5,11 @@ import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
 @ObjectType()
 @InputType('GraduationInputType')
 class Graduation {
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String, required: true })
   semester: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String, required: true })
   year: string;
 }
@@ -17,15 +17,15 @@ class Graduation {
 @ObjectType()
 @InputType('DiscordMetaInputType')
 class DiscordMeta {
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String, required: true })
   snowflake: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String, required: true })
   username: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String, required: true })
   discriminator: string;
 }
@@ -33,31 +33,31 @@ class DiscordMeta {
 @InputType()
 @ObjectType()
 export class PartialProfile {
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public firstName: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public lastName: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public email: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public netid: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public classStanding: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public major: string;
 
-  @Field(() => Boolean)
+  @Field()
   @prop({ required: true, type: () => Boolean })
   public utdStudent: boolean;
 
@@ -73,7 +73,7 @@ export class PartialProfile {
 export default class Profile extends PartialProfile {
   // Subclass must have same decorators as parent class
 
-  @Field(() => String)
+  @Field()
   @prop({ type: () => String })
   public _id: string;
 
@@ -81,7 +81,7 @@ export default class Profile extends PartialProfile {
   @prop({ type: () => [String], default: ['user'] }, PropType.ARRAY)
   public roles: string[];
 
-  @Field(() => Boolean)
+  @Field()
   @prop({ default: false, type: () => Boolean })
   public membershipStatus: boolean;
 
@@ -89,7 +89,7 @@ export default class Profile extends PartialProfile {
   @prop({ type: () => Date })
   public membershipTS: Date;
 
-  @Field(() => Boolean)
+  @Field()
   @prop({ required: false, default: false, type: () => Boolean })
   public resume: boolean;
 

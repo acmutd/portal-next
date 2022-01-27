@@ -3,24 +3,24 @@ import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export default class User {
+  @Field()
   @prop({ type: () => String })
-  @Field(() => String)
   public _id: string;
 
-  @Field(() => String)
+  @Field()
   @prop({ required: true, type: () => String })
   public name: string;
 
   @prop({ type: () => String })
-  @Field(() => String)
+  @Field()
   public email: string;
 
   @prop({ type: () => Boolean })
-  @Field(() => Boolean, { nullable: true })
+  @Field({ nullable: true })
   public emailVerified?: boolean;
 
   @prop({ type: () => String })
-  @Field(() => String)
+  @Field()
   public image: string;
 }
 
