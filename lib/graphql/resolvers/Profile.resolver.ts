@@ -1,9 +1,10 @@
 import { container } from 'tsyringe';
-import { Arg, Mutation, UseMiddleware } from 'type-graphql';
+import { Arg, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import ProfileService from '../services/Profile.service';
-import Profile, { ProfileInput } from '../schemas/Profile.schema';
+import Profile, { PartialProfile } from '../schemas/Profile.schema';
 import { TypegooseMiddleware } from '../middlewares/typegoose';
 
+@Resolver()
 export default class ProfileResolver {
   private profileService: ProfileService;
 
@@ -13,7 +14,7 @@ export default class ProfileResolver {
 
   @Mutation(() => Profile)
   @UseMiddleware(TypegooseMiddleware)
-  async createProfile(@Arg('profile', () => ProfileInput) profile: Profile) {
+  async createProfile(@Arg('profile', () => PartialProfile) profile: PartialProfile) {
     const newProfile = await this.profileService.createProfile(profile);
     return newProfile;
   }

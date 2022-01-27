@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import Profile, { ProfileModel } from '../schemas/Profile.schema';
+import { PartialProfile, ProfileModel } from '../schemas/Profile.schema';
 import DiscordService from './Discord.service';
 
 export default class ProfileService {
@@ -9,7 +9,7 @@ export default class ProfileService {
     this.discordService = new DiscordService();
   }
 
-  async createProfile(profile: Profile) {
+  async createProfile(profile: PartialProfile) {
     const savedProfile = await ProfileModel.create({
       ...profile,
       _id: new ObjectId().toString(),

@@ -3,8 +3,8 @@ import { Date } from 'mongoose';
 import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
 
 @ObjectType()
-@InputType()
-class GraduationInputType {
+@InputType('GraduationInputType')
+class Graduation {
   @Field(() => String)
   @prop({ type: () => String, required: true })
   semester: string;
@@ -15,12 +15,8 @@ class GraduationInputType {
 }
 
 @ObjectType()
-@InputType()
-class GraduationData extends GraduationInputType {}
-
-@ObjectType()
-@InputType()
-class DiscordMetaData {
+@InputType('DiscordMetaInputType')
+class DiscordMeta {
   @Field(() => String)
   @prop({ type: () => String, required: true })
   snowflake: string;
@@ -36,7 +32,7 @@ class DiscordMetaData {
 
 @InputType()
 @ObjectType()
-class IProfile {
+export class PartialProfile {
   @Field(() => String)
   @prop({ required: true, type: () => String })
   public firstName: string;
@@ -64,34 +60,22 @@ class IProfile {
   @Field(() => Boolean)
   @prop({ required: true, type: () => Boolean })
   public utdStudent: boolean;
-}
 
-@InputType()
-@ObjectType()
-export class ProfileInput extends IProfile {
-  @Field(() => GraduationInputType)
+  @Field(() => Graduation)
   @prop({
     required: true,
-    type: () => GraduationInputType,
+    type: () => Graduation,
   })
-  public graduation: GraduationInputType;
+  public graduation: Graduation;
 }
 
 @ObjectType()
-@InputType()
-export default class Profile extends ProfileInput {
+export default class Profile extends PartialProfile {
   // Subclass must have same decorators as parent class
 
   @Field(() => String)
   @prop({ type: () => String })
   public _id: string;
-
-  @Field(() => GraduationData)
-  @prop({
-    required: true,
-    type: () => GraduationData,
-  })
-  public graduation: GraduationData;
 
   @Field(() => [String])
   @prop({ type: () => [String], default: ['user'] }, PropType.ARRAY)
@@ -113,9 +97,9 @@ export default class Profile extends ProfileInput {
   @prop({ type: () => Date })
   public resumeTS: Date;
 
-  @Field(() => DiscordMetaData, { nullable: true })
+  @Field(() => DiscordMeta, { nullable: true })
   @prop({
-    type: () => DiscordMetaData,
+    type: () => DiscordMeta,
   })
   public discordMeta?: {
     snowflake: string;
