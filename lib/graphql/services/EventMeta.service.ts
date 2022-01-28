@@ -1,12 +1,13 @@
 import { ObjectId } from 'mongodb';
 import { injectable, singleton } from 'tsyringe';
 import { EventMetaModel } from '../schemas/EventMeta.schema';
+import EventService from './Event.service';
 import UserService from './User.service';
 
 @singleton()
 @injectable()
 export default class EventMetaService {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private eventService: EventService) {}
 
   async checkinEvent(userId: ObjectId, eventId: ObjectId) {
     const filter = {
@@ -46,5 +47,15 @@ export default class EventMetaService {
   async findCheckInByEventId(eventId: ObjectId) {
     const entries = await EventMetaModel.find({ eventId, checkedIn: true });
     return Promise.all(entries.map((entry) => this.userService.findById(entry.userId as any)));
+  }
+
+  async findRsvpByUserId(userId: ObjectId) {
+    const entries = await EventMetaModel.find({ userId, rsvp: true });
+    return Promise.all(entries.map((entry) => this.eventService.findById(entry.eventId)));
+  }
+
+  async findCheckInByUserId(userId: ObjectId) {
+    const entries = await EventMetaModel.find({ userId, checkedIn: true });
+    return Promise.all(entries.map((entry) => this.eventService.findById(entry.eventId)));
   }
 }

@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { singleton } from 'tsyringe';
 import Event, { eventModel } from '../schemas/Event.schema';
 
@@ -17,5 +18,9 @@ export default class EventService {
         $gt: new Date(),
       },
     });
+  }
+
+  async findById(eventId: ObjectId) {
+    return eventModel.findById(eventId);
   }
 }
