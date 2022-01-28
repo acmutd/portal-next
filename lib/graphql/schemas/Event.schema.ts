@@ -1,36 +1,38 @@
-import { prop, Ref } from '@typegoose/typegoose';
-import Profile from './Profile.schema';
-import User from './User.schema';
+import { getModelForClass, prop } from '@typegoose/typegoose';
+import { ObjectId } from 'mongodb';
+import { Field, GraphQLISODateTime, InputType, ObjectType } from 'type-graphql';
+import ObjectIdScalar from '../scalars/ObjectIDScalar';
 
+@ObjectType()
+@InputType('EventInput')
 export default class Event {
-  @prop()
-  public icalId!: string;
+  @Field(() => ObjectIdScalar, { nullable: true })
+  @prop({ type: () => ObjectId })
+  public _id: ObjectId;
 
-  @prop()
-  public SUMMARY: string;
+  @Field()
+  @prop({ type: () => String })
+  public summary: string;
 
-  @prop()
-  public DTSTAMP: string;
+  @Field({ nullable: true })
+  @prop({ type: () => String, required: false })
+  public description?: string;
 
-  @prop()
-  public DTSTART: string;
+  @Field({ nullable: true })
+  @prop({ type: () => String, required: false })
+  public url?: string;
 
-  @prop()
-  public DTEND: string;
+  @Field({ nullable: true })
+  @prop({ type: () => String, required: false })
+  public location?: string;
 
-  @prop()
-  public rsvp: {
-    userId: Ref<User>;
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  @prop({ type: () => Date, required: false })
+  public start?: Date;
 
-  @prop()
-  public attend: {
-    userId: Ref<Profile>;
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  @Field(() => GraphQLISODateTime, { nullable: true })
+  @prop({ type: () => Date, required: false })
+  public end?: Date;
 }
+
+export const eventModel = getModelForClass(Event);
