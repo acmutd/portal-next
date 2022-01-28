@@ -23,6 +23,12 @@ export default class EventResolver {
     return this.eventService.getAll();
   }
 
+  @Query(() => [Event])
+  @UseMiddleware(TypegooseMiddleware)
+  async upcomingEvents() {
+    return this.eventService.getUpcomingEvents();
+  }
+
   @FieldResolver(() => [User])
   @UseMiddleware(TypegooseMiddleware)
   async rsvp(@Root() event: Event) {

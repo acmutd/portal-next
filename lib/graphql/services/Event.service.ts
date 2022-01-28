@@ -10,4 +10,12 @@ export default class EventService {
   async createEvent(event: Event) {
     return eventModel.create(event);
   }
+
+  async getUpcomingEvents() {
+    return eventModel.find({
+      start: {
+        $gt: new Date(),
+      },
+    });
+  }
 }
