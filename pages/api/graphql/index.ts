@@ -7,7 +7,7 @@ import * as mongoose from 'mongoose';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
 import { resolvers } from '../../../lib/graphql/resolvers';
-import { ObjectIdScalar } from '../../../lib/graphql/scalars/ObjectIDScalar';
+import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
 const cors = Cors();
 
