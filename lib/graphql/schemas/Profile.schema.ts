@@ -1,6 +1,7 @@
 import { getModelForClass, prop, PropType, Ref } from '@typegoose/typegoose';
+import { ObjectId } from 'mongodb';
 import { Date } from 'mongoose';
-import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
+import { Field, InputType, ObjectType, GraphQLISODateTime } from 'type-graphql';
 import ObjectIdScalar from '../scalars/ObjectIDScalar';
 import User from './User.schema';
 
@@ -79,9 +80,8 @@ export class PartialProfile {
 export default class Profile extends PartialProfile {
   // Subclass must have same decorators as parent class
 
-  @Field()
-  @prop({ type: () => String })
-  public _id: string;
+  @Field(() => ObjectIdScalar)
+  _id: ObjectId;
 
   @Field(() => [String])
   @prop({ type: () => [String], default: ['user'] }, PropType.ARRAY)
@@ -91,7 +91,7 @@ export default class Profile extends PartialProfile {
   @prop({ default: false, type: () => Boolean })
   public membershipStatus: boolean;
 
-  @Field(() => GraphQLTimestamp, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   @prop({ type: () => Date })
   public membershipTS: Date;
 
@@ -99,7 +99,7 @@ export default class Profile extends PartialProfile {
   @prop({ required: false, default: false, type: () => Boolean })
   public resume: boolean;
 
-  @Field(() => GraphQLTimestamp, { nullable: true })
+  @Field(() => GraphQLISODateTime, { nullable: true })
   @prop({ type: () => Date })
   public resumeTS: Date;
 

@@ -15,7 +15,7 @@ mongoose.set('debug', true);
 const apolloServer = new ApolloServer({
   schema: await buildSchema({
     resolvers,
-    dateScalarMode: 'timestamp',
+    dateScalarMode: 'isoDate',
     container: {
       get: (someClass) => container.resolve(someClass),
     },
