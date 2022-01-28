@@ -26,4 +26,8 @@ export default class ProfileService {
   async findByIds(profileIds: string[]) {
     return Promise.all(profileIds.map((profileId) => ProfileModel.findById(profileId)));
   }
+
+  async findByUserId(userId: ObjectId) {
+    return ProfileModel.findOne({ user: userId });
+  }
 }
