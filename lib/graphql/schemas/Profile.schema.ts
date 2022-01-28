@@ -1,6 +1,8 @@
-import { getModelForClass, prop, PropType } from '@typegoose/typegoose';
+import { getModelForClass, prop, PropType, Ref } from '@typegoose/typegoose';
 import { Date } from 'mongoose';
 import { Field, InputType, ObjectType, GraphQLTimestamp } from 'type-graphql';
+import ObjectIdScalar from '../scalars/ObjectIDScalar';
+import User from './User.schema';
 
 @ObjectType()
 @InputType('GraduationInputType')
@@ -67,6 +69,10 @@ export class PartialProfile {
     type: () => Graduation,
   })
   public graduation: Graduation;
+
+  @Field(() => ObjectIdScalar)
+  @prop({ required: true, ref: () => User })
+  public user: Ref<User>;
 }
 
 @ObjectType()
@@ -106,9 +112,6 @@ export default class Profile extends PartialProfile {
     username: string;
     discriminator: string;
   };
-  // @Field(() => String)
-  // @prop({ type: mongoose.Types.ObjectId })
-  // public userId: Ref<User>;
 }
 
 export const ProfileModel = getModelForClass(Profile);

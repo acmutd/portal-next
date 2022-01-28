@@ -1,5 +1,7 @@
+import { singleton } from 'tsyringe';
 import { EventMetaModel } from '../schemas/EventMeta.schema';
 
+@singleton()
 export default class EventMetaService {
   async checkinEvent(userId: string, eventId: string) {
     const filter = {

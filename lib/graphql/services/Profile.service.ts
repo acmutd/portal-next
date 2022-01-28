@@ -1,13 +1,12 @@
 import { ObjectId } from 'mongodb';
+import { injectable, singleton } from 'tsyringe';
 import { PartialProfile, ProfileModel } from '../schemas/Profile.schema';
 import DiscordService from './Discord.service';
 
+@singleton()
+@injectable()
 export default class ProfileService {
-  private discordService: DiscordService;
-
-  constructor() {
-    this.discordService = new DiscordService();
-  }
+  constructor(private discordService: DiscordService) {}
 
   async createProfile(profile: PartialProfile) {
     const savedProfile = await ProfileModel.create({
@@ -22,5 +21,9 @@ export default class ProfileService {
     profile.discordMeta = this.discordService.fetchMetadata();
     await profile.save();
     return profile;
+  }
+
+  async findByIds(profileIds: string[]) {
+    return Promise.all(profileIds.map((profileId) => ProfileModel.findById(profileId)));
   }
 }

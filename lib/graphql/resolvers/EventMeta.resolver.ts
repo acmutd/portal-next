@@ -1,15 +1,13 @@
-import { container } from 'tsyringe';
-import { UseMiddleware, Mutation, Arg } from 'type-graphql';
+import { injectable } from 'tsyringe';
+import { UseMiddleware, Mutation, Arg, Resolver } from 'type-graphql';
 import { TypegooseMiddleware } from '../middlewares/typegoose';
 import EventMeta from '../schemas/EventMeta.schema';
 import EventMetaService from '../services/EventMeta.service';
 
+@Resolver()
+@injectable()
 export default class EventMetaResolver {
-  private eventMetaService: EventMetaService;
-
-  constructor() {
-    this.eventMetaService = container.resolve(EventMetaService);
-  }
+  constructor(private eventMetaService: EventMetaService) {}
 
   @Mutation(() => EventMeta)
   @UseMiddleware(TypegooseMiddleware)
