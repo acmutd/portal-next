@@ -3,12 +3,23 @@ import { ApolloServer } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
 import Cors from 'micro-cors';
-import HelloWorldResolver from '../../../lib/graphql/resolvers/HelloWorld';
+import * as mongoose from 'mongoose';
+import { container } from 'tsyringe';
+import { ObjectId } from 'mongodb';
+import { resolvers } from '../../../lib/graphql/resolvers';
+import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
 const cors = Cors();
+
+mongoose.set('debug', true);
 const apolloServer = new ApolloServer({
   schema: await buildSchema({
-    resolvers: [HelloWorldResolver],
+    resolvers,
+    dateScalarMode: 'isoDate',
+    container: {
+      get: (someClass) => container.resolve(someClass),
+    },
+    scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   }),
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
@@ -28,6 +39,9 @@ export default cors(async (req, res) => {
     res.end();
     return false;
   }
+
+  await mongoose.connect(process.env.MONGODB_URI);
+
   await startServer;
   await apolloServer.createHandler({
     path: '/api/graphql',
