@@ -15,6 +15,7 @@
     "apollo-server-micro": "^3.6.2",
     "class-validator": "^0.13.2",
     "graphql": "^15.8.0",
+    "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
     "mongodb": "^4.3.1",
     "mongoose": "^6.1.6",
@@ -27,6 +28,7 @@
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.12",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
     "@babel/plugin-proposal-decorators": "^7.16.7",
     "@babel/plugin-proposal-private-methods": "^7.16.11",
