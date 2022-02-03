@@ -1,8 +1,23 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
+import { useQuery, gql } from '@apollo/client';
+
+const TEST = gql`
+  query Users {
+    users {
+      email
+    }
+  }
+`;
+
 export default function HomePage() {
   const { data: session } = useSession();
+
+  const { loading, error, data } = useQuery(TEST);
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
 
   if (!session) return <div />;
   return (
@@ -19,6 +34,7 @@ export default function HomePage() {
           </button>
         </Link>
       </div>
+      <div>{JSON.stringify(data)}</div>
     </div>
   );
 }
