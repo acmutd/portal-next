@@ -2,16 +2,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useQuery, gql } from '@apollo/client';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-
-// const TEST = gql`
-//   query Users {
-//     users {
-//       email
-//     }
-//   }
-// `;
 
 const PROFILE_CHECK = gql`
   query Users($filter: UserFilter) {
@@ -32,10 +23,6 @@ export default function HomePage() {
       },
     },
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;

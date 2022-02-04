@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -46,11 +46,6 @@ function Onboarding() {
       },
     },
   });
-
-  useEffect(() => {
-    console.log(result);
-    console.log(session);
-  }, [result]);
 
   return (
     <div className=" flex flex-col justify-center items-center">
