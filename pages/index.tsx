@@ -2,6 +2,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useQuery, gql } from '@apollo/client';
+import { useEffect } from 'react';
 
 const TEST = gql`
   query Users {
@@ -15,6 +16,10 @@ export default function HomePage() {
   const { data: session } = useSession();
 
   const { loading, error, data } = useQuery(TEST);
+
+  useEffect(() => {
+    console.log(session);
+  }, []);
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
