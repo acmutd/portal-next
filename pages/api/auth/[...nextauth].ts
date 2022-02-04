@@ -32,6 +32,7 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/auth/signin',
+    signOut: '/',
   },
   callbacks: {
     async signIn({ account, user }) {
