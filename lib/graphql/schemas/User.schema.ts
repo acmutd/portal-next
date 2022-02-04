@@ -1,7 +1,19 @@
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { ObjectId } from 'mongodb';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import ObjectIdScalar from '../scalars/ObjectIDScalar';
+
+@InputType()
+export class UserFilter {
+  @Field(() => ObjectIdScalar, { nullable: true })
+  _id?: ObjectId;
+
+  @Field({ nullable: true })
+  name?: string;
+
+  @Field({ nullable: true })
+  email?: string;
+}
 
 @ObjectType()
 @modelOptions({ schemaOptions: { collection: 'users' }, options: { customName: 'users' } })

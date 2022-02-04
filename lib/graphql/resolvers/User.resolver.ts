@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
-import { FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
+import { Arg, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { TypegooseMiddleware } from '../middlewares/typegoose';
-import User from '../schemas/User.schema';
+import User, { UserFilter } from '../schemas/User.schema';
 import UserService from '../services/User.service';
 import EventMetaService from '../services/EventMeta.service';
 import Event from '../schemas/Event.schema';
@@ -19,8 +19,10 @@ export default class UserResolver {
 
   @Query(() => [User])
   @UseMiddleware(TypegooseMiddleware)
-  async users(): Promise<User[]> {
-    return this.userService.getAll();
+  async users(
+    @Arg('filter', () => UserFilter, { nullable: true }) filter?: UserFilter,
+  ): Promise<User[]> {
+    return this.userService.getAll(filter);
   }
 
   @FieldResolver(() => [Event])
@@ -39,5 +41,11 @@ export default class UserResolver {
   @UseMiddleware(TypegooseMiddleware)
   async profile(@Root() user: User) {
     return this.profileService.findByUserId(user._id);
+  }
+
+  @FieldResolver(() => Boolean)
+  async hasProfile(@Root() user: User) {
+    const profile = await this.profileService.findByUserId(user._id);
+    return !!profile;
   }
 }
