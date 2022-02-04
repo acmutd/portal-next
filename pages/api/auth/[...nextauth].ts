@@ -32,6 +32,7 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/auth/signin',
+    signOut: '/',
   },
   callbacks: {
     async signIn({ account, user }) {
@@ -39,6 +40,10 @@ export default NextAuth({
         return '/auth/error/officer';
       }
       return true;
+    },
+    async session({ session, user }) {
+      console.log(user);
+      return { ...session, id: user.id };
     },
   },
 });
