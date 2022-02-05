@@ -1,25 +1,67 @@
-import { prop } from '@typegoose/typegoose';
-import { Date } from 'mongoose';
+import { getModelForClass, prop, PropType } from '@typegoose/typegoose';
+import { Field, GraphQLISODateTime, InputType, ObjectType } from 'type-graphql';
 
+@ObjectType()
+@InputType('ApplicationQuestionInputType')
+class ApplicationQuestion {
+  @Field()
+  @prop({ type: () => String, required: true })
+  questionType: string;
+
+  @Field()
+  @prop({ type: () => String, required: true })
+  question: string;
+
+  @Field(() => [String], { nullable: true })
+  @prop({ type: () => [String], default: [] }, PropType.ARRAY)
+  answers?: string[];
+}
+
+@InputType()
+export class ApplicationFilter {
+  @Field({ nullable: true })
+  name?: string;
+
+  @Field({ nullable: true })
+  active?: boolean;
+
+  @Field(() => GraphQLISODateTime, {
+    nullable: true,
+    description: 'Filter all applications that close after this date value',
+  })
+  closeAfter?: Date;
+}
+
+@InputType('ApplicationInputType')
+@ObjectType()
 export default class Application {
-  @prop()
+  @Field()
+  @prop({ type: () => String, required: true })
   public name: string;
 
-  @prop()
+  @Field()
+  @prop({ type: () => String, required: true })
   public subtitle: string;
 
-  @prop()
+  @Field()
+  @prop({ type: () => String, required: true })
   public description: string;
 
-  @prop()
-  public questions: [{ questionType: string; question: string }];
+  @Field(() => [ApplicationQuestion])
+  @prop({ type: () => [ApplicationQuestion], required: true })
+  public questions: ApplicationQuestion[];
 
-  @prop()
+  @Field(() => GraphQLISODateTime)
+  @prop({ type: () => Date, required: true })
   public dateStart: Date;
 
-  @prop()
+  @Field(() => GraphQLISODateTime)
+  @prop({ type: () => Date, required: true })
   public dateEnd: Date;
 
-  @prop()
+  @Field()
+  @prop({ type: () => Boolean, default: false })
   public active: boolean;
 }
+
+export const ApplicationModel = getModelForClass(Application);
