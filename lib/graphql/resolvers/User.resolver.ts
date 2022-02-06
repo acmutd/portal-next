@@ -7,6 +7,8 @@ import EventMetaService from '../services/EventMeta.service';
 import Event from '../schemas/Event.schema';
 import ProfileService from '../services/Profile.service';
 import Profile from '../schemas/Profile.schema';
+import SubmissionService from '../services/Submission.service';
+import Submission from '../schemas/Submission.schema';
 
 @Resolver(() => User)
 @injectable()
@@ -15,6 +17,7 @@ export default class UserResolver {
     private userService: UserService,
     private eventMetaService: EventMetaService,
     private profileService: ProfileService,
+    private submissionService: SubmissionService,
   ) {}
 
   @Query(() => [User])
@@ -47,5 +50,13 @@ export default class UserResolver {
   async hasProfile(@Root() user: User) {
     const profile = await this.profileService.findByUserId(user._id);
     return !!profile;
+  }
+
+  @FieldResolver(() => [Submission])
+  @UseMiddleware(TypegooseMiddleware)
+  async submissions(@Root() user: User) {
+    return this.submissionService.getAll({
+      userId: user._id,
+    });
   }
 }
