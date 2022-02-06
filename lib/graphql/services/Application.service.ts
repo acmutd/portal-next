@@ -20,6 +20,6 @@ export default class ApplicationService {
         $gte: new Date(inputFilter.closeAfter),
       };
     }
-    return ApplicationModel.find(filter).exec();
+    return ApplicationModel.find(filter).collation({ locale: 'en', strength: 2 }).exec();
   }
 }

@@ -1,4 +1,4 @@
-import { getModelForClass, prop, PropType } from '@typegoose/typegoose';
+import { getModelForClass, index, prop, PropType } from '@typegoose/typegoose';
 import { Field, GraphQLISODateTime, InputType, ObjectType } from 'type-graphql';
 
 @ObjectType()
@@ -34,6 +34,7 @@ export class ApplicationFilter {
 
 @InputType('ApplicationInputType')
 @ObjectType()
+@index({ name: 1 }, { collation: { locale: 'en', strength: 2 } })
 export default class Application {
   @Field()
   @prop({ type: () => String, required: true })
