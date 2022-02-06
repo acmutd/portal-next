@@ -4,6 +4,7 @@ import ProfileResolver from './Profile.resolver';
 import EventMetaResolver from './EventMeta.resolver';
 import EventResolver from './Event.resolver';
 import ApplicationResolver from './Application.resolver';
+import SubmissionResolver from './Submission.resolver';
 
 export const resolvers = [
   UserResolver,
@@ -11,4 +12,5 @@ export const resolvers = [
   EventMetaResolver,
   EventResolver,
   ApplicationResolver,
+  SubmissionResolver,
 ] as const;

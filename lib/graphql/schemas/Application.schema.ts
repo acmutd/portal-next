@@ -1,5 +1,7 @@
 import { getModelForClass, index, prop, PropType } from '@typegoose/typegoose';
+import { ObjectId } from 'mongodb';
 import { Field, GraphQLISODateTime, InputType, ObjectType } from 'type-graphql';
+import ObjectIdScalar from '../scalars/ObjectIDScalar';
 
 @ObjectType()
 @InputType('ApplicationQuestionInputType')
@@ -19,6 +21,9 @@ class ApplicationQuestion {
 
 @InputType()
 export class ApplicationFilter {
+  @Field(() => ObjectIdScalar, { nullable: true })
+  _id?: ObjectId;
+
   @Field({ nullable: true })
   name?: string;
 
@@ -36,6 +41,9 @@ export class ApplicationFilter {
 @ObjectType()
 @index({ name: 1 }, { collation: { locale: 'en', strength: 2 } })
 export default class Application {
+  @Field(() => ObjectIdScalar)
+  _id: ObjectId;
+
   @Field()
   @prop({ type: () => String, required: true })
   public name: string;

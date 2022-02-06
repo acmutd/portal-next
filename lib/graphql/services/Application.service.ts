@@ -9,6 +9,9 @@ export default class ApplicationService {
 
   async getAll(inputFilter: ApplicationFilter) {
     const filter: any = {};
+    if (inputFilter._id) {
+      filter._id = inputFilter._id;
+    }
     if (inputFilter.name) {
       filter.name = inputFilter.name;
     }
