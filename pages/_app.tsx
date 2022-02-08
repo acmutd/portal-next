@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import AuthWrapper from '../components/AuthWrapper';
+import Navbar from '../components/Navbar';
 
 const client = new ApolloClient({
   uri: '/api/graphql',
@@ -14,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={client}>
       <SessionProvider session={pageProps.session}>
         <AuthWrapper>
-          <Component {...pageProps} />
+          <Navbar>
+            <Component {...pageProps} />
+          </Navbar>
         </AuthWrapper>
       </SessionProvider>
     </ApolloProvider>
