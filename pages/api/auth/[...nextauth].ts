@@ -42,7 +42,6 @@ export default NextAuth({
       return true;
     },
     async session({ session, user }) {
-      console.log(user);
       return { ...session, id: user.id };
     },
   },
