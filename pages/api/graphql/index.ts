@@ -23,6 +23,7 @@ const apolloServer = new ApolloServer({
   }),
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
+  context: ({ req }) => ({ req }),
 });
 
 const startServer = apolloServer.start();
