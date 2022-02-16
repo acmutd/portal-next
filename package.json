@@ -15,6 +15,7 @@
     "@typegoose/typegoose": "^9.5.0",
     "apollo-server-core": "^3.6.2",
     "apollo-server-micro": "^3.6.2",
+    "axios": "^0.26.0",
     "class-validator": "^0.13.2",
     "graphql": "^15.8.0",
     "micro-cors": "^0.1.1",
