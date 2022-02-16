@@ -11,7 +11,7 @@ export default function AuthWrapper({ children }: React.PropsWithChildren<any>) 
   if (status === 'unauthenticated') {
     return (
       <div>
-        <Link href="/api/auth/signin">
+        <Link href="/api/auth/signin" passHref>
           <button type="button" className="p-3 bg-green-400 rounded-lg">
             Sign In
           </button>

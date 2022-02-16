@@ -38,7 +38,7 @@ export default function HomePage() {
         <button type="button" className="p-3 rounded-lg bg-green-400" onClick={() => signOut()}>
           Sign out
         </button>
-        <Link href="/auth/signin">
+        <Link href="/auth/signin" passHref>
           <button type="button" className="p-3 rounded-lg bg-green-400">
             Add another account
           </button>
