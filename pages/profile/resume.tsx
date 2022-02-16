@@ -32,18 +32,26 @@ export default function ResumePage() {
     // const file = uploadRef.current.files[0];
     // if (file.name.endsWith('.doc')) extension = 'doc';
     // else if (file.name.endsWith('.docx')) extension = 'docx';
+
+    const extensionIndex = uploadRef.current.files[0].name.indexOf('.') + 1;
+
     const res = await getSignedURL({
       variables: {
         options: {
           transfer: 'UPLOAD',
           fileType: 'RESUME',
+          extension: uploadRef.current.files[0].name.substring(extensionIndex),
         },
       },
     });
     const { url } = res.data.transferFile;
 
     axios
-      .put(url, uploadRef.current.files[0])
+      .put(url, uploadRef.current.files[0], {
+        headers: {
+          'Content-Type': 'application/octet-stream',
+        },
+      })
       .then(() => alert('Upload succeeded...'))
       .catch(() => alert('Upload failed. Please try again later...'));
 

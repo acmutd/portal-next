@@ -9,6 +9,9 @@ export class SignedURLInput {
 
   @Field(() => Uploadable, { nullable: true })
   public fileType: Uploadable;
+
+  @Field()
+  public extension: string;
 }
 
 @ObjectType()

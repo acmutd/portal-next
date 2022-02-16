@@ -15,7 +15,11 @@ export default class SignedURLResolver {
     @Ctx() context: any,
   ) {
     const session = await getSession(context);
-    const url = await this.signedURLService.generateV4SignedUrl(options, session?.id);
+    const url = await this.signedURLService.generateV4SignedUrl(
+      options,
+      session?.id,
+      options.extension,
+    );
     return {
       transfer: options.transfer,
       fileType: options.fileType,

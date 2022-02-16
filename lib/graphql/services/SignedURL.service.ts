@@ -7,17 +7,17 @@ import { SignedURLInput } from '../schemas/SignedURL';
 
 @singleton()
 export default class SignedURLService {
-  async generateV4SignedUrl(options: SignedURLInput, id: string) {
+  async generateV4SignedUrl(options: SignedURLInput, id: string, filetype: string) {
     if (options.fileType === Uploadable.RESUME) {
-      const url = await this.generateResumeSignedUrl(options, id);
+      const url = await this.generateResumeSignedUrl(options, id, filetype);
       return url;
     }
     return null;
   }
 
-  async generateResumeSignedUrl(options: SignedURLInput, id: string) {
+  async generateResumeSignedUrl(options: SignedURLInput, id: string, filetype: string) {
     const bucketName = 'acm-core.appspot.com';
-    const fileName = `/resumes/${id}.pdf`;
+    const fileName = `resumes/${id}.${filetype}`;
 
     // eslint-disable-next-line operator-linebreak
     const signedUrlOptions: GetSignedUrlConfig =
