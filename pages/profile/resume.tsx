@@ -22,12 +22,16 @@ export default function ResumePage() {
   const handleResumeUploadReady = () => {
     if (
       uploadRef.current.files.length !== 1 ||
+      uploadRef.current.files[0].size > 2000000 ||
       (!(uploadRef.current.files[0].type === mime.lookup('.pdf')) &&
         !(uploadRef.current.files[0].type === mime.lookup('.docx')) &&
         !(uploadRef.current.files[0].type === mime.lookup('.doc')))
     ) {
-      return alert('Please make sure you upload a single file ending in .pdf, doc, or docx');
+      return alert(
+        'Please make sure you upload a single file ending in .pdf, doc, or docx that is under 2MB in size',
+      );
     }
+
     setUploadReady(true);
   };
 
