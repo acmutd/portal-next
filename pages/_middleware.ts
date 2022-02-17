@@ -16,8 +16,18 @@ export default async function middleware(req: NextRequest) {
       'https://next.portal.acmutd.co',
     ],
     credentials: true,
-    allowedHeaders:
-      'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers',
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Credentials',
+      'Access-Control-Allow-Headers',
+      'Content-Disposition',
+    ],
+    exposedHeaders: ['Content-Disposition'],
   };
   return cors(req, res, corsOptions);
 }
