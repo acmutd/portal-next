@@ -4,10 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import cors, { CorsOptions } from '../lib/cors';
 
 export default async function middleware(req: NextRequest) {
-  // console.log('===============');
-  // console.log(req);
-  // console.log(NextResponse.next());
-  // console.log('===============');
   const res = NextResponse.next();
   const corsOptions: CorsOptions = {
     origin: [
