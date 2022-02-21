@@ -39,7 +39,7 @@ export default function ResumePage() {
     const res = await getSignedURL({
       variables: {
         options: {
-          transfer: 'UPLOAD',
+          action: 'UPLOAD',
           fileType: 'RESUME',
         },
       },
@@ -69,7 +69,7 @@ export default function ResumePage() {
     const res = await getSignedURL({
       variables: {
         options: {
-          transfer: 'DOWNLOAD',
+          action: 'DOWNLOAD',
           fileType: 'RESUME',
         },
       },
@@ -81,16 +81,39 @@ export default function ResumePage() {
       url,
       method: 'GET',
       responseType: 'blob', // important
-    }).then((response) => {
-      const disposition = contentDisposition.parse(response.headers['content-disposition']);
-      const fileName = disposition.parameters.filename;
-      const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = objectUrl;
-      link.setAttribute('download', fileName);
-      document.body.appendChild(link);
-      link.click();
+    })
+      .then((response) => {
+        const disposition = contentDisposition.parse(response.headers['content-disposition']);
+        const fileName = disposition.parameters.filename;
+        const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(() => alert('Download failed. Please try again later...'));
+  };
+
+  const handleResumeDelete = async () => {
+    const res = await getSignedURL({
+      variables: {
+        options: {
+          action: 'DELETE',
+          fileType: 'RESUME',
+        },
+      },
     });
+
+    const { url } = res.data.transferFile;
+
+    axios({
+      url,
+      method: 'DELETE',
+      responseType: 'blob', // important
+    })
+      .then(() => alert('Successfully deleted resume.'))
+      .catch(() => alert('Delete failed. Please try again later...'));
   };
 
   return (
@@ -129,7 +152,11 @@ export default function ResumePage() {
       >
         Download
       </button>
-      <button type="button" className="bg-green-400 hover:bg-green-800 p-3 rounded-lg">
+      <button
+        type="button"
+        className="bg-green-400 hover:bg-green-800 p-3 rounded-lg"
+        onClick={handleResumeDelete}
+      >
         Delete
       </button>
     </div>

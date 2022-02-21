@@ -17,7 +17,7 @@ export default class SignedURLResolver {
     const session = await getSession(context);
     const url = await this.signedURLService.generateV4SignedUrl(options, session?.id);
     return {
-      transfer: options.transfer,
+      action: options.action,
       fileType: options.fileType,
       url,
     };

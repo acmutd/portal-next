@@ -1,12 +1,12 @@
 import { registerEnumType } from 'type-graphql';
 
-enum Uploadable {
+enum FileCategory {
   RESUME,
 }
 
-registerEnumType(Uploadable, {
-  name: 'Uploadable',
+registerEnumType(FileCategory, {
+  name: 'FileCategory',
   description: 'Types of files or documents that may be uploaded to Google Cloud.',
 });
 
-export default Uploadable;
+export default FileCategory;

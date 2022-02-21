@@ -1,23 +1,23 @@
 import { Field, InputType, ObjectType } from 'type-graphql';
-import Uploadable from '../../enums/Uploadable';
-import Transfer from '../../enums/Transfer';
+import FileCategory from '../../enums/FileCategory';
+import Action from '../../enums/Action';
 
 @InputType()
 export class SignedURLInput {
-  @Field(() => Transfer, { nullable: true })
-  public transfer: Transfer;
+  @Field(() => Action, { nullable: true })
+  public action: Action;
 
-  @Field(() => Uploadable, { nullable: true })
-  public fileType: Uploadable;
+  @Field(() => FileCategory, { nullable: true })
+  public fileType: FileCategory;
 }
 
 @ObjectType()
 export default class SignedURL {
-  @Field(() => Transfer, { nullable: true })
-  public transfer: Transfer;
+  @Field(() => Action, { nullable: true })
+  public action: Action;
 
-  @Field(() => Uploadable, { nullable: true })
-  public fileType: Uploadable;
+  @Field(() => FileCategory, { nullable: true })
+  public fileType: FileCategory;
 
   @Field({ nullable: true })
   public url: string;
