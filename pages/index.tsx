@@ -2,8 +2,10 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
-import { withRelay } from 'relay-nextjs';
-import { graphql, useLazyLoadQuery } from 'react-relay';
+import { RelayProps, withRelay } from 'relay-nextjs';
+import { graphql, usePreloadedQuery } from 'react-relay';
+import { pages_UsersQuery } from 'queries/__generated__/pages_UsersQuery.graphql';
+import { Suspense } from 'react';
 import { getClientEnvironment } from '../lib/relay-nextjs/client_environment';
 
 const PROFILE_CHECK = graphql`
@@ -14,17 +16,13 @@ const PROFILE_CHECK = graphql`
   }
 `;
 
-function HomePage() {
+function HomePage({ preloadedQuery }: RelayProps<{}, pages_UsersQuery>) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const query: any = useLazyLoadQuery(PROFILE_CHECK, {
-    filter: {
-      _id: session.id,
-    },
-  });
+  const query: any = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
 
-  if (!query.users) return null;
+  // if (!query.users) return null;
 
   // const { loading, error, data } = useQuery(PROFILE_CHECK, {
   //   variables: {
@@ -53,17 +51,15 @@ function HomePage() {
             Add another account
           </button>
         </Link>
+        <Suspense fallback={<div>test Loading</div>}>
+          <div>{JSON.stringify(query)}</div>
+        </Suspense>
       </div>
     </div>
   );
 }
 
-function Loading() {
-  return <div>Loading...</div>;
-}
-
 export default withRelay(HomePage, PROFILE_CHECK, {
-  fallback: <Loading />,
   createClientEnvironment: () => getClientEnvironment()!,
   createServerEnvironment: async () => {
     const { createServerEnvironment } = await import('../lib/relay-nextjs/server_environment');
