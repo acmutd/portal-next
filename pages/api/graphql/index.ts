@@ -12,15 +12,17 @@ import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 const cors = Cors();
 
 mongoose.set('debug', true);
+const schema = await buildSchema({
+  resolvers,
+  dateScalarMode: 'isoDate',
+  container: {
+    get: (someClass) => container.resolve(someClass),
+  },
+  scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+});
+
 const apolloServer = new ApolloServer({
-  schema: await buildSchema({
-    resolvers,
-    dateScalarMode: 'isoDate',
-    container: {
-      get: (someClass) => container.resolve(someClass),
-    },
-    scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-  }),
+  schema,
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
 });
