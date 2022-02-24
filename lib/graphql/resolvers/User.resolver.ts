@@ -53,6 +53,7 @@ export default class UserResolver {
 
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
+  @UseMiddleware(TypegooseMiddleware)
   async me(@Ctx() context: TContext) {
     return this.userService.findById(context.session!.id);
   }
