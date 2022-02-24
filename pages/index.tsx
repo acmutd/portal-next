@@ -22,19 +22,6 @@ function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
 
   const query = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
 
-  // if (!query.users) return null;
-
-  // const { loading, error, data } = useQuery(PROFILE_CHECK, {
-  //   variables: {
-  //     filter: {
-  //       _id: session.id,
-  //     },
-  //   },
-  // });
-
-  // if (loading) return 'Loading...';
-  // if (error) return `Error! ${error.message}`;
-
   if (!session) return <div />;
   if (!query.me.hasProfile) router.push('/profile/update');
 

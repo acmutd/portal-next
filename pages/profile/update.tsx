@@ -27,7 +27,6 @@ function Onboarding() {
    * Form for first time users of Portal.
    */
 
-  // { errors }
   const {
     register,
     handleSubmit,
@@ -35,7 +34,6 @@ function Onboarding() {
   } = useForm();
   const { data: session } = useSession();
 
-  // { data, loading, error }
   const [commit, isInFlight] = useMutation<update_CreateProfileMutation>(CREATE_USER);
 
   if (isInFlight) {
