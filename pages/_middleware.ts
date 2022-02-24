@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { withAuth } from 'next-auth/middleware';
 
 export default withAuth({

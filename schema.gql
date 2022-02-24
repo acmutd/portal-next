@@ -4,6 +4,15 @@
 # -----------------------------------------------
 
 """
+Indicate whether the SignedURL will be for uploading, downloading, or deleting.
+"""
+enum Action {
+  DELETE
+  DOWNLOAD
+  UPLOAD
+}
+
+"""
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
@@ -46,6 +55,11 @@ type EventMeta {
   userId: ObjectId!
 }
 
+"""Types of files or documents that may be uploaded to Google Cloud."""
+enum FileCategory {
+  RESUME
+}
+
 type Graduation {
   semester: String!
   year: String!
@@ -61,6 +75,7 @@ type Mutation {
   createEvent(event: EventInput!): Event!
   createProfile(profile: PartialProfile!): Profile!
   rsvpEvent(eventId: ObjectId!, userId: ObjectId!): EventMeta!
+  transferFile(options: SignedURLInput!): SignedURL!
   upsertDiscordMeta(userId: String!): Profile!
 }
 
@@ -104,6 +119,17 @@ type Query {
   profiles(profileIds: [String!]!): [Profile!]!
   upcomingEvents: [Event!]!
   users(filter: UserFilter): [User!]!
+}
+
+type SignedURL {
+  action: Action
+  fileType: FileCategory
+  url: String
+}
+
+input SignedURLInput {
+  action: Action
+  fileType: FileCategory
 }
 
 type User {
