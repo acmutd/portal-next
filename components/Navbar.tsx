@@ -1,14 +1,14 @@
 /* eslint jsx-a11y/click-events-have-key-events: "off" */
 /* eslint jsx-a11y/no-static-element-interactions: "off" */
-import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import React from 'react';
 import NavItem from './NavItem';
 import NavItemWithChildren from './NavItemWithChildren';
 
 export default function Navbar({ children }: React.PropsWithChildren<any>) {
-  const router = useRouter();
   const [showNavbar, setShowNavbar] = React.useState(false);
-  if (router.asPath.includes('auth')) {
+  const { data: session } = useSession();
+  if (!session) {
     return children;
   }
   return (
