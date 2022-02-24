@@ -10,7 +10,6 @@
     "generate:relay": "relay-compiler"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.8",
     "@google-cloud/storage": "^5.18.1",
     "@next-auth/mongodb-adapter": "^1.0.1",
     "@typegoose/typegoose": "^9.5.0",
