@@ -2,7 +2,7 @@ import { Environment, Network, Store, RecordSource } from 'relay-runtime';
 
 export function createServerNetwork(sessionData?: string | undefined) {
   return Network.create(async (params, variables) => {
-    const headers = { 'Content-Type': 'application/json' };
+    const headers: any = { 'Content-Type': 'application/json' };
     if (sessionData) {
       headers.sessiondata = sessionData;
     }
