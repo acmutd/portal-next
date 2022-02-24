@@ -1,23 +1,24 @@
-import { gql, useMutation } from '@apollo/client';
 import { useRef, useState } from 'react';
 import axios from 'axios';
 import contentDisposition from 'content-disposition';
 import mime from 'mime-types';
 import { useSession } from 'next-auth/react';
+import { graphql, useMutation } from 'react-relay';
+import { resume_GetSignedURlMutation } from 'queries/__generated__/resume_GetSignedURlMutation.graphql';
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
   const uploadRef = useRef<HTMLInputElement>();
   const { data: session } = useSession();
 
-  const GET_SIGNED_URL = gql`
-    mutation Mutation($options: SignedURLInput!) {
+  const GET_SIGNED_URL = graphql`
+    mutation resume_GetSignedURlMutation($options: SignedURLInput!) {
       transferFile(options: $options) {
         url
       }
     }
   `;
-  const [getSignedURL] = useMutation(GET_SIGNED_URL);
+  const [commit, isInFlight] = useMutation<resume_GetSignedURlMutation>(GET_SIGNED_URL);
 
   const handleResumeUploadReady = () => {
     if (
@@ -36,84 +37,97 @@ export default function ResumePage() {
   };
 
   const handleResumeUpload = async () => {
-    const res = await getSignedURL({
+    commit({
       variables: {
         options: {
           action: 'UPLOAD',
           fileType: 'RESUME',
         },
       },
+      onCompleted(data) {
+        const { url } = data.transferFile;
+
+        const fileName = `${session.user.name.replace(/\W/g, '')}_resume.${mime.extension(
+          uploadRef.current.files[0].type,
+        )}`; // FirstnameLastname_resume.extension
+
+        const disposition = contentDisposition(fileName); // This will be the default filename when downloading
+
+        axios
+          .put(url, uploadRef.current.files[0], {
+            headers: {
+              'Content-Type': mime.contentType(uploadRef.current.files[0].type),
+              'Content-Disposition': disposition,
+            },
+          })
+          .then(() => alert('Upload succeeded...'))
+          .catch(() => alert('Upload failed. Please try again later...'));
+
+        setUploadReady(false);
+      },
+      onError() {
+        alert('Upload failed. Please try again later...');
+      },
     });
-    const { url } = res.data.transferFile;
-
-    const fileName = `${session.user.name.replace(/\W/g, '')}_resume.${mime.extension(
-      uploadRef.current.files[0].type,
-    )}`; // FirstnameLastname_resume.extension
-
-    const disposition = contentDisposition(fileName); // This will be the default filename when downloading
-
-    axios
-      .put(url, uploadRef.current.files[0], {
-        headers: {
-          'Content-Type': mime.contentType(uploadRef.current.files[0].type),
-          'Content-Disposition': disposition,
-        },
-      })
-      .then(() => alert('Upload succeeded...'))
-      .catch(() => alert('Upload failed. Please try again later...'));
-
-    setUploadReady(false);
   };
 
   const handleResumeDownload = async () => {
-    const res = await getSignedURL({
+    commit({
       variables: {
         options: {
           action: 'DOWNLOAD',
           fileType: 'RESUME',
         },
       },
+      onCompleted(data) {
+        const { url } = data.transferFile;
+
+        axios({
+          url,
+          method: 'GET',
+          responseType: 'blob', // important
+        })
+          .then((response) => {
+            const disposition = contentDisposition.parse(response.headers['content-disposition']);
+            const fileName = disposition.parameters.filename;
+            const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = objectUrl;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+          })
+          .catch(() => alert('Download failed. Please try again later...'));
+      },
+      onError() {
+        alert('Download failed. Please try again later...');
+      },
     });
-
-    const { url } = res.data.transferFile;
-
-    axios({
-      url,
-      method: 'GET',
-      responseType: 'blob', // important
-    })
-      .then((response) => {
-        const disposition = contentDisposition.parse(response.headers['content-disposition']);
-        const fileName = disposition.parameters.filename;
-        const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = objectUrl;
-        link.setAttribute('download', fileName);
-        document.body.appendChild(link);
-        link.click();
-      })
-      .catch(() => alert('Download failed. Please try again later...'));
   };
 
   const handleResumeDelete = async () => {
-    const res = await getSignedURL({
+    commit({
       variables: {
         options: {
           action: 'DELETE',
           fileType: 'RESUME',
         },
       },
+      onCompleted(data) {
+        const { url } = data.transferFile;
+
+        axios({
+          url,
+          method: 'DELETE',
+          responseType: 'blob', // important
+        })
+          .then(() => alert('Successfully deleted resume.'))
+          .catch(() => alert('Delete failed. Please try again later...'));
+      },
+      onError() {
+        alert('Delete failed. Please try again later...');
+      },
     });
-
-    const { url } = res.data.transferFile;
-
-    axios({
-      url,
-      method: 'DELETE',
-      responseType: 'blob', // important
-    })
-      .then(() => alert('Successfully deleted resume.'))
-      .catch(() => alert('Delete failed. Please try again later...'));
   };
 
   return (
@@ -159,6 +173,7 @@ export default function ResumePage() {
       >
         Delete
       </button>
+      {isInFlight && <div>loading...</div>}
     </div>
   );
 }
