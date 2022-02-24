@@ -1,34 +1,29 @@
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
-import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { RelayProps, withRelay } from 'relay-nextjs';
+import { graphql, usePreloadedQuery } from 'react-relay';
+import { pages_MeQuery } from 'queries/__generated__/pages_MeQuery.graphql';
+import { Suspense } from 'react';
+import { getClientEnvironment } from '../lib/relay-nextjs/client_environment';
 
-const PROFILE_CHECK = gql`
-  query Users($filter: UserFilter) {
-    users(filter: $filter) {
+const PROFILE_CHECK = graphql`
+  query pages_MeQuery {
+    me {
       hasProfile
     }
   }
 `;
 
-export default function HomePage() {
+function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { loading, error, data } = useQuery(PROFILE_CHECK, {
-    variables: {
-      filter: {
-        _id: session.id,
-      },
-    },
-  });
-
-  if (loading) return 'Loading...';
-  if (error) return `Error! ${error.message}`;
+  const query = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
 
   if (!session) return <div />;
-  if (data.users === [] || !data.users[0].hasProfile) router.push('/profile/update');
+  if (!query.me.hasProfile) router.push('/profile/update');
 
   return (
     <div>
@@ -43,7 +38,19 @@ export default function HomePage() {
             Add another account
           </button>
         </Link>
+        <Suspense fallback={<div>test Loading</div>}>
+          <div>{JSON.stringify(query)}</div>
+        </Suspense>
       </div>
     </div>
   );
 }
+
+export default withRelay(HomePage, PROFILE_CHECK, {
+  createClientEnvironment: () => getClientEnvironment()!,
+  createServerEnvironment: async (ctx, { cookieData }) => {
+    const { createServerEnvironment } = await import('../lib/relay-nextjs/server_environment');
+    return createServerEnvironment(cookieData);
+  },
+  serverSideProps: async (ctx) => ({ cookieData: ctx.req.headers.cookie }),
+});

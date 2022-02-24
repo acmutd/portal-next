@@ -1,3 +1,4 @@
+/* eslint import/no-extraneous-dependencies: "off" */
 import { GraphQLScalarType, Kind } from 'graphql';
 import { ObjectId } from 'mongodb';
 
