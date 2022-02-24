@@ -1,26 +1,28 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import AuthWrapper from '../components/AuthWrapper';
+import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
+import { RelayEnvironmentProvider } from 'react-relay';
 import Navbar from '../components/Navbar';
+import { getClientEnvironment } from '../lib/relay-nextjs/client_environment';
 
-const client = new ApolloClient({
-  uri: '/api/graphql',
-  cache: new InMemoryCache(),
+const clientEnv = getClientEnvironment();
+const initialPreloadedQuery = getInitialPreloadedQuery({
+  createClientEnvironment: () => getClientEnvironment()!,
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
+  const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
+
   return (
-    <ApolloProvider client={client}>
+    <RelayEnvironmentProvider environment={env}>
       <SessionProvider session={pageProps.session}>
-        <AuthWrapper>
-          <Navbar>
-            <Component {...pageProps} />
-          </Navbar>
-        </AuthWrapper>
+        <Navbar>
+          <Component {...pageProps} {...relayProps} />
+        </Navbar>
       </SessionProvider>
-    </ApolloProvider>
+    </RelayEnvironmentProvider>
   );
 }
 export default MyApp;

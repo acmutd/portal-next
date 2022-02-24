@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
@@ -29,6 +29,9 @@ export default NextAuth({
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
+  session: {
+    strategy: 'jwt',
+  },
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/auth/signin',
@@ -41,8 +44,8 @@ export default NextAuth({
       }
       return true;
     },
-    async session({ session, user }) {
-      return { ...session, id: user.id };
+    async session({ session, token }) {
+      return { ...session, id: token.sub };
     },
   },
 });

@@ -8,16 +8,18 @@ import { ObjectId } from 'mongodb';
 import { resolvers } from '../../../lib/graphql/resolvers';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
-mongoose.set('debug', process.env.NODE_ENV !== 'production');
+mongoose.set('debug', true);
+const schema = await buildSchema({
+  resolvers,
+  dateScalarMode: 'isoDate',
+  container: {
+    get: (someClass) => container.resolve(someClass),
+  },
+  scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+});
+
 const apolloServer = new ApolloServer({
-  schema: await buildSchema({
-    resolvers,
-    dateScalarMode: 'isoDate',
-    container: {
-      get: (someClass) => container.resolve(someClass),
-    },
-    scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-  }),
+  schema,
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
   context: ({ req }) => ({ req }),
