@@ -1,12 +1,14 @@
 import { Environment, Network, Store, RecordSource } from 'relay-runtime';
 
-export function createServerNetwork() {
+export function createServerNetwork(sessionData?: string | undefined) {
   return Network.create(async (params, variables) => {
+    const headers = { 'Content-Type': 'application/json' };
+    if (sessionData) {
+      headers.sessiondata = sessionData;
+    }
     const response = await fetch('http://localhost:3000/api/graphql', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         query: params.text,
         variables,
@@ -17,9 +19,9 @@ export function createServerNetwork() {
   });
 }
 
-export function createServerEnvironment() {
+export function createServerEnvironment(sessionData?: string | undefined) {
   return new Environment({
-    network: createServerNetwork(),
+    network: createServerNetwork(sessionData),
     store: new Store(new RecordSource()),
     isServer: true,
   });

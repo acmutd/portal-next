@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { gql, useMutation } from '@apollo/client';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { signOut, useSession } from 'next-auth/react';
+import { graphql, useMutation } from 'react-relay';
+import { update_CreateProfileMutation } from '../../queries/__generated__/update_CreateProfileMutation.graphql';
 
-const CREATE_USER = gql`
-  mutation CreateProfile($profile: PartialProfile!) {
+const CREATE_USER = graphql`
+  mutation update_CreateProfileMutation($profile: PartialProfile!) {
     createProfile(profile: $profile) {
       email
       firstName
@@ -33,28 +33,14 @@ function Onboarding() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [result, setResult] = useState<any>('');
   const { data: session } = useSession();
 
   // { data, loading, error }
-  const [addUser] = useMutation(CREATE_USER, {
-    variables: {
-      profile: {
-        email: session.user.email,
-        firstName: result.firstName,
-        graduation: {
-          semester: result.semester,
-          year: result.year,
-        },
-        lastName: result.lastName,
-        classStanding: result.classStanding,
-        major: result.major,
-        netid: result.netid,
-        user: session.id,
-        utdStudent: result.utdStudent,
-      },
-    },
-  });
+  const [commit, isInFlight] = useMutation<update_CreateProfileMutation>(CREATE_USER);
+
+  if (isInFlight) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -72,9 +58,27 @@ function Onboarding() {
           <div className="flex flex-col">
             <form
               onSubmit={handleSubmit((vals) => {
-                setResult(vals);
-                addUser();
-                window.location.href = '/';
+                commit({
+                  variables: {
+                    profile: {
+                      email: session.user.email,
+                      firstName: vals.firstName,
+                      graduation: {
+                        semester: vals.semester,
+                        year: vals.year,
+                      },
+                      lastName: vals.lastName,
+                      classStanding: vals.classStanding,
+                      major: vals.major,
+                      netid: vals.netid,
+                      user: session.id,
+                      utdStudent: vals.utdStudent,
+                    },
+                  },
+                  onCompleted() {
+                    window.location.href = '/';
+                  },
+                });
               })}
               className="justify-between min-h-full h-full"
             >

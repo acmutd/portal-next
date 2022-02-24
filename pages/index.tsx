@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
@@ -61,8 +61,12 @@ function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
 
 export default withRelay(HomePage, PROFILE_CHECK, {
   createClientEnvironment: () => getClientEnvironment()!,
-  createServerEnvironment: async () => {
+  createServerEnvironment: async (ctx, { sessionData }) => {
     const { createServerEnvironment } = await import('../lib/relay-nextjs/server_environment');
-    return createServerEnvironment();
+    return createServerEnvironment(sessionData);
+  },
+  serverSideProps: async (ctx) => {
+    const session = await getSession({ req: ctx.req as any });
+    return { sessionData: session ? JSON.stringify(session) : undefined };
   },
 });

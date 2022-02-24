@@ -4,7 +4,10 @@ import { MiddlewareFn } from 'type-graphql';
 import { TContext } from '../interfaces/context.interface';
 
 export const InjectSessionMiddleware: MiddlewareFn<TContext> = async ({ context }, next) => {
-  const session = await getSession(context);
+  let session = await getSession(context);
+  if (context.req.headers.sessiondata !== undefined) {
+    session = JSON.parse(context.req.headers.sessiondata);
+  }
   if (!session) {
     return 'You must login to be able to use this functionality';
   }
