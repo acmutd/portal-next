@@ -14,7 +14,7 @@ export default class SignedURLResolver {
     @Arg('options', () => SignedURLInput) options: SignedURLInput,
     @Ctx() context: any,
   ) {
-    const session = await getSession(context);
+    const session = (await getSession(context)) as any;
     const url = await this.signedURLService.generateV4SignedUrl(options, session?.id);
     return {
       action: options.action,
