@@ -100,6 +100,7 @@ type Profile {
 
 type Query {
   events: [Event!]!
+  me: User!
   profiles(profileIds: [String!]!): [Profile!]!
   upcomingEvents: [Event!]!
   users(filter: UserFilter): [User!]!

@@ -19,6 +19,7 @@ const schema = await buildSchema({
     get: (someClass) => container.resolve(someClass),
   },
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+  emitSchemaFile: true,
 });
 
 const apolloServer = new ApolloServer({

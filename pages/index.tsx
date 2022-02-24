@@ -4,23 +4,23 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { RelayProps, withRelay } from 'relay-nextjs';
 import { graphql, usePreloadedQuery } from 'react-relay';
-import { pages_UsersQuery } from 'queries/__generated__/pages_UsersQuery.graphql';
+import { pages_MeQuery } from 'queries/__generated__/pages_MeQuery.graphql';
 import { Suspense } from 'react';
 import { getClientEnvironment } from '../lib/relay-nextjs/client_environment';
 
 const PROFILE_CHECK = graphql`
-  query pages_UsersQuery($filter: UserFilter) {
-    users(filter: $filter) {
+  query pages_MeQuery {
+    me {
       hasProfile
     }
   }
 `;
 
-function HomePage({ preloadedQuery }: RelayProps<{}, pages_UsersQuery>) {
+function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const query: any = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
+  const query = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
 
   // if (!query.users) return null;
 
@@ -36,7 +36,7 @@ function HomePage({ preloadedQuery }: RelayProps<{}, pages_UsersQuery>) {
   // if (error) return `Error! ${error.message}`;
 
   if (!session) return <div />;
-  if (query.users === [] || !query.users[0].hasProfile) router.push('/profile/update');
+  if (!query.me.hasProfile) router.push('/profile/update');
 
   return (
     <div>

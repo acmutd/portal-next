@@ -1,5 +1,5 @@
 import { injectable } from 'tsyringe';
-import { Arg, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { TypegooseMiddleware } from '../middlewares/typegoose';
 import User, { UserFilter } from '../schemas/User.schema';
 import UserService from '../services/User.service';
@@ -7,6 +7,8 @@ import EventMetaService from '../services/EventMeta.service';
 import Event from '../schemas/Event.schema';
 import ProfileService from '../services/Profile.service';
 import Profile from '../schemas/Profile.schema';
+import { TContext } from '../interfaces/context.interface';
+import { InjectSessionMiddleware } from '../middlewares/inject-session';
 
 @Resolver(() => User)
 @injectable()
@@ -47,5 +49,11 @@ export default class UserResolver {
   async hasProfile(@Root() user: User) {
     const profile = await this.profileService.findByUserId(user._id);
     return !!profile;
+  }
+
+  @Query(() => User)
+  @UseMiddleware(InjectSessionMiddleware)
+  async me(@Ctx() context: TContext) {
+    return this.userService.findById(context.session!.id);
   }
 }
