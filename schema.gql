@@ -55,14 +55,11 @@ type EventMeta {
   userId: ObjectId!
 }
 
-<<<<<<< HEAD
 """Types of files or documents that may be uploaded to Google Cloud."""
 enum FileCategory {
   RESUME
 }
 
-=======
->>>>>>> next
 type Graduation {
   semester: String!
   year: String!
@@ -78,10 +75,7 @@ type Mutation {
   createEvent(event: EventInput!): Event!
   createProfile(profile: PartialProfile!): Profile!
   rsvpEvent(eventId: ObjectId!, userId: ObjectId!): EventMeta!
-<<<<<<< HEAD
   transferFile(options: SignedURLInput!): SignedURL!
-=======
->>>>>>> next
   upsertDiscordMeta(userId: String!): Profile!
 }
 
@@ -127,7 +121,6 @@ type Query {
   users(filter: UserFilter): [User!]!
 }
 
-<<<<<<< HEAD
 type SignedURL {
   action: Action
   fileType: FileCategory
@@ -139,8 +132,6 @@ input SignedURLInput {
   fileType: FileCategory
 }
 
-=======
->>>>>>> next
 type User {
   _id: ObjectId!
   checkIn: [Event!]!
