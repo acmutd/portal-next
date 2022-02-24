@@ -8,9 +8,12 @@ import NavItemWithChildren from './NavItemWithChildren';
 export default function Navbar({ children }: React.PropsWithChildren<any>) {
   const router = useRouter();
   const [showNavbar, setShowNavbar] = React.useState(false);
+  if (router.asPath.includes('auth')) {
+    return children;
+  }
   return (
     <div className="w-full md:flex">
-      {router.asPath.indexOf('auth') === -1 && showNavbar && (
+      {showNavbar && (
         <div className="h-screen w-full md:w-1/3 xl:w-1/5 p-3 border-r-2">
           <div className="flex justify-between p-3 items-center">
             <svg

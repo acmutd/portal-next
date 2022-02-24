@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { RelayEnvironmentProvider } from 'react-relay';
-import AuthWrapper from '../components/AuthWrapper';
 import Navbar from '../components/Navbar';
 import { getClientEnvironment } from '../lib/relay-nextjs/client_environment';
 
@@ -19,11 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RelayEnvironmentProvider environment={env}>
       <SessionProvider session={pageProps.session}>
-        <AuthWrapper>
-          <Navbar>
-            <Component {...pageProps} {...relayProps} />
-          </Navbar>
-        </AuthWrapper>
+        <Navbar>
+          <Component {...pageProps} {...relayProps} />
+        </Navbar>
       </SessionProvider>
     </RelayEnvironmentProvider>
   );
