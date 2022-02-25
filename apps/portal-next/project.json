@@ -19,7 +19,9 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "portal-next:build",
-        "dev": true
+        "dev": true,
+        "port": 3000,
+        "hostname": "localhost"
       },
       "configurations": {
         "production": {

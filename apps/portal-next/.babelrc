@@ -7,6 +7,11 @@
     "babel-plugin-parameter-decorator",
     ["@babel/plugin-proposal-private-methods", { "loose": true }],
     ["@babel/plugin-proposal-private-property-in-object", { "loose": true }],
-    "relay"
+    [
+      "relay",
+      {
+        "artifactDirectory": "apps/portal-next/queries/__generated__"
+      }
+    ]
   ]
 }

@@ -28,7 +28,7 @@
   },
   "plugins": ["prettier"],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "apps/portal-next/tsconfig.json"
   },
   "rules": {
     "react/react-in-jsx-scope": "off",

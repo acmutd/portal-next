@@ -16,7 +16,9 @@ const schema = await buildSchema({
     get: (someClass) => container.resolve(someClass),
   },
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-  emitSchemaFile: true,
+  emitSchemaFile: {
+    path: __dirname + '/../../../schema.gql',
+  },
 });
 
 const apolloServer = new ApolloServer({
