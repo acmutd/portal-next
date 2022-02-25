@@ -20,7 +20,7 @@
       "options": {
         "buildTarget": "portal-next:build",
         "dev": true,
-        "port": 3000,
+        "port": 4200,
         "hostname": "localhost"
       },
       "configurations": {

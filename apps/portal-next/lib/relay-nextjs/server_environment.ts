@@ -6,7 +6,7 @@ export function createServerNetwork(cookieData?: string | undefined) {
     if (cookieData) {
       headers.cookie = cookieData;
     }
-    const response = await fetch('http://localhost:3000/api/graphql', {
+    const response = await fetch('http://localhost:4200/api/graphql', {
       method: 'POST',
       headers,
       body: JSON.stringify({
