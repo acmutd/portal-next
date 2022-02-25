@@ -4,18 +4,12 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "@nrwl/workspace:run-script",
       "options": {
-        "root": "apps/portal-next",
-        "outputPath": "apps/portal-next/build"
-      },
-      "configurations": {
-        "production": {}
+        "script": "build"
       }
     },
-    "dev": {
+    "serve": {
       "executor": "@nrwl/workspace:run-script",
       "options": {
         "script": "dev"
