@@ -13,7 +13,6 @@ import Submission from '../schemas/Submission.schema';
 import { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
 
-
 @Resolver(() => User)
 @injectable()
 export default class UserResolver {
@@ -62,7 +61,8 @@ export default class UserResolver {
     return this.submissionService.getAll({
       userId: user._id,
     });
-    
+  }
+
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
   @UseMiddleware(TypegooseMiddleware)

@@ -12,6 +12,50 @@ enum Action {
   UPLOAD
 }
 
+type Application {
+  _id: ObjectId!
+  active: Boolean!
+  dateEnd: DateTime!
+  dateStart: DateTime!
+  description: String!
+  name: String!
+  questions: [ApplicationQuestion!]!
+  submissions: [Submission!]!
+  subtitle: String!
+}
+
+input ApplicationFilter {
+  _id: ObjectId
+  active: Boolean
+
+  """Filter all applications that close after this date value"""
+  closeAfter: DateTime
+  name: String
+}
+
+input ApplicationInputType {
+  _id: ObjectId!
+  active: Boolean!
+  dateEnd: DateTime!
+  dateStart: DateTime!
+  description: String!
+  name: String!
+  questions: [ApplicationQuestionInputType!]!
+  subtitle: String!
+}
+
+type ApplicationQuestion {
+  answers: [String!]
+  question: String!
+  questionType: String!
+}
+
+input ApplicationQuestionInputType {
+  answers: [String!]
+  question: String!
+  questionType: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -72,9 +116,11 @@ input GraduationInputType {
 
 type Mutation {
   checkinEvent(eventId: ObjectId!, userId: ObjectId!): EventMeta!
+  createApplication(application: ApplicationInputType!): Application!
   createEvent(event: EventInput!): Event!
   createProfile(profile: PartialProfile!): Profile!
   rsvpEvent(eventId: ObjectId!, userId: ObjectId!): EventMeta!
+  submitApplication(submitInput: SubmitInput!): Submission!
   transferFile(options: SignedURLInput!): SignedURL!
   upsertDiscordMeta(userId: String!): Profile!
 }
@@ -114,9 +160,11 @@ type Profile {
 }
 
 type Query {
+  applications(filter: ApplicationFilter): [Application!]!
   events: [Event!]!
   me: User!
   profiles(profileIds: [String!]!): [Profile!]!
+  submissions(filter: SubmissionFilter): [Submission!]!
   upcomingEvents: [Event!]!
   users(filter: UserFilter): [User!]!
 }
@@ -132,6 +180,29 @@ input SignedURLInput {
   fileType: FileCategory
 }
 
+type Submission {
+  _id: ObjectId!
+  application: Application!
+  applicationStatus: String!
+  author: User!
+  createdAt: DateTime!
+  modifiedAt: DateTime!
+  responses: [String!]!
+}
+
+input SubmissionFilter {
+  _id: ObjectId
+  applicationId: ObjectId
+  applicationStatus: String
+  userId: ObjectId
+}
+
+input SubmitInput {
+  applicationId: ObjectId!
+  responses: [String!]!
+  userId: ObjectId!
+}
+
 type User {
   _id: ObjectId!
   checkIn: [Event!]!
@@ -142,6 +213,7 @@ type User {
   name: String!
   profile: Profile
   rsvp: [Event!]!
+  submissions: [Submission!]!
 }
 
 input UserFilter {
