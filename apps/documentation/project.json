@@ -1,5 +1,25 @@
 {
   "root": "apps/documentation",
   "sourceRoot": "apps/documentation/src",
-  "projectType": "application"
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "build"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "serve"
+      }
+    },
+    "dev": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "start"
+      }
+    }
+  }
 }
