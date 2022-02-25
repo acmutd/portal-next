@@ -1,18 +1,26 @@
 {
   "extends": "../../tsconfig.base.json",
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
   "compilerOptions": {
-    "jsx": "preserve",
+    "target": "es2018",
+    "lib": ["dom", "dom.iterable", "esnext", "ESNext.AsyncIterable"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["node", "jest"],
+    "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "incremental": true
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "jest"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
   "exclude": ["node_modules"]
 }

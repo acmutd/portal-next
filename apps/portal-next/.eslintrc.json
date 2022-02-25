@@ -3,9 +3,10 @@
     "plugin:@nrwl/nx/react-typescript",
     "../../.eslintrc.json",
     "next",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "prettier"
   ],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "*.config.js"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -24,5 +25,22 @@
   ],
   "env": {
     "jest": true
+  },
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "off",
+    "no-underscore-dangle": "off",
+    "react/require-default-props": "off"
   }
 }

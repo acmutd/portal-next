@@ -1,0 +1,9 @@
+/* Files by default will request the project lead*/
+*               @Stevenmqnguyen
+
+.github/**/*    @Stevenmqnguyen @WillieCubed
+
+components/**/* @acmutd/portal-maintainers
+lib/**/*        @acmutd/portal-maintainers
+pages/**/*      @acmutd/portal-maintainers
+styles/**/*     @acmutd/portal-maintainers
