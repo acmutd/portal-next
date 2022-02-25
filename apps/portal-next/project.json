@@ -9,7 +9,7 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/portal-next",
-        "outputPath": "dist/apps/portal-next"
+        "outputPath": "apps/portal-next/build"
       },
       "configurations": {
         "production": {}
