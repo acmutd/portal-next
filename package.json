@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -93,5 +94,16 @@
     "relay-compiler-language-typescript": "^15.0.1",
     "relay-config": "^12.0.1",
     "tailwindcss": "^3.0.15"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write '**/*.{js,ts,tsx}'"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
