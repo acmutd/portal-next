@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "portal-next": "apps/portal-next",
-    "portal-next-e2e": "apps/portal-next-e2e"
+    "portal-next-e2e": "apps/portal-next-e2e",
+    "documentation": "apps/documentation"
   }
 }

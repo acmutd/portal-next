@@ -1,0 +1,5 @@
+{
+  "root": "apps/documentation",
+  "sourceRoot": "apps/documentation/src",
+  "projectType": "application"
+}
