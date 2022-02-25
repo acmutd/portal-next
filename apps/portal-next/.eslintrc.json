@@ -1,11 +1,5 @@
 {
-  "extends": [
-    "plugin:@nrwl/nx/react-typescript",
-    "../../.eslintrc.json",
-    "next",
-    "next/core-web-vitals",
-    "prettier"
-  ],
+  "extends": ["next", "next/core-web-vitals", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*", "*.config.js"],
   "overrides": [
     {
@@ -28,7 +22,7 @@
   },
   "plugins": ["prettier"],
   "parserOptions": {
-    "project": "apps/portal-next/tsconfig.json"
+    "project": "apps/portal-next/tsconfig(.*)?.json"
   },
   "rules": {
     "react/react-in-jsx-scope": "off",

@@ -1,7 +1,8 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "extends": ["airbnb", "airbnb-typescript", "prettier"],
+  "ignorePatterns": ["**/*", "*.config.js"],
+  "plugins": ["@nrwl/nx", "@typescript-eslint", "prettier"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
