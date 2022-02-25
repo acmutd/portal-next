@@ -16,7 +16,7 @@ export default class UserService {
     return UserModel.find(filter).exec();
   }
 
-  async findById(userId: Ref<User>) {
+  async findById(userId: Ref<User> | string) {
     const userObj = await UserModel.findById(userId);
     return userObj;
   }
