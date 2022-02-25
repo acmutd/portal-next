@@ -15,19 +15,10 @@
         "production": {}
       }
     },
-    "serve": {
-      "executor": "@nrwl/next:server",
+    "dev": {
+      "executor": "@nrwl/workspace:run-script",
       "options": {
-        "buildTarget": "portal-next:build",
-        "dev": true,
-        "port": 4200,
-        "hostname": "localhost"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "portal-next:build:production",
-          "dev": false
-        }
+        "script": "dev"
       }
     },
     "export": {

@@ -2,7 +2,7 @@
   "name": "portal",
   "private": true,
   "scripts": {
-    "dev": "doppler run -- next dev",
+    "dev": "doppler run -- next dev -p 4200",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
