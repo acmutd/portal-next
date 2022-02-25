@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "generate:relay": "relay-compiler"
+    "generate:relay": "relay-compiler",
+    "generate:schema": "ts-node -O '{\"module\":\"commonjs\"}' lib/graphql/emitSchemaSDL.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.18.1",

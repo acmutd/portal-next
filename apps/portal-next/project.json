@@ -7,13 +7,25 @@
       "executor": "@nrwl/workspace:run-script",
       "options": {
         "script": "build"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "generate:relay",
+          "projects": "self"
+        }
+      ]
     },
-    "serve": {
+    "dev": {
       "executor": "@nrwl/workspace:run-script",
       "options": {
         "script": "dev"
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "generate:relay",
+          "projects": "self"
+        }
+      ]
     },
     "export": {
       "executor": "@nrwl/next:export",
@@ -34,6 +46,24 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/portal-next/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "generate:relay": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "generate:relay"
+      },
+      "dependsOn": [
+        {
+          "target": "generate:schema",
+          "projects": "self"
+        }
+      ]
+    },
+    "generate:schema": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "generate:schema"
       }
     }
   },
