@@ -16,6 +16,7 @@ const PROFILE_CHECK = graphql`
   }
 `;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
   const { data: session } = useSession();
   const router = useRouter();

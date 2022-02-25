@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useRef, useState } from 'react';
 import axios from 'axios';
 import contentDisposition from 'content-disposition';

@@ -17,7 +17,7 @@ const schema = await buildSchema({
   },
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   emitSchemaFile: {
-    path: __dirname + '/../../../schema.gql',
+    path: `${__dirname}/../../../schema.gql`,
   },
 });
 
