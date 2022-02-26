@@ -23,7 +23,14 @@ function HomePage({ preloadedQuery }: RelayProps<{}, pages_MeQuery>) {
 
   const query = usePreloadedQuery(PROFILE_CHECK, preloadedQuery);
 
-  if (!session) return <div />;
+  if (!session)
+    return (
+      <Link href="/auth/signin" passHref>
+        <button type="button" className="p-3 rounded-lg bg-green-400">
+          Sign In
+        </button>
+      </Link>
+    );
   if (!query.me.hasProfile) router.push('/profile/update');
 
   return (

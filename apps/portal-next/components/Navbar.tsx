@@ -67,7 +67,8 @@ export default function Navbar({ children }: React.PropsWithChildren<any>) {
               <NavItem href="/profile/membership" title="Membership Status" />
               <NavItem href="/profile/attendance" title="Attendance History" />
               <NavItem href="/profile/application" title="Application History" />
-              <NavItem href="/profile/resume" title="Resume" />
+              <NavItem href="/profile/resume" title="Submit Resume" />
+              <NavItem href="/profile/update" title="Update Profile" />
             </NavItemWithChildren>
             <NavItem href="/settings" customClass="text-xl" title="Account Settings" />
           </div>
