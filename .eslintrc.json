@@ -1,21 +1,36 @@
 {
-  "extends": ["next", "next/core-web-vitals", "airbnb", "airbnb-typescript", "prettier"],
-  "plugins": ["prettier"],
-  "ignorePatterns": ["*.config.js"],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-    "react/jsx-props-no-spreading": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "class-methods-use-this": "off",
-    "consistent-return": "off",
-    "max-classes-per-file": "off",
-    "object-curly-newline": "off",
-    "@typescript-eslint/indent": "off",
-    "no-underscore-dangle": "off",
-    "react/require-default-props": "off"
-  }
+  "root": true,
+  "extends": ["airbnb", "airbnb-typescript", "prettier"],
+  "ignorePatterns": ["**/*", "*.config.js"],
+  "plugins": ["@nrwl/nx", "@typescript-eslint", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    }
+  ]
 }

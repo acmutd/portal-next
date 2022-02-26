@@ -1,7 +1,4 @@
-.cache
-.husky
-.next
-.vscode
-package.json
-package-lock.json
-public
+# Add files here to ignore them from prettier formatting
+
+/dist
+/coverage
