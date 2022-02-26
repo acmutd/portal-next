@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 import { ObjectId } from 'mongodb';
 import { container } from 'tsyringe';
-import { emitSchemaDefinitionFile, buildSchema } from 'type-graphql';
-import path from 'path/posix';
+import { buildSchema } from 'type-graphql';
 import { resolvers } from './resolvers';
 import ObjectIdScalar from './scalars/ObjectIDScalar';
 
@@ -14,6 +13,6 @@ import ObjectIdScalar from './scalars/ObjectIDScalar';
       get: (someClass) => container.resolve(someClass),
     },
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-    emitSchemaFile: path.resolve(__dirname, '../..', 'schema.gql'),
+    emitSchemaFile: './schema.gql',
   });
 })();
