@@ -33,6 +33,13 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.eslintcache
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
 
 # System Files
 .DS_Store
