@@ -82,6 +82,7 @@ function Onboarding() {
             >
               <input
                 name="firstName"
+                type="text"
                 {...register('firstName', {
                   required: 'Enter your First Name.',
                   pattern: {
@@ -99,6 +100,7 @@ function Onboarding() {
 
               <input
                 name="lastName"
+                type="text"
                 {...register('lastName', {
                   required: 'Enter your First Name.',
                   pattern: {
@@ -116,6 +118,7 @@ function Onboarding() {
 
               <input
                 name="netid"
+                type="text"
                 {...register('netid', {
                   required: 'Enter your netID.',
                   pattern: {
@@ -135,6 +138,7 @@ function Onboarding() {
 
               <input
                 name="major"
+                type="text"
                 {...register('major', {
                   required: 'What is your major?',
                 })}
