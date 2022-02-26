@@ -8,7 +8,7 @@ export default async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const corsOptions: CorsOptions = {
     origin: [
-      'http://localhost:3000',
+      'http://localhost:4200',
       'https://studio.apollographql.com',
       'https://next.portal.acmutd.co',
     ],

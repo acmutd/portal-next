@@ -1,0 +1,71 @@
+{
+  "root": "apps/portal-next",
+  "sourceRoot": "apps/portal-next",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "build"
+      },
+      "dependsOn": [
+        {
+          "target": "generate:relay",
+          "projects": "self"
+        }
+      ]
+    },
+    "dev": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "dev"
+      },
+      "dependsOn": [
+        {
+          "target": "generate:relay",
+          "projects": "self"
+        }
+      ]
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "portal-next:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/portal-next"],
+      "options": {
+        "jestConfig": "apps/portal-next/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/portal-next/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "generate:relay": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "generate:relay"
+      },
+      "dependsOn": [
+        {
+          "target": "generate:schema",
+          "projects": "self"
+        }
+      ]
+    },
+    "generate:schema": {
+      "executor": "@nrwl/workspace:run-script",
+      "options": {
+        "script": "generate:schema"
+      }
+    }
+  },
+  "tags": []
+}

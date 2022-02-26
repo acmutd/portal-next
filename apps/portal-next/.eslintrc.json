@@ -1,9 +1,28 @@
 {
-  "extends": ["next", "next/core-web-vitals", "airbnb", "airbnb-typescript", "prettier"],
+  "extends": ["next", "next/core-web-vitals", "../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "*.config.js"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@next/next/no-html-link-for-pages": ["error", "apps/portal-next/pages"]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ],
+  "env": {
+    "jest": true
+  },
   "plugins": ["prettier"],
-  "ignorePatterns": ["*.config.js"],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "apps/portal-next/tsconfig(.*)?.json"
   },
   "rules": {
     "react/react-in-jsx-scope": "off",

@@ -6,7 +6,8 @@ export function createServerNetwork(cookieData?: string | undefined) {
     if (cookieData) {
       headers.cookie = cookieData;
     }
-    const response = await fetch('http://localhost:3000/api/graphql', {
+    const url = new URL('/api/graphql', process.env.NEXTAUTH_URL as string);
+    const response = await fetch(url.toString(), {
       method: 'POST',
       headers,
       body: JSON.stringify({

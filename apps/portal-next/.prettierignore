@@ -5,3 +5,5 @@
 package.json
 package-lock.json
 public
+schema.gql
+queries/__generated__/
