@@ -2,3 +2,13 @@
 
 /dist
 /coverage
+
+.cache
+.husky
+.next
+.vscode
+package.json
+package-lock.json
+public
+schema.gql
+**/*/__generated__/*
