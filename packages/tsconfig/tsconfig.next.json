@@ -1,13 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "next-env.d.ts",
-    ".prettierrc.js"
-  ],
+
   "compilerOptions": {
     "target": "es2018",
     "lib": ["dom", "dom.iterable", "esnext", "ESNext.AsyncIterable"],
@@ -15,7 +8,6 @@
     "emitDecoratorMetadata": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
@@ -25,9 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "types": ["node", "jest"]
-  },
-  "exclude": ["node_modules"]
+  }
 }
