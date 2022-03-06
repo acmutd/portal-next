@@ -9,8 +9,8 @@
     "prepare": "husky install"
   },
   "workspaces": [
-    "./apps/*",
-    "./packages/*"
+    "apps/*",
+    "packages/*"
   ],
   "private": true,
   "devDependencies": {
