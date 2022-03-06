@@ -7,3 +7,5 @@ coverage
 
 # A temporary fix until rewrite is complete
 old
+
+.prettierrc.js
