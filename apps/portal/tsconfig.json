@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/tsconfig.next.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {}
+  },
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".prettierrc.js"],
+  "exclude": ["node_modules"]
+}
