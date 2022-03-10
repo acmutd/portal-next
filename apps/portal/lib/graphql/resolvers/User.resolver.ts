@@ -1,7 +1,16 @@
 import { injectable } from 'tsyringe';
-import { Arg, Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
+import {
+  Arg,
+  Ctx,
+  FieldResolver,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+  UseMiddleware,
+} from 'type-graphql';
 import { TypegooseMiddleware } from '../middlewares/typegoose';
-import User, { UserFilter } from '../schemas/User.schema';
+import { User, RolesOnUser, Role } from '@generated/type-graphql';
 import UserService from '../services/User.service';
 import EventMetaService from '../services/EventMeta.service';
 import Event from '../schemas/Event.schema';
@@ -23,50 +32,70 @@ export default class UserResolver {
     private submissionService: SubmissionService,
   ) {}
 
-  @Query(() => [User])
-  @UseMiddleware(TypegooseMiddleware)
-  async users(
-    @Arg('filter', () => UserFilter, { nullable: true }) filter?: UserFilter,
-  ): Promise<User[]> {
-    return this.userService.getAll(filter);
-  }
+  // @Query(() => [User])
+  // @UseMiddleware(TypegooseMiddleware)
+  // async users(
+  //   @Arg('filter', () => UserFilter, { nullable: true }) filter?: UserFilter,
+  // ): Promise<User[]> {
+  //   return this.userService.getAll(filter);
+  // }
 
-  @FieldResolver(() => [Event])
-  @UseMiddleware(TypegooseMiddleware)
-  async rsvp(@Root() user: User) {
-    return this.eventMetaService.findRsvpByUserId(user._id);
-  }
+  @Mutation(() => RolesOnUser)
+  async addRole(
+    @Ctx() { prisma }: TContext,
+    @Arg('userId') userId: string,
+    @Arg('roleName') roleName: string,
+  ) {
+    const role = await prisma.role.findFirst({
+      where: {
+        roleName,
+      },
+    });
 
-  @FieldResolver(() => [Event])
-  @UseMiddleware(TypegooseMiddleware)
-  async checkIn(@Root() user: User) {
-    return this.eventMetaService.findCheckInByUserId(user._id);
-  }
-
-  @FieldResolver(() => Profile, { nullable: true })
-  @UseMiddleware(TypegooseMiddleware)
-  async profile(@Root() user: User) {
-    return this.profileService.findByUserId(user._id);
-  }
-
-  @FieldResolver(() => Boolean)
-  async hasProfile(@Root() user: User) {
-    const profile = await this.profileService.findByUserId(user._id);
-    return !!profile;
-  }
-
-  @FieldResolver(() => [Submission])
-  @UseMiddleware(TypegooseMiddleware)
-  async submissions(@Root() user: User) {
-    return this.submissionService.getAll({
-      userId: user._id,
+    return prisma.rolesOnUser.create({
+      data: {
+        roleId: role.id,
+        userId: userId,
+      },
     });
   }
 
-  @Query(() => User)
-  @UseMiddleware(InjectSessionMiddleware)
-  @UseMiddleware(TypegooseMiddleware)
-  async me(@Ctx() context: TContext) {
-    return this.userService.findById(context.session!.id);
-  }
+  // @FieldResolver(() => [Event])
+  // @UseMiddleware(TypegooseMiddleware)
+  // async rsvp(@Root() user: User) {
+  //   return this.eventMetaService.findRsvpByUserId(user.id as any);
+  // }
+
+  // @FieldResolver(() => [Event])
+  // @UseMiddleware(TypegooseMiddleware)
+  // async checkIn(@Root() user: User) {
+  //   return this.eventMetaService.findCheckInByUserId(user.id as any);
+  // }
+
+  // @FieldResolver(() => Profile, { nullable: true })
+  // @UseMiddleware(TypegooseMiddleware)
+  // async profile(@Root() user: User) {
+  //   return this.profileService.findByUserId(user.id as any);
+  // }
+
+  // @FieldResolver(() => Boolean)
+  // async hasProfile(@Root() user: User) {
+  //   const profile = await this.profileService.findByUserId(user.id as any);
+  //   return !!profile;
+  // }
+
+  // @FieldResolver(() => [Submission])
+  // @UseMiddleware(TypegooseMiddleware)
+  // async submissions(@Root() user: User) {
+  //   return this.submissionService.getAll({
+  //     userId: user.id as any,
+  //   });
+  // }
+
+  // @Query(() => User)
+  // @UseMiddleware(InjectSessionMiddleware)
+  // @UseMiddleware(TypegooseMiddleware)
+  // async me(@Ctx() context: TContext) {
+  //   return this.userService.findById(context.session!.id);
+  // }
 }

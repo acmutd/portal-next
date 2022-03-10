@@ -1,9 +1,9 @@
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
-import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
-import clientPromise from '../../../lib/database/mongodb';
+import { PrismaClient } from '@prisma/client';
 
 export default NextAuth({
   providers: [
@@ -28,7 +28,7 @@ export default NextAuth({
       authorization: process.env.OAUTH_DISCORD_AUTH_URL!,
     }),
   ],
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(new PrismaClient()),
   session: {
     strategy: 'jwt',
   },

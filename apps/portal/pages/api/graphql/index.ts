@@ -9,6 +9,10 @@ import { ObjectId } from 'mongodb';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
 import { resolvers } from '@generated/type-graphql';
+import UserResolver from 'lib/graphql/resolvers/User.resolver';
+import { PrismaClient } from '@prisma/client';
+
+let prisma = null;
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -17,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   const schema = await buildSchema({
-    resolvers,
+    resolvers: [...resolvers, UserResolver],
     dateScalarMode: 'isoDate',
     container: {
       get: (someClass) => container.resolve(someClass),
@@ -25,17 +29,21 @@ export default async function handler(req, res) {
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });
 
+  if (!prisma) {
+    prisma = new PrismaClient();
+  }
+
   const apolloServer = new ApolloServer({
     schema,
     introspection: true,
     plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-    context: ({ req }) => ({ req }),
+    context: ({ req }) => ({ req, prisma }),
   });
 
   const startServer = apolloServer.start();
 
-  mongoose.set('debug', true);
-  await mongoose.connect(process.env.MONGODB_URI);
+  // mongoose.set('debug', true);
+  // await mongoose.connect(process.env.MONGODB_URI);
 
   await startServer;
   await apolloServer.createHandler({
