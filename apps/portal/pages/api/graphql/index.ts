@@ -10,6 +10,7 @@ import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
 import { resolvers } from '@generated/type-graphql';
 import UserResolver from 'lib/graphql/resolvers/User.resolver';
+import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
 import { PrismaClient } from '@prisma/client';
 
 let prisma = null;
@@ -21,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   const schema = await buildSchema({
-    resolvers: [...resolvers, UserResolver],
+    resolvers: [...resolvers, UserResolver, SignedURLResolver],
     dateScalarMode: 'isoDate',
     container: {
       get: (someClass) => container.resolve(someClass),
