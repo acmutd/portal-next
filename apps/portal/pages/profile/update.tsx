@@ -1,44 +1,33 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useForm } from 'react-hook-form';
 import { signOut, useSession } from 'next-auth/react';
-import { graphql, useMutation } from 'react-relay';
-import { update_CreateProfileMutation } from '../../queries/__generated__/update_CreateProfileMutation.graphql';
-
-const CREATE_USER = graphql`
-  mutation update_CreateProfileMutation($profile: PartialProfile!) {
-    createProfile(profile: $profile) {
-      email
-      firstName
-      lastName
-      graduation {
-        semester
-        year
-      }
-      classStanding
-      _id
-      major
-      membershipStatus
-    }
-  }
-`;
+import { useMutation } from 'urql';
+import Router from 'next/router';
 
 function Onboarding() {
   /**
    * Form for first time users of Portal.
    */
-
+  const CREATE_PROFILE = `
+mutation Mutation($data: ProfileCreateInput!) {
+  createProfile(data: $data) {
+    firstName
+    lastName
+    email
+    netid
+    classStanding
+    major
+    utdStudent
+  }
+}
+`;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const { data: session } = useSession();
-
-  const [commit, isInFlight] = useMutation<update_CreateProfileMutation>(CREATE_USER);
-
-  if (isInFlight) {
-    return <div>Loading...</div>;
-  }
+  const [createProfileResult, createProfile] = useMutation(CREATE_PROFILE);
 
   return (
     <>
@@ -56,26 +45,23 @@ function Onboarding() {
           <div className="flex flex-col">
             <form
               onSubmit={handleSubmit((vals) => {
-                commit({
-                  variables: {
-                    profile: {
-                      email: session.user.email,
-                      firstName: vals.firstName,
-                      graduation: {
-                        semester: vals.semester,
-                        year: vals.year,
+                createProfile({
+                  data: {
+                    user: {
+                      connect: {
+                        id: session.id,
                       },
-                      lastName: vals.lastName,
-                      classStanding: vals.classStanding,
-                      major: vals.major,
-                      netid: vals.netid,
-                      user: session.id,
-                      utdStudent: vals.utdStudent,
                     },
+                    firstName: vals.firstName,
+                    lastName: vals.lastName,
+                    email: session.user.email,
+                    netid: vals.netid,
+                    classStanding: vals.classStanding,
+                    major: vals.major,
+                    utdStudent: vals.utdStudent,
                   },
-                  onCompleted() {
-                    window.location.href = '/';
-                  },
+                }).then(() => {
+                  Router.push('/');
                 });
               })}
               className="justify-between min-h-full h-full"
