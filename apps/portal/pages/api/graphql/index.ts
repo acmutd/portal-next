@@ -2,14 +2,12 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
-import * as mongoose from 'mongoose';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
 // import { resolvers } from '../../../lib/graphql/resolvers';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
 import { resolvers } from '@generated/type-graphql';
-import UserResolver from 'lib/graphql/resolvers/User.resolver';
 import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
 import { PrismaClient } from '@prisma/client';
 
@@ -22,7 +20,7 @@ export default async function handler(req, res) {
   }
 
   const schema = await buildSchema({
-    resolvers: [...resolvers, UserResolver, SignedURLResolver],
+    resolvers: [...resolvers, SignedURLResolver],
     dateScalarMode: 'isoDate',
     container: {
       get: (someClass) => container.resolve(someClass),
