@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "doppler run -- next dev -p 4200",
-    "build": "doppler run -- next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "generate:schema": "ts-node -O '{\"module\":\"commonjs\"}' lib/graphql/emitSchemaSDL.ts",
