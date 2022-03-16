@@ -1,33 +1,38 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useForm } from 'react-hook-form';
 import { signOut, useSession } from 'next-auth/react';
-import { useMutation } from 'urql';
+import { useMutation, gql } from 'urql';
 import Router from 'next/router';
+import type { UpsertProfileArgs } from '@generated/type-graphql';
 
 function Onboarding() {
   /**
    * Form for first time users of Portal.
    */
-  const CREATE_PROFILE = `
-mutation Mutation($data: ProfileCreateInput!) {
-  createProfile(data: $data) {
-    firstName
-    lastName
-    email
-    netid
-    classStanding
-    major
-    utdStudent
-  }
-}
-`;
+  const UPDATE_PROFILE = gql`
+    mutation UpsertProfile(
+      $where: ProfileWhereUniqueInput!
+      $create: ProfileCreateInput!
+      $update: ProfileUpdateInput!
+    ) {
+      upsertProfile(where: $where, create: $create, update: $update) {
+        firstName
+        lastName
+        email
+        netid
+        classStanding
+        major
+        utdStudent
+      }
+    }
+  `;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const { data: session } = useSession();
-  const [createProfileResult, createProfile] = useMutation(CREATE_PROFILE);
+  const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
 
   return (
     <>
@@ -45,11 +50,14 @@ mutation Mutation($data: ProfileCreateInput!) {
           <div className="flex flex-col">
             <form
               onSubmit={handleSubmit((vals) => {
-                createProfile({
-                  data: {
+                updateProfile({
+                  where: {
+                    userId: session.id as string,
+                  },
+                  create: {
                     user: {
                       connect: {
-                        id: session.id,
+                        id: session.id as string,
                       },
                     },
                     firstName: vals.firstName,
@@ -59,6 +67,26 @@ mutation Mutation($data: ProfileCreateInput!) {
                     classStanding: vals.classStanding,
                     major: vals.major,
                     utdStudent: vals.utdStudent,
+                  },
+                  update: {
+                    firstName: {
+                      set: vals.firstName,
+                    },
+                    lastName: {
+                      set: vals.lastName,
+                    },
+                    netid: {
+                      set: vals.netid,
+                    },
+                    classStanding: {
+                      set: vals.classStanding,
+                    },
+                    major: {
+                      set: vals.major,
+                    },
+                    utdStudent: {
+                      set: vals.utdStudent,
+                    },
                   },
                 }).then(() => {
                   Router.push('/');
