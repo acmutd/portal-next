@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import { createClient, Provider } from 'urql';
 
 const client = createClient({
-  url: new URL('/api/graphql', process.env.NEXT_PUBLIC_BASE_URL as string).toString(),
+  url: '/api/graphql',
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
