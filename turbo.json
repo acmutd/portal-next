@@ -3,13 +3,16 @@
   "baseBranch": "origin/next",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "prisma:generate"]
     },
     "lint": {
       "outputs": []
     },
     "dev": {
-      "cache": false
-    }
+      "cache": false,
+      "dependsOn": ["prisma:generate"]
+    },
+    "prisma:generate": {},
+    "prisma:push": {}
   }
 }

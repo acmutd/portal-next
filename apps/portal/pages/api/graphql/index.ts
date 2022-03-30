@@ -2,30 +2,17 @@ import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { buildSchema } from 'type-graphql';
-import * as mongoose from 'mongoose';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
-import { resolvers } from '../../../lib/graphql/resolvers';
+// import { resolvers } from '../../../lib/graphql/resolvers';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
 
-mongoose.set('debug', true);
-const schema = await buildSchema({
-  resolvers,
-  dateScalarMode: 'isoDate',
-  container: {
-    get: (someClass) => container.resolve(someClass),
-  },
-  scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-});
+import { resolvers } from '@generated/type-graphql';
+import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
+import EventCheckinResolver from 'lib/graphql/resolvers/EventCheckin.resolver';
+import { PrismaClient } from '@prisma/client';
 
-const apolloServer = new ApolloServer({
-  schema,
-  introspection: true,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-  context: ({ req }) => ({ req }),
-});
-
-const startServer = apolloServer.start();
+let prisma = null;
 
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -33,7 +20,30 @@ export default async function handler(req, res) {
     return false;
   }
 
-  await mongoose.connect(process.env.MONGODB_URI);
+  const schema = await buildSchema({
+    resolvers: [...resolvers, SignedURLResolver, EventCheckinResolver],
+    dateScalarMode: 'isoDate',
+    container: {
+      get: (someClass) => container.resolve(someClass),
+    },
+    scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+  });
+
+  if (!prisma) {
+    prisma = new PrismaClient();
+  }
+
+  const apolloServer = new ApolloServer({
+    schema,
+    introspection: true,
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
+    context: ({ req }) => ({ req, prisma }),
+  });
+
+  const startServer = apolloServer.start();
+
+  // mongoose.set('debug', true);
+  // await mongoose.connect(process.env.MONGODB_URI);
 
   await startServer;
   await apolloServer.createHandler({
