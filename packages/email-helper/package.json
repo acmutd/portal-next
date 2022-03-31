@@ -1,0 +1,15 @@
+{
+  "name": "@acmutd/email-helper",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build":"tsc"
+  },
+  "dependencies": {
+    "@sendgrid/client": "^7.6.2",
+    "@sendgrid/helpers": "^7.6.2",
+    "@sendgrid/mail": "^7.6.2",
+    "@sentry/node": "^6.19.3"
+  }
+}

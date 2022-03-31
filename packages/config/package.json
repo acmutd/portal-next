@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "@acmutd/config",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",

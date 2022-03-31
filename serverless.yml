@@ -1,0 +1,18 @@
+service: calendar
+frameworkVersion: '3'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-monorepo
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  email-service:
+    handler: apps/email-service/handler.email_service
+    events:
+      - httpApi:
+          path: /
+          method: get
