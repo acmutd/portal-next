@@ -1,15 +1,9 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "preserveConstEnums": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "target": "es5",
-    "moduleResolution": "node",
-    "lib": ["es2015"],
-    "baseUrl": "./packages",
+    "baseUrl": ".",
     "paths": {
-      "@acmutd/email-helper": ["email-helper/src"]
+      "@acmutd/*": ["packages/*/src"]
     }
   }
 }
