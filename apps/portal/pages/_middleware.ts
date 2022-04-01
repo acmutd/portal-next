@@ -6,8 +6,10 @@ import { withAuth } from 'next-auth/middleware';
 export default withAuth({
   callbacks: {
     authorized: async ({ token, req }) => {
-      if (req.url.includes('/api/graphql') || req.url === `${process.env.NEXTAUTH_URL as string}/`)
-        return true;
+      console.log(req.url);
+      const regex = new RegExp(`^${process.env.NEXTAUTH_URL as string}\/api\/.*`);
+      console.log(regex);
+      if (req.url.match(regex) || req.url === `${process.env.NEXTAUTH_URL as string}/`) return true;
       return !!token;
     },
   },
