@@ -13,6 +13,10 @@
       "dependsOn": ["prisma:generate"]
     },
     "prisma:generate": {},
-    "prisma:push": {}
+    "prisma:push": {},
+    "invoke:local": {
+      "cache": false,
+      "dependsOn": ["^@acmutd/email-helper#build"]
+    }
   }
 }

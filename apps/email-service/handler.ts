@@ -2,7 +2,7 @@
 
 import { sendTestEmail } from '@acmutd/email-helper';
 
-module.exports.email_service = async (event) => {
+export const email_service = async (event) => {
   await sendTestEmail();
   return {
     statusCode: 200,

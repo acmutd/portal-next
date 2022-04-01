@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "invoke:local": "doppler run -- serverless invoke local --function email_service"
+  },
+  "dependencies": {
+    "@acmutd/email-helper": "*"
   },
   "author": "",
   "license": "ISC"

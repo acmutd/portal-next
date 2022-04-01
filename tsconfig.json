@@ -5,9 +5,11 @@
     "sourceMap": true,
     "allowJs": true,
     "target": "es5",
-    "outDir": ".build",
     "moduleResolution": "node",
     "lib": ["es2015"],
-    "rootDir": "./"
+    "baseUrl": "./packages",
+    "paths": {
+      "@acmutd/email-helper": ["email-helper/src"]
+    }
   }
 }
