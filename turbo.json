@@ -8,22 +8,32 @@
     "lint": {
       "outputs": []
     },
-    "dev": {
-      "cache": false
-    },
+    "dev": {},
     "@acmutd/portal#build": {
       "dependsOn": ["@acmutd/portal#prisma:generate"]
     },
     "@acmutd/portal#dev": {
       "dependsOn": ["@acmutd/portal#prisma:generate"]
     },
-    "prisma:generate": {},
-    "prisma:push": {},
+    "prisma:generate": {
+      "cache": false,
+      "outputs": [
+        "../../node_modules/@prisma/client/**",
+        "../../node_modules/.prisma/client/**",
+        "node_modules/.prisma/client/**",
+        "node_modules/@generated/type-graphql/**"
+      ]
+    },
+    "prisma:push": {
+      "cache": false,
+      "outputs": []
+    },
     "sls:invoke:local": {
       "dependsOn": ["^build"]
     },
     "sls:package": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": [".serverless/**"]
     }
   }
 }
