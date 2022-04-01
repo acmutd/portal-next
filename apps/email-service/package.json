@@ -1,14 +1,16 @@
 {
   "name": "@acmutd/email-service",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "invoke:local": "doppler run -- serverless invoke local --function email_service"
+    "sls:invoke:local": "doppler run -- serverless invoke local --function email_service",
+    "sls:package": "doppler run -- serverless package"
   },
   "dependencies": {
-    "@acmutd/email-helper": "*"
+    "@acmutd/email-helper": "^0.0.0"
   },
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "serverless-plugin-optimize": "^4.2.1-rc.1",
+    "serverless-plugin-typescript": "^2.1.1",
+    "typescript": "^4.6.3"
+  }
 }

@@ -3,20 +3,27 @@
   "baseBranch": "origin/next",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build", "prisma:generate"]
+      "dependsOn": ["^build"]
     },
     "lint": {
       "outputs": []
     },
     "dev": {
-      "cache": false,
-      "dependsOn": ["prisma:generate"]
+      "cache": false
+    },
+    "@acmutd/portal#build": {
+      "dependsOn": ["@acmutd/portal#prisma:generate"]
+    },
+    "@acmutd/portal#dev": {
+      "dependsOn": ["@acmutd/portal#prisma:generate"]
     },
     "prisma:generate": {},
     "prisma:push": {},
-    "invoke:local": {
-      "cache": false,
-      "dependsOn": ["^@acmutd/email-helper#build"]
+    "sls:invoke:local": {
+      "dependsOn": ["^build"]
+    },
+    "sls:package": {
+      "dependsOn": ["^build"]
     }
   }
 }

@@ -1,8 +1,12 @@
-service: calendar
+service: email
 frameworkVersion: '3'
 
 plugins:
-  - '@hewmen/serverless-plugin-typescript'
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
+
+package:
+  individually: true
 
 provider:
   name: aws

@@ -1,15 +1,30 @@
 {
   "name": "@acmutd/email-helper",
   "version": "0.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build":"tsc"
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./dist",
+    "compile": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@sendgrid/client": "^7.6.2",
     "@sendgrid/helpers": "^7.6.2",
     "@sendgrid/mail": "^7.6.2",
     "@sentry/node": "^6.19.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acmutd/portal-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acmutd/portal-next/issues"
+  },
+  "homepage": "https://github.com/acmutd/portal-next#readme",
+  "description": ""
 }
