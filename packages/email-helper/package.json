@@ -7,9 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && npm run compile",
-    "clean": "rm -rf ./dist",
-    "compile": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@sendgrid/client": "^7.6.2",
