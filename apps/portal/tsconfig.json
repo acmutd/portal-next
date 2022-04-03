@@ -1,9 +1,29 @@
 {
-  "extends": "tsconfig/tsconfig.next.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {}
+    "target": "es2018",
+    "lib": ["dom", "dom.iterable", "esnext", "ESNext.AsyncIterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "jest"],
+    "paths": {
+      "lib/*": ["apps/portal/lib/*"],
+      "components/*": ["apps/portal/components/*"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".prettierrc.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

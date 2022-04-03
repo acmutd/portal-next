@@ -3,16 +3,37 @@
   "baseBranch": "origin/next",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build", "prisma:generate"]
+      "dependsOn": ["^build"]
     },
     "lint": {
       "outputs": []
     },
-    "dev": {
-      "cache": false,
-      "dependsOn": ["prisma:generate"]
+    "dev": {},
+    "@acmutd/portal#build": {
+      "dependsOn": ["@acmutd/portal#prisma:generate"]
     },
-    "prisma:generate": {},
-    "prisma:push": {}
+    "@acmutd/portal#dev": {
+      "dependsOn": ["@acmutd/portal#prisma:generate"]
+    },
+    "prisma:generate": {
+      "cache": false,
+      "outputs": [
+        "../../node_modules/@prisma/client/**",
+        "../../node_modules/.prisma/client/**",
+        "node_modules/.prisma/client/**",
+        "node_modules/@generated/type-graphql/**"
+      ]
+    },
+    "prisma:push": {
+      "cache": false,
+      "outputs": []
+    },
+    "sls:invoke:local": {
+      "dependsOn": ["^build"]
+    },
+    "sls:package": {
+      "dependsOn": ["^build"],
+      "outputs": [".serverless/**"]
+    }
   }
 }

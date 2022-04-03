@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 build/
+dist
+build/**
+.build/**
 
 # dependencies
 node_modules/
@@ -51,3 +54,6 @@ Thumbs.db
 build/**
 dist/**
 .next/**
+
+.serverless
+.build

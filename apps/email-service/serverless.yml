@@ -1,0 +1,21 @@
+service: email
+frameworkVersion: '3'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  email_service:
+    handler: handler.email_service
+    events:
+      - httpApi:
+          path: /
+          method: get
