@@ -1,0 +1,41 @@
+service: graphql-server
+frameworkVersion: '3'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-optimize
+  - serverless-offline
+
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  httpApi:
+    payload: '2.0'
+    cors: true
+
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+    events:
+      - httpApi:
+          path: /graphql
+          method: get
+      - httpApi:
+          path: /graphql
+          method: post
+
+custom:
+  optimize:
+    plugins: ["babel-plugin-transform-typescript-metadata",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    "babel-plugin-parameter-decorator",
+    ["@babel/plugin-proposal-private-methods", { "loose": true }],
+    ["@babel/plugin-proposal-private-property-in-object", { "loose": true }]]
+    external: ['@prisma/client', '.prisma/client']
+

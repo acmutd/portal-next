@@ -15,6 +15,15 @@
     "@acmutd/portal#dev": {
       "dependsOn": ["@acmutd/portal#prisma:generate"]
     },
+    "@acmutd/graphql-server#sls:package": {
+      "dependsOn": ["@acmutd/graphql-server#prisma:generate"]
+    },
+    "@acmutd/graphql-server#sls:offline": {
+      "dependsOn": ["@acmutd/graphql-server#prisma:generate"]
+    },
+    "@acmutd/graphql-server#sls:deploy": {
+      "dependsOn": ["@acmutd/graphql-server#prisma:generate"]
+    },
     "prisma:generate": {
       "cache": false,
       "outputs": [
@@ -34,6 +43,12 @@
     "sls:package": {
       "dependsOn": ["^build"],
       "outputs": [".serverless/**"]
+    },
+    "sls:offline": {
+      "dependsOn": ["^build"]
+    },
+    "sls:deploy": {
+      "outputs": []
     }
   }
 }
