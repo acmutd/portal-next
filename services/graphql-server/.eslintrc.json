@@ -1,0 +1,37 @@
+{
+  "extends": ["airbnb-base", "airbnb-typescript/base", "prettier"],
+  "ignorePatterns": ["*.config.js", "*config.js", ".turbo"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "root": true,
+  "globals": {},
+  "rules": {
+    "import/prefer-default-export": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 150,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "import/no-import-module-exports": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "off",
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": "./tsconfig.json" },
+  "env": {},
+  "overrides": [],
+  "settings": {}
+}
