@@ -3,8 +3,8 @@ import { PubSub } from '@google-cloud/pubsub';
 export const pubsubClientConfig = {
   projectId: 'acm-core',
   credentials: {
-    client_email: process.env.GOOGLE_APPLICATION_CLIENT_EMAIL!,
-    private_key: process.env.GOOGLE_APPLICATION_PRIVATE_KEY!,
+    client_email: process.env.GOOGLE_APPLICATION_CLIENT_EMAIL as string,
+    private_key: process.env.GOOGLE_APPLICATION_PRIVATE_KEY as string,
   },
 };
 
