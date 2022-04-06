@@ -13,7 +13,8 @@
     "sls:deploy": "doppler run -- serverless deploy",
     "sls:remove": "doppler run -- serverless remove",
     "test": "NODE_ENV=test ./node_modules/.bin/jest --ci --verbose",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write '**/*.{js,ts,tsx}' && eslint --fix",
+    "lint": "TIMING=1 eslint . --ext .js,.jsx,.ts,.tsx",
     "buildtest": "tsc --noEmit"
   },
   "dependencies": {
