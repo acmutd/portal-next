@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:eslint-comments/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "prettier"
+  ],
+  "plugins": ["@typescript-eslint", "eslint-comments", "jest"],
+  "root": true,
+  "globals": {},
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off"
+  },
+  "parser": "@typescript-eslint/parser",
+  "env": { "jest/globals": true },
+  "overrides": [],
+  "settings": {}
+}
