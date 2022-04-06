@@ -57,6 +57,8 @@ dist/**
 
 .serverless
 .build
+.webpack
+jspm_packages
 
 ### Terraform ###
 # Local .terraform directories
