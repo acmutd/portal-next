@@ -3,8 +3,9 @@ service: graphql-server
 custom:
   webpack:
     webpackConfig: webpack.config.js
-    includeModules: true
-
+    includeModules:
+      forceExclude:
+        - aws-sdk
     packager: npm
     packagerOptions:
       lockFile: '../../package-lock.json'
@@ -22,8 +23,8 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14.x
   region: us-east-1
+  runtime: nodejs14.x
   memorySize: 256
   httpApi:
     payload: '2.0'
