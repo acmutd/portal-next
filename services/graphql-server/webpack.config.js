@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const slsw = require('serverless-webpack');
 const nodeExternals = require('webpack-node-externals');
@@ -8,9 +7,7 @@ module.exports = {
   context: __dirname,
   mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
   entry: slsw.lib.entries,
-  devtool: slsw.lib.webpack.isLocal
-    ? 'eval-cheap-module-source-map'
-    : 'source-map',
+  devtool: slsw.lib.webpack.isLocal ? 'eval-cheap-module-source-map' : 'source-map',
   resolve: {
     extensions: ['.mjs', '.js', '.json', '.ts'],
     // symlinks: false,
@@ -27,12 +24,43 @@ module.exports = {
     path: path.join(__dirname, '.webpack'),
     filename: '[name].js',
   },
+  // experiments: {
+  //   topLevelAwait: true,
+  // },
   target: 'node',
   externalsPresets: { node: true },
   externals: [nodeExternals()],
+  optimization: {
+    minimize: true,
+  },
   module: {
     rules: [
-      // Need to use babel-loader for babel-plugin-transform-typescript-metadata polyfills
+      {
+        test: /\.(tsx?)$/,
+        loader: 'babel-loader',
+        exclude: [
+          [
+            // path.resolve(__dirname, 'node_modules'),
+            path.resolve(__dirname, '.serverless'),
+            path.resolve(__dirname, '.webpack'),
+          ],
+        ],
+        options: {
+          presets: [
+            ['@babel/preset-env', { targets: { node: 'current' } }],
+            '@babel/preset-typescript',
+          ],
+          plugins: [
+            'babel-plugin-transform-typescript-metadata',
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            'babel-plugin-parameter-decorator',
+            ['@babel/plugin-proposal-private-methods', { loose: true }],
+            ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
+          ],
+        },
+      },
+      // Need to use babel-loader for babel-plugin-transform-typescript-metadata polyfills which is required by tsyringe
       // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
       // {
       //   test: /\.(tsx?)$/,
@@ -49,34 +77,6 @@ module.exports = {
       //     experimentalWatchApi: true,
       //   },
       // },
-      {
-        test: /\.(tsx?)$/,
-        loader: 'babel-loader',
-        exclude: [
-          [
-            //path.resolve(__dirname, 'node_modules'),
-            path.resolve(__dirname, '.serverless'),
-            path.resolve(__dirname, '.webpack'),
-          ],
-        ],
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: { node: 'current' } }],
-            '@babel/preset-typescript',
-          ],
-          plugins: [
-            'babel-plugin-transform-typescript-metadata',
-            ['@babel/plugin-proposal-decorators', { legacy: true }],
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            'babel-plugin-parameter-decorator',
-            ['@babel/plugin-proposal-private-methods', { loose: true }],
-            [
-              '@babel/plugin-proposal-private-property-in-object',
-              { loose: true },
-            ],
-          ],
-        },
-      },
     ],
   },
   plugins: [new ForkTsCheckerWebpackPlugin()],

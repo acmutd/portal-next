@@ -7,9 +7,7 @@ export default class EventCheckinService {
   async pubCheckinEvent(options: EventCheckinInput) {
     const topicName = 'projects/acm-core/topics/TEST_PUBSUB';
 
-    const messageId = await pubsubclient
-      .topic(topicName)
-      .publishMessage({ json: options });
+    const messageId = await pubsubclient.topic(topicName).publishMessage({ json: options });
     return messageId;
   }
 }
