@@ -31,7 +31,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Anniversary / Birthday',
+    title: 'Microservices',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>

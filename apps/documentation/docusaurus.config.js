@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'ACM Portal',
-  tagline: 'Learn more about the ACM Portal and our core services and infrastructure',
+  tagline: 'Learn more about the ACM Portal, microservices, and core infrastructure',
   url: 'https://docs.portal.acmutd.co',
   baseUrl: '/',
   onBrokenLinks: 'throw',
