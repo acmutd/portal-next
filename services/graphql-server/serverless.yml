@@ -1,0 +1,44 @@
+service: graphql-server
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules:
+      forceExclude:
+        - aws-sdk
+    packager: npm
+    packagerOptions:
+      lockFile: '../../package-lock.json'
+  prune:
+    automatic: true
+    number: 3
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-webpack-prisma
+  - serverless-iam-roles-per-function
+  - serverless-create-global-dynamodb-table
+  - serverless-prune-plugin
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs14.x
+  memorySize: 256
+  httpApi:
+    payload: '2.0'
+    cors: true
+
+functions:
+  graphql:
+    handler: src/handler.graphqlHandler
+    environment:
+      PSCALE_DATABASE_URL: ${env:PSCALE_DATABASE_URL}
+    events:
+      - httpApi:
+          path: /graphql
+          method: get
+      - httpApi:
+          path: /graphql
+          method: post
