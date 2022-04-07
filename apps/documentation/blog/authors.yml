@@ -1,17 +1,101 @@
-endi:
-  name: Endilie Yacop Sucipto
-  title: Maintainer of Docusaurus
-  url: https://github.com/endiliey
-  image_url: https://github.com/endiliey.png
+harsha:
+  name: Harsha Srikara
+  title: Strategic Advisor @ ACM
+  url: https://harshasrikara.dev
+  image_url: https://github.com/harshasrikara.png
 
-yangshun:
-  name: Yangshun Tay
-  title: Front End Engineer @ Facebook
-  url: https://github.com/yangshun
-  image_url: https://github.com/yangshun.png
+reshmi:
+  name: Reshmi Ranjith
+  title: Vice-President @ ACM
+  url: https://reshmicode.github.io
+  image_url: https://github.com/ReshmiCode.png
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
+saksham:
+  name: Saksham Sangraula
+  title: President @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/sakshamsangraula.png
+
+jocelyn:
+  name: Jocelyn Heckenkamp
+  title: Vice-President @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/JocelynHeckenkamp.png
+
+abdullah:
+  name: Abdullah Hasani
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/abdullah50053.png
+
+aditya:
+  name: Aditya Rathod
+  title: Experience Coordinator @ HackUTD
+  url: https://acmutd.co
+  image_url: https://github.com/abdullah50053.png
+
+sai:
+  name: Sai Bommisetty
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/Balstun.png
+
+kendra:
+  name: Kendra Huang
+  title: Director of Industry @ ACM
+  url: https://reshmicode.github.io
+  image_url: https://github.com/kendra-huang.png
+
+ryan:
+  name: Ryan Donaldson
+  title: Technical Writer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/legitatx.png
+
+nam:
+  name: Nam Truong
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/nam-t24.png
+
+sameer:
+  name: Sameer Haq
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/SameerHaq349.png
+
+steven:
+  name: Steven Nguyen
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/Stevenmqnguyen.png
+
+trevor:
+  name: Trevor Tomer
+  title: Director of Education @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/Tmtomer.png
+
+eduardo:
+  name: Eduardo Mazuera
+  title: Developer @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/trexrush.png
+
+varun:
+  name: Varun Joshi
+  title: Director of Education @ ACM
+  url: https://acmutd.co
+  image_url: https://github.com/varuncj02.png
+
+vishvak:
+  name: Vishvak Bandi
+  title: Director of HackUTD
+  url: https://hackutd.co
+  image_url: https://github.com/VishvakBandi.png
+
+sanjeev:
+  name: Sanjeev Penupala
+  title: President @ AIS
+  url: https://reshmicode.github.io
+  image_url: https://github.com/spenpal2000.png

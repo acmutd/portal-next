@@ -6,15 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Portal',
-  tagline: 'The membership portal for ACM UTD',
+  title: 'ACM Portal',
+  tagline: 'Learn more about the ACM Portal and our core services and infrastructure',
   url: 'https://docs.portal.acmutd.co',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'acmutd', // Usually your GitHub org/user name.
-  projectName: 'portal', // Usually your repo name.
+  organizationName: 'ACM', // Usually your GitHub org/user name.
+  projectName: 'portal-next', // Usually your repo name.
 
   presets: [
     [
@@ -25,13 +25,13 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/acmutd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -46,19 +46,20 @@ const config = {
       navbar: {
         title: 'Portal',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Logo',
+          src: 'img/logo-black.svg',
+          srcDark: 'img/logo-white.svg',
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/acmutd/portal-next',
             label: 'GitHub',
             position: 'right',
           },
@@ -68,11 +69,32 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Portal',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Docs',
                 to: '/docs/intro',
+              },
+              {
+                label: 'Blog',
+                to: '/blog',
+              },
+            ],
+          },
+          {
+            title: 'Social',
+            items: [
+              {
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/company/27182339',
+              },
+              {
+                label: 'Twitter',
+                href: 'https://twitter.com/acmutd',
+              },
+              {
+                label: 'Instagram',
+                href: 'https://instagram.com/acmutd',
               },
             ],
           },
@@ -80,16 +102,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'GitHub',
+                href: 'https://github.com/acmutd',
               },
               {
                 label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://acmutd.co/discord',
               },
             ],
           },
@@ -97,17 +115,21 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'Leadership Site',
+                href: 'https://leadership.acmutd.co',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'ACM Website',
+                href: 'https://acmutd.co',
+              },
+              {
+                label: 'ACM Portal',
+                href: 'https://portal.acmutd.co',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} ACM UTD. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ACM Portal. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
