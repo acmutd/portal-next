@@ -2,46 +2,39 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Welcome
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Hey there, glad to see you here! 👋
 
-## Getting Started
+### What is the ACM Leadership Project?
 
-Get started by **creating a new site**.
+The ACM Leadership Project is a group of services put together to help better understand the legacy of the Association for Computing Machinery at UT Dallas. It includes information about our officers, our members, our programs and more! The Leadership Project also includes several features designed to promote the internal team through celebrating acheivements, birthdays and anniversaries! 
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+There are **four** primary services offered by the Leadership Project
 
-### What you'll need
+ - **[Leadership Site](https://leadership.acmutd.co)** - The main website for the ACM Leadership Project created using NextJS and TypeScript. Contains list of all officers, members and programs. 
+ - **[GraphQL API](https://leadership.acmutd.co/api/graphql)** - A GraphQL API that allows for making powerful queries to the database behind the ACM Leadership Project. Available to use for all ACM Offiers. 
+ - **[Birthdays & Anniversaries](https://github.com/acmutd/leadership/actions)** - Two complementary GitHub Actions that celebrate the birthdays and anniversaries of our officers by posting a message in Slack.
+ - **[Accolades](https://leadership.acmutd.co)** - An internal recognition tool to help officers publicly shoutout the acheivements of their peers.
 
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+### What information can I find on this documentation site?
 
-## Generate a new site
+This documentation site serves two primary purposes. Firstly, to help officers better understand the Leadership Project and secondly, to assist developers that intend to be maintainers for the project in coming years.
 
-Generate a new Docusaurus site using the **classic template**.
+#### Officers
 
-The classic template will automatically be added to your project after you run the command:
+As an officer you can expect to find the following information about the Leadership Project:
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+ - **[Student Data](./intro.md)** - Information about what data is stored for each officer, member and program. Additionally, how this data is used is also covered to help answer common questions from the public.
+ - **[Administrative Tools](./intro.md)** - Information about what tools and services are available to edit or modify the data on the Leadership Site. This includes information about how to add new officers, members and programs in upcoming semesters.
+ - **[Resources](./intro.md)** - Contact information for how to get more information about the Leadership Project.
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+#### Developers
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+Jump to the [Quick Start Guide](./intro.md) to see how you can get started with developing the project!
 
-## Start your site
+### Questions?
 
-Run the development server:
+Sometimes you may have additional questions. If the answer was not found in this documentation page please feel free to reach out to the [Director of Development](mailto:development@acmutd.co) for ACM
 
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+We request that you be as detailed as possible in your questions, doubts, or concerns to ensure that we can be of maximum assistance. Thank you!

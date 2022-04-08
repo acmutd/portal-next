@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import styles from './index.module.css';
-import HomepageFeatures from '../components/HomepageFeatures';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -14,11 +14,15 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
+          <Link className="button button--secondary button--lg" to="https://portal.acmutd.co">
+            Discover &nbsp;&rarr;
+          </Link>
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro"
+            style={{ marginLeft: 16 }}
           >
-            Docusaurus Tutorial - 5min ⏱️
+            Docs &nbsp;&rarr;
           </Link>
         </div>
       </div>
