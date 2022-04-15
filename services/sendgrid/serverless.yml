@@ -1,0 +1,38 @@
+service: hello
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules:
+      forceExclude:
+        - aws-sdk
+    packager: npm
+    packagerOptions:
+      lockFile: '../../package-lock.json'
+  prune:
+    automatic: true
+    number: 3
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-iam-roles-per-function
+  - serverless-create-global-dynamodb-table
+  - serverless-prune-plugin
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs14.x
+  memorySize: 256
+  httpApi:
+    payload: '2.0'
+    cors: true
+
+functions:
+  sendgrid:
+    handler: src/handler.sendEmailHandler
+    events:
+      - httpApi:
+          path: /email
+          method: post

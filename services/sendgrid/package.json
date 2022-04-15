@@ -1,0 +1,49 @@
+{
+  "name": "@acmutd/sendgrid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "NODE_ENV=test ../../node_modules/.bin/jest --ci --verbose",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "buildtest": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@dazn/lambda-powertools-cloudwatchevents-client": "^1.28.1",
+    "@dazn/lambda-powertools-correlation-ids": "^1.28.1",
+    "@dazn/lambda-powertools-dynamodb-client": "^1.28.1",
+    "@dazn/lambda-powertools-kinesis-client": "^1.28.1",
+    "@dazn/lambda-powertools-lambda-client": "^1.28.1",
+    "@dazn/lambda-powertools-logger": "^1.28.1",
+    "@dazn/lambda-powertools-pattern-basic": "^1.29.0",
+    "@dazn/lambda-powertools-sns-client": "^1.28.1",
+    "@dazn/lambda-powertools-sqs-client": "^1.28.1",
+    "@sendgrid/mail": "^7.6.2",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1115.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "babel-jest": "^27.5.1",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-module-resolver": "^1.4.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.6",
+    "jest": "^27.5.1",
+    "serverless-create-global-dynamodb-table": "^3.1.1",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-offline": "^8.7.0",
+    "serverless-prune-plugin": "^2.0.1",
+    "serverless-webpack": "^5.7.0",
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
