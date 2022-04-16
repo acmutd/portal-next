@@ -16,8 +16,8 @@ export const sendEmail = async (msg: SendEmailConfig): Promise<boolean> => {
     sendgrid.setApiKey(process.env.SENDGRID_APIKEY!);
     await sendgrid.send(msg);
     return true;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(JSON.stringify(error));
     return false;
   }
 };

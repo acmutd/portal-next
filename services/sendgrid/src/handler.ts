@@ -1,19 +1,25 @@
 /* eslint @typescript-eslint/no-unsafe-assignment: 0 */
 /* eslint @typescript-eslint/no-unsafe-call: 0 */
-import type { APIGatewayProxyEvent } from 'aws-lambda';
-import { validateRequest } from '@src/validate-request';
+/* eslint @typescript-eslint/no-unsafe-member-access: 0 */
 import { sendEmail, SendEmailConfig } from '@src/send-email';
+import middy from '@middy/core';
+import jsonBodyParser from '@middy/http-json-body-parser';
+import JSONErrorHandlerMiddleware from 'middy-middleware-json-error-handler';
+import validator from '@middy/validator';
+import { inputSchema } from '@src/schema';
+import type { ValidatedAPIGatewayProxyEvent } from '@src/schema';
 
-export const sendEmailHandler = async (event: APIGatewayProxyEvent) => {
-  const eventBody = JSON.parse(event.body || '{}') as SendEmailConfig;
-  if (!validateRequest(eventBody)) {
-    return {
-      msg: 'Missing fields',
-    };
-  }
-
-  const sendEmailStatus = await sendEmail(eventBody);
+const sendEmailHandler = async (event: ValidatedAPIGatewayProxyEvent<SendEmailConfig>) => {
+  const sendEmailStatus = await sendEmail(event.body);
   return {
-    msg: sendEmailStatus ? 'Successfully sent email' : 'Unsucessfully sent email',
+    statusCode: sendEmailStatus ? 200 : 500,
+    body: JSON.stringify({
+      msg: sendEmailStatus ? 'Successfully sent email' : 'Unsucessfully sent email',
+    }),
   };
 };
+
+export const main = middy(sendEmailHandler)
+  .use(jsonBodyParser())
+  .use(validator({ inputSchema }))
+  .use(JSONErrorHandlerMiddleware());
