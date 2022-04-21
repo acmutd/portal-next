@@ -66,6 +66,11 @@ resource "aws_cognito_user_pool" "user_pool" {
     email_message_by_link = "Please {##Click Here##} to confirm your ACM account."
   }
 
+  email_configuration {
+    email_sending_account = "DEVELOPER"
+    source_arn = data.doppler_secrets.prd.map.SES_NOREPLY_EMAIL_ARN
+  }
+
   schema {
     attribute_data_type      = "String"
     developer_only_attribute = false
