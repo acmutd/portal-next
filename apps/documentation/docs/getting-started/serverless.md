@@ -57,7 +57,7 @@ npm i -w ./services/email @dazn/lambda-powertools-cloudwatchevents-client @dazn/
 - To install linting dependencies, run the following command:
 
 ```
-npm i -w ./services/email eslint eslint-config-airbnb-base typescript-eslint eslint-plugin-import eslint-import-resolver-alias eslint-plugin-module-resolver @typescript-eslint/eslint-plugin @typescript-eslint/parser
+npm i -D -w ./services/email eslint eslint-config-airbnb-base typescript-eslint eslint-plugin-import eslint-import-resolver-alias eslint-plugin-module-resolver @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 - Create a file named `.eslintrc.json` in your service directory with the following configurations:
