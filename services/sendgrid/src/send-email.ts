@@ -11,13 +11,7 @@ export interface SendEmailConfig {
   templateId: string;
 }
 
-export const sendEmail = async (msg: SendEmailConfig): Promise<boolean> => {
-  try {
-    sendgrid.setApiKey(process.env.SENDGRID_APIKEY!);
-    await sendgrid.send(msg);
-    return true;
-  } catch (error: any) {
-    console.error(JSON.stringify(error));
-    return false;
-  }
+export const sendEmail = async (msg: SendEmailConfig): Promise<any> => {
+  sendgrid.setApiKey(process.env.SENDGRID_APIKEY!);
+  return sendgrid.send(msg);
 };

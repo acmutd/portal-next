@@ -1,11 +1,9 @@
-service: hello
+service: sendgrid
 
 custom:
   webpack:
     webpackConfig: webpack.config.js
-    includeModules:
-      forceExclude:
-        - aws-sdk
+    includeModules: true
     packager: npm
     packagerOptions:
       lockFile: '../../package-lock.json'
@@ -19,20 +17,49 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-create-global-dynamodb-table
   - serverless-prune-plugin
+  - serverless-step-functions
 
 provider:
   name: aws
   region: us-east-1
   runtime: nodejs14.x
   memorySize: 256
-  httpApi:
-    payload: '2.0'
-    cors: true
+
+resources:
+  Resources:
+    TestSQS:
+      Type: AWS::SQS::Queue
+
+stepFunctions:
+  stateMachines:
+    testSF:
+      name: TestStepFunction
+      definition:
+        StartAt: PublishAndWait
+        States:
+          PublishAndWait:
+            Type: Task
+            Resource: arn:aws:states:::sqs:sendMessage.waitForTaskToken
+            Parameters:
+              QueueUrl:
+                Ref: TestSQS
+              MessageBody:
+                payload.$: '$'
+                taskToken.$: '$$.Task.Token'
+            End: true
 
 functions:
   sendgrid:
     handler: src/handler.main
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - states:SendTaskSuccess
+          - states:SendTaskFailure
+        Resource: '*'
     events:
-      - httpApi:
-          path: /email
-          method: post
+      - sqs:
+          arn:
+            Fn::GetAtt: [TestSQS, Arn]
+    environment:
+      SENDGRID_APIKEY: ${env:SENDGRID_APIKEY}

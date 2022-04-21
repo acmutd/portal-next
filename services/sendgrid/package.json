@@ -7,7 +7,9 @@
     "test": "NODE_ENV=test ../../node_modules/.bin/jest --ci --verbose",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "buildtest": "tsc --noEmit",
-    "sls:offline": "doppler run -- sls offline"
+    "sls:offline": "doppler run -- sls offline",
+    "sls:deploy": "doppler run -- sls deploy",
+    "sls:remove": "doppler run -- sls remove"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "@dazn/lambda-powertools-sqs-client": "^1.28.1",
     "@middy/core": "^2.5.7",
     "@middy/http-json-body-parser": "^2.5.7",
+    "@middy/sqs-json-body-parser": "^2.5.7",
     "@middy/validator": "^2.5.7",
     "@sendgrid/mail": "^7.6.2",
     "aws-lambda": "^1.0.7",
@@ -48,6 +51,7 @@
     "serverless-iam-roles-per-function": "^3.2.0",
     "serverless-offline": "^8.7.0",
     "serverless-prune-plugin": "^2.0.1",
+    "serverless-step-functions": "^3.7.0",
     "serverless-webpack": "^5.7.0",
     "typescript-eslint": "^0.0.1-alpha.0",
     "webpack-node-externals": "^3.0.0"
