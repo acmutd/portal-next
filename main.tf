@@ -147,6 +147,11 @@ POLICY
   ]
 }
 
+
+resource "aws_ses_receipt_rule_set" "main" {
+  rule_set_name = "default-rule-set"
+}
+
 resource "aws_ses_receipt_rule" "store" {
   name          = "store"
   rule_set_name = "default-rule-set"
