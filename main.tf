@@ -72,10 +72,10 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   schema {
+    name                     = "email"
     attribute_data_type      = "String"
     developer_only_attribute = false
     mutable                  = true
-    name                     = "email"
     required                 = true
 
     string_attribute_constraints {
