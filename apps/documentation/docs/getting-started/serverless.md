@@ -21,35 +21,35 @@ npm i -g serverless
 - Run the following command and follow the prompt:
 
 ```
-npm init -w ./services/email
+npm init --scope @acmutd -w ./services/email
 ```
 
 :::important
 
 - When run the above command, or any command afterward, make sure to replace `email` with the name of your service.
 
-- When being prompted package name, make sure that it should be in the form of `@acmutd/<service_name>`
-
 :::
+
+- Run `Monorepo: sync workplace features` in VSCode command palette.
 
 ### Install Serverless Function Dependencies
 
 - To install the dependencies that will be used by Serverless Framework, run the following command:
 
 ```
-npm i -w ./services/email -D serverless-iam-roles-per-function serverless-create-global-dynamodb-table serverless-offline serverless-prune-plugin
+npm i -w @acmutd/email -D serverless-iam-roles-per-function serverless-create-global-dynamodb-table serverless-offline serverless-prune-plugin
 ```
 
 - To install AWS Lambda related dependencies, run the following command:
 
 ```
-npm i -w ./services/email aws-sdk aws-lambda
+npm i -w @acmutd/email aws-sdk aws-lambda
 ```
 
-- To install Lambda Powertools, run the following command:
+- In case root `package.json` does not have powertools, run the following command to install them:
 
 ```
-npm i -w ./services/email @dazn/lambda-powertools-cloudwatchevents-client @dazn/lambda-powertools-correlation-ids @dazn/lambda-powertools-logger @dazn/lambda-powertools-pattern-basic @dazn/lambda-powertools-lambda-client @dazn/lambda-powertools-sns-client @dazn/lambda-powertools-sqs-client @dazn/lambda-powertools-dynamodb-client @dazn/lambda-powertools-kinesis-client
+npm i @dazn/lambda-powertools-cloudwatchevents-client @dazn/lambda-powertools-correlation-ids @dazn/lambda-powertools-logger @dazn/lambda-powertools-pattern-basic @dazn/lambda-powertools-lambda-client @dazn/lambda-powertools-sns-client @dazn/lambda-powertools-sqs-client @dazn/lambda-powertools-dynamodb-client @dazn/lambda-powertools-kinesis-client
 ```
 
 ### Setup Linting
@@ -57,7 +57,7 @@ npm i -w ./services/email @dazn/lambda-powertools-cloudwatchevents-client @dazn/
 - To install linting dependencies, run the following command:
 
 ```
-npm i -D -w ./services/email eslint eslint-config-airbnb-base typescript-eslint eslint-plugin-import eslint-import-resolver-alias eslint-plugin-module-resolver @typescript-eslint/eslint-plugin @typescript-eslint/parser
+npm i -D -w @acmutd/email eslint eslint-config-airbnb-base typescript-eslint eslint-plugin-import eslint-import-resolver-alias eslint-plugin-module-resolver @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 - Create a file named `.eslintrc.json` in your service directory with the following configurations:
@@ -89,7 +89,7 @@ npm i -D -w ./services/email eslint eslint-config-airbnb-base typescript-eslint 
 - To install Jest dependencies, run the following command:
 
 ```
-npm i -w ./services/email -D jest babel-jest @babel/core @babel/preset-env @babel/preset-typescript
+npm i -w @acmutd/email -D jest babel-jest @babel/core @babel/preset-env @babel/preset-typescript
 ```
 
 - Create a file named `babel.config.js` with the following configuration:
@@ -108,16 +108,26 @@ module.exports = {
 "scripts": {
     "test": "NODE_ENV=test ../../node_modules/.bin/jest --ci --verbose",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "buildtest": "tsc --noEmit"
+    "buildtest": "tsc --noEmit",
+    "sls:offline": "sls offline --httpPort='5000'"
 },
 ```
+
+:::important
+If your service is dependent on Doppler environment variable, the command for `sls:offline` should be the following:
+
+```
+doppler run -- sls offline
+```
+
+:::
 
 ### Configure Webpack
 
 - To install dependencies for Webpack, run the following command:
 
 ```
-npm i -w ./services/email -D fork-ts-checker-webpack-plugin webpack-node-externals serverless-webpack
+npm i -w @acmutd/email -D fork-ts-checker-webpack-plugin webpack-node-externals serverless-webpack
 ```
 
 - Create a file named `webpack.config.js` with the following configurations:
@@ -194,7 +204,7 @@ module.exports = {
 - Create the `serverless.yml` file with the following configuration:
 
 ```yml
-service: hello
+service: email
 
 custom:
   webpack:
@@ -263,22 +273,19 @@ functions:
 
 ### Run the function locally
 
-- To run an emulator of the function run the following command:
+- To run an emulator of the function run the following command from service directory:
 
 ```
-sls offline
+npm run sls:offline
 ```
 
-:::important
-If your serverless function is dependent on environment variables taken from Doppler, you will need to run the following command:
+- Another way to run the service would be the following command:
 
 ```
-doppler run -- sls offline
+npx turbo run sls:offline --scope="@acmutd/email"
 ```
 
-:::
-
-- The function should now be accesible at `http://localhost:3000/email`
+- The function should now be accesible at `http://localhost:5000/email`
 
 :::note
 
