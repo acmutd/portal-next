@@ -38,6 +38,7 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true
   },
+  "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
   "include": ["./**/*.ts"],
   "exclude": [
     "node_modules/**/*",
@@ -46,5 +47,6 @@
     "_warmup/**/*",
     ".vscode/**/*",
     "*.config.js"
-  ]
+  ],
+  "extends": "../../tsconfig.json"
 }

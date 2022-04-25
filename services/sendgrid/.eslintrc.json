@@ -18,5 +18,13 @@
     "no-underscore-dangle": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": "off"
+  },
+  "settings": {
+    "import/resolve": {
+      "typescript": {
+        "alwaysTryType": true,
+        "paths": "./tsconfig.json"
+      }
+    }
   }
 }
