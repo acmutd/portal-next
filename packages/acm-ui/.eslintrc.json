@@ -1,0 +1,23 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "parserOptions": {
+    "tsconfigRootDir": ".",
+    "project": "./tsconfig(.*)?.json"
+  },
+  "env": {
+    "node": true
+  },
+  "root": true,
+  "rules": {
+    "import/no-import-module-exports": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "off",
+    "no-underscore-dangle": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "react/function-component-definition": "off"
+  }
+}
