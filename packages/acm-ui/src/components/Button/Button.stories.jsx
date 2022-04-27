@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CustomButton } from './Button';
+import CustomButton from './Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
