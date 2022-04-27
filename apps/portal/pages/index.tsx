@@ -2,6 +2,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 import { useRouter } from 'next/router';
+// import { CustomButton } from '@acmutd/acm-ui/' // mfw not work :angery:
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export default function HomePage() {
@@ -10,11 +11,14 @@ export default function HomePage() {
 
   if (!session)
     return (
-      <Link href="/auth/signin" passHref>
-        <button type="button" className="p-3 rounded-lg bg-green-400">
-          Sign In
-        </button>
-      </Link>
+      <>
+        <Link href="/auth/signin" passHref>
+          <button type="button" className="p-3 rounded-lg bg-green-400">
+            Sign In
+          </button>
+        </Link>
+        {/* <CustomButton/> */}
+      </>
     );
 
   return (

@@ -7,7 +7,6 @@
 
 import Link from 'next/link';
 import { useQuery } from 'urql';
-
 export default function EventPage() {
   const GET_EVENTS = `
   query Query {

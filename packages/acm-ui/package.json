@@ -2,11 +2,14 @@
   "name": "@acmutd/acm-ui",
   "version": "1.0.0",
   "description": "Component Library",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build": "rollup -c"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +25,15 @@
     "@storybook/testing-library": "^0.0.11",
     "@types/styled-components": "^5.1.25",
     "babel-loader": "^8.2.5",
-    "styled-components": "^5.3.5"
+    "eslint-plugin-storybook": "^0.5.11",
+    "storybook-dark-mode": "^1.0.9",
+    "styled-components": "^5.3.5",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.2.1",
+    "postcss": "^8.4.12",
+    "rollup": "^2.70.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.31.2"
   }
 }

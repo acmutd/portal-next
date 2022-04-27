@@ -1,3 +1,9 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// DELETE THESE LATER ^^^^
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import './button.css';
@@ -5,7 +11,7 @@ import './button.css';
 /**
  * Primary UI component for user interaction
  */
-export const Button = ({ primary, backgroundColor, size, label, ...props }) => {
+const CustomButton: React.FC = ({ primary, backgroundColor, size, label, ...props }: any) => {
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
     <button
@@ -19,7 +25,7 @@ export const Button = ({ primary, backgroundColor, size, label, ...props }) => {
   );
 };
 
-Button.propTypes = {
+CustomButton.propTypes = {
   /**
    * Is this the principal call to action on the page?
    */
@@ -42,9 +48,11 @@ Button.propTypes = {
   onClick: PropTypes.func,
 };
 
-Button.defaultProps = {
+CustomButton.defaultProps = {
   backgroundColor: null,
   primary: false,
   size: 'medium',
   onClick: undefined,
 };
+
+export default CustomButton;
