@@ -27,22 +27,22 @@ provider:
 
 resources:
   Resources:
-    TestSQS:
+    SendGridSQS:
       Type: AWS::SQS::Queue
 
 stepFunctions:
   stateMachines:
-    testSF:
-      name: TestStepFunction
+    EmailSF:
+      name: SendGridStepFunction
       definition:
-        StartAt: PublishAndWait
+        StartAt: AddPayloadToSQS
         States:
-          PublishAndWait:
+          AddPayloadToSQS:
             Type: Task
             Resource: arn:aws:states:::sqs:sendMessage.waitForTaskToken
             Parameters:
               QueueUrl:
-                Ref: TestSQS
+                Ref: SendGridSQS
               MessageBody:
                 payload.$: '$'
                 taskToken.$: '$$.Task.Token'
@@ -60,6 +60,6 @@ functions:
     events:
       - sqs:
           arn:
-            Fn::GetAtt: [TestSQS, Arn]
+            Fn::GetAtt: [SendGridSQS, Arn]
     environment:
       SENDGRID_APIKEY: ${env:SENDGRID_APIKEY}
