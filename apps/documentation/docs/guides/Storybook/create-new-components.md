@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 # make a new page for this later
 
-`npm run storybook`
+`npm run dev` or `npx turbo run dev` in the root directory
 
 # Test
 
@@ -29,7 +29,7 @@ WIP
 
 # Using your new component
 
-`import { NewComponent } from '@acmutd/acm-ui'`
+`import { CustomButton } from '@acmutd/acm-ui/';`
 
 Note, might need to test if `/lib` is needed
 
