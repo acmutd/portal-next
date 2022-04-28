@@ -24,6 +24,13 @@
       "typescript": {
         "alwaysTryType": true,
         "paths": "./tsconfig.json"
+      },
+      "alias": {
+        "map": [
+          ["@src", "./src"],
+          ["@tests", "./tests"]
+        ],
+        "extensions": [".ts"]
       }
     }
   }
