@@ -1,0 +1,54 @@
+{
+  "name": "@acmutd/slack",
+  "version": "1.0.0",
+  "description": "Handles messaging services between portal and Slack",
+  "main": "handler.js",
+  "scripts": {
+    "test": "NODE_ENV=test ../../node_modules/.bin/jest --ci --verbose",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "buildtest": "tsc --noEmit",
+    "sls:offline": "doppler run -- sls offline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acmutd/portal-next.git"
+  },
+  "keywords": [
+    "slack"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acmutd/portal-next/issues"
+  },
+  "homepage": "https://github.com/acmutd/portal-next#readme",
+  "dependencies": {
+    "@middy/core": "^2.5.7",
+    "@middy/http-json-body-parser": "^2.5.7",
+    "@middy/sqs-json-body-parser": "^2.5.7",
+    "@middy/validator": "^2.5.7",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1122.0",
+    "axios": "^0.27.1",
+    "middy-middleware-json-error-handler": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "babel-jest": "^28.0.1",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-module-resolver": "^1.4.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.7",
+    "jest": "^28.0.1",
+    "serverless-webpack": "^5.7.0",
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

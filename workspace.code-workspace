@@ -6,31 +6,35 @@
     },
     {
       "name": "🚀 @acmutd/documentation",
-      "path": "apps/documentation"
+      "path": "apps\\documentation"
     },
     {
       "name": "🚀 @acmutd/email-service",
-      "path": "apps/email-service"
+      "path": "apps\\email-service"
     },
     {
       "name": "🚀 @acmutd/portal",
-      "path": "apps/portal"
+      "path": "apps\\portal"
     },
     {
       "name": "📦 @acmutd/config",
-      "path": "packages/config"
+      "path": "packages\\config"
     },
     {
       "name": "📦 @acmutd/email-helper",
-      "path": "packages/email-helper"
+      "path": "packages\\email-helper"
     },
     {
       "name": "🚀 @acmutd/graphql-lambda",
-      "path": "services/graphql-server"
+      "path": "services\\graphql-server"
     },
     {
       "name": "🚀 @acmutd/sendgrid",
-      "path": "services/sendgrid"
+      "path": "services\\sendgrid"
+    },
+    {
+      "name": "🚀 @acmutd/slack",
+      "path": "services\\slack"
     }
   ],
   "settings": {
