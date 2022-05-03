@@ -80,8 +80,39 @@ npm i -D -w @acmutd/email eslint eslint-config-airbnb-base typescript-eslint esl
     "global-require": "off",
     "react/no-array-index-key": "off",
     "react/jsx-props-no-spreading": "off"
+  },
+  "settings": {
+    "import/resolve": {
+      "typescript": {
+        "alwaysTryType": true,
+        "paths": "./tsconfig.json"
+      },
+      "alias": {
+        "map": [
+          ["@src", "./src"],
+          ["@tests", "./tests"]
+        ],
+        "extensions": [".ts"]
+      }
+    }
   }
 }
+```
+
+- Create a file named `.eslintignore` with the following configuration:
+
+```
+node_modules
+.build
+dist
+generated
+*.config.*
+```
+
+- Create a file named `.lintstagedrc.json` with the following configuration:
+
+```json
+{ "**/*.{js,ts,tsx}": ["eslint --fix", "prettier --write '**/*.{js,ts,tsx}'"] }
 ```
 
 ### Setup Jest for Testing
@@ -199,6 +230,66 @@ module.exports = {
 };
 ```
 
+### Setup Typescript
+
+- Create a `tsconfig.json` file with the following configuration:
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    // project options
+    "lib": ["ES2020"], // specifies which default set of type definitions to use ("DOM", "ES6", etc)
+    "outDir": "lib", // .js (as well as .d.ts, .js.map, etc.) files will be emitted into this directory.,
+    "removeComments": true, // Strips all comments from TypeScript files when converting into JavaScript- you rarely read compiled code so this saves space
+    "target": "ES2020", // Target environment. Most modern browsers support ES6, but you may want to set it to newer or older. (defaults to ES3)
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
+    // Module resolution
+    "baseUrl": "./", // Lets you set a base directory to resolve non-absolute module names.
+    "esModuleInterop": true, // fixes some issues TS originally had with the ES6 spec where TypeScript treats CommonJS/AMD/UMD modules similar to ES6 module
+    "moduleResolution": "node", // Pretty much always node for modern JS. Other option is "classic"
+    "paths": {
+      "@src/*": ["src/*"],
+      "@tests/*": ["tests/*"]
+    }, // A series of entries which re-map imports to lookup locations relative to the baseUrl
+
+    // Source Map
+    "sourceMap": true, // enables the use of source maps for debuggers and error reporting etc
+    "sourceRoot": "/", // Specify the location where a debugger should locate TypeScript files instead of relative source locations.
+
+    // Strict Checks
+    "alwaysStrict": true, // Ensures that your files are parsed in the ECMAScript strict mode, and emit “use strict” for each source file.
+    "allowUnreachableCode": false, // pick up dead code paths
+    "noImplicitAny": true, // In some cases where no type annotations are present, TypeScript will fall back to a type of any for a variable when it cannot infer the type.
+    "strictNullChecks": true, // When strictNullChecks is true, null and undefined have their own distinct types and you’ll get a type error if you try to use them where a concrete value is expected.
+
+    // Linter Checks
+    // "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true, // accessing index must always check for undefined
+    // "noUnusedLocals": true, // Report errors on unused local variables.
+    // "noUnusedParameters": true, // Report errors on unused parameters in functions
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*",
+    "*.config.js"
+  ],
+  "extends": "../../tsconfig.json"
+}
+```
+
 ### Configure Serverless YML file
 
 - Create the `serverless.yml` file with the following configuration:
@@ -279,11 +370,15 @@ functions:
 npm run sls:offline
 ```
 
-- Another way to run the service would be the following command:
+- Another way to run the service would be the following command from the root dir:
 
 ```
 npx turbo run sls:offline --scope="@acmutd/email"
 ```
+
+:::caution
+The above command can only be run from the root directory.
+:::
 
 - The function should now be accesible at `http://localhost:5000/email`
 
