@@ -29,18 +29,10 @@ const baseHandler = async (
           }
         );
         await sendEmail(emailData);
-        stepFunction.sendTaskSuccess(params, (err, data) => {
-          if (err) {
-            console.error(err.message);
-            callback(err.message);
-            return;
-          }
-          callback(null);
-        });
+        await stepFunction.sendTaskSuccess(params).promise();
       } catch (error) {
         stepFunction.sendTaskFailure({ taskToken, error: JSON.stringify(error) }, (err, data) => {
           console.log(err);
-          callback(err.message);
         });
       }
     })
