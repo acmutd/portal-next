@@ -2,9 +2,9 @@
 sidebar_position: 0
 ---
 
-# Create a Serverless Service
+# Create a Serverless API endpoint
 
-To setup a new serverless service in this repo, follow these steps:
+To setup a new serverless API endpoint function in this repo, follow these steps:
 
 ### Install Serverless Framework CLI
 
