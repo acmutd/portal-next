@@ -1,0 +1,54 @@
+{
+  "name": "@acmutd/vanity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test ../../node_modules/.bin/jest --ci --verbose",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "buildtest": "tsc --noEmit",
+    "sls:offline": "doppler run -- sls offline --httpPort='5000'",
+    "sls:deploy": "doppler run -- sls deploy",
+    "sls:remove": "doppler run -- sls remove"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acmutd/portal-next.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acmutd/portal-next/issues"
+  },
+  "homepage": "https://github.com/acmutd/portal-next#readme",
+  "dependencies": {
+    "@middy/core": "^2.5.7",
+    "@middy/sqs-json-body-parser": "^2.5.7",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1129.0",
+    "axios": "^0.27.2",
+    "uuidv4": "^6.2.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-typescript": "^7.16.7",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
+    "babel-jest": "^28.0.3",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-module-resolver": "^1.4.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.11",
+    "jest": "^28.0.3",
+    "serverless-create-global-dynamodb-table": "^3.1.1",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-offline": "^8.7.0",
+    "serverless-prune-plugin": "^2.0.1",
+    "serverless-webpack": "^5.7.0",
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}
