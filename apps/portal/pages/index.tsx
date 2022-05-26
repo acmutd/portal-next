@@ -10,11 +10,13 @@ export default function HomePage() {
 
   if (!session)
     return (
-      <Link href="/auth/signin" passHref>
-        <button type="button" className="p-3 rounded-lg bg-green-400">
-          Sign In
-        </button>
-      </Link>
+      <>
+        <Link href="/auth/signin" passHref>
+          <button type="button" className="p-3 rounded-lg bg-green-400">
+            Sign In
+          </button>
+        </Link>
+      </>
     );
 
   return (
