@@ -1,0 +1,71 @@
+service: vanity
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules: true
+    packager: npm
+    packagerOptions:
+      lockFile: '../../package-lock.json'
+  prune:
+    automatic: true
+    number: 3
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+  - serverless-iam-roles-per-function
+  - serverless-create-global-dynamodb-table
+  - serverless-prune-plugin
+  - serverless-step-functions
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs14.x
+  memorySize: 256
+
+resources:
+  Resources:
+    VanitySQS:
+      Type: AWS::SQS::Queue
+
+stepFunctions:
+  stateMachines:
+    VanitySF:
+      name: VanityStepFunction
+      definition:
+        StartAt: AddPayloadToSQS
+        States:
+          AddPayloadToSQS:
+            Type: Task
+            Resource: arn:aws:states:::sqs:sendMessage.waitForTaskToken
+            Parameters:
+              QueueUrl:
+                Ref: VanitySQS
+              MessageBody:
+                payload.$: '$'
+                taskToken.$: '$$.Task.Token'
+            End: true
+
+functions:
+  vanity:
+    handler: src/handler.main
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - states:SendTaskSuccess
+          - states:SendTaskFailure
+          - states:StartExecution
+        Resource: '*'
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt: [VanitySQS, Arn]
+    environment:
+      URL_ROOT: ${env:URL_ROOT}
+      REBRANDLY_APIKEY: ${env:REBRANDLY_APIKEY}
+      REBRANDLY_APIKEY2: ${env:REBRANDLY_APIKEY2}
+      REBRANDLY_URL: ${env:REBRANDLY_URL}
+      SENDGRID_ARN: ${env:SENDGRID_ARN}
+      VANITY_TEMPLATE_ID: ${env:VANITY_TEMPLATE_ID}
