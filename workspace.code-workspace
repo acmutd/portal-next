@@ -29,10 +29,6 @@
       "path": "packages/email-helper"
     },
     {
-      "name": "📦 @acmutd/ionic",
-      "path": "packages/ionic"
-    },
-    {
       "name": "🚀 @acmutd/graphql-lambda",
       "path": "services/graphql-server"
     },
