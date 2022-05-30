@@ -31,6 +31,10 @@
     {
       "name": "🚀 @acmutd/graphql-lambda",
       "path": "services/graphql-server"
+    },
+    {
+      "name": "🚀 @acmutd/sendgrid",
+      "path": "services/sendgrid"
     }
   ],
   "settings": {
