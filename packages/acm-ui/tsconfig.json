@@ -42,7 +42,7 @@
     // "declarationDir": "lib",
     // "emitDeclarationOnly": true,
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "./**/**/*.ts", "./**/**/*.tsx", "eslintrc.json", "src/components/Button/Button.stories.jsx", "src/components/Page/Page.jsx", "src/components/Header/Header.jsx"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/**/*.ts", "./**/**/*.tsx", "eslintrc.json"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
