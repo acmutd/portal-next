@@ -3,3 +3,5 @@ node_modules
 dist
 generated
 *.config.*
+*.js
+*.jsx
