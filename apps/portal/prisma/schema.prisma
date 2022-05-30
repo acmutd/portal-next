@@ -1,13 +1,11 @@
-// Uncomment line 5 and 10 before run prisma:push
 datasource db {
-    provider = "mysql"
-    url      = env("PSCALE_DATABASE_URL")
-    // referentialIntegrity = "prisma"
+    provider = "mongodb"
+    url      = env("MONGODB_URI")
 }
 
 generator client {
-    provider = "prisma-client-js"
-    // previewFeatures = ["referentialIntegrity"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["mongoDb"]
 }
 
 generator typegraphql {
@@ -15,76 +13,83 @@ generator typegraphql {
 }
 
 model Account {
-    id                String  @id @default(cuid())
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
     userId            String
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? @db.Text
-    access_token      String? @db.Text
+    refresh_token     String? @db.String
+    access_token      String? @db.String
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? @db.Text
+    id_token          String? @db.String
     session_state     String?
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+
     @@unique([provider, providerAccountId])
+    @@map("accounts")
 }
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Role {
-    id       String        @id @default(cuid())
-    roleName String
-    users    RolesOnUser[]
-}
-
-// model Permission {
-//     id             String @id @default(cuid())
-//     permissionName String
-// }
 
 model EventReservation {
+    id        String  @id @default(auto()) @map("_id") @db.ObjectId
     profile   Profile @relation(fields: [profileId], references: [id])
     profileId String
     event     Event   @relation(fields: [eventId], references: [id])
     eventId   String
     status    String
 
-    @@id([profileId, eventId])
+    @@unique([profileId, eventId])
+    @@map("event_reservations")
+}
+
+model Session {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("sessions")
+}
+
+model Role {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    roleName String
+
+    RolesOnUser RolesOnUser[]
+    @@map("roles")
 }
 
 model RolesOnUser {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
     role      Role     @relation(fields: [roleId], references: [id])
     roleId    String
     user      User     @relation(fields: [userId], references: [id])
     userId    String
     createdAt DateTime @default(now())
 
-    @@id([userId, roleId])
+    @@unique([userId, roleId])
 }
 
 model User {
-    id            String        @id @default(cuid())
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
     email         String?       @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    roles         RolesOnUser[]
     profile       Profile?
+    roles         RolesOnUser[]
+
+    @@map("users")
 }
 
 model VerificationToken {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
     identifier String
     token      String   @unique
     expires    DateTime
@@ -93,26 +98,28 @@ model VerificationToken {
 }
 
 model Profile {
-    id               String             @id @default(cuid())
+    id               String    @id @default(auto()) @map("_id") @db.ObjectId
     firstName        String
     lastName         String
-    email            String             @unique
-    netid            String             @unique
+    email            String    @unique
+    netid            String    @unique
     classStanding    String
     major            String
     utdStudent       Boolean
-    role             String             @default("user")
-    membershipStatus Boolean?
+    roles            String[]
+    membershipStatus Boolean
     membershipTS     DateTime?
-    resume           Boolean?
+    resume           Boolean
     resumeTS         DateTime?
-    userId           String             @unique
-    user             User               @relation(fields: [userId], references: [id], onUpdate: NoAction)
-    events           EventReservation[]
+
+    user User @relation(fields: [userId], references: [id])
+
+    userId String             @unique @db.ObjectId
+    events EventReservation[]
 }
 
 model Event {
-    id          String             @id @default(cuid())
+    id          String             @id @default(auto()) @map("_id") @db.ObjectId
     summary     String
     description String
     url         String
