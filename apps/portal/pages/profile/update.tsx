@@ -67,6 +67,8 @@ function Onboarding() {
                     classStanding: vals.classStanding,
                     major: vals.major,
                     utdStudent: vals.utdStudent,
+                    membershipStatus: false,
+                    resume: false,
                   },
                   update: {
                     firstName: {
