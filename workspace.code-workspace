@@ -9,10 +9,6 @@
       "path": "apps/documentation"
     },
     {
-      "name": "🚀 @acmutd/email-service",
-      "path": "apps/email-service"
-    },
-    {
       "name": "🚀 @acmutd/portal",
       "path": "apps/portal"
     },
@@ -25,16 +21,12 @@
       "path": "packages/config"
     },
     {
-      "name": "📦 @acmutd/email-helper",
-      "path": "packages/email-helper"
-    },
-    {
-      "name": "🚀 @acmutd/graphql-lambda",
-      "path": "services/graphql-server"
-    },
-    {
       "name": "🚀 @acmutd/sendgrid",
       "path": "services/sendgrid"
+    },
+    {
+      "name": "🚀 @acmutd/vanity",
+      "path": "services/vanity"
     }
   ],
   "settings": {
