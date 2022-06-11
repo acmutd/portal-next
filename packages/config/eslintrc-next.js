@@ -1,20 +1,7 @@
 module.exports = {
   root: true,
-  extends: [
-    'next',
-    'next/core-web-vitals',
-    'airbnb',
-    'airbnb-typescript',
-    'prettier',
-  ],
-  ignorePatterns: [
-    '*.config.js',
-    '**/*',
-    '*.config.js',
-    '.turbo',
-    '.next',
-    'public',
-  ],
+  extends: ['next', 'next/core-web-vitals', 'airbnb', 'airbnb-typescript', 'prettier'],
+  ignorePatterns: ['*.config.js', '**/*', '*.config.js', '.turbo', '.next', 'public'],
   overrides: [
     {
       files: ['*.ts', '*.tsx', '*.js', '*.jsx'],

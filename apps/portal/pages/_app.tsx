@@ -9,6 +9,7 @@ const client = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  console.log(process.env);
   return (
     <Provider value={client}>
       <SessionProvider session={pageProps.session}>
