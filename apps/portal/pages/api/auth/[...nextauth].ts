@@ -31,7 +31,7 @@ export default NextAuth({
     CognitoProvider({
       clientId: process.env.COGNITO_CLIENT_ID!,
       clientSecret: process.env.COGNITO_CLIENT_SECRET!,
-      issuer: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_wXVzOvrZ8',
+      issuer: process.env.COGNITO_ISSUER,
     }),
   ],
   adapter: PrismaAdapter(new PrismaClient()),
