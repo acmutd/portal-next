@@ -5,6 +5,7 @@ import CognitoProvider from 'next-auth/providers/cognito';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
 import { PrismaClient } from '@prisma/client';
+import { grantRole } from 'lib/auth/grant-role';
 
 export default NextAuth({
   providers: [
@@ -47,6 +48,13 @@ export default NextAuth({
     async signIn({ account, user }) {
       if (user.email!.indexOf('@acmutd.co') !== -1 && account.provider === 'google') {
         return '/auth/error/officer';
+      }
+      if (account.provider === 'google_admin') {
+        try {
+          await grantRole(user.id, 'officer');
+        } catch (error) {
+          console.error(error);
+        }
       }
       return true;
     },
