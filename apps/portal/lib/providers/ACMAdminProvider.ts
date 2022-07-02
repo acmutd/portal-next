@@ -1,5 +1,6 @@
 import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
-import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
+import GoogleProvider from 'next-auth/providers/google';
+import { GoogleProfile } from 'next-auth/providers/google';
 
 interface ACMAdminProfile {
   aud: string;

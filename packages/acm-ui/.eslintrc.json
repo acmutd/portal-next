@@ -1,5 +1,5 @@
 {
-  "extends": ["../../.eslintrc.json", "plugin:storybook/recommended"],
+  "extends": ["../../.eslintrc.json"],
   "parserOptions": {
     "tsconfigRootDir": ".",
     "project": "./tsconfig(.*)?.json"
@@ -20,6 +20,8 @@
     "@typescript-eslint/no-shadow": "off",
     "react/function-component-definition": "off",
     "react/jsx-props-no-spreading": "off",
-    "no-restricted-exports": "off"
+    "no-restricted-exports": "off",
+    "react/require-default-props": "off",
+    "eslint-comments/disable-enable-pair": "off"
   }
 }
