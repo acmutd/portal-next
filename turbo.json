@@ -13,7 +13,7 @@
     },
     "dev": {},
     "@acmutd/portal#build": {
-      "dependsOn": ["@acmutd/portal#prisma:generate"]
+      "dependsOn": ["@acmutd/acm-ui#build", "@acmutd/portal#prisma:generate"]
     },
     "@acmutd/portal#dev": {
       "dependsOn": ["@acmutd/portal#prisma:generate"]

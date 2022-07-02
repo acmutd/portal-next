@@ -1,58 +1,99 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// DELETE THESE LATER ^^^^
+import React, { RefObject, useState } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import './button.css';
+interface ACMButtonPropTypes {
+  children?: React.ReactNode;
+  width?: number;
+  fontSize?: number;
+  color?: string;
+  gradientColor?: string;
+  theme?: 'light' | 'dark';
+  rounded?: boolean;
+}
+interface NextLinkForwardRefTypes {
+  ref?: RefObject<HTMLElement>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  href?: string;
+}
 
-/**
- * Primary UI component for user interaction
- */
-const CustomButton: React.FC = ({ primary, backgroundColor, size, label, ...props }: any) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={backgroundColor && { backgroundColor }}
-      {...props}
-    >
-      {label}
-    </button>
-  );
-};
+const Button = React.forwardRef(
+  ({
+    children,
+    width = 200,
+    fontSize = 24,
+    color = 'B2A3F3',
+    gradientColor,
+    theme = 'dark',
+    rounded = false,
+    // props needed to make the prop next/link compatible
+    ref,
+    onClick,
+    href,
+  }: ACMButtonPropTypes & NextLinkForwardRefTypes): JSX.Element => {
+    const [hover, setHover] = useState<boolean>(false);
 
-CustomButton.propTypes = {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary: PropTypes.bool,
-  /**
-   * What background color to use
-   */
-  backgroundColor: PropTypes.string,
-  /**
-   * How large should the button be?
-   */
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  /**
-   * Button contents
-   */
-  label: PropTypes.string.isRequired,
-  /**
-   * Optional click handler
-   */
-  onClick: PropTypes.func,
-};
+    const StyledButton = styled(motion.button)`
+      position: relative;
+      overflow: hidden;
+      background: none;
+      padding: 10px 0px;
 
-CustomButton.defaultProps = {
-  backgroundColor: null,
-  primary: false,
-  size: 'medium',
-  onClick: undefined,
-};
+      width: ${width}px;
+      color: ${theme === 'dark' ? 'white' : 'black'};
+      font-size: ${fontSize}px;
+      border-radius: ${rounded ? '25px' : '1px'};
+    `;
 
-export default CustomButton;
+    const StyledBG = styled(motion.div)`
+      position: absolute;
+      width: 250%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 40%,
+        #${color} 40%,
+        #${gradientColor || color} 100%
+      );
+    `;
+
+    const transition = {
+      type: 'spring',
+      duration: 0.5,
+      bounce: 0.4,
+    };
+
+    return (
+      <a href={href} onClick={onClick} ref={ref}>
+        <StyledButton
+          type="button"
+          onHoverStart={() => setHover(true)}
+          onHoverEnd={() => setHover(false)}
+          animate={{
+            scale: hover ? 1.02 : 1,
+            transition: { transition },
+          }}
+        >
+          <StyledBG
+            animate={{
+              x: hover ? -width - 20 : 0,
+            }}
+          />
+          <motion.div
+            style={{ position: 'relative', zIndex: 999 }}
+            animate={{
+              scale: hover ? 1.15 : 1,
+              transition: { transition },
+            }}
+          >
+            {children}
+          </motion.div>
+        </StyledButton>
+      </a>
+    );
+  }
+);
+
+export default Button;
