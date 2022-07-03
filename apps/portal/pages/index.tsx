@@ -2,9 +2,9 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-// import { ACMButton } from '@acmutd/acm-ui';
+import { ACMButton } from '@acmutd/acm-ui';
 // run this v when running npm run dev but commit with the above line ^ uncommented (this is temporary till we fix this lol)
-import { ACMButton } from '@acmutd/acm-ui/src';
+// import { ACMButton } from '@acmutd/acm-ui/src';
 
 export default function HomePage() {
   const { data: session } = useSession();
