@@ -25,6 +25,10 @@
       "path": "services/sendgrid"
     },
     {
+      "name": "🚀 @acmutd/slack",
+      "path": "services/slack"
+    },
+    {
       "name": "🚀 @acmutd/vanity",
       "path": "services/vanity"
     }

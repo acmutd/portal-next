@@ -18,6 +18,5 @@ sidebar_position: 6
 [Terraform](https://www.terraform.io/docs)<br/>
 [Using Terraform and Serverless together](https://www.serverless.com/blog/definitive-guide-terraform-serverless/)<br/>
 [Using Terraform and Serverless together II](https://medium.com/contino-engineering/terraform-serverless-framework-a-match-made-in-heaven-part-i-69af51155e00)<br/>
-[Storybook](https://storybook.js.org/)<br/>
-[Creating component library using storybook](https://prateeksurana.me/blog/react-component-library-using-storybook-6/)
-[Ionic Components](https://ionicframework.com/docs/intro/cli)
+<!-- [Storybook](https://storybook.js.org/)<br/>
+[Creating component library using storybook](https://prateeksurana.me/blog/react-component-library-using-storybook-6/) -->

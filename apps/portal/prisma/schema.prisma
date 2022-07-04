@@ -129,3 +129,15 @@ model Event {
 
     @@map("events")
 }
+
+model TypeformApplicationn {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    active              Boolean
+    description         String
+    endpoint            String
+    externalResourceUrl String
+    typeformId          String
+    typeformName        String
+
+    @@map("typeform_applications")
+}
