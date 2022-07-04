@@ -23,7 +23,7 @@ export default {
   plugins: [
     peerDepsExternal(),
     resolve(),
-    commonjs(),
+    commonjs({ esmExternals: true }),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss({
       extensions: ['.css'],

@@ -22,7 +22,7 @@ const Button = React.forwardRef(
     children,
     width = 200,
     fontSize = 24,
-    color = 'B2A3F3',
+    color = '#B2A3F3',
     gradientColor,
     theme = 'dark',
     rounded = false,
@@ -54,8 +54,8 @@ const Button = React.forwardRef(
       background: linear-gradient(
         90deg,
         transparent 40%,
-        #${color} 40%,
-        #${gradientColor || color} 100%
+        ${color} 40%,
+        ${gradientColor || color} 100%
       );
     `;
 

@@ -10,9 +10,9 @@ const Splotch = (props: { x: number; y: number; color: string }) => {
 const Background = (props: { splotches: number }) => {
   // todo: generate splotch position better
   let splotchMap: Array<[number, number, string]> = [
-    [3, 50, 'rgba(201, 215, 97, 0.3)'],
-    [67, 14, 'rgba(51, 209, 93, 0.3)'],
-    [60, 73, 'rgba(129, 85, 190, 0.3)'],
+    [3, 50, 'rgba(201, 215, 97, 0.4)'],
+    [67, 14, 'rgba(51, 209, 93, 0.4)'],
+    [50, 73, 'rgba(129, 85, 190, 0.4)'],
   ];
 
   return (
