@@ -1,10 +1,11 @@
 {
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "@acmutd/*": ["packages/*/src"]
-    }
+      "@acmutd/*": ["packages/*"]
+      // "@acmutd/acm-ui": ["packages/acm-ui/src"]
+    },
+    "jsx": "react-jsx"
   }
 }
