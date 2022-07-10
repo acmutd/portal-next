@@ -4,6 +4,6 @@
 
 import { default as ACMButton } from './components/Button';
 import { default as ACMHeader } from './components/Header';
-import { default as ACMNavbar } from './components/Navbar';
+import { ACMDesktopNavbar, ACMMobileNavbar } from './components/Navbar';
 
-export { ACMButton, ACMHeader, ACMNavbar };
+export { ACMButton, ACMHeader, ACMDesktopNavbar, ACMMobileNavbar };
