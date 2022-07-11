@@ -11,9 +11,7 @@ const Skeleton = ({ children }) => {
     <>
       <Background splotches={3} />
       <div className="h-screen w-screen overflow-hidden">
-        {/* {!mobile &&
-                    <ACMDesktopNavbar />
-                } */}
+        {!mobile && <ACMDesktopNavbar />}
         {children}
         {mobile && <ACMMobileNavbar />}
       </div>

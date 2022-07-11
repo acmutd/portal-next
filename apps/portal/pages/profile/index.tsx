@@ -6,19 +6,151 @@
  *
  */
 import { ACMButton } from '@acmutd/acm-ui';
+import { useState } from 'react';
+import type { ProfileWhereUniqueInput } from '@generated/type-graphql';
+import { gql, useMutation, useQuery } from 'urql';
+import ProfileField from 'components/ProfileField';
+import { Profile } from '@prisma/client';
+import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 
 export default function ProfilePage() {
+  const { data: session } = useSession();
+  const [formEditMode, setFormEditMode] = useState(false);
+
   return (
     <div className="w-screen grid place-items-center gap-2">
       <div className="flex flex-col w-[25%] p-10 place-items-center">
         <div className="text-3xl font-semibold">my account</div>
         <div className="m-3">
-          <ACMButton theme="light">edit</ACMButton>
+          <ACMButton
+            theme="light"
+            onClick={() => {
+              setFormEditMode(!formEditMode);
+            }}
+          >
+            edit
+          </ACMButton>
         </div>
+        {formEditMode ? renderFormEdit() : renderFormView(session)}
       </div>
+    </div>
+  );
+}
+
+function renderFormView(session: Session) {
+  const PROFILE_QUERY = gql`
+    query Query($where: ProfileWhereUniqueInput!) {
+      profile(where: $where) {
+        firstName
+        lastName
+        email
+        netid
+        classStanding
+        major
+        utdStudent
+      }
+    }
+  `;
+
+  const [{ fetching, data, error }] = useQuery<Profile, ProfileWhereUniqueInput>({
+    query: PROFILE_QUERY,
+    variables: { userId: session?.id },
+  });
+
+  if (fetching) return <div>Loading...</div>;
+  if (error) return <p>Whoops... {error.message}</p>;
+
+  return (
+    // view mode
+    <div className="flex w-full flex-wrap -mx-3 mb-6">
+      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <ProfileField label="first name" text={data.firstName} />
+      </div>
+      <div className="w-full md:w-1/2 px-3">
+        <ProfileField label="last name" text={data.lastName} />
+      </div>
+    </div>
+  );
+}
+
+function renderFormEdit() {
+  const UPDATE_PROFILE = gql`
+    mutation UpsertProfile(
+      $where: ProfileWhereUniqueInput!
+      $create: ProfileCreateInput!
+      $update: ProfileUpdateInput!
+    ) {
+      upsertProfile(where: $where, create: $create, update: $update) {
+        firstName
+        lastName
+        email
+        netid
+        classStanding
+        major
+        utdStudent
+      }
+    }
+  `;
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm();
+  // const { data: session } = useSession();
+  // const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
+
+  return (
+    <>
       <div className=" flex flex-col ">
-        <div className="flex flex-col"></div>
-        <form className="w-full max-w-lg">
+        <form
+          className="w-full max-w-lg"
+          // onSubmit={handleSubmit((vals) => {
+          //   updateProfile({
+          //     where: {
+          //       userId: session.id as string,
+          //     },
+          //     create: {
+          //       user: {
+          //         connect: {
+          //           id: session.id as string,
+          //         },
+          //       },
+          //       firstName: vals.firstName,
+          //       lastName: vals.lastName,
+          //       email: session.user.email,
+          //       netid: vals.netid,
+          //       classStanding: vals.classStanding,
+          //       major: vals.major,
+          //       utdStudent: vals.utdStudent,
+          //       membershipStatus: false,
+          //       resume: false,
+          //     },
+          //     update: {
+          //       firstName: {
+          //         set: vals.firstName,
+          //       },
+          //       lastName: {
+          //         set: vals.lastName,
+          //       },
+          //       netid: {
+          //         set: vals.netid,
+          //       },
+          //       classStanding: {
+          //         set: vals.classStanding,
+          //       },
+          //       major: {
+          //         set: vals.major,
+          //       },
+          //       utdStudent: {
+          //         set: vals.utdStudent,
+          //       },
+          //     },
+          //   }).then(() => {
+          //     Router.push('/');
+          //   });
+          // })}
+        >
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
               <label className="block text-gray-700 font-semibold mb-2">first name</label>
@@ -83,6 +215,6 @@ export default function ProfilePage() {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
