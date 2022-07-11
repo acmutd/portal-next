@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React, { ForwardedRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -6,13 +6,13 @@ interface ACMNavbarItemPropTypes {
   children?: React.ReactNode;
   color?: string;
   gradientColor?: string;
-}
-interface NextLinkForwardRefTypes {
-  ref?: RefObject<HTMLElement>;
-  onClick?: React.MouseEventHandler<HTMLElement>;
-  href?: string;
   // temporary attribute, moving to a state system in the next commits
   active?: boolean;
+}
+interface NextLinkForwardRefTypes {
+  ref?: ForwardedRef<HTMLAnchorElement>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+  href?: string;
 }
 
 const NavbarItem = React.forwardRef(

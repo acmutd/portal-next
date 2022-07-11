@@ -9,7 +9,7 @@ interface ACMNavbarItemPropTypes {
   theme?: 'light' | 'dark';
 }
 interface NextLinkForwardRefTypes {
-  ref?: RefObject<HTMLElement>;
+  ref?: RefObject<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
   // temporary attribute, moving to a state system in the next commits

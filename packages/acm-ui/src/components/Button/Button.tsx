@@ -1,4 +1,4 @@
-import React, { RefObject, useState } from 'react';
+import React, { Ref, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -12,25 +12,28 @@ interface ACMButtonPropTypes {
   rounded?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  ref?: RefObject<HTMLElement>;
+  // ref?: RefObject<HTMLElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
 }
 
 const Button = React.forwardRef(
-  ({
-    children,
-    width = 200,
-    fontSize = 24,
-    color = '#B2A3F3',
-    gradientColor,
-    theme = 'dark',
-    rounded = false,
-    // props needed to make the prop next/link compatible
-    ref,
-    onClick,
-    href,
-  }: ACMButtonPropTypes & NextLinkForwardRefTypes): JSX.Element => {
+  (
+    {
+      children,
+      width = 200,
+      fontSize = 24,
+      color = '#B2A3F3',
+      gradientColor,
+      theme = 'dark',
+      rounded = false,
+      // props needed to make the prop next/link compatible
+      // ref,
+      onClick,
+      href,
+    }: ACMButtonPropTypes & NextLinkForwardRefTypes,
+    ref: Ref<HTMLAnchorElement>
+  ): JSX.Element => {
     const [hover, setHover] = useState<boolean>(false);
 
     const StyledButton = styled(motion.button)`
