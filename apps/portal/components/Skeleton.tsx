@@ -2,41 +2,53 @@ import { useMediaQuery } from 'react-responsive';
 import Link from 'next/link';
 
 import Background from './Background';
-import { ACMDesktopNavbar, ACMMobileNavbar } from '@acmutd/acm-ui/src';
-import { ACMNavbarItem } from 'packages/acm-ui/src';
+import {
+  ACMDesktopNavbar,
+  ACMMobileNavbar,
+  ACMDesktopNavbarItem,
+  ACMMobileNavbarItem,
+} from '@acmutd/acm-ui/src';
 
-const Skeleton = ({ children }) => {
+const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
+
+  // if (disable) return children;
 
   return (
     <>
       <Background splotches={3} />
-      <div className="h-screen w-screen overflow-hidden flex">
+      <div className="h-screen w-screen overflow-x-hidden flex">
         {!mobile && (
           <ACMDesktopNavbar>
-            <Link href="\events" passHref>
-              <ACMNavbarItem>events</ACMNavbarItem>
+            <Link href="/events" passHref>
+              <ACMDesktopNavbarItem>events</ACMDesktopNavbarItem>
             </Link>
-            <Link href="\apply" passHref>
-              <ACMNavbarItem active>apply</ACMNavbarItem>
+            <Link href="/opportunities" passHref>
+              <ACMDesktopNavbarItem active>apply</ACMDesktopNavbarItem>
             </Link>
-            <Link href="\profile" passHref>
-              <ACMNavbarItem>profile</ACMNavbarItem>
+            <Link href="/profile" passHref>
+              <ACMDesktopNavbarItem>profile</ACMDesktopNavbarItem>
             </Link>
-            <Link href="\" passHref>
-              <ACMNavbarItem>resume</ACMNavbarItem>
+            <Link href="/profile/resume" passHref>
+              <ACMDesktopNavbarItem>resume</ACMDesktopNavbarItem>
             </Link>
           </ACMDesktopNavbar>
         )}
-        {children}
+        <div className="relative">{children}</div>
         {mobile && (
           <ACMMobileNavbar>
-            <ACMNavbarItem>EEE</ACMNavbarItem>
-            <div>events</div>
-            <div>apply</div>
-            <div>profile</div>
-            <div>account</div>
-            <div>resumes</div>
+            <Link href="/events" passHref>
+              <ACMMobileNavbarItem>events</ACMMobileNavbarItem>
+            </Link>
+            <Link href="/opportunities" passHref>
+              <ACMMobileNavbarItem active>apply</ACMMobileNavbarItem>
+            </Link>
+            <Link href="/evenprofilets" passHref>
+              <ACMMobileNavbarItem>profile</ACMMobileNavbarItem>
+            </Link>
+            <Link href="/profile/resume" passHref>
+              <ACMMobileNavbarItem>resumes</ACMMobileNavbarItem>
+            </Link>
           </ACMMobileNavbar>
         )}
       </div>

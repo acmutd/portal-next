@@ -11,7 +11,8 @@ const Navbar: React.FC = ({ children }: ACMNavbarPropTypes) => {
     bottom: 0;
     height: 100px;
     width: 100%;
-    background-color: blue;
+    border-radius: 20px 20px 0px 0px;
+    background-color: white;
 
     display: flex;
     justify-content: space-evenly;
