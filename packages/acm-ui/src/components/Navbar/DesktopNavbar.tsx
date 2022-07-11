@@ -2,33 +2,38 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface ACMNavbarPropTypes {
-    children?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Navbar: React.FC = ({ children }: ACMNavbarPropTypes) => {
-    const DesktopDiv = styled.div`
-        display: flex;
-        height: 100%;
-        width: 300px;
-        max-width: 30%;
-        min-width: 12%;
+  const DesktopDiv = styled.div`
+    display: flex;
+    position: relative;
+    height: 100%;
+    width: 10%;
+    min-width: 280px;
 
-        flex-direction: column;
-        justify-content: center;
-        row-gap: 2em;
-        background-color: #212121b3;
-    `;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 2em;
+  `;
 
-    return (
-        <DesktopDiv>
-            <div>home</div>
-            <div>events</div>
-            <div>apply</div>
-            <div>profile</div>
-            <div>account</div>
-            <div>resumes</div>
-        </DesktopDiv>
-    );
+  const DesktopDivBG = styled.div`
+    background-color: #ffffff17;
+    backdrop-filter: blur(5px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 90%;
+  `;
+
+  return (
+    <DesktopDiv>
+      <DesktopDivBG />
+      {children}
+    </DesktopDiv>
+  );
 };
 
 export default Navbar;
