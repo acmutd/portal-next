@@ -15,30 +15,10 @@ import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession({ required: true });
+
   const [formEditMode, setFormEditMode] = useState(false);
 
-  return (
-    <div className="w-screen grid place-items-center gap-2">
-      <div className="flex flex-col w-[25%] p-10 place-items-center">
-        <div className="text-3xl font-semibold">my account</div>
-        <div className="m-3">
-          <ACMButton
-            theme="light"
-            onClick={() => {
-              setFormEditMode(!formEditMode);
-            }}
-          >
-            edit
-          </ACMButton>
-        </div>
-        {formEditMode ? renderFormEdit() : renderFormView(session)}
-      </div>
-    </div>
-  );
-}
-
-function renderFormView(session: Session) {
   const PROFILE_QUERY = gql`
     query Query($where: ProfileWhereUniqueInput!) {
       profile(where: $where) {
@@ -53,28 +33,69 @@ function renderFormView(session: Session) {
     }
   `;
 
-  const [{ fetching, data, error }] = useQuery<Profile, ProfileWhereUniqueInput>({
+  const [result, reexecuteQuery] = useQuery({
     query: PROFILE_QUERY,
-    variables: { userId: session?.id },
+    variables: {
+      where: {
+        userId: session ? session.id : '',
+      },
+    },
   });
 
-  if (fetching) return <div>Loading...</div>;
-  if (error) return <p>Whoops... {error.message}</p>;
+  const { data, fetching, error } = result;
+  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
-    // view mode
-    <div className="flex w-full flex-wrap -mx-3 mb-6">
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <ProfileField label="first name" text={data.firstName} />
+    <div className="w-screen grid place-items-center gap-2">
+      <div className="flex flex-col w-[25%] p-10 place-items-center">
+        <div className="text-3xl font-semibold text-gray-100">my account</div>
+        <div className="m-3">
+          <ACMButton
+            theme="dark"
+            onClick={() => {
+              setFormEditMode(!formEditMode);
+            }}
+          >
+            edit
+          </ACMButton>
+        </div>
       </div>
-      <div className="w-full md:w-1/2 px-3">
-        <ProfileField label="last name" text={data.lastName} />
+      <div className="flex flex-col w-[75%] p-10">
+        {formEditMode ? renderFormEdit() : renderFormView(data.profile)}
       </div>
     </div>
   );
 }
 
-function renderFormEdit() {
+function renderFormView(profile: Profile): JSX.Element {
+  if (!profile) return <p className="text-gray-100">profile not set up yet</p>;
+  return (
+    // view mode
+    <div className="flex w-1/2 flex-wrap mb-6">
+      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <ProfileField label="first name" text={profile.firstName.toLowerCase()} />
+      </div>
+      <div className="w-full md:w-1/2 px-3">
+        <ProfileField label="last name" text={profile.lastName.toLowerCase()} />
+      </div>
+      <div className="w-full px-3">
+        <ProfileField label="email" text={profile.email.toLowerCase()} />
+      </div>
+      <div className="w-full px-3">
+        <ProfileField label="netid" text={profile.netid.toLowerCase()} />
+      </div>
+      <div className="w-full px-3">
+        <ProfileField label="class standing" text={profile.classStanding.toLowerCase()} />
+      </div>
+      <div className="w-full px-3">
+        <ProfileField label="major" text={profile.major.toLowerCase()} />
+      </div>
+    </div>
+  );
+}
+
+function renderFormEdit(): JSX.Element {
   const UPDATE_PROFILE = gql`
     mutation UpsertProfile(
       $where: ProfileWhereUniqueInput!
