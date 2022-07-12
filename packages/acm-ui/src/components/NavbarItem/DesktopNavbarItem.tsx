@@ -14,6 +14,7 @@ interface NextLinkForwardRefTypes {
   href?: string;
   // temporary attribute, moving to a state system in the next commits
   active?: boolean;
+  isLogo?: boolean;
 }
 
 const NavbarItem = React.forwardRef(
@@ -23,6 +24,7 @@ const NavbarItem = React.forwardRef(
     gradientColor = '#4004C0',
     theme = 'dark',
     active = false,
+    isLogo = false,
 
     // props needed to make the prop next/link compatible
     ref,
@@ -44,6 +46,32 @@ const NavbarItem = React.forwardRef(
         ? `linear-gradient(90deg,${color} 0%,${gradientColor || color} 100%)`
         : 'none'};
     `;
+
+    const StyledLogo = styled(motion.a)`
+      position: relative;
+      overflow: hidden;
+      padding: 10px 0px;
+
+      display: flex;
+      width: 90%;
+      justify-content: center;
+      place-items: center;
+      margin-top: -40%;
+    `;
+
+    if (isLogo)
+      return (
+        <StyledLogo
+          href={href}
+          onClick={onClick}
+          ref={ref}
+          type="button"
+          onHoverStart={() => setHover(true)}
+          onHoverEnd={() => setHover(false)}
+        >
+          {children}
+        </StyledLogo>
+      );
 
     return (
       <StyledA

@@ -5,7 +5,7 @@ interface ACMNavbarPropTypes {
   children?: React.ReactNode;
 }
 
-const Navbar: React.FC = ({ children }: ACMNavbarPropTypes) => {
+const Navbar = ({ children }: ACMNavbarPropTypes): JSX.Element => {
   const DesktopDiv = styled.div`
     display: flex;
     position: relative;

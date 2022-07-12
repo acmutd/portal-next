@@ -1,5 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Background from './Background';
 import {
@@ -9,6 +10,8 @@ import {
   ACMMobileNavbarItem,
 } from '@acmutd/acm-ui/src';
 // } from '@acmutd/acm-ui';
+
+import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
@@ -21,6 +24,12 @@ const Skeleton = ({ children }: any) => {
       <div className="h-screen w-screen overflow-x-hidden flex">
         {!mobile && (
           <ACMDesktopNavbar>
+            <Link href="/" passHref>
+              <ACMDesktopNavbarItem isLogo>
+                <Image src={WhiteACMLogo} alt="ACM Logo" />
+              </ACMDesktopNavbarItem>
+            </Link>
+
             <Link href="/events" passHref>
               <ACMDesktopNavbarItem>events</ACMDesktopNavbarItem>
             </Link>
