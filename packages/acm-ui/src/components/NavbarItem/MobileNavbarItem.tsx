@@ -41,7 +41,7 @@ const NavbarItem = React.forwardRef(
       align-items: center;
 
       background: ${active
-        ? `linear-gradient(90deg,${color} 0%,${gradientColor || color} 100%)`
+        ? `linear-gradient(30deg,${color} 0%,${gradientColor || color} 100%)`
         : 'none'};
     `;
 

@@ -7,8 +7,8 @@ import {
   ACMMobileNavbar,
   ACMDesktopNavbarItem,
   ACMMobileNavbarItem,
-  // from '@acmutd/acm-ui/src';
-} from '@acmutd/acm-ui';
+} from '@acmutd/acm-ui/src';
+// } from '@acmutd/acm-ui';
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
