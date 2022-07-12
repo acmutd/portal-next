@@ -126,6 +126,8 @@ model Event {
     start       DateTime
     end         DateTime
     profiles    EventReservation[]
+
+    @@map("events")
 }
 
 model TypeformApplicationn {

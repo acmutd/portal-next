@@ -10,9 +10,10 @@ import { resolvers } from '@generated/type-graphql';
 import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
 import EventCheckinResolver from 'lib/graphql/resolvers/EventCheckin.resolver';
 import { getPrismaConnection } from 'lib/prisma/manager';
+import AdditionaCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEvent.resolver';
 
 const schema = buildSchemaSync({
-  resolvers: [...resolvers, SignedURLResolver, EventCheckinResolver],
+  resolvers: [...resolvers, SignedURLResolver, EventCheckinResolver, AdditionaCRUDEventResolver],
   dateScalarMode: 'isoDate',
   container: {
     get: (someClass) => container.resolve(someClass),
