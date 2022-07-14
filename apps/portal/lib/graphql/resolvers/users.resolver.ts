@@ -2,7 +2,6 @@ import { Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-g
 import { User, Event } from '@generated/type-graphql';
 import { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
-import * as fs from 'fs/promises';
 
 @Resolver(() => User)
 export default class AdditionalUserResolver {
