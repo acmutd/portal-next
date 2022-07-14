@@ -89,7 +89,7 @@ export default function Navbar({ children }: React.PropsWithChildren<any>) {
           </div>
         </div>
       )}
-      <div className={`${showNavbar && 'invisible'} md:visible p-3`}>
+      <div className={`${showNavbar ? 'invisible' : ''} md:visible p-3 w-full`}>
         {!showNavbar && (
           <div
             className="text-xl cursor-pointer"

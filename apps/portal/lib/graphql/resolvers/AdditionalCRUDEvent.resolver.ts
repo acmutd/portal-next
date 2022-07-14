@@ -9,7 +9,7 @@ export default class AdditionaCRUDEventResolver {
   constructor() {}
 
   @Query(() => [Event])
-  async upcomingEvent(@Ctx() context: TContext): Promise<Event[]> {
+  async upcomingEvents(@Ctx() context: TContext): Promise<Event[]> {
     const events = await context.prisma.event.findMany({
       where: {
         start: {
