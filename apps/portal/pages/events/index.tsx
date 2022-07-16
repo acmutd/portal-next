@@ -123,7 +123,12 @@ export default function EventPage() {
 
   return (
     <div className="w-full">
-      <EventHeader />
+      <EventHeader
+        isInEditMode={isEditMode}
+        toggleEdit={() => {
+          setIsEditMode(!isEditMode);
+        }}
+      />
       <div className="flex flex-col gap-y-5">
         <EventSection
           sectionName="featured events"
