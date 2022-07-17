@@ -44,7 +44,7 @@ const Skeleton = ({ children }: any) => {
             </Link>
           </ACMDesktopNavbar>
         )}
-        <div className="relative">{children}</div>
+        <div className="w-full relative">{children}</div>
         {mobile && (
           <ACMMobileNavbar>
             <Link href="/events" passHref>
