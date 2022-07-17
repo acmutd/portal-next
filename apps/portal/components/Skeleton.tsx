@@ -14,6 +14,25 @@ import {
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 import { useRouter } from 'next/router';
 
+const pages = [
+  {
+    uri: '/events',
+    name: 'events',
+  },
+  {
+    uri: '/opportunities',
+    name: 'apply',
+  },
+  {
+    uri: '/profile',
+    name: 'profile',
+  },
+  {
+    uri: '/profile/resume',
+    name: 'resume',
+  },
+];
+
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
   const router = useRouter();
@@ -31,43 +50,29 @@ const Skeleton = ({ children }: any) => {
                 <Image src={WhiteACMLogo} alt="ACM Logo" />
               </ACMDesktopNavbarItem>
             </Link>
-            <Link href="/events" passHref>
-              <ACMDesktopNavbarItem active={router.pathname === '/events' ? true : false}>
-                events
-              </ACMDesktopNavbarItem>
-            </Link>
-            <Link href="/opportunities" passHref>
-              <ACMDesktopNavbarItem active={router.pathname === '/opportunities' ? true : false}>
-                apply
-              </ACMDesktopNavbarItem>
-            </Link>
-            <Link href="/profile" passHref>
-              <ACMDesktopNavbarItem active={router.pathname === '/profile' ? true : false}>
-                profile
-              </ACMDesktopNavbarItem>
-            </Link>
-            <Link href="/profile/resume" passHref>
-              <ACMDesktopNavbarItem active={router.pathname === '/profile/resume' ? true : false}>
-                resume
-              </ACMDesktopNavbarItem>
-            </Link>
+            {pages.map((page) => {
+              return (
+                <Link href={page.uri} passHref>
+                  <ACMDesktopNavbarItem active={router.pathname === page.uri ? true : false}>
+                    {page.name}
+                  </ACMDesktopNavbarItem>
+                </Link>
+              );
+            })}
           </ACMDesktopNavbar>
         )}
         <div className="w-full relative">{children}</div>
         {mobile && (
           <ACMMobileNavbar>
-            <Link href="/events" passHref>
-              <ACMMobileNavbarItem>events</ACMMobileNavbarItem>
-            </Link>
-            <Link href="/opportunities" passHref>
-              <ACMMobileNavbarItem active>apply</ACMMobileNavbarItem>
-            </Link>
-            <Link href="/evenprofilets" passHref>
-              <ACMMobileNavbarItem>profile</ACMMobileNavbarItem>
-            </Link>
-            <Link href="/profile/resume" passHref>
-              <ACMMobileNavbarItem>resumes</ACMMobileNavbarItem>
-            </Link>
+            {pages.map((page) => {
+              return (
+                <Link href={page.uri} passHref>
+                  <ACMMobileNavbarItem active={router.pathname === page.uri ? true : false}>
+                    {page.name}
+                  </ACMMobileNavbarItem>
+                </Link>
+              );
+            })}
           </ACMMobileNavbar>
         )}
       </div>
