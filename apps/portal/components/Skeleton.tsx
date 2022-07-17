@@ -12,9 +12,11 @@ import {
 // } from '@acmutd/acm-ui';
 
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
+import { useRouter } from 'next/router';
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
+  const router = useRouter();
 
   // if (disable) return children;
 
@@ -29,18 +31,25 @@ const Skeleton = ({ children }: any) => {
                 <Image src={WhiteACMLogo} alt="ACM Logo" />
               </ACMDesktopNavbarItem>
             </Link>
-
             <Link href="/events" passHref>
-              <ACMDesktopNavbarItem>events</ACMDesktopNavbarItem>
+              <ACMDesktopNavbarItem active={router.pathname === '/events' ? true : false}>
+                events
+              </ACMDesktopNavbarItem>
             </Link>
             <Link href="/opportunities" passHref>
-              <ACMDesktopNavbarItem active>apply</ACMDesktopNavbarItem>
+              <ACMDesktopNavbarItem active={router.pathname === '/opportunities' ? true : false}>
+                apply
+              </ACMDesktopNavbarItem>
             </Link>
             <Link href="/profile" passHref>
-              <ACMDesktopNavbarItem>profile</ACMDesktopNavbarItem>
+              <ACMDesktopNavbarItem active={router.pathname === '/profile' ? true : false}>
+                profile
+              </ACMDesktopNavbarItem>
             </Link>
             <Link href="/profile/resume" passHref>
-              <ACMDesktopNavbarItem>resume</ACMDesktopNavbarItem>
+              <ACMDesktopNavbarItem active={router.pathname === '/profile/resume' ? true : false}>
+                resume
+              </ACMDesktopNavbarItem>
             </Link>
           </ACMDesktopNavbar>
         )}
