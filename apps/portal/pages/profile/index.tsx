@@ -59,7 +59,7 @@ export default function ProfilePage() {
     }
   `;
 
-  const [result, reexecuteQuery] = useQuery({
+  const [profileResult, reexecuteQuery] = useQuery({
     query: PROFILE_QUERY,
     variables: {
       where: {
@@ -68,7 +68,7 @@ export default function ProfilePage() {
     },
   });
 
-  const { data, fetching, error } = result;
+  const { data, fetching, error } = profileResult;
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
@@ -88,8 +88,17 @@ export default function ProfilePage() {
         </div>
       </div>
       <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
-        <div>
+        <div className="flex flex-col place-items-center">
           <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
+          {formEditMode && (
+            <button
+              type="submit"
+              className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
+              form="profile-form"
+            >
+              save
+            </button>
+          )}
         </div>
         {formEditMode ? renderFormEdit() : renderFormView(data.profile)}
       </div>
@@ -126,8 +135,9 @@ export default function ProfilePage() {
   function renderFormEdit(): JSX.Element {
     return (
       <>
-        <div className=" flex flex-col ">
+        <div className="">
           <form
+            id="profile-form"
             className="w-full max-w-lg"
             onSubmit={handleSubmit((vals) => {
               updateProfile({
@@ -181,7 +191,8 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   id="grid-first-name"
-                  placeholder="Jane"
+                  placeholder={data.profile.firstName}
+                  {...register('firstName')}
                 />
               </div>
               <div className="w-full md:w-1/2 px-3">
@@ -190,7 +201,8 @@ export default function ProfilePage() {
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   id="grid-last-name"
                   type="text"
-                  placeholder="Doe"
+                  placeholder={data.profile ? data.profile.lastName : ''}
+                  {...register('lastName')}
                 />
               </div>
             </div>
@@ -200,7 +212,8 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder="temoc@utdallas.edu"
+                  placeholder={data.profile ? data.profile.email : ''}
+                  {...register('email')}
                 />
               </div>
 
@@ -209,7 +222,8 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder="SWG120200"
+                  placeholder={data.profile ? data.profile.netid : ''}
+                  {...register('netid')}
                 />
               </div>
               <div className="w-full px-3">
@@ -217,7 +231,8 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder="freshman"
+                  placeholder={data.profile ? data.profile.classStanding : ''}
+                  {...register('classStanding')}
                 />
               </div>
               <div className="w-full px-3">
@@ -225,14 +240,15 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder="computer science"
+                  placeholder={data.profile ? data.profile.major : ''}
+                  {...register('major')}
                 />
               </div>
             </div>
             <div className="md:flex md:items-center mb-6">
               <div className="md:w-1/3"></div>
               <label className="md:w-2/3 block text-gray-500 font-bold">
-                <input className="mr-2 leading-tight" type="checkbox" />
+                <input className="mr-2 leading-tight" type="checkbox" {...register('utdStudent')} />
                 <span className="text-sm">utd student</span>
               </label>
             </div>
