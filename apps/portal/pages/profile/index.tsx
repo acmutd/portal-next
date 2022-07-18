@@ -181,7 +181,8 @@ export default function ProfilePage() {
                   },
                 },
               }).then(() => {
-                Router.push('/');
+                Router.push('/profile');
+                setFormEditMode(false);
               });
             })}
           >
