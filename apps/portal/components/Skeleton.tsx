@@ -8,8 +8,8 @@ import {
   ACMMobileNavbar,
   ACMDesktopNavbarItem,
   ACMMobileNavbarItem,
-} from '@acmutd/acm-ui/src';
-// } from '@acmutd/acm-ui';
+  // } from '@acmutd/acm-ui/src';
+} from '@acmutd/acm-ui';
 
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 import { useRouter } from 'next/router';

@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 interface CardPropTypes {
-  children?: React.ReactNode;
   width: number;
   height: number;
 }
 
-const Card: React.FC<CardPropTypes> = ({ children, width, height }) => {
+const Card: React.FC<CardPropTypes> = ({ children, width = 200, height = 200 }) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const CardOutline = styled(motion.div)`
