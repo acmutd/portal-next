@@ -106,7 +106,7 @@ export default function ProfilePage() {
   );
 
   function renderFormView(profile: Profile): JSX.Element {
-    if (!profile) return <p className="text-gray-100">profile not set up yet</p>;
+    if (!profile) return <p className="text-gray-100">please set up your profile</p>;
     return (
       // view mode
       <div className="flex w-1/2 flex-wrap mb-6">
@@ -181,8 +181,8 @@ export default function ProfilePage() {
                   },
                 },
               }).then(() => {
-                Router.push('/profile');
                 setFormEditMode(false);
+                Router.push('/profile');
               });
             })}
           >
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   id="grid-first-name"
-                  placeholder={data.profile.firstName}
+                  placeholder={data.profile ? data.profile.firstName : ''}
                   {...register('firstName')}
                 />
               </div>
