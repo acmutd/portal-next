@@ -13,7 +13,9 @@ import { getPrismaConnection } from 'lib/prisma/manager';
 import AdditionaCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEvent.resolver';
 import { resolversEnhanceMap } from 'lib/graphql/resolver-enhancer/enhancer';
 
-applyResolversEnhanceMap(resolversEnhanceMap);
+if (process.env.NODE_ENV !== 'development') {
+  applyResolversEnhanceMap(resolversEnhanceMap);
+}
 
 const schema = buildSchemaSync({
   resolvers: [...resolvers, SignedURLResolver, EventCheckinResolver, AdditionaCRUDEventResolver],
