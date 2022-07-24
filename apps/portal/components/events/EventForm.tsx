@@ -4,6 +4,7 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import { useForm, Resolver, Controller } from 'react-hook-form';
 import DateTimePickerWrapper from './DateTimePickerWrapper';
+import { start } from 'repl';
 
 interface EventFormProps {
   event?: ActiveEventResult;
@@ -32,12 +33,15 @@ export default function EventForm({
     },
   );
   const {
+    watch,
     register,
     handleSubmit,
     formState: { errors },
     getValues,
     setValue,
   } = useForm();
+  console.log(getValues());
+  const watchStartDate = watch('start', new Date().toISOString());
   return (
     <div className="p-3">
       <div className="mx-auto my-3">
@@ -92,6 +96,7 @@ export default function EventForm({
           name="end"
           label="Event End Date"
           renderInput={(params) => <TextField {...params} />}
+          minDate={watchStartDate}
         />
         <div className="text-xs text-red-600">{errors.end && errors.end.message}</div>
         <input type="submit" className="cursor-pointer p-3 rounded-lg bg-green-400" />
