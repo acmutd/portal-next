@@ -21,7 +21,9 @@ const baseHandler = async (
       try {
         Log.info(`Generating Vanity Link`);
         const { success, data } = await buildVanityLink(vanityReqData);
-        Log.info(`Vanity Link Generation Success Status: ${success ? 'OK' : 'Failed'}`, { data });
+        Log.info(`Vanity Link Generation Success Status: ${success ? 'OK' : 'Failed'}`, {
+          data,
+        });
         Log.info(
           `Sending data to Step Function with the following ARN: ${process.env.SENDGRID_ARN!}`
         );
