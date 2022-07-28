@@ -27,7 +27,6 @@ model Account {
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-
     @@unique([provider, providerAccountId])
     @@map("accounts")
 }
@@ -59,6 +58,7 @@ model Role {
     roleName String
 
     RolesOnUser RolesOnUser[]
+
     @@map("roles")
 }
 
@@ -130,7 +130,7 @@ model Event {
     @@map("events")
 }
 
-model TypeformApplicationn {
+model TypeformApplication {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
     active              Boolean
     description         String
