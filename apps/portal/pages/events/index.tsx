@@ -6,6 +6,7 @@
  */
 
 import Link from 'next/link';
+import { ACMCard } from 'packages/acm-ui';
 import { useQuery } from 'urql';
 export default function EventPage() {
   const GET_EVENTS = `
@@ -39,6 +40,9 @@ export default function EventPage() {
           <p>{JSON.stringify(event)}</p>
         </Link>
       ))}
+      <ACMCard height={200} width={300}>
+        child
+      </ACMCard>
     </>
   );
 }

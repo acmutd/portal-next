@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface ACMNavbarPropTypes {
-  children?: React.ReactNode;
-}
-
-const Navbar = ({ children }: ACMNavbarPropTypes): JSX.Element => {
+const Navbar: React.FC = ({ children }): JSX.Element => {
   const DesktopDiv = styled.div`
     display: flex;
     position: relative;

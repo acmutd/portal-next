@@ -1,129 +1,143 @@
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+    provider = "mongodb"
+    url      = env("MONGODB_URI")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 generator typegraphql {
-  provider = "typegraphql-prisma"
+    provider = "typegraphql-prisma"
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
+    id                String  @id @default(auto()) @map("_id") @db.ObjectId
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.String
+    access_token      String? @db.String
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.String
+    session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
 
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
 }
 
 model EventReservation {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String
-  event     Event   @relation(fields: [eventId], references: [id])
-  eventId   String
-  status    String
+    id        String  @id @default(auto()) @map("_id") @db.ObjectId
+    profile   Profile @relation(fields: [profileId], references: [id])
+    profileId String
+    event     Event   @relation(fields: [eventId], references: [id])
+    eventId   String
+    status    String
 
-  @@unique([profileId, eventId])
-  @@map("event_reservations")
+    @@unique([profileId, eventId])
+    @@map("event_reservations")
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions")
+    @@map("sessions")
 }
 
 model Role {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  roleName String
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    roleName String
 
-  RolesOnUser RolesOnUser[]
-  @@map("roles")
+    RolesOnUser RolesOnUser[]
+    @@map("roles")
 }
 
 model RolesOnUser {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  role      Role     @relation(fields: [roleId], references: [id])
-  roleId    String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime @default(now())
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    role      Role     @relation(fields: [roleId], references: [id])
+    roleId    String
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    createdAt DateTime @default(now())
 
-  @@unique([userId, roleId])
+    @@unique([userId, roleId])
 }
 
 model User {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  profile       Profile?
-  roles         RolesOnUser[]
+    id            String        @id @default(auto()) @map("_id") @db.ObjectId
+    name          String?
+    email         String?       @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    profile       Profile?
+    roles         RolesOnUser[]
 
-  @@map("users")
+    @@map("users")
 }
 
 model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
+    @@unique([identifier, token])
 }
 
 model Profile {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  firstName        String
-  lastName         String
-  email            String    @unique
-  netid            String    @unique
-  classStanding    String
-  major            String
-  utdStudent       Boolean
-  roles            String[]
-  membershipStatus Boolean
-  membershipTS     DateTime?
-  resume           Boolean
-  resumeTS         DateTime?
+    id               String    @id @default(auto()) @map("_id") @db.ObjectId
+    firstName        String
+    lastName         String
+    email            String    @unique
+    netid            String    @unique
+    classStanding    String
+    major            String
+    utdStudent       Boolean
+    roles            String[]
+    membershipStatus Boolean
+    membershipTS     DateTime?
+    resume           Boolean
+    resumeTS         DateTime?
 
-  user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id])
 
-  userId String             @unique @db.ObjectId
-  events EventReservation[]
+    userId String             @unique @db.ObjectId
+    events EventReservation[]
 }
 
 model Event {
-  id          String             @id @default(auto()) @map("_id") @db.ObjectId
-  summary     String
-  description String
-  url         String
-  location    String
-  start       DateTime
-  end         DateTime
-  profiles    EventReservation[]
+    id          String             @id @default(auto()) @map("_id") @db.ObjectId
+    summary     String
+    description String
+    url         String
+    location    String
+    start       DateTime
+    end         DateTime
+    profiles    EventReservation[]
+
+    @@map("events")
+}
+
+model TypeformApplicationn {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    active              Boolean
+    description         String
+    endpoint            String
+    externalResourceUrl String
+    typeformId          String
+    typeformName        String
+
+    @@map("typeform_applications")
 }
