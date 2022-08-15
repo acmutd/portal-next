@@ -1,7 +1,8 @@
 import '../styles/globals.css';
+import '../styles/fonts.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
-import Navbar from '../components/Navbar';
+import Skeleton from '../components/Skeleton';
 import { createClient, Provider } from 'urql';
 
 const client = createClient({
@@ -12,9 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider value={client}>
       <SessionProvider session={pageProps.session}>
-        <Navbar>
+        <Skeleton>
           <Component {...pageProps} />
-        </Navbar>
+        </Skeleton>
       </SessionProvider>
     </Provider>
   );
