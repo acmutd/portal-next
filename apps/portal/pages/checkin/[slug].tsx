@@ -5,6 +5,7 @@ import LoadingComponent from 'components/LoadingComponent';
 import ErrorComponent from 'components/ErrorComponent';
 import { ACMButton } from 'packages/acm-ui/lib';
 import SuccessfulComponent from 'components/SuccessfulComponent';
+import { useSession } from 'next-auth/react';
 
 const PAGE_QUERY = gql`
   query {
@@ -52,6 +53,9 @@ function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: Nex
 export default function CheckinPage() {
   const router = useRouter();
   const { slug } = router.query;
+  useSession({
+    required: true,
+  });
 
   const [_, checkInToEvent] = useMutation<any, CheckInMutationArgType>(CHECK_IN_MUTATION);
   const [queryError, setQueryError] = useState<CombinedError | null>(null);
