@@ -30,7 +30,7 @@
     "micro": "^9.3.4",
     "mime-types": "^2.1.34",
     "mongodb": "^4.3.1",
-    "mongoose": "^6.1.6",
+    "mongoose": "^6.4.6",
     "next": "^12.1.0",
     "next-auth": "^4.9.0",
     "next-urql": "^3.3.2",
