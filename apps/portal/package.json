@@ -24,6 +24,7 @@
     "axios": "^0.26.0",
     "class-validator": "^0.13.2",
     "content-disposition": "^0.5.4",
+    "framer-motion": "^6.5.1",
     "graphql": "^15.8.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.15.0",
@@ -61,6 +62,7 @@
     "postcss": "^8.4.5",
     "prisma": "^3.15.1",
     "tailwindcss": "^3.0.15",
-    "typegraphql-prisma": "^0.20.4"
+    "typegraphql-prisma": "^0.20.4",
+    "styled-components": "^5.3.5"
   }
 }

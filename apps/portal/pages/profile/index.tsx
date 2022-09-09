@@ -4,7 +4,7 @@
  * Route: /profile
  *
  */
-import { ACMButton } from '@acmutd/acm-ui';
+import ACMButton from '../../components/PortalButton';
 import { useState } from 'react';
 import type { UpsertProfileArgs } from '@generated/type-graphql';
 import { gql, useMutation, useQuery } from 'urql';
