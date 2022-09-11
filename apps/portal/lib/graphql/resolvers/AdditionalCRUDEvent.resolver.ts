@@ -6,7 +6,7 @@ import { sendEventCreationEmail, sendProfileCreationEmail } from '../utilities/s
 
 @Resolver(() => Event)
 @injectable()
-export default class AdditionaCRUDEventResolver {
+export default class AdditionalCRUDEventResolver {
   constructor() {}
 
   @Query(() => [Event])
