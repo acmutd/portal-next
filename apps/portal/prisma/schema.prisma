@@ -130,7 +130,7 @@ model Event {
     @@map("events")
 }
 
-model TypeformApplicationn {
+model TypeformApplication {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
     active              Boolean
     description         String
