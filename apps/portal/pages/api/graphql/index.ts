@@ -5,13 +5,22 @@ import { buildSchemaSync } from 'type-graphql';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
+import { applyResolversEnhanceMap } from '@generated/type-graphql';
 import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
 import EventCheckinResolver from 'lib/graphql/resolvers/EventCheckin.resolver';
 import { getPrismaConnection } from 'lib/prisma/manager';
 import AdditionalCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEvent.resolver';
+
+import { resolversEnhanceMap } from 'lib/graphql/resolver-enhancer/enhancer';
+
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 
+
 import { exposedResolvers } from './exposedResolvers';
+
+if (process.env.NODE_ENV !== 'development') {
+  applyResolversEnhanceMap(resolversEnhanceMap);
+}
 
 const schema = buildSchemaSync({
   resolvers: [
