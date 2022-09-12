@@ -10,9 +10,12 @@ import SignedURLResolver from 'lib/graphql/resolvers/SignedURL.resolver';
 import EventCheckinResolver from 'lib/graphql/resolvers/EventCheckin.resolver';
 import { getPrismaConnection } from 'lib/prisma/manager';
 import AdditionalCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEvent.resolver';
+
 import { resolversEnhanceMap } from 'lib/graphql/resolver-enhancer/enhancer';
 
-// Only import the resolvers needed for the portal to interact with the database.
+import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
+
+
 import { exposedResolvers } from './exposedResolvers';
 
 if (process.env.NODE_ENV !== 'development') {
@@ -25,6 +28,7 @@ const schema = buildSchemaSync({
     SignedURLResolver,
     EventCheckinResolver,
     AdditionalCRUDEventResolver,
+    AdditionalUserResolver,
   ],
   dateScalarMode: 'isoDate',
   container: {
