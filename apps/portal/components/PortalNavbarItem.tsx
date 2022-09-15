@@ -7,21 +7,47 @@ interface ACMNavbarItemPropTypes {
   color?: string;
   gradientColor?: string;
   theme?: 'light' | 'dark';
+  active?: boolean;
+  isLogo?: boolean;
 }
 interface NextLinkForwardRefTypes {
   ref?: RefObject<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
   // temporary attribute, moving to a state system in the next commits
-  active?: boolean;
-  isLogo?: boolean;
 }
+
+const StyledA = styled(motion.a)`
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0px;
+
+  width: 100%;
+  color: ${(props: ACMNavbarItemPropTypes) => (props.theme === 'dark' ? 'white' : 'black')};
+  font-size: 36px;
+
+  background: ${(props: ACMNavbarItemPropTypes) =>
+    props.active
+      ? `linear-gradient(90deg,${props.color || '#E10087'} 0%,${
+          props.gradientColor || props.color || '#4004C0'
+        } 100%)`
+      : 'none'};
+`;
+
+const StyledLogo = styled(motion.a)`
+  position: relative;
+  overflow: hidden;
+  padding: 10px 0px;
+
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  place-items: center;
+  margin-top: -40%;
+`;
 
 const NavbarItem = React.forwardRef(
   ({
-    children,
-    color = '#E10087',
-    gradientColor = '#4004C0',
     theme = 'dark',
     active = false,
     isLogo = false,
@@ -30,34 +56,10 @@ const NavbarItem = React.forwardRef(
     ref,
     onClick,
     href,
+
+    ...props
   }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
     const [hover, setHover] = useState<boolean>(false);
-
-    const StyledA = styled(motion.a)`
-      position: relative;
-      overflow: hidden;
-      padding: 10px 0px;
-
-      width: 100%;
-      color: ${theme === 'dark' ? 'white' : 'black'};
-      font-size: 36px;
-
-      background: ${active
-        ? `linear-gradient(90deg,${color} 0%,${gradientColor || color} 100%)`
-        : 'none'};
-    `;
-
-    const StyledLogo = styled(motion.a)`
-      position: relative;
-      overflow: hidden;
-      padding: 10px 0px;
-
-      display: flex;
-      width: 90%;
-      justify-content: center;
-      place-items: center;
-      margin-top: -40%;
-    `;
 
     if (isLogo)
       return (
@@ -69,7 +71,7 @@ const NavbarItem = React.forwardRef(
           onHoverStart={() => setHover(true)}
           onHoverEnd={() => setHover(false)}
         >
-          {children}
+          {props.children}
         </StyledLogo>
       );
 
@@ -90,7 +92,7 @@ const NavbarItem = React.forwardRef(
             transition: { type: 'spring', duration: 0.2 },
           }}
         >
-          {children}
+          {props.children}
         </motion.div>
       </StyledA>
     );

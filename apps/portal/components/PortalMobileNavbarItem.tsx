@@ -15,36 +15,38 @@ interface NextLinkForwardRefTypes {
   href?: string;
 }
 
+const StyledA = styled(motion.a)`
+  position: relative;
+  overflow: hidden;
+
+  color: ${(props: ACMNavbarItemPropTypes) => (props.active ? 'white' : 'black')};
+  font-size: 20px;
+  width: 20%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: ${(props: ACMNavbarItemPropTypes) =>
+    props.active
+      ? `linear-gradient(30deg,${props.color || '#E10087'} 0%,${
+          props.gradientColor || props.color || '#4004C0'
+        } 100%)`
+      : 'none'};
+`;
+
 const NavbarItem = React.forwardRef(
   ({
-    children,
-    color = '#E10087',
-    gradientColor = '#4004C0',
     active = false,
 
     // props needed to make the prop next/link compatible
     ref,
     onClick,
     href,
+
+    ...props
   }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
-    const StyledA = styled(motion.a)`
-      position: relative;
-      overflow: hidden;
-
-      color: ${active ? 'white' : 'black'};
-      font-size: 20px;
-      width: 20%;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      background: ${active
-        ? `linear-gradient(30deg,${color} 0%,${gradientColor || color} 100%)`
-        : 'none'};
-    `;
-
     const SVGPlaceholder = styled.div`
       width: 50px;
       aspect-ratio: 1;
@@ -52,9 +54,9 @@ const NavbarItem = React.forwardRef(
     `;
 
     return (
-      <StyledA href={href} onClick={onClick} ref={ref} type="button">
+      <StyledA href={href} onClick={onClick} ref={ref} type="button" {...props}>
         <SVGPlaceholder />
-        {children}
+        {props.children}
       </StyledA>
     );
   },

@@ -12,55 +12,47 @@ interface ACMButtonPropTypes {
   rounded?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  // ref?: RefObject<HTMLElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
 }
 
+const StyledButton = styled(motion.button)`
+  position: relative;
+  overflow: hidden;
+  background: none;
+  padding: 10px 0px;
+
+  width: ${(props: ACMButtonPropTypes) => props.width || 200}px;
+  color: ${(props: ACMButtonPropTypes) => (props.theme === 'dark' ? 'white' : 'black')};
+  font-size: ${(props: ACMButtonPropTypes) => props.fontSize || 24}px;
+  border-radius: ${(props: ACMButtonPropTypes) => (props.rounded ? '25px' : '1px')};
+`;
+
+const StyledBG = styled(motion.div)`
+  position: absolute;
+  width: 250%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 40%,
+    ${(props: ACMButtonPropTypes) => props.color} 40%,
+    ${(props: ACMButtonPropTypes) => props.gradientColor || props.color || '#B2A3F3'} 100%
+  );
+`;
+
 const ACMButton = React.forwardRef(
   (
     {
-      children,
-      width = 200,
-      fontSize = 24,
-      color = '#B2A3F3',
-      gradientColor,
-      theme = 'dark',
-      rounded = false,
       // props needed to make the prop next/link compatible
-      // ref,
       onClick,
       href,
-    }: ACMButtonPropTypes & NextLinkForwardRefTypes,
+      ...props
+    }: NextLinkForwardRefTypes & ACMButtonPropTypes,
     ref: Ref<HTMLAnchorElement>,
   ): JSX.Element => {
     const [hover, setHover] = useState<boolean>(false);
-
-    const StyledButton = styled(motion.button)`
-      position: relative;
-      overflow: hidden;
-      background: none;
-      padding: 10px 0px;
-
-      width: ${width}px;
-      color: ${theme === 'dark' ? 'white' : 'black'};
-      font-size: ${fontSize}px;
-      border-radius: ${rounded ? '25px' : '1px'};
-    `;
-
-    const StyledBG = styled(motion.div)`
-      position: absolute;
-      width: 250%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: linear-gradient(
-        90deg,
-        transparent 40%,
-        ${color} 40%,
-        ${gradientColor || color} 100%
-      );
-    `;
 
     const transition = {
       type: 'spring',
@@ -78,11 +70,13 @@ const ACMButton = React.forwardRef(
             scale: hover ? 1.02 : 1,
             transition: { transition },
           }}
+          {...props}
         >
           <StyledBG
             animate={{
-              x: hover ? -width - 20 : 0,
+              x: hover ? -props.width - 20 : 0,
             }}
+            {...props}
           />
           <motion.div
             style={{ position: 'relative', zIndex: 999 }}
@@ -91,7 +85,7 @@ const ACMButton = React.forwardRef(
               transition: { transition },
             }}
           >
-            {children}
+            {props.children}
           </motion.div>
         </StyledButton>
       </a>
