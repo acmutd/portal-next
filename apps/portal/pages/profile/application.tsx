@@ -4,8 +4,8 @@ import { ACMCard, ACMButton } from 'packages/acm-ui';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
-    query Query($where: TypeformApplicationnWhereInput) {
-      typeformApplicationns(where: $where) {
+    query Query($where: TypeformApplicationWhereInput) {
+      typeformApplications(where: $where) {
         id
         description
         typeformId
@@ -32,7 +32,7 @@ export default function ApplicationPage() {
   return (
     <div>
       <div className="w-full grid grid-cols-3 gap-y-16 place-items-center">
-        {data.typeformApplicationns.map((application) => (
+        {data.typeformApplications.map((application) => (
           <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
             <div className="h-24 space-y-2">
               <p className="text-xl text-white font-bold">{application.typeformName}</p>
