@@ -6,7 +6,12 @@ import { ACMButton } from '@acmutd/acm-ui';
 // commit with above line active and below line uncommented, use below line for testing if you want
 // import { ACMButton } from '@acmutd/acm-ui/src';
 
-export default function HomePage() {
+export const getServerSideProps = async (ctx) => {
+  const { profileVisited } = ctx.req.cookies;
+  return { props: { profileVisited: profileVisited ?? null } };
+};
+
+export default function HomePage({ profileVisited }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -22,6 +27,10 @@ export default function HomePage() {
         </Link>
       </>
     );
+
+  if (!profileVisited) {
+    router.push('/profile'); // redirect user to set up profile if they haven't already
+  }
 
   return (
     <>
