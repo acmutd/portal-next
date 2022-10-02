@@ -1,5 +1,6 @@
 import { ResolversEnhanceMap } from '@generated/type-graphql';
 import { UseMiddleware } from 'type-graphql';
+import { onCreateVanityLink, onEditVanityLink } from '../middlewares/generate-vanity';
 import { onlyOfficerAllowed } from '../middlewares/only-officer';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
 
@@ -17,5 +18,9 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
   },
   Profile: {
     upsertProfile: [UseMiddleware(onlySelfUpdateProfile)],
+  },
+  VanityLink: {
+    createVanityLink: [UseMiddleware(onCreateVanityLink)],
+    updateVanityLink: [UseMiddleware(onEditVanityLink)],
   },
 };

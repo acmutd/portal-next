@@ -25,6 +25,10 @@ import {
   DeleteEventReservationResolver,
   UpsertEventReservationResolver,
   FindManyEventReservationResolver,
+  CreateVanityLinkResolver,
+  UpdateVanityLinkResolver,
+  DeleteVanityLinkResolver,
+  FindManyVanityLinkResolver,
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
@@ -52,4 +56,8 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   DeleteEventReservationResolver,
   UpsertEventReservationResolver,
   FindManyEventReservationResolver,
+  CreateVanityLinkResolver,
+  UpdateVanityLinkResolver,
+  DeleteVanityLinkResolver,
+  FindManyVanityLinkResolver,
 ];
