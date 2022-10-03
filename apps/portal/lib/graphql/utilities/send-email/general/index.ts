@@ -1,13 +1,5 @@
-import aws from 'aws-sdk';
+import { createStepFunctionInstance } from '../../aws/setup';
 import { v4 as uuid } from 'uuid';
-
-function createStepFunctionInstance() {
-  aws.config.update({
-    region: 'us-east-1',
-  });
-
-  return new aws.StepFunctions();
-}
 
 interface SendEmailPayload<SubstitutionsType> {
   template_id: string;
