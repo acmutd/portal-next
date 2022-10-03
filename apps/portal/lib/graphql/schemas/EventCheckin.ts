@@ -16,7 +16,4 @@ export class EventCheckin {
 
   @Field()
   public profileId: string;
-
-  @Field()
-  public messageId: string;
 }
