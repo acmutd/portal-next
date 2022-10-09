@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from 'urql';
-import { Widget, PopupButton } from '@typeform/embed-react';
-import { ACMCard, ACMButton } from 'packages/acm-ui';
+import GetActiveApplications from '../opportunities/get-active-applications';
+import { GetCurrentApplication } from '../opportunities/get-active-applications';
+import EditApplications from '../opportunities/update-application';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
@@ -10,6 +11,9 @@ export default function ApplicationPage() {
         description
         typeformId
         typeformName
+      }
+      me {
+        isOfficer
       }
     }
   `;
@@ -28,26 +32,38 @@ export default function ApplicationPage() {
   const { data, fetching, error } = activeTypeformApplicationResult;
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+  /*
+  const UPDATE_TYPEFORM_APPLICATION = gql`
+  mutation Mutation($data: TypeformApplicationUpdateInput!, $where: TypeformApplicationWhereUniqueInput!) {
+    updateTypeformApplication(data: $data, where: $where) {
+      active
+    }
+  }
+`;
+
+  const [_, updateTypeformApplication] = useMutation(UPDATE_TYPEFORM_APPLICATION);
+  */
+
+  console.log('Testing' + data.isOfficer);
 
   return (
     <div>
-      <div className="w-full grid grid-cols-3 gap-y-16 place-items-center">
-        {data.typeformApplications.map((application) => (
-          <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
-            <div className="h-24 space-y-2">
-              <p className="text-xl text-white font-bold">{application.typeformName}</p>
-              <p className="text-white text-sm">{application.description}</p>
-            </div>
-            <div className="relative">
-              <div className="bg-gradient-to-r from-pink-700 to-purple-700 text-center w-fit py-2 px-12 absolute right-0">
-                <PopupButton id={application.typeformId} className="my-button">
-                  <p className="font-Gilroy text-white font-bold">apply</p>
-                </PopupButton>
-              </div>
-            </div>
-          </div>
-        ))}
+      {data.me.isOfficer ? (
+        <p className="text-white">I'm an officer! </p>
+      ) : (
+        <p className="text-white">Not an officer</p>
+      )}
+      <div className="py-8">
+        <GetActiveApplications />
       </div>
+      {data.me.isOfficer ? (
+        <EditApplications
+          typeformApplications={data.typeformApplications}
+          isOfficer={data.me.isOfficer}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
