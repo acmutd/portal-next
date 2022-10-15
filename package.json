@@ -36,7 +36,7 @@
     "@types/react": "^17.0.44",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
-    "commitizen": "^4.2.4",
+    "commitizen": "^4.2.5",
     "cypress": "^9.1.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.12.0",
