@@ -2,9 +2,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import { ACMButton } from '@acmutd/acm-ui';
-// commit with above line active and below line uncommented, use below line for testing if you want
-// import { ACMButton } from '@acmutd/acm-ui/src';
+import ACMButton from '../components/PortalButton';
 
 export const getServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
