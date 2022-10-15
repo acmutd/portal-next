@@ -3,13 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import Background from './Background';
-import {
-  ACMDesktopNavbar,
-  ACMMobileNavbar,
-  ACMDesktopNavbarItem,
-  ACMMobileNavbarItem,
-  // } from '@acmutd/acm-ui/src';
-} from '@acmutd/acm-ui';
+import { default as ACMDesktopNavbar } from './PortalNavbar';
+import { default as ACMMobileNavbar } from './PortalMobileNavbar';
+import { default as ACMDesktopNavbarItem } from './PortalNavbarItem';
+import { default as ACMMobileNavbarItem } from './PortalMobileNavbarItem';
 
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 import { useRouter } from 'next/router';

@@ -26,7 +26,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
       {Object.values(providers)
         .filter((provider) => provider.id !== 'google_admin' || session)
         .map((provider) => (
-          <div className="p-3 rounded-lg border-2" key={provider.name}>
+          <div className="p-3 rounded-lg border-2 text-white" key={provider.name}>
             <button
               type="button"
               onClick={() => signIn(provider.id, { callbackUrl: `${window.location.origin}/` })}

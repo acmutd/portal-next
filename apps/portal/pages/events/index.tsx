@@ -6,7 +6,7 @@
  */
 
 import Link from 'next/link';
-import { ACMCard } from 'packages/acm-ui';
+import ACMCard from '../../components/PortalCard';
 import { useQuery } from 'urql';
 export default function EventPage() {
   const GET_EVENTS = `
