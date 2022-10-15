@@ -1,0 +1,64 @@
+import { getSession } from 'next-auth/react';
+import { MiddlewareFn } from 'type-graphql';
+import { TContext } from '../interfaces/context.interface';
+import {
+  sendApplicationCreationEmail,
+  sendEventCreationEmail,
+  sendProfileCreationEmail,
+} from '../utilities/send-email';
+import { Event } from '@generated/type-graphql';
+
+export const onProfileCreationComplete: MiddlewareFn<TContext> = async ({ args }, next) => {
+  await next();
+  return sendProfileCreationEmail(
+    {
+      first_name: args.create.firstName,
+    },
+    args.create.email,
+  );
+};
+
+export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
+  { args, context },
+  next,
+) => {
+  await next();
+  const session = await getSession(context);
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      userId: session.id,
+    },
+  });
+  return sendApplicationCreationEmail(
+    {
+      description: args.data.description,
+      external_link: args.data.externalResourceUrl || 'None',
+      form_link: 'None',
+      subject: 'Application Creation Confirmation',
+      typeform_name: args.data.typeformName,
+    },
+    profile.email,
+  );
+};
+
+export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, context }, next) => {
+  const createdEvent: Event = await next();
+  const session = await getSession(context);
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      userId: session.id,
+    },
+  });
+  return sendEventCreationEmail(
+    {
+      checkin_link: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
+      first_name: profile.firstName,
+      date: createdEvent.start.toDateString(),
+      last_name: profile.lastName,
+      name: createdEvent.summary,
+      public_event: true,
+      subject: 'Event Creation Confirmation',
+    },
+    profile.email,
+  );
+};
