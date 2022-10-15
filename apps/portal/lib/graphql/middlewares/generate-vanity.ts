@@ -1,36 +1,18 @@
-import axios from 'axios';
 import { MiddlewareFn } from 'type-graphql';
 import { TContext } from '../interfaces/context.interface';
 import { VanityLinkCreateInput, VanityLinkUpdateInput } from '@generated/type-graphql';
-
-async function generateVanityLink(originalUrl: string, vanityDomain: string, slashtag: string) {
-  const linkRequest = {
-    destination: originalUrl,
-    domain: {
-      fullName: `${vanityDomain}.acmutd.co`,
-    },
-    slashtag,
-  };
-  const requestHeaders = {
-    'Content-Type': 'application/json',
-    apikey: process.env.REBRANDLY_APIKEY!,
-  };
-
-  const res = await axios.get(
-    `https://api.rebrandly.com/v1/links?domain.fullName=${linkRequest.domain.fullName}&slashtag=${linkRequest.slashtag}`,
-    { headers: requestHeaders },
-  );
-
-  await axios.post(
-    `${process.env.REBRANDLY_URL}${res.data.length !== 0 ? res.data[0].id : ''}`,
-    linkRequest,
-    {
-      headers: requestHeaders,
-    },
-  );
-}
+import { generateVanityLink } from '../utilities/vanity';
+import { getSession } from 'next-auth/react';
+import { CombinedError } from 'urql';
 
 export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
+  const session = await getSession(context);
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      userId: session.id,
+    },
+  });
+
   const vanityObj = await context.prisma.vanityLink.findFirst({
     where: {
       id: args.where.id,
@@ -43,14 +25,40 @@ export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }
     }
   });
 
-  await generateVanityLink(vanityObj.originalUrl, vanityObj.vanityDomain, vanityObj.slashtag);
-
+  await generateVanityLink({
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    destination: vanityObj.originalUrl,
+    email: profile.email,
+    primaryDomain: 'acmutd.co',
+    slashtag: vanityObj.slashtag,
+    subdomain: vanityObj.vanityDomain,
+  });
   await next();
 };
 
-export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args }, next) => {
+export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
+  const session = await getSession(context);
+  if (!session) {
+    throw new CombinedError({
+      graphQLErrors: ['Login required'],
+      response: args,
+    });
+  }
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      userId: session.id,
+    },
+  });
   const { originalUrl, vanityDomain, slashtag } = args.data as VanityLinkCreateInput;
-  await generateVanityLink(originalUrl, vanityDomain, slashtag);
-
+  await generateVanityLink({
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    destination: originalUrl,
+    email: profile.email,
+    primaryDomain: 'acmutd.co',
+    slashtag: slashtag,
+    subdomain: vanityDomain,
+  });
   await next();
 };

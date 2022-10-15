@@ -30,7 +30,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     upsertProfile: [UseMiddleware(onlySelfUpdateProfile), UseMiddleware(onProfileCreationComplete)],
   },
   VanityLink: {
-    createVanityLink: [UseMiddleware(onCreateVanityLink)],
-    updateVanityLink: [UseMiddleware(onEditVanityLink)],
+    createVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
+    updateVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEditVanityLink)],
   },
 };
