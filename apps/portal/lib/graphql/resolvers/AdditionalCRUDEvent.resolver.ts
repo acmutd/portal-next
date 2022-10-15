@@ -5,7 +5,7 @@ import { TContext } from '../interfaces/context.interface';
 
 @Resolver(() => Event)
 @injectable()
-export default class AdditionaCRUDEventResolver {
+export default class AdditionalCRUDEventResolver {
   constructor() {}
 
   @Query(() => [Event])
