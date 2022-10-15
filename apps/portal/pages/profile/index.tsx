@@ -4,9 +4,11 @@
  * Route: /profile
  *
  */
+
 import ACMButton from '../../components/PortalButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { UpsertProfileArgs } from '@generated/type-graphql';
+import { setCookies } from 'cookies-next';
 import { gql, useMutation, useQuery } from 'urql';
 import ProfileField from 'components/ProfileField';
 import { Profile } from '@prisma/client';
@@ -14,8 +16,20 @@ import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 
-export default function ProfilePage() {
+export const getServerSideProps = async (ctx) => {
+  const { profileVisited } = ctx.req.cookies;
+  return { props: { profileVisited: profileVisited ?? null } };
+};
+
+export default function ProfilePage({ profileVisited }) {
   const { data: session, status } = useSession({ required: true });
+
+  useEffect(() => {
+    if (!profileVisited) {
+      // set visited cookie to true so that the user is not redirected to the profile page on login anymore
+      setCookies('profileVisited', true);
+    }
+  }, []);
 
   const [formEditMode, setFormEditMode] = useState(false);
 
