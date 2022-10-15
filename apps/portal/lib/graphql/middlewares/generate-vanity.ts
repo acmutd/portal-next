@@ -4,6 +4,7 @@ import { VanityLinkCreateInput, VanityLinkUpdateInput } from '@generated/type-gr
 import { generateVanityLink } from '../utilities/vanity';
 import { getSession } from 'next-auth/react';
 import { CombinedError } from 'urql';
+import { sendSlackNotification } from '../utilities/slack';
 
 export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
@@ -33,6 +34,12 @@ export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }
     primaryDomain: 'acmutd.co',
     slashtag: vanityObj.slashtag,
     subdomain: vanityObj.vanityDomain,
+  });
+  await sendSlackNotification({
+    email: profile.email,
+    name: `${profile.firstName} ${profile.lastName}`,
+    form_name: 'Vanity Link Generator',
+    url: `https://${vanityObj.vanityDomain}.acmutd.co/${vanityObj.slashtag}`,
   });
   await next();
 };
