@@ -4,14 +4,14 @@ export interface SendSlackMessageConfig {
   form_name: string;
   name: string;
   email: string;
-  message: string;
+  message?: string;
   url?: string;
 }
 
 export const sendSlackMessage = async (msg: SendSlackMessageConfig): Promise<boolean> => {
   const channelId = `${process.env.SLACK_WEBHOOK_PROJ_MEMBER_PORTAL!}`;
   try {
-    const payload = {
+    const payload: { blocks: any[] } = {
       blocks: [
         {
           type: 'section',
@@ -27,7 +27,7 @@ export const sendSlackMessage = async (msg: SendSlackMessageConfig): Promise<boo
           type: 'section',
           text: {
             type: 'mrkdwn',
-            text: `${msg.message}`,
+            text: `${msg.message || '*Details*'}`,
           },
         },
         {
@@ -37,26 +37,28 @@ export const sendSlackMessage = async (msg: SendSlackMessageConfig): Promise<boo
             text: `User: ${msg.name}\nEmail: ${msg.email}`,
           },
         },
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `Resource URL: ${msg.url as string}`,
-          },
-          accessory: {
-            type: 'button',
-            text: {
-              type: 'plain_text',
-              text: 'Visit Page',
-              emoji: true,
-            },
-            value: 'linked_url',
-            url: msg.url,
-            action_id: 'button-action',
-          },
-        },
       ],
     };
+    if (msg.url) {
+      payload.blocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `Resource URL: ${msg.url}`,
+        },
+        accessory: {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: 'Visit Page',
+            emoji: true,
+          },
+          value: 'linked_url',
+          url: msg.url,
+          action_id: 'button-action',
+        },
+      });
+    }
     await axios.post(channelId, payload);
     return true;
   } catch (error: any) {

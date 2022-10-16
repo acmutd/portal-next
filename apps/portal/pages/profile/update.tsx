@@ -26,11 +26,22 @@ function Onboarding() {
       }
     }
   `;
+
+  type formInputs = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    netid: string;
+    classStanding: string;
+    major: string;
+    utdStudent: boolean;
+  };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<formInputs>();
   const { data: session } = useSession();
   const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
 
@@ -182,38 +193,6 @@ function Onboarding() {
                 <option value="Sponsor">Sponsor</option>
                 <option value="Graduate">Graduate</option>
               </select>
-
-              <br />
-              <br />
-
-              <input
-                name="year"
-                type="number"
-                {...register('year', {
-                  required: 'Enter the year of your graduation.',
-                  maxLength: {
-                    value: 4,
-                    message: 'Please enter a valid year',
-                  },
-                })}
-                placeholder="Graduation Year"
-              />
-              <div className="text-xs text-red-600">{errors.year && errors.year.message}</div>
-
-              <br />
-
-              <label htmlFor="semester" className="text-xs">
-                Graduation Semester
-                <br />
-              </label>
-              <select name="semester" id="semester" {...register('semester')}>
-                <option value="Fall">Fall</option>
-                <option value="Spring">Spring</option>
-                <option value="Summer">Summer</option>
-              </select>
-              <div className="text-xs text-red-600">
-                {errors.semester && errors.semester.message}
-              </div>
 
               <br />
 
