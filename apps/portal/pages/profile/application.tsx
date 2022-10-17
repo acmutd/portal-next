@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from 'urql';
 import GetActiveApplications from '../opportunities/get-active-applications';
 import { GetCurrentApplication } from '../opportunities/get-active-applications';
-import EditApplications from '../opportunities/update-application';
+import EditApplications from '../opportunities/officer-view';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
@@ -32,27 +32,11 @@ export default function ApplicationPage() {
   const { data, fetching, error } = activeTypeformApplicationResult;
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
-  /*
-  const UPDATE_TYPEFORM_APPLICATION = gql`
-  mutation Mutation($data: TypeformApplicationUpdateInput!, $where: TypeformApplicationWhereUniqueInput!) {
-    updateTypeformApplication(data: $data, where: $where) {
-      active
-    }
-  }
-`;
-
-  const [_, updateTypeformApplication] = useMutation(UPDATE_TYPEFORM_APPLICATION);
-  */
 
   console.log('Testing' + data.isOfficer);
 
   return (
     <div>
-      {data.me.isOfficer ? (
-        <p className="text-white">I'm an officer! </p>
-      ) : (
-        <p className="text-white">Not an officer</p>
-      )}
       <div className="py-8">
         <GetActiveApplications />
       </div>

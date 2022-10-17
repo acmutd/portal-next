@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from 'urql';
+import ApplicationCard from './application-card';
 import { PopupButton } from '@typeform/embed-react';
-import { ID } from 'type-graphql';
 
 export default function GetActiveApplications() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
