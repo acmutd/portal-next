@@ -17,7 +17,7 @@ interface NextLinkForwardRefTypes {
   // temporary attribute, moving to a state system in the next commits
 }
 
-const StyledA = styled(motion.a)`
+const StyledA = styled(motion.a)<ACMNavbarItemPropTypes>`
   position: relative;
   overflow: hidden;
   padding: 10px 0px;
@@ -80,9 +80,11 @@ const NavbarItem = React.forwardRef(
         href={href}
         onClick={onClick}
         ref={ref}
+        theme={theme}
         type="button"
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
+        active={!!active}
       >
         <motion.div
           style={{ position: 'relative', zIndex: 999, paddingLeft: '5%' }}

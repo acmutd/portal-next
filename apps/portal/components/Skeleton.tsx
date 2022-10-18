@@ -49,7 +49,7 @@ const Skeleton = ({ children }: any) => {
             </Link>
             {pages.map((page) => {
               return (
-                <Link href={page.uri} passHref>
+                <Link key={page.name} href={page.uri} passHref>
                   <ACMDesktopNavbarItem active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMDesktopNavbarItem>

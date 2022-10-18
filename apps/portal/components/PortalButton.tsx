@@ -16,19 +16,19 @@ interface NextLinkForwardRefTypes {
   href?: string;
 }
 
-const StyledButton = styled(motion.button)`
+const StyledButton = styled(motion.button)<ACMButtonPropTypes>`
   position: relative;
   overflow: hidden;
   background: none;
   padding: 10px 0px;
 
-  width: ${(props: ACMButtonPropTypes) => props.width || 200}px;
+  width: ${(props: ACMButtonPropTypes) => props.width || (props.fontSize || 24) * 13}px;
   color: ${(props: ACMButtonPropTypes) => (props.theme === 'dark' ? 'white' : 'black')};
   font-size: ${(props: ACMButtonPropTypes) => props.fontSize || 24}px;
   border-radius: ${(props: ACMButtonPropTypes) => (props.rounded ? '25px' : '1px')};
 `;
 
-const StyledBG = styled(motion.div)`
+const StyledBG = styled(motion.div)<ACMButtonPropTypes>`
   position: absolute;
   width: 250%;
   height: 100%;
@@ -37,7 +37,7 @@ const StyledBG = styled(motion.div)`
   background: linear-gradient(
     90deg,
     transparent 40%,
-    ${(props: ACMButtonPropTypes) => props.color} 40%,
+    ${(props: ACMButtonPropTypes) => props.color || '#B2A3F3'} 40%,
     ${(props: ACMButtonPropTypes) => props.gradientColor || props.color || '#B2A3F3'} 100%
   );
 `;
@@ -70,13 +70,16 @@ const ACMButton = React.forwardRef(
             scale: hover ? 1.02 : 1,
             transition: { transition },
           }}
-          {...props}
+          theme={props.theme}
+          width={props.width}
+          fontSize={props.fontSize}
         >
           <StyledBG
             animate={{
-              x: hover ? -props.width - 20 : 0,
+              x: hover ? -(props.width || (props.fontSize || 24) * 13) - 20 : 0,
             }}
-            {...props}
+            gradientColor={props.gradientColor}
+            // {...props}
           />
           <motion.div
             style={{ position: 'relative', zIndex: 999 }}
