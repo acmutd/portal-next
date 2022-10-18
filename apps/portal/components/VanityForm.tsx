@@ -17,11 +17,18 @@ const CREATE_VANITY_LINK = gql`
 
 const vanityDomainOptions = ['content', 'survey', 'apply', 'rsvp', 'join'];
 
-const OptionButton = styled(motion.button)<{ active: boolean }>`
-  background: ${(props) =>
-    props.active
-      ? 'linear-gradient(90deg, transparent 0%, #3952d7 0%, #31d372 100%)'
-      : 'transparent'};
+const ActiveOptionButton = styled(motion.button)`
+  background: linear-gradient(90deg, transparent 0%, #3952d7 0%, #31d372 100%);
+`;
+
+const InactiveOptionButton = styled(motion.button)`
+  border: solid 2px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    linear-gradient(101deg, #3952d7, #31d372);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  color: white;
+  box-shadow: 2px 1000px 1px rgb(24 24 27) inset;
 `;
 
 export default function VanityForm() {
@@ -79,19 +86,31 @@ export default function VanityForm() {
                 control={control}
                 render={({ field }) => (
                   <div className="flex gap-x-3">
-                    {vanityDomainOptions.map((option, idx) => (
-                      <OptionButton
-                        active={option === field.value}
-                        onClick={() => {
-                          setValue('vanityDomain', option);
-                        }}
-                        type="button"
-                        key={idx}
-                        className="rounded-lg p-2 text-white"
-                      >
-                        {option}
-                      </OptionButton>
-                    ))}
+                    {vanityDomainOptions.map((option, idx) =>
+                      option === field.value ? (
+                        <ActiveOptionButton
+                          onClick={() => {
+                            setValue('vanityDomain', option);
+                          }}
+                          type="button"
+                          key={idx}
+                          className="rounded-lg p-2 text-white"
+                        >
+                          {option}
+                        </ActiveOptionButton>
+                      ) : (
+                        <InactiveOptionButton
+                          onClick={() => {
+                            setValue('vanityDomain', option);
+                          }}
+                          type="button"
+                          key={idx}
+                          className="p-2 text-white rounded-lg"
+                        >
+                          {option}
+                        </InactiveOptionButton>
+                      ),
+                    )}
                   </div>
                 )}
               ></Controller>

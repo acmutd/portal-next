@@ -43,7 +43,7 @@ const Skeleton = ({ children }: any) => {
         {!mobile && (
           <ACMDesktopNavbar>
             <Link href="/" passHref>
-              <ACMDesktopNavbarItem isLogo>
+              <ACMDesktopNavbarItem isLogo active={false}>
                 <Image src={WhiteACMLogo} alt="ACM Logo" />
               </ACMDesktopNavbarItem>
             </Link>

@@ -7,7 +7,7 @@ interface ACMNavbarItemPropTypes {
   color?: string;
   gradientColor?: string;
   theme?: 'light' | 'dark';
-  active?: boolean;
+  active: boolean;
   isLogo?: boolean;
 }
 interface NextLinkForwardRefTypes {
