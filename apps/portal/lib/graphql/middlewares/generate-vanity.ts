@@ -58,14 +58,27 @@ export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context
     },
   });
   const { originalUrl, vanityDomain, slashtag } = args.data as VanityLinkCreateInput;
-  await generateVanityLink({
-    firstName: profile.firstName,
-    lastName: profile.lastName,
-    destination: originalUrl,
-    email: profile.email,
-    primaryDomain: 'acmutd.co',
-    slashtag: slashtag,
-    subdomain: vanityDomain,
-  });
-  await next();
+  try {
+    await generateVanityLink({
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      destination: originalUrl,
+      email: profile.email,
+      primaryDomain: 'acmutd.co',
+      slashtag: slashtag,
+      subdomain: vanityDomain,
+    });
+    await sendSlackNotification({
+      email: profile.email,
+      name: `${profile.firstName} ${profile.lastName}`,
+      form_name: 'Vanity Link Generator',
+      url: `https://${vanityDomain}.acmutd.co/${slashtag}`,
+    });
+    return args.data;
+  } catch (error) {
+    console.error(error);
+    throw new CombinedError({
+      graphQLErrors: ['Error generating Vanity Link'],
+    });
+  }
 };

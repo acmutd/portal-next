@@ -11,13 +11,16 @@ export const onlyOfficerAllowed: MiddlewareFn<TContext> = async ({ args, context
       response: args,
     });
   }
+  const roleObj = await context.prisma.role.findFirst({
+    where: {
+      roleName: 'officer',
+    },
+  });
   const isOfficer =
     (
       await context.prisma.rolesOnUser.findMany({
         where: {
-          role: {
-            roleName: 'officer',
-          },
+          roleId: roleObj.id,
           userId: session.id,
         },
       })
