@@ -1,7 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
 import { VanityLink, CreateVanityLinkArgs } from '@generated/type-graphql';
-import ACMButton from './PortalButton';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -95,6 +94,7 @@ export default function VanityForm() {
                           type="button"
                           key={idx}
                           className="rounded-lg p-2 text-white"
+                          whileHover={{ scale: 1.1 }}
                         >
                           {option}
                         </ActiveOptionButton>
@@ -106,6 +106,7 @@ export default function VanityForm() {
                           type="button"
                           key={idx}
                           className="p-2 text-white rounded-lg"
+                          whileHover={{ scale: 1.1 }}
                         >
                           {option}
                         </InactiveOptionButton>
