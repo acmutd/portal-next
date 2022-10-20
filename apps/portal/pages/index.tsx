@@ -19,7 +19,7 @@ export default function HomePage({ profileVisited }) {
     return (
       <>
         <Link href="/auth/signin" passHref>
-          <ACMButton theme={pageTheme} gradientColor="#4cb2e9">
+          <ACMButton theme={pageTheme} gradientcolor="#4cb2e9">
             Sign In
           </ACMButton>
         </Link>
@@ -35,11 +35,11 @@ export default function HomePage({ profileVisited }) {
       <h1 className="text-lg text-white">Signed in as {session.user?.name}</h1>
       <h1 className="text-lg text-white">Email: {session.user?.email}</h1>
       <div className="flex gap-x-3">
-        <ACMButton onClick={() => signOut()} theme={pageTheme} gradientColor={'#4cb2e9'}>
+        <ACMButton onClick={() => signOut()} theme={pageTheme} gradientcolor={'#4cb2e9'}>
           Sign out
         </ACMButton>
         <Link href="/auth/signin" passHref>
-          <ACMButton theme={pageTheme} gradientColor={'#4cb2e9'}>
+          <ACMButton theme={pageTheme} gradientcolor={'#4cb2e9'}>
             Add Another Account
           </ACMButton>
         </Link>
