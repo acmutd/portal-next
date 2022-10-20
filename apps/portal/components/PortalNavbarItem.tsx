@@ -1,6 +1,6 @@
 import React, { RefObject, useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { StyledComponent } from 'styled-components';
+import { ForwardRefComponent, HTMLMotionProps, motion } from 'framer-motion';
 
 interface ACMNavbarItemPropTypes {
   children?: React.ReactNode;
@@ -11,7 +11,6 @@ interface ACMNavbarItemPropTypes {
   isLogo?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  ref?: RefObject<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
   // temporary attribute, moving to a state system in the next commits
@@ -46,19 +45,23 @@ const StyledLogo = styled(motion.a)`
   margin-top: -40%;
 `;
 
-const NavbarItem = React.forwardRef(
-  ({
-    theme = 'dark',
-    active = false,
-    isLogo = false,
+const NavbarItem = React.forwardRef<
+  HTMLAnchorElement,
+  ACMNavbarItemPropTypes & NextLinkForwardRefTypes
+>(
+  (
+    {
+      theme = 'dark',
+      active = false,
+      isLogo = false,
 
-    // props needed to make the prop next/link compatible
+      onClick,
+      href,
+
+      ...props
+    },
     ref,
-    onClick,
-    href,
-
-    ...props
-  }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
+  ): JSX.Element => {
     const [hover, setHover] = useState<boolean>(false);
 
     if (isLogo)

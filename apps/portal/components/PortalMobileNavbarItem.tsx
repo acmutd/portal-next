@@ -10,7 +10,6 @@ interface ACMNavbarItemPropTypes {
   active?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  ref?: ForwardedRef<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
 }
@@ -36,23 +35,28 @@ const StyledA = styled(motion.a)`
       : 'none'};
 `;
 
-const NavbarItem = React.forwardRef(
-  ({
-    active = false,
+const SVGPlaceholder = styled.div`
+  width: 50px;
+  aspect-ratio: 1;
+  background: #00000056;
+`;
 
-    // props needed to make the prop next/link compatible
+const NavbarItem = React.forwardRef<
+  HTMLAnchorElement,
+  ACMNavbarItemPropTypes & NextLinkForwardRefTypes
+>(
+  (
+    {
+      active = false,
+
+      // props needed to make the prop next/link compatible
+      onClick,
+      href,
+
+      ...props
+    }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes,
     ref,
-    onClick,
-    href,
-
-    ...props
-  }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
-    const SVGPlaceholder = styled.div`
-      width: 50px;
-      aspect-ratio: 1;
-      background: #00000056;
-    `;
-
+  ): JSX.Element => {
     return (
       <StyledA href={href} onClick={onClick} ref={ref} type="button" {...props}>
         <SVGPlaceholder />

@@ -47,9 +47,9 @@ const Skeleton = ({ children }: any) => {
                 <Image src={WhiteACMLogo} alt="ACM Logo" />
               </ACMDesktopNavbarItem>
             </Link>
-            {pages.map((page) => {
+            {pages.map((page, idx) => {
               return (
-                <Link href={page.uri} passHref>
+                <Link key={idx} href={page.uri} passHref>
                   <ACMDesktopNavbarItem active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMDesktopNavbarItem>
@@ -61,9 +61,9 @@ const Skeleton = ({ children }: any) => {
         <div className="w-full relative">{children}</div>
         {mobile && (
           <ACMMobileNavbar>
-            {pages.map((page) => {
+            {pages.map((page, idx) => {
               return (
-                <Link href={page.uri} passHref>
+                <Link key={idx} href={page.uri} passHref>
                   <ACMMobileNavbarItem active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMMobileNavbarItem>

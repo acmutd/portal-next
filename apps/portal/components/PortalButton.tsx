@@ -43,7 +43,7 @@ const StyledBG = styled(motion.div)<ACMButtonBGProps>`
     90deg,
     transparent 40%,
     ${(props) => props.color} 40%,
-    ${(props) => props.gradientcolor || props.color}100%
+    ${(props) => props.gradientcolor || props.color} 100%
   );
 `;
 
