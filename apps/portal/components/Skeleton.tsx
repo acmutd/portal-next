@@ -50,7 +50,7 @@ const Skeleton = ({ children }: any) => {
             {pages.map((page, idx) => {
               return (
                 <Link key={idx} href={page.uri} passHref>
-                  <ACMDesktopNavbarItem active={router.pathname === page.uri ? true : false}>
+                  <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMDesktopNavbarItem>
                 </Link>
@@ -64,7 +64,7 @@ const Skeleton = ({ children }: any) => {
             {pages.map((page, idx) => {
               return (
                 <Link key={idx} href={page.uri} passHref>
-                  <ACMMobileNavbarItem active={router.pathname === page.uri ? true : false}>
+                  <ACMMobileNavbarItem $active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMMobileNavbarItem>
                 </Link>

@@ -7,7 +7,7 @@ interface ACMNavbarItemPropTypes {
   color?: string;
   gradientColor?: string;
   theme?: 'light' | 'dark';
-  active?: boolean;
+  $active?: boolean;
   isLogo?: boolean;
 }
 interface NextLinkForwardRefTypes {
@@ -16,17 +16,17 @@ interface NextLinkForwardRefTypes {
   // temporary attribute, moving to a state system in the next commits
 }
 
-const StyledA = styled(motion.a)`
+const StyledA = styled(motion.a)<ACMNavbarItemPropTypes>`
   position: relative;
   overflow: hidden;
   padding: 10px 0px;
 
   width: 100%;
-  color: ${(props: ACMNavbarItemPropTypes) => (props.theme === 'dark' ? 'white' : 'black')};
+  color: ${(props) => (props.theme === 'dark' ? 'white' : 'black')};
   font-size: 36px;
 
-  background: ${(props: ACMNavbarItemPropTypes) =>
-    props.active
+  background: ${(props) =>
+    props.$active
       ? `linear-gradient(90deg,${props.color || '#E10087'} 0%,${
           props.gradientColor || props.color || '#4004C0'
         } 100%)`
@@ -52,7 +52,7 @@ const NavbarItem = React.forwardRef<
   (
     {
       theme = 'dark',
-      active = false,
+      $active = false,
       isLogo = false,
 
       onClick,
@@ -86,6 +86,8 @@ const NavbarItem = React.forwardRef<
         type="button"
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
+        $active={$active}
+        theme={theme}
       >
         <motion.div
           style={{ position: 'relative', zIndex: 999, paddingLeft: '5%' }}
