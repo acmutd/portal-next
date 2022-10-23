@@ -56,7 +56,7 @@ export default function GetActiveApplications() {
   );
 }
 
-function GetCurrentApplication(id) {
+function GetCurrentApplication(id: string) {
   const CURRENT_APPLICATION = gql`
     query Query($where: TypeformApplicationWhereInput) {
       typeformApplications(where: $where) {
