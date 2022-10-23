@@ -8,6 +8,7 @@ export default function ApplicationPage() {
     query Query($where: TypeformApplicationWhereInput) {
       typeformApplications(where: $where) {
         id
+        active
         description
         typeformId
         typeformName
