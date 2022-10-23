@@ -58,8 +58,38 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
     formState: { errors },
   } = useForm<formInputs>();
 
+  const CURRENT_APPLICATION = gql`
+    query Query($where: TypeformApplicationWhereInput) {
+      typeformApplications(where: $where) {
+        id
+        active
+        typeformId
+        typeformName
+        description
+        endpoint
+        externalResourceUrl
+      }
+    }
+  `;
+
+  const [currentTypeformApplication, reexecuteQuery] = useQuery({
+    query: CURRENT_APPLICATION,
+    variables: {
+      where: {
+        id: {
+          equals: '633a1ae4e398aaeb1cc48bcd',
+        },
+      },
+    },
+  });
+
+  const { data, fetching, error } = currentTypeformApplication;
+  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+
   const id = '633a1ae4e398aaeb1cc48bcd';
-  const currentApplicationData = GetCurrentApplication(id).typeformApplications[0];
+  //const currentApplicationData = GetCurrentApplication(id).typeformApplications[0];
+  const currentApplicationData = data.typeformApplications[0];
 
   return (
     <div>
