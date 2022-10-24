@@ -148,9 +148,9 @@ function renderTypeformCreate(
   currentApplicationData,
 ): JSX.Element {
   return (
-    <div className="">
+    <div className="flex justify-center md:flex-row-reverse w-full md:w-[50%]">
       <form
-        id="update-typeform"
+        id="create-typeform"
         className="justify-between min-h-full h-full"
         onSubmit={handleSubmit((vals) => {
           updateTypeformApplication({
