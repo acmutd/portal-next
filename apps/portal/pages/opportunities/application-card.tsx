@@ -30,6 +30,7 @@ export function EditableApplicationCard({
   application,
   currentApplication,
   setCurrentApplication,
+  setFormCreateMode,
 }) {
   return (
     <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
@@ -40,6 +41,7 @@ export function EditableApplicationCard({
             className="text-white text-sm hover:text-bold basis-1/8 pr-4"
             onClick={(event) => {
               setCurrentApplication(application != currentApplication ? application : {});
+              setFormCreateMode(false);
             }}
           >
             E

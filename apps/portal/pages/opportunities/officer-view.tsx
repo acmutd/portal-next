@@ -17,19 +17,9 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
     mutation CreateTypeformApplication(
-      $create: TypeformApplicationCreateInput!
       $update: TypeformApplicationUpdateInput!
       $where: TypeformApplicationWhereUniqueInput!
     ) {
-      createTypeformApplication(data: $create) {
-        id
-        active
-        description
-        endpoint
-        externalResourceUrl
-        typeformId
-        typeformName
-      }
       updateTypeformApplication(data: $update, where: $where) {
         id
         active
@@ -42,7 +32,22 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
     }
   `;
 
+  const CREATE_TYPEFORM_APPLICATION = gql`
+    mutation CreateTypeformApplication($create: TypeformApplicationCreateInput!) {
+      createTypeformApplication(data: $create) {
+        id
+        active
+        description
+        endpoint
+        externalResourceUrl
+        typeformId
+        typeformName
+      }
+    }
+  `;
+
   const [_, updateTypeformApplication] = useMutation<any>(UPDATE_TYPEFORM_APPLICATION);
+  const [__, createTypeformApplication] = useMutation<any>(CREATE_TYPEFORM_APPLICATION);
 
   type formInputs = {
     active: boolean;
@@ -66,7 +71,9 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
           <p
             className="text-white text-2xl font-light"
             onClick={() => {
+              setCurrentApplicationData({});
               setFormCreateMode(!formCreateMode);
+              setFormEditMode(false);
             }}
           >
             Create
@@ -95,7 +102,7 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
               {renderTypeformCreate(
                 handleSubmit,
                 register,
-                updateTypeformApplication,
+                createTypeformApplication,
                 currentApplicationData,
               )}
             </div>
@@ -110,6 +117,7 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
             application={application}
             currentApplication={currentApplicationData}
             setCurrentApplication={setCurrentApplicationData}
+            setFormCreateMode={setFormCreateMode}
           />
         ))}
       </div>
