@@ -10,6 +10,8 @@ export default function ApplicationPage() {
         id
         active
         description
+        endpoint
+        externalResourceUrl
         typeformId
         typeformName
       }

@@ -71,7 +71,7 @@ function renderTypeformEdit(
               },
             },
           }).then(() => {
-            Router.push('/');
+            Router.push('/opportunities');
           });
         })}
       >
