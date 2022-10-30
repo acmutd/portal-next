@@ -5,7 +5,7 @@ import EditApplications from '../opportunities/officer-view';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
-    query Query($where: TypeformApplicationWhereInput) {
+    query GetActiveApplications($where: TypeformApplicationWhereInput) {
       typeformApplications(where: $where) {
         id
         active

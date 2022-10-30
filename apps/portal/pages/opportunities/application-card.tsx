@@ -35,7 +35,7 @@ export function EditableApplicationCard({
   setFormCreateMode,
 }) {
   const DELETE_TYPEFORM_APPLICATION = gql`
-    mutation Mutation($where: TypeformApplicationWhereUniqueInput!) {
+    mutation DeleteTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
       deleteTypeformApplication(where: $where) {
         id
         typeformName

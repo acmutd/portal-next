@@ -16,7 +16,7 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
   const [currentApplicationData, setCurrentApplicationData] = useState<TypeformApplication>({});
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
-    mutation CreateTypeformApplication(
+    mutation UpdateTypeformApplication(
       $update: TypeformApplicationUpdateInput!
       $where: TypeformApplicationWhereUniqueInput!
     ) {
