@@ -6,6 +6,8 @@ import {
   renderTypeformEdit,
   renderTypeformCreate,
 } from './update-application-form';
+import { gql, useMutation } from 'urql';
+import Router from 'next/router';
 
 export default function ApplicationCard(application) {
   return (
@@ -32,6 +34,18 @@ export function EditableApplicationCard({
   setCurrentApplication,
   setFormCreateMode,
 }) {
+  const DELETE_TYPEFORM_APPLICATION = gql`
+    mutation Mutation($where: TypeformApplicationWhereUniqueInput!) {
+      deleteTypeformApplication(where: $where) {
+        id
+        typeformName
+        description
+      }
+    }
+  `;
+
+  const [_, deleteTypeformApplication] = useMutation<any>(DELETE_TYPEFORM_APPLICATION);
+
   return (
     <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
       <div className="h-24 space-y-2">
@@ -46,7 +60,21 @@ export function EditableApplicationCard({
           >
             E
           </p>
-          <p className="text-white text-sm basis-1/8">D</p>
+          <p
+            className="text-white text-sm basis-1/8"
+            onClick={() => {
+              console.log(application.id);
+              deleteTypeformApplication({
+                where: {
+                  id: application.id,
+                },
+              }).then(() => {
+                Router.push('/opportunities');
+              });
+            }}
+          >
+            D
+          </p>
         </div>
         <p className="text-white text-sm">{application.description}</p>
       </div>

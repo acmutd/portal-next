@@ -163,7 +163,7 @@ function renderTypeformCreate(
               typeformName: vals.typeformName,
             },
           }).then(() => {
-            Router.push('/');
+            Router.push('/opportunities');
           });
         })}
       >

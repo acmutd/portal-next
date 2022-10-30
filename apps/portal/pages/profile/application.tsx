@@ -34,8 +34,6 @@ export default function ApplicationPage() {
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
-  console.log('Testing' + data.isOfficer);
-
   return (
     <div>
       <div className="py-8">
