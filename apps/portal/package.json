@@ -64,6 +64,6 @@
     "prisma": "^3.15.1",
     "styled-components": "^5.3.5",
     "tailwindcss": "^3.0.15",
-    "typegraphql-prisma": "^0.20.4"
+    "typegraphql-prisma": "^0.22.0"
   }
 }
