@@ -7,10 +7,9 @@ interface ACMNavbarItemPropTypes {
   color?: string;
   gradientColor?: string;
   // temporary attribute, moving to a state system in the next commits
-  active?: boolean;
+  $active?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  ref?: ForwardedRef<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
 }
@@ -19,7 +18,7 @@ const StyledA = styled(motion.a)`
   position: relative;
   overflow: hidden;
 
-  color: ${(props: ACMNavbarItemPropTypes) => (props.active ? 'white' : 'black')};
+  color: ${(props: ACMNavbarItemPropTypes) => (props.$active ? 'white' : 'black')};
   font-size: 20px;
   width: 20%;
 
@@ -29,33 +28,37 @@ const StyledA = styled(motion.a)`
   align-items: center;
 
   background: ${(props: ACMNavbarItemPropTypes) =>
-    props.active
+    props.$active
       ? `linear-gradient(30deg,${props.color || '#E10087'} 0%,${
           props.gradientColor || props.color || '#4004C0'
         } 100%)`
       : 'none'};
 `;
 
-const NavbarItem = React.forwardRef(
-  ({
-    active = false,
+const SVGPlaceholder = styled.div`
+  width: 50px;
+  aspect-ratio: 1;
+  background: #00000056;
+`;
 
-    // props needed to make the prop next/link compatible
+const NavbarItem = React.forwardRef<
+  HTMLAnchorElement,
+  ACMNavbarItemPropTypes & NextLinkForwardRefTypes
+>(
+  (
+    {
+      $active = false,
+
+      // props needed to make the prop next/link compatible
+      onClick,
+      href,
+
+      ...props
+    }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes,
     ref,
-    onClick,
-    href,
-
-    ...props
-  }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
-    const SVGPlaceholder = styled.div`
-      width: 50px;
-      aspect-ratio: 1;
-      background: #00000056;
-    `;
-
+  ): JSX.Element => {
     return (
-      <StyledA href={href} onClick={onClick} ref={ref} type="button" {...props}>
-        <SVGPlaceholder />
+      <StyledA href={href} onClick={onClick} ref={ref} type="button" $active={$active} {...props}>
         {props.children}
       </StyledA>
     );
