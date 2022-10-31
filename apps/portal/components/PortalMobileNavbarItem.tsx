@@ -59,7 +59,6 @@ const NavbarItem = React.forwardRef<
   ): JSX.Element => {
     return (
       <StyledA href={href} onClick={onClick} ref={ref} type="button" $active={$active} {...props}>
-        <SVGPlaceholder />
         {props.children}
       </StyledA>
     );

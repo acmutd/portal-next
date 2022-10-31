@@ -11,22 +11,31 @@ import { default as ACMMobileNavbarItem } from './PortalMobileNavbarItem';
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 import { useRouter } from 'next/router';
 
+import EventIcon from '../icons/EventIcon';
+import ProfileIcon from '../icons/ProfileIcon';
+import ApplyIcon from '../icons/ApplyIcon';
+import CameraIcon from '../icons/CameraIcon';
+
 const pages = [
   {
     uri: '/events',
     name: 'events',
+    svg: EventIcon,
   },
   {
     uri: '/opportunities',
     name: 'apply',
+    svg: ApplyIcon,
   },
   {
     uri: '/profile',
     name: 'profile',
+    svg: ProfileIcon,
   },
   {
     uri: '/profile/resume',
     name: 'resume',
+    svg: CameraIcon,
   },
 ];
 
@@ -65,9 +74,11 @@ const Skeleton = ({ children }: any) => {
               <MobileNavPlaceholder />
               <ACMMobileNavbar>
                 {pages.map((page, idx) => {
+                  const active = router.pathname === page.uri;
                   return (
                     <Link key={idx} href={page.uri} passHref>
-                      <ACMMobileNavbarItem $active={router.pathname === page.uri ? true : false}>
+                      <ACMMobileNavbarItem $active={active}>
+                        {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
                         {page.name}
                       </ACMMobileNavbarItem>
                     </Link>
