@@ -17,8 +17,8 @@ const Background = (props: { splotches: number }) => {
 
   return (
     <div className="absolute h-screen w-screen bg-zinc-900 -z-50 overscroll-hidden">
-      {splotchMap.map((pos) => (
-        <Splotch x={pos[0]} y={pos[1]} color={pos[2]} />
+      {splotchMap.map((pos, idx) => (
+        <Splotch key={idx} x={pos[0]} y={pos[1]} color={pos[2]} />
       ))}
     </div>
   );
