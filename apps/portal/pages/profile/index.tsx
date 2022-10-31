@@ -7,7 +7,7 @@
 
 import ACMButton from '../../components/PortalButton';
 import { useState, useEffect } from 'react';
-import type { UpsertProfileArgs } from '@generated/type-graphql';
+import type { UpsertOneProfileArgs } from '@generated/type-graphql';
 import { setCookies } from 'cookies-next';
 import { gql, useMutation, useQuery } from 'urql';
 import ProfileField from 'components/ProfileField';
@@ -39,7 +39,7 @@ export default function ProfilePage({ profileVisited }) {
       $create: ProfileCreateInput!
       $update: ProfileUpdateInput!
     ) {
-      upsertProfile(where: $where, create: $create, update: $update) {
+      upsertOneProfile(where: $where, create: $create, update: $update) {
         firstName
         lastName
         email
@@ -51,7 +51,7 @@ export default function ProfilePage({ profileVisited }) {
     }
   `;
 
-  const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
+  const [_, updateProfile] = useMutation<any, UpsertOneProfileArgs>(UPDATE_PROFILE);
 
   const {
     register,

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { signOut, useSession } from 'next-auth/react';
 import { useMutation, gql } from 'urql';
 import Router from 'next/router';
-import type { UpsertProfileArgs } from '@generated/type-graphql';
+import type { UpsertOneProfileArgs } from '@generated/type-graphql';
 
 function Onboarding() {
   /**
@@ -15,7 +15,7 @@ function Onboarding() {
       $create: ProfileCreateInput!
       $update: ProfileUpdateInput!
     ) {
-      upsertProfile(where: $where, create: $create, update: $update) {
+      upsertOneProfile(where: $where, create: $create, update: $update) {
         firstName
         lastName
         email
@@ -43,7 +43,7 @@ function Onboarding() {
     formState: { errors },
   } = useForm<formInputs>();
   const { data: session } = useSession();
-  const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
+  const [_, updateProfile] = useMutation<any, UpsertOneProfileArgs>(UPDATE_PROFILE);
 
   return (
     <>
