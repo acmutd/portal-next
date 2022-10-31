@@ -18,4 +18,14 @@ const Navbar: React.FC = ({ children }) => {
   return <MobileDiv>{children}</MobileDiv>;
 };
 
+// Used to make sure MobileDiv does not overlay content
+// Must have same height as MobileDiv
+const MobileNavPlaceholder = styled.div`
+  width: 100%;
+  height: 100px;
+  margin-top: 20px;
+`;
+
 export default Navbar;
+
+export { MobileNavPlaceholder };

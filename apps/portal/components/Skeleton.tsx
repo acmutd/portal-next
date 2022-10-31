@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import Background from './Background';
 import { default as ACMDesktopNavbar } from './PortalNavbar';
-import { default as ACMMobileNavbar } from './PortalMobileNavbar';
+import { default as ACMMobileNavbar, MobileNavPlaceholder } from './PortalMobileNavbar';
 import { default as ACMDesktopNavbarItem } from './PortalNavbarItem';
 import { default as ACMMobileNavbarItem } from './PortalMobileNavbarItem';
 
@@ -58,20 +58,25 @@ const Skeleton = ({ children }: any) => {
             })}
           </ACMDesktopNavbar>
         )}
-        <div className="w-full relative">{children}</div>
-        {mobile && (
-          <ACMMobileNavbar>
-            {pages.map((page, idx) => {
-              return (
-                <Link key={idx} href={page.uri} passHref>
-                  <ACMMobileNavbarItem $active={router.pathname === page.uri ? true : false}>
-                    {page.name}
-                  </ACMMobileNavbarItem>
-                </Link>
-              );
-            })}
-          </ACMMobileNavbar>
-        )}
+        <div>
+          <div className="w-full relative">{children}</div>
+          {mobile && (
+            <>
+              <MobileNavPlaceholder />
+              <ACMMobileNavbar>
+                {pages.map((page, idx) => {
+                  return (
+                    <Link key={idx} href={page.uri} passHref>
+                      <ACMMobileNavbarItem $active={router.pathname === page.uri ? true : false}>
+                        {page.name}
+                      </ACMMobileNavbarItem>
+                    </Link>
+                  );
+                })}
+              </ACMMobileNavbar>
+            </>
+          )}
+        </div>
       </div>
     </>
   );
