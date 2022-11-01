@@ -37,19 +37,7 @@ export default function GetActiveApplications() {
     <div>
       <div className="w-full grid grid-cols-3 gap-y-16 place-items-center">
         {data.typeformApplications.map((application) => (
-          <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
-            <div className="h-24 space-y-2">
-              <p className="text-xl text-white font-bold">{application.typeformName}</p>
-              <p className="text-white text-sm">{application.description}</p>
-            </div>
-            <div className="relative">
-              <div className="bg-gradient-to-r from-pink-700 to-purple-700 text-center w-fit py-2 px-12 absolute right-0">
-                <PopupButton id={application.typeformId} className="my-button">
-                  <p className="font-Gilroy text-white font-bold">apply</p>
-                </PopupButton>
-              </div>
-            </div>
-          </div>
+          <ApplicationCard application={application} />
         ))}
       </div>
     </div>

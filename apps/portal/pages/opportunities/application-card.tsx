@@ -9,13 +9,12 @@ import {
 import { gql, useMutation } from 'urql';
 import Router from 'next/router';
 
-export default function ApplicationCard(application) {
+export default function ApplicationCard({ application }) {
   return (
     <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
       <div className="h-24 space-y-2">
         <p className="text-xl text-white font-bold">{application.typeformName}</p>
         <p className="text-white text-sm">{application.description}</p>
-        <p className="text-white">LMAO</p>
       </div>
       <div className="relative">
         <div className="bg-gradient-to-r from-pink-700 to-purple-700 text-center w-fit py-2 px-12 absolute right-0">
