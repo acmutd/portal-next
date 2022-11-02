@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ACMButton } from '@acmutd/acm-ui';
+import { ACMButton } from 'packages/acm-ui/lib';
 import { gql, useMutation, useQuery } from 'urql';
 import { useForm } from 'react-hook-form';
 import {
