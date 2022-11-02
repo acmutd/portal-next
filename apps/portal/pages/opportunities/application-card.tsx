@@ -17,7 +17,7 @@ export default function ApplicationCard({ application }) {
         <p className="text-white text-sm">{application.description}</p>
       </div>
       <div className="relative">
-        <div className="bg-gradient-to-r from-pink-700 to-purple-700 text-center w-fit py-2 px-12 absolute right-0">
+        <div className="bg-gradient-to-r from-pink-700 to-purple-700 rounded-lg text-center w-fit py-2 px-12 absolute right-0">
           <PopupButton id={application.typeformId} className="my-button">
             <p className="font-Gilroy text-white font-bold">apply</p>
           </PopupButton>
@@ -53,7 +53,9 @@ export function EditableApplicationCard({
           <p
             className="text-white text-sm hover:text-bold basis-1/8 pr-4"
             onClick={(event) => {
-              setCurrentApplication(application != currentApplication ? application : {});
+              setCurrentApplication(
+                application != currentApplication ? application : ({} as TypeformApplication),
+              );
               setFormCreateMode(false);
             }}
           >

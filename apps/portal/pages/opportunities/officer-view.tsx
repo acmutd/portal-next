@@ -13,7 +13,9 @@ import { TypeformApplication } from '@prisma/client';
 export default function EditApplications({ typeformApplications, isOfficer }) {
   const [formEditMode, setFormEditMode] = useState(false);
   const [formCreateMode, setFormCreateMode] = useState(false);
-  const [currentApplicationData, setCurrentApplicationData] = useState<TypeformApplication>({});
+  const [currentApplicationData, setCurrentApplicationData] = useState<TypeformApplication>(
+    {} as TypeformApplication,
+  );
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
     mutation UpdateTypeformApplication(
@@ -71,7 +73,7 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
           <p
             className="text-white text-2xl font-light"
             onClick={() => {
-              setCurrentApplicationData({});
+              setCurrentApplicationData({} as TypeformApplication);
               setFormCreateMode(!formCreateMode);
               setFormEditMode(false);
             }}
