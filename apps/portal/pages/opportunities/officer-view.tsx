@@ -113,7 +113,7 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
           <></>
         )}
       </div>
-      <div className="w-full grid grid-cols-3 gap-y-16 py-8 place-items-center">
+      <div className="w-full grid grid-cols-3 gap-x-16 gap-y-16 py-8 place-items-center">
         {typeformApplications.map((application) => (
           <EditableApplicationCard
             application={application}
