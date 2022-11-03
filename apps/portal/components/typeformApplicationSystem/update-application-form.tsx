@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ProfileField from 'components/ProfileField';
+import ProfileField from '../ProfileField';
 import Router from 'next/router';
 import { TypeformApplication } from '@prisma/client';
 

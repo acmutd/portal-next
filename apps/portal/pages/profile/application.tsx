@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from 'urql';
-import GetActiveApplications from '../opportunities/get-applications';
-import { GetCurrentApplication } from '../opportunities/get-applications';
-import EditApplications from '../opportunities/officer-view';
+import GetActiveApplications from '../../components/typeformApplicationSystem/get-applications';
+import EditApplications from '../../components/typeformApplicationSystem/officer-view';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
