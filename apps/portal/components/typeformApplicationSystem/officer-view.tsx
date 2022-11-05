@@ -10,7 +10,7 @@ import {
 import { EditableApplicationCard } from './application-card';
 import { TypeformApplication } from '@prisma/client';
 
-export default function EditApplications({ typeformApplications, isOfficer }) {
+export default function OfficerView({ typeformApplications, isOfficer }) {
   const [formEditMode, setFormEditMode] = useState(false);
   const [formCreateMode, setFormCreateMode] = useState(false);
   const [currentApplicationData, setCurrentApplicationData] = useState<TypeformApplication>(
@@ -113,15 +113,17 @@ export default function EditApplications({ typeformApplications, isOfficer }) {
           <></>
         )}
       </div>
-      <div className="w-full grid grid-cols-3 gap-x-16 gap-y-16 py-8 place-items-center">
-        {typeformApplications.map((application) => (
-          <EditableApplicationCard
-            application={application}
-            currentApplication={currentApplicationData}
-            setCurrentApplication={setCurrentApplicationData}
-            setFormCreateMode={setFormCreateMode}
-          />
-        ))}
+      <div className="py-8">
+        <div className="w-full grid grid-cols-3 gap-x-16 gap-y-16 place-items-center">
+          {typeformApplications.map((application) => (
+            <EditableApplicationCard
+              application={application}
+              currentApplication={currentApplicationData}
+              setCurrentApplication={setCurrentApplicationData}
+              setFormCreateMode={setFormCreateMode}
+            />
+          ))}
+        </div>
       </div>
       {Object.keys(currentApplicationData).length != 0 ? (
         <div className="w-full grid place-items-center">

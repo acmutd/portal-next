@@ -34,8 +34,8 @@ export default function GetActiveApplications() {
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
-    <div>
-      <div className="w-full grid grid-cols-3 gap-y-16 place-items-center">
+    <div className="py-8">
+      <div className="w-full grid grid-cols-3 gap-y-16 gap-x-16 place-items-center">
         {data.typeformApplications.map((application) => (
           <ApplicationCard application={application} />
         ))}

@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from 'urql';
 import GetActiveApplications from '../../components/typeformApplicationSystem/get-applications';
-import EditApplications from '../../components/typeformApplicationSystem/officer-view';
+import OfficerView from '../../components/typeformApplicationSystem/officer-view';
 
 export default function ApplicationPage() {
   const ACTIVE_APPLICATIONS_QUERY = gql`
@@ -37,11 +37,9 @@ export default function ApplicationPage() {
 
   return (
     <div>
-      <div className="py-8">
-        <GetActiveApplications />
-      </div>
+      <GetActiveApplications />
       {data.me.isOfficer ? (
-        <EditApplications
+        <OfficerView
           typeformApplications={data.typeformApplications}
           isOfficer={data.me.isOfficer}
         />
