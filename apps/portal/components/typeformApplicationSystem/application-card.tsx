@@ -11,7 +11,7 @@ import Router from 'next/router';
 
 export default function ApplicationCard({ application }) {
   return (
-    <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
+    <ApplicationCardOutline>
       <div className="h-24 space-y-2">
         <p className="text-xl text-white font-bold">{application.typeformName}</p>
         <p className="text-white text-sm">{application.description}</p>
@@ -23,7 +23,7 @@ export default function ApplicationCard({ application }) {
           </PopupButton>
         </div>
       </div>
-    </div>
+    </ApplicationCardOutline>
   );
 }
 
@@ -46,7 +46,7 @@ export function EditableApplicationCard({
   const [_, deleteTypeformApplication] = useMutation<any>(DELETE_TYPEFORM_APPLICATION);
 
   return (
-    <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">
+    <ApplicationCardOutline>
       <div className="h-24 space-y-2">
         <div className="flex flex-row">
           <p className="text-xl text-white font-bold basis-3/4">{application.typeformName}</p>
@@ -79,6 +79,10 @@ export function EditableApplicationCard({
         </div>
         <p className="text-white text-sm">{application.description}</p>
       </div>
-    </div>
+    </ApplicationCardOutline>
   );
+}
+
+function ApplicationCardOutline({ children }) {
+  return <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">{children}</div>;
 }
