@@ -79,10 +79,25 @@ export function EditableApplicationCard({
         </div>
         <p className="text-white text-sm">{application.description}</p>
       </div>
+      <div className="relative">
+        <div className="bg-gradient-to-r from-pink-700 to-purple-700 rounded-lg text-center w-fit py-2 px-12 absolute right-0">
+          <p
+            className="font-Gilroy text-white font-bold"
+            onClick={(event) => {
+              setCurrentApplication(
+                application != currentApplication ? application : ({} as TypeformApplication),
+              );
+              setFormCreateMode(false);
+            }}
+          >
+            edit
+          </p>
+        </div>
+      </div>
     </ApplicationCardOutline>
   );
 }
 
 function ApplicationCardOutline({ children }) {
-  return <div className="bg-gray-200/10 rounded-3xl p-6 w-80 h-48 space-y-2">{children}</div>;
+  return <div className="bg-gray-200/10 w-80 h-48 p-6 rounded-3xl space-y-2 ">{children}</div>;
 }
