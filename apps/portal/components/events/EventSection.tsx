@@ -10,6 +10,7 @@ interface EventSectionProps {
   onEventSelected?: (eventIndex: number) => void;
   allowedActions: string[];
   allowCreateEventAction: boolean;
+  isEditMode: boolean;
 }
 
 export default function EventSection({
@@ -18,11 +19,24 @@ export default function EventSection({
   onEventSelected,
   allowedActions,
   allowCreateEventAction,
+  isEditMode,
 }: EventSectionProps) {
-  const eventCards = allowCreateEventAction
-    ? [
-        <AddEventCard />,
-        ...events.map((event, eventIndex) => (
+  const eventCards =
+    allowCreateEventAction && isEditMode
+      ? [
+          <AddEventCard />,
+          ...events.map((event, eventIndex) => (
+            <EventCard
+              key={eventIndex}
+              event={event}
+              onClick={() => {
+                if (onEventSelected) onEventSelected(eventIndex);
+              }}
+              eventActions={allowedActions}
+            />
+          )),
+        ]
+      : events.map((event, eventIndex) => (
           <EventCard
             key={eventIndex}
             event={event}
@@ -31,18 +45,7 @@ export default function EventSection({
             }}
             eventActions={allowedActions}
           />
-        )),
-      ]
-    : events.map((event, eventIndex) => (
-        <EventCard
-          key={eventIndex}
-          event={event}
-          onClick={() => {
-            if (onEventSelected) onEventSelected(eventIndex);
-          }}
-          eventActions={allowedActions}
-        />
-      ));
+        ));
   return (
     <div>
       <h1 className="text-lg font-bold">{sectionName}</h1>

@@ -69,10 +69,10 @@ export default function EventPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<ActiveEventResult | null>(null);
 
-  if (fetching) return <p>Loading...</p>;
+  if (fetching) return <p className="text-white">Loading...</p>;
   if (error) {
     console.log(error);
-    return <p>Whoops... {error.message}</p>;
+    return <p className="text-white">Whoops... {error.message}</p>;
   }
 
   const { me, upcomingEvents } = queryResult;
@@ -122,7 +122,7 @@ export default function EventPage() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full text-white">
       <EventHeader
         isInEditMode={isEditMode}
         toggleEdit={() => {
@@ -131,17 +131,19 @@ export default function EventPage() {
       />
       <div className="flex flex-col gap-y-5">
         <EventSection
-          sectionName="featured events"
+          sectionName="upcoming events"
           events={upcomingEvents}
           onEventSelected={(eventIndex) => setCurrentEvent(upcomingEvents[eventIndex])}
           allowedActions={['rsvp']}
           allowCreateEventAction={me.isOfficer}
+          isEditMode={isEditMode}
         />
         <EventSection
           sectionName="attended events"
           events={me.attendedEvents}
           allowedActions={[]}
           allowCreateEventAction={false}
+          isEditMode={isEditMode}
         />
       </div>
     </div>

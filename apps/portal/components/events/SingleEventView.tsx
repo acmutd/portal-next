@@ -9,7 +9,7 @@ interface SingleEventViewProps {
 
 export default function SingleEventView({ event, onGoBack, onRsvp }: SingleEventViewProps) {
   return (
-    <div className="flex w-screen h-full items-center">
+    <div className="flex w-screen h-full items-center text-white">
       <div className="flex flex-col gap-y-3 w-1/2 h-full my-auto p-2">
         <div className="border-2 w-30 h-30 rounded-lg p-6">
           <h1 className="text-2xl">IMAGE HERE</h1>

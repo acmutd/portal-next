@@ -45,12 +45,12 @@ export default function EventForm({
   return (
     <div className="p-3">
       <div className="mx-auto my-3">
-        <h1 className="text-2xl">{formAction} Event</h1>
+        <h1 className="text-2xl text-white">{formAction} Event</h1>
       </div>
       <form
         className="flex flex-col gap-y-3"
-        onSubmit={handleSubmit((vals) => {
-          console.log(vals);
+        onSubmit={handleSubmit(async (vals) => {
+          await onFormSubmit(vals as any);
         })}
       >
         <input
@@ -87,7 +87,16 @@ export default function EventForm({
           setValue={setValue}
           name="start"
           label="Event Start Date"
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                label: { color: 'white' },
+                svg: { color: '#fff' },
+                input: { color: '#fff' },
+              }}
+            />
+          )}
         />
         <div className="text-xs text-red-600">{errors.start && errors.start.message}</div>
         <DateTimePickerWrapper
@@ -95,7 +104,16 @@ export default function EventForm({
           setValue={setValue}
           name="end"
           label="Event End Date"
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                label: { color: '#fff' },
+                svg: { color: '#fff' },
+                input: { color: '#fff' },
+              }}
+            />
+          )}
           minDate={watchStartDate}
         />
         <div className="text-xs text-red-600">{errors.end && errors.end.message}</div>
@@ -163,7 +181,7 @@ export default function EventForm({
               console.error(error);
             }
           }}
-        >
+        > 
           {submitActionName}
         </button> */}
       </div>

@@ -8,12 +8,15 @@ interface EventCardProps {
 
 export default function EventCard({ event, onClick, eventActions }: EventCardProps) {
   return (
-    <div className="flex flex-col p-2 border-2 rounded-lg cursor-pointer" onClick={() => onClick()}>
-      <div className="rounded-lg w-20 h-20 border-2 p-3 my-3">
+    <div
+      className="flex flex-col p-2 border-2 rounded-lg cursor-pointe w-[20%] backdrop-brightness-50"
+      onClick={() => onClick()}
+    >
+      {/* <div className="rounded-lg w-20 h-20 border-2 p-3 my-3">
         <h1 className="text-center text-xl">IMAGE HERE</h1>
-      </div>
+      </div> */}
       <div className="my-4">
-        <h1 className="text-md">{event.summary}</h1>
+        <h1 className="text-l font-bold ">{event.summary}</h1>
         <h1 className="text-md">{event.start}</h1>
         <h1 className="text-md">{event.location}</h1>
       </div>
