@@ -32,6 +32,7 @@ export function EditableApplicationCard({
   currentApplication,
   setCurrentApplication,
   setFormCreateMode,
+  setFormEditMode,
 }) {
   const DELETE_TYPEFORM_APPLICATION = gql`
     mutation DeleteTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
@@ -48,35 +49,7 @@ export function EditableApplicationCard({
   return (
     <ApplicationCardOutline>
       <div className="h-24 space-y-2">
-        <div className="flex flex-row">
-          <p className="text-xl text-white font-bold basis-3/4">{application.typeformName}</p>
-          <p
-            className="text-white text-sm hover:text-bold basis-1/8 pr-4"
-            onClick={(event) => {
-              setCurrentApplication(
-                application != currentApplication ? application : ({} as TypeformApplication),
-              );
-              setFormCreateMode(false);
-            }}
-          >
-            E
-          </p>
-          <p
-            className="text-white text-sm basis-1/8"
-            onClick={() => {
-              console.log(application.id);
-              deleteTypeformApplication({
-                where: {
-                  id: application.id,
-                },
-              }).then(() => {
-                Router.push('/opportunities');
-              });
-            }}
-          >
-            D
-          </p>
-        </div>
+        <p className="text-xl text-white font-bold basis-3/4">{application.typeformName}</p>
         <p className="text-white text-sm">{application.description}</p>
       </div>
       <div className="relative">
@@ -87,6 +60,7 @@ export function EditableApplicationCard({
               setCurrentApplication(
                 application != currentApplication ? application : ({} as TypeformApplication),
               );
+              setFormEditMode(application != currentApplication ? true : false);
               setFormCreateMode(false);
             }}
           >
@@ -99,5 +73,32 @@ export function EditableApplicationCard({
 }
 
 function ApplicationCardOutline({ children }) {
-  return <div className="bg-gray-200/10 w-80 h-48 p-6 rounded-3xl space-y-2 ">{children}</div>;
+  return (
+    <div className="bg-gray-200/10 outline outline-gray-100/10 w-80 h-48 p-6 rounded-3xl space-y-2 ">
+      {children}
+    </div>
+  );
+}
+
+export function CreateApplicationCard({
+  setCurrentApplicationData,
+  setFormCreateMode,
+  formCreateMode,
+  setFormEditMode,
+}) {
+  return (
+    <div
+      className="bg-gray-200/5 outline outline-gray-100/10 w-80 h-48 p-6 mt-8 rounded-3xl space-y-2"
+      onClick={() => {
+        setCurrentApplicationData({} as TypeformApplication);
+        setFormCreateMode(!formCreateMode);
+        setFormEditMode(false);
+      }}
+    >
+      <p className="text-xl text-gray-100 font-bold basis-3/4">add new</p>
+      <div className="grid place-content-center">
+        <p className="text-7xl text-gray-100 font-bold basis-3/4">+</p>
+      </div>
+    </div>
+  );
 }

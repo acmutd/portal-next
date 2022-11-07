@@ -41,7 +41,7 @@ function renderTypeformEdit(
   currentApplicationData,
 ): JSX.Element {
   return (
-    <div className="">
+    <div className="pb-16">
       <form
         id="update-typeform"
         className="justify-between min-h-full h-full"
@@ -75,41 +75,39 @@ function renderTypeformEdit(
           });
         })}
       >
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className="block text-gray-200 font-semibold mb-2">Status</label>
+        <div className="flex flex-wrap gap-8 -mx-3 mb-6">
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">status</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="checkbox"
               defaultChecked={currentApplicationData ? currentApplicationData.active : false}
               {...register('active')}
             />
           </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Description</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">description</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.description : ''}
               {...register('description')}
             />
           </div>
-        </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Endpoint</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">endpoint</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.endpoint : ''}
               {...register('endpoint')}
             />
           </div>
 
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">External URL</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">external URL</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={
                 currentApplicationData ? currentApplicationData.externalResourceUrl : ''
@@ -117,19 +115,19 @@ function renderTypeformEdit(
               {...register('externalResourceUrl')}
             />
           </div>
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Typeform ID</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">typeform ID</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.typeformId : ''}
               {...register('typeformId')}
             />
           </div>
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Typeform Name</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">typeform Name</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.typeformName : ''}
               {...register('typeformName')}
@@ -167,41 +165,38 @@ function renderTypeformCreate(
           });
         })}
       >
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <div className="flex flex-wrap gap-8 -mx-3 mb-6">
+          <div className="grid gap-y-4 w-full px-3">
             <label className="block text-gray-200 font-semibold mb-2">Status</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="checkbox"
               defaultChecked={currentApplicationData ? currentApplicationData.active : false}
               {...register('active')}
             />
           </div>
-          <div className="w-full md:w-1/2 px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Description</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Description</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.description : ''}
               {...register('description')}
             />
           </div>
-        </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Endpoint</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Endpoint</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.endpoint : ''}
               {...register('endpoint')}
             />
           </div>
-
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">External URL</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">External URL</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={
                 currentApplicationData ? currentApplicationData.externalResourceUrl : ''
@@ -209,19 +204,19 @@ function renderTypeformCreate(
               {...register('externalResourceUrl')}
             />
           </div>
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Typeform ID</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Typeform ID</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.typeformId : ''}
               {...register('typeformId')}
             />
           </div>
-          <div className="w-full px-3">
-            <label className="block text-gray-200 font-semibold mb-2">Typeform Name</label>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Typeform Name</label>
             <input
-              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               defaultValue={currentApplicationData ? currentApplicationData.typeformName : ''}
               {...register('typeformName')}
