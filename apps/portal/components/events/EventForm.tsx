@@ -44,147 +44,139 @@ export default function EventForm({
   const watchStartDate = watch('start', new Date().toISOString());
   return (
     <div className="p-3">
-      <div className="mx-auto my-3">
-        <h1 className="text-2xl text-white">{formAction} Event</h1>
+      {/* Form Label */}
+      <div className="w-full grid place-items-center">
+        <div className="mx-auto my-3">
+          <h1 className="text-3xl font-semibold text-gray-100">
+            {formAction.toLocaleLowerCase()} event
+          </h1>
+        </div>
       </div>
+
+      {/* Form */}
       <form
         className="flex flex-col gap-y-3"
         onSubmit={handleSubmit(async (vals) => {
           await onFormSubmit(vals as any);
         })}
       >
-        <input
-          name="summary"
-          placeholder="Event Title"
-          type="text"
-          {...register('summary', {
-            required: 'Enter event title.',
-          })}
-        ></input>
-        <div className="text-xs text-red-600">{errors.summary && errors.summary.message}</div>
-        <textarea
-          name="description"
-          placeholder="Description"
-          {...register('description', {
-            required: 'Enter event description.',
-          })}
-        ></textarea>
-        <div className="text-xs text-red-600">
-          {errors.description && errors.description.message}
+        {/* NEW STYLE TODO: */}
+        <div className="flex flex-wrap -mx-3 mb-6 w-[60%]">
+          <div className="w-full px-3">
+            <label className="block text-gray-200 font-semibold mb-2">name of event*</label>
+            <input
+              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              type="text"
+              {...register('summary', {
+                required: 'Enter event title.',
+              })}
+              placeholder={eventForm.summary}
+            />
+            <div className="text-xs text-red-600">{errors.summary && errors.summary.message}</div>
+          </div>
+
+          <div className="w-full px-3">
+            <label className="block text-gray-200 font-semibold mb-2">description*</label>
+            <input
+              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              type="text"
+              placeholder={eventForm.description}
+              {...register('description', {
+                required: 'Enter event description.',
+              })}
+            />
+            <div className="text-xs text-red-600">
+              {errors.description && errors.description.message}
+            </div>
+          </div>
+          <div className="w-full px-3">
+            <label className="block text-gray-200 font-semibold mb-2">location of event*</label>
+            <input
+              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              type="text"
+              placeholder={eventForm.location}
+              {...register('location', {
+                required: 'Enter event location.',
+              })}
+            />
+            <div className="text-xs text-red-600">
+              {errors.description && errors.description.message}
+            </div>
+          </div>
+          <div className="w-full px-3">
+            <label className="block text-gray-200 font-semibold mb-2">resource url</label>
+            <input
+              placeholder={eventForm.url}
+              className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+              type="text"
+              {...register('url')}
+            />
+          </div>
+          <div className="mt-4">
+            <DateTimePickerWrapper
+              register={register}
+              setValue={setValue}
+              name="start"
+              label="Event Start Date"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  sx={{
+                    label: { color: 'white' },
+                    svg: { color: '#fff' },
+                    input: { color: '#fff', border: '#fff' },
+                  }}
+                />
+              )}
+            />
+            <div className="text-xs text-red-600">{errors.start && errors.start.message}</div>
+            <DateTimePickerWrapper
+              register={register}
+              setValue={setValue}
+              name="end"
+              label="Event End Date"
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  sx={{
+                    label: { color: '#fff' },
+                    svg: { color: '#fff' },
+                    input: { color: '#fff' },
+                  }}
+                />
+              )}
+              minDate={watchStartDate}
+            />
+          </div>
+          <div className="text-xs text-red-600">{errors.end && errors.end.message}</div>
         </div>
-        <input
-          name="location"
-          placeholder="Location"
-          type="text"
-          {...register('location', {
-            required: 'Enter event location.',
-          })}
-        ></input>
-        <div className="text-xs text-red-600">{errors.location && errors.location.message}</div>
-        <input name="url" placeholder="Resource URL" type="text" {...register('url')}></input>
-        <DateTimePickerWrapper
-          register={register}
-          setValue={setValue}
-          name="start"
-          label="Event Start Date"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                label: { color: 'white' },
-                svg: { color: '#fff' },
-                input: { color: '#fff' },
-              }}
-            />
-          )}
-        />
-        <div className="text-xs text-red-600">{errors.start && errors.start.message}</div>
-        <DateTimePickerWrapper
-          register={register}
-          setValue={setValue}
-          name="end"
-          label="Event End Date"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                label: { color: '#fff' },
-                svg: { color: '#fff' },
-                input: { color: '#fff' },
-              }}
-            />
-          )}
-          minDate={watchStartDate}
-        />
-        <div className="text-xs text-red-600">{errors.end && errors.end.message}</div>
-        <input type="submit" className="cursor-pointer p-3 rounded-lg bg-green-400" />
+        <div className="flex gap-x-3">
+          <button
+            className="p-3 rounded-lg bg-green-400 font-semibold hover:bg-green-500"
+            onClick={async () => {
+              try {
+                await onFormSubmit(eventForm);
+                alert('Event created');
+                onGoBack();
+              } catch (error) {
+                alert('Unexpected error! Please try again later');
+                console.error(error);
+              }
+            }}
+          >
+            {submitActionName}
+          </button>
+          <button
+            className="p-3 rounded-lg bg-gray-200 font-semibold hover:bg-gray-400"
+            onClick={() => onGoBack()}
+          >
+            Go back
+          </button>
+          <button className="rounded-lg bg-red-400 font-semibold p-3 hover:bg-red-500">
+            delete event
+          </button>
+        </div>
       </form>
-      {/* <div className="mx-auto flex flex-col gap-y-3 my-3">
-        <input
-          placeholder="Event Title"
-          onChange={(e) => setEventForm((prev) => ({ ...prev, summary: e.target.value }))}
-          value={eventForm.summary}
-          type="text"
-          className="p-3 border-1 rounded-lg"
-        />
-        <textarea
-          placeholder="Event Description"
-          rows={5}
-          onChange={(e) => setEventForm((prev) => ({ ...prev, description: e.target.value }))}
-          value={eventForm.description}
-          className="p-3 border-1 rounded-lg"
-        />
-        <input
-          placeholder="Location"
-          onChange={(e) => setEventForm((prev) => ({ ...prev, location: e.target.value }))}
-          value={eventForm.location}
-          type="text"
-          className="p-3 border-1 rounded-lg"
-        />
-        <input
-          placeholder="Resource URL"
-          onChange={(e) => setEventForm((prev) => ({ ...prev, url: e.target.value }))}
-          value={eventForm.url}
-          type="text"
-          className="p-3 border-1 rounded-lg"
-        />
-        <DateTimePicker
-          label="Event Start Date"
-          value={new Date(eventForm.start)}
-          onChange={(newValue) =>
-            setEventForm((prev) => ({ ...prev, start: newValue.toISOString() }))
-          }
-          renderInput={(params) => <TextField {...params} />}
-        />
-        <DateTimePicker
-          label="Event End Date"
-          value={new Date(eventForm.end)}
-          onChange={(newValue) =>
-            setEventForm((prev) => ({ ...prev, end: newValue.toISOString() }))
-          }
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </div> */}
-      <div className="flex gap-x-3">
-        <button className="p-3 rounded-lg bg-gray-200" onClick={() => onGoBack()}>
-          Go back
-        </button>
-        {/* <button
-          className="p-3 rounded-lg bg-green-400"
-          onClick={async () => {
-            try {
-              await onFormSubmit(eventForm);
-              alert('Event created');
-              onGoBack();
-            } catch (error) {
-              alert('Unexpected error! Please try again later');
-              console.error(error);
-            }
-          }}
-        > 
-          {submitActionName}
-        </button> */}
-      </div>
     </div>
   );
 }

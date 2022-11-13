@@ -125,6 +125,7 @@ export default function EventPage() {
     <div className="w-full text-white">
       <EventHeader
         isInEditMode={isEditMode}
+        isOfficer={me.isOfficer}
         toggleEdit={() => {
           setIsEditMode(!isEditMode);
         }}
@@ -134,7 +135,7 @@ export default function EventPage() {
           sectionName="upcoming events"
           events={upcomingEvents}
           onEventSelected={(eventIndex) => setCurrentEvent(upcomingEvents[eventIndex])}
-          allowedActions={['rsvp']}
+          allowedActions={isEditMode ? ['edit'] : ['rsvp']}
           allowCreateEventAction={me.isOfficer}
           isEditMode={isEditMode}
         />
