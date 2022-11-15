@@ -1,13 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const DesktopDiv = styled.div`
-  display: flex;
-  position: relative;
+// height and width must be same as DesktopDiv
+const Placeholder = styled.div`
   height: 100%;
   width: 10%;
   min-width: 280px;
+`;
 
+const DesktopDiv = styled.div`
+  display: flex;
+  position: fixed;
+  height: 100%;
+  width: 10%;
+  min-width: 280px;
   flex-direction: column;
   justify-content: center;
   row-gap: 2em;
@@ -25,9 +31,12 @@ const DesktopDivBG = styled.div`
 
 export default function Navbar({ children }) {
   return (
-    <DesktopDiv>
-      <DesktopDivBG />
-      {children}
-    </DesktopDiv>
+    <>
+      <Placeholder />
+      <DesktopDiv>
+        <DesktopDivBG />
+        {children}
+      </DesktopDiv>
+    </>
   );
 }
