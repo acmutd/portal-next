@@ -4,29 +4,38 @@ import Image from 'next/image';
 
 import Background from './Background';
 import { default as ACMDesktopNavbar } from './PortalNavbar';
-import { default as ACMMobileNavbar } from './PortalMobileNavbar';
+import { default as ACMMobileNavbar, MobileNavPlaceholder } from './PortalMobileNavbar';
 import { default as ACMDesktopNavbarItem } from './PortalNavbarItem';
 import { default as ACMMobileNavbarItem } from './PortalMobileNavbarItem';
 
 import WhiteACMLogo from '../public/assets/acm/logo_white.svg';
 import { useRouter } from 'next/router';
 
+import EventIcon from '../icons/EventIcon';
+import ProfileIcon from '../icons/ProfileIcon';
+import ApplyIcon from '../icons/ApplyIcon';
+import CameraIcon from '../icons/CameraIcon';
+
 const pages = [
   {
     uri: '/events',
     name: 'events',
+    svg: EventIcon,
   },
   {
     uri: '/opportunities',
     name: 'apply',
+    svg: ApplyIcon,
   },
   {
     uri: '/profile',
     name: 'profile',
+    svg: ProfileIcon,
   },
   {
     uri: '/profile/resume',
     name: 'resume',
+    svg: CameraIcon,
   },
 ];
 
@@ -43,14 +52,14 @@ const Skeleton = ({ children }: any) => {
         {!mobile && (
           <ACMDesktopNavbar>
             <Link href="/" passHref>
-              <ACMDesktopNavbarItem isLogo active={false}>
+              <ACMDesktopNavbarItem isLogo $active={false}>
                 <Image src={WhiteACMLogo} alt="ACM Logo" />
               </ACMDesktopNavbarItem>
             </Link>
-            {pages.map((page) => {
+            {pages.map((page, idx) => {
               return (
-                <Link key={page.name} href={page.uri} passHref>
-                  <ACMDesktopNavbarItem active={router.pathname === page.uri ? true : false}>
+                <Link key={idx} href={page.uri} passHref>
+                  <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
                     {page.name}
                   </ACMDesktopNavbarItem>
                 </Link>
@@ -58,20 +67,27 @@ const Skeleton = ({ children }: any) => {
             })}
           </ACMDesktopNavbar>
         )}
-        <div className="w-full relative">{children}</div>
-        {mobile && (
-          <ACMMobileNavbar>
-            {pages.map((page) => {
-              return (
-                <Link href={page.uri} passHref>
-                  <ACMMobileNavbarItem active={router.pathname === page.uri ? true : false}>
-                    {page.name}
-                  </ACMMobileNavbarItem>
-                </Link>
-              );
-            })}
-          </ACMMobileNavbar>
-        )}
+        <div>
+          <div className="w-full relative">{children}</div>
+          {mobile && (
+            <>
+              <MobileNavPlaceholder />
+              <ACMMobileNavbar>
+                {pages.map((page, idx) => {
+                  const active = router.pathname === page.uri;
+                  return (
+                    <Link key={idx} href={page.uri} passHref>
+                      <ACMMobileNavbarItem $active={active}>
+                        {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
+                        {page.name}
+                      </ACMMobileNavbarItem>
+                    </Link>
+                  );
+                })}
+              </ACMMobileNavbar>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

@@ -23,13 +23,11 @@ const DesktopDivBG = styled.div`
   width: 90%;
 `;
 
-const Navbar: React.FC = ({ children }): JSX.Element => {
+export default function Navbar({ children }) {
   return (
     <DesktopDiv>
       <DesktopDivBG />
       {children}
     </DesktopDiv>
   );
-};
-
-export default Navbar;
+}

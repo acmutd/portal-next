@@ -1,17 +1,16 @@
 import React, { RefObject, useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { StyledComponent } from 'styled-components';
+import { ForwardRefComponent, HTMLMotionProps, motion } from 'framer-motion';
 
 interface ACMNavbarItemPropTypes {
   children?: React.ReactNode;
   color?: string;
   gradientColor?: string;
   theme?: 'light' | 'dark';
-  active: boolean;
+  $active?: boolean;
   isLogo?: boolean;
 }
 interface NextLinkForwardRefTypes {
-  ref?: RefObject<HTMLAnchorElement>;
   onClick?: React.MouseEventHandler<HTMLElement>;
   href?: string;
   // temporary attribute, moving to a state system in the next commits
@@ -23,11 +22,11 @@ const StyledA = styled(motion.a)<ACMNavbarItemPropTypes>`
   padding: 10px 0px;
 
   width: 100%;
-  color: ${(props: ACMNavbarItemPropTypes) => (props.theme === 'dark' ? 'white' : 'black')};
+  color: ${(props) => (props.theme === 'dark' ? 'white' : 'black')};
   font-size: 36px;
 
-  background: ${(props: ACMNavbarItemPropTypes) =>
-    props.active
+  background: ${(props) =>
+    props.$active
       ? `linear-gradient(90deg,${props.color || '#E10087'} 0%,${
           props.gradientColor || props.color || '#4004C0'
         } 100%)`
@@ -46,19 +45,23 @@ const StyledLogo = styled(motion.a)`
   margin-top: -40%;
 `;
 
-const NavbarItem = React.forwardRef(
-  ({
-    theme = 'dark',
-    active = false,
-    isLogo = false,
+const NavbarItem = React.forwardRef<
+  HTMLAnchorElement,
+  ACMNavbarItemPropTypes & NextLinkForwardRefTypes
+>(
+  (
+    {
+      theme = 'dark',
+      $active = false,
+      isLogo = false,
 
-    // props needed to make the prop next/link compatible
+      onClick,
+      href,
+
+      ...props
+    },
     ref,
-    onClick,
-    href,
-
-    ...props
-  }: ACMNavbarItemPropTypes & NextLinkForwardRefTypes): JSX.Element => {
+  ): JSX.Element => {
     const [hover, setHover] = useState<boolean>(false);
 
     if (isLogo)
@@ -84,7 +87,7 @@ const NavbarItem = React.forwardRef(
         type="button"
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
-        active={!!active}
+        $active={$active}
       >
         <motion.div
           style={{ position: 'relative', zIndex: 999, paddingLeft: '5%' }}
