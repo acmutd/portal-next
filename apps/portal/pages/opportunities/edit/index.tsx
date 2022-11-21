@@ -1,9 +1,10 @@
 import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
+import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { gql, useQuery } from 'urql';
+import { gql, useMutation, useQuery } from 'urql';
 
 interface TypeformApplication {
   id: string;
@@ -13,14 +14,13 @@ interface TypeformApplication {
   typeformName: string;
   // division: string; in the future
 }
-
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
   me: {
     isOfficer: boolean;
   };
 }
-const ApplicationsPage: NextPage = () => {
+const ApplicationsEditPage: NextPage = () => {
   const ACTIVE_APPLICATIONS_QUERY = gql`
     query GetActiveApplications($where: TypeformApplicationWhereInput) {
       typeformApplications(where: $where) {
@@ -54,23 +54,22 @@ const ApplicationsPage: NextPage = () => {
     <div className="px-16 py-[65px]">
       <header className="flex items-center justify-center relative mb-[30px]">
         <h1 className="text-[48px] font-Gilroy text-white font-semibold">applications</h1>
-
-        {data.me.isOfficer && (
-          <Link href="/opportunities/edit">
-            <Button className="absolute right-0">edit</Button>
-          </Link>
-        )}
+        <Link href="/opportunities">
+          <Button className="absolute right-0">save</Button>
+        </Link>
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
+        <Link href="/opportunities/create">
+          <AddNewApplicationCard />
+        </Link>
         {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
           <ApplicationCard
-            key={id}
             title={typeformName}
             description={description}
             button={
-              <PopupButton id={typeformId} className="my-button">
-                <Button>apply</Button>
-              </PopupButton>
+              <Link href={`/opportunities/edit/${id}`}>
+                <Button>edit</Button>
+              </Link>
             }
             division="development."
           />
@@ -80,4 +79,4 @@ const ApplicationsPage: NextPage = () => {
   );
 };
 
-export default ApplicationsPage;
+export default ApplicationsEditPage;

@@ -40,6 +40,7 @@ function renderTypeformEdit(
   updateTypeformApplication,
   currentApplicationData,
 ): JSX.Element {
+  console.log({ currentApplicationData });
   return (
     <div className="pb-16">
       <form
@@ -139,12 +140,7 @@ function renderTypeformEdit(
   );
 }
 
-function renderTypeformCreate(
-  handleSubmit,
-  register,
-  updateTypeformApplication,
-  currentApplicationData,
-): JSX.Element {
+function renderTypeformCreate(handleSubmit, register, updateTypeformApplication): JSX.Element {
   return (
     <div className="flex justify-center md:flex-row-reverse w-full md:w-[50%]">
       <form
@@ -171,7 +167,7 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="checkbox"
-              defaultChecked={currentApplicationData ? currentApplicationData.active : false}
+              defaultChecked={false}
               {...register('active')}
             />
           </div>
@@ -180,7 +176,6 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
-              defaultValue={currentApplicationData ? currentApplicationData.description : ''}
               {...register('description')}
             />
           </div>
@@ -189,7 +184,6 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
-              defaultValue={currentApplicationData ? currentApplicationData.endpoint : ''}
               {...register('endpoint')}
             />
           </div>
@@ -198,9 +192,6 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
-              defaultValue={
-                currentApplicationData ? currentApplicationData.externalResourceUrl : ''
-              }
               {...register('externalResourceUrl')}
             />
           </div>
@@ -209,7 +200,6 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
-              defaultValue={currentApplicationData ? currentApplicationData.typeformId : ''}
               {...register('typeformId')}
             />
           </div>
@@ -218,7 +208,6 @@ function renderTypeformCreate(
             <input
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
-              defaultValue={currentApplicationData ? currentApplicationData.typeformName : ''}
               {...register('typeformName')}
             />
           </div>
