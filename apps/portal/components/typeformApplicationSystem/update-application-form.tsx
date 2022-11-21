@@ -40,7 +40,6 @@ function renderTypeformEdit(
   updateTypeformApplication,
   currentApplicationData,
 ): JSX.Element {
-  console.log({ currentApplicationData });
   return (
     <div className="pb-16">
       <form

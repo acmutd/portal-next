@@ -134,23 +134,6 @@ const EditApplicationPage: NextPage = () => {
         >
           delete application
         </Button>
-        {/* <button
-                className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
-                onClick={() => {
-                  console.log(currentApplicationData.id);
-                  deleteTypeformApplication({
-                    where: {
-                      id: currentApplicationData.id,
-                    },
-                  }).then(() => {
-                    setFormEditMode(false);
-                    setCurrentApplicationData({} as TypeformApplication);
-                    Router.push('/opportunities');
-                  });
-                }}
-              >
-                delete application
-              </button> */}
       </div>
     </div>
   );
