@@ -10,6 +10,7 @@ interface EventFormProps {
   event?: ActiveEventResult;
   formAction: 'Edit' | 'Create';
   onGoBack: () => void;
+  onDeleteEvent: () => void;
   submitActionName: string;
   onFormSubmit: (form: ActiveEventResult) => Promise<void>;
 }
@@ -17,6 +18,7 @@ interface EventFormProps {
 export default function EventForm({
   formAction,
   onGoBack,
+  onDeleteEvent,
   event,
   onFormSubmit,
   submitActionName,
@@ -172,7 +174,19 @@ export default function EventForm({
           >
             Go back
           </button>
-          <button className="rounded-lg bg-red-400 font-semibold p-3 hover:bg-red-500">
+          <button
+            className="rounded-lg bg-red-400 font-semibold p-3 hover:bg-red-500"
+            onClick={async () => {
+              try {
+                await onDeleteEvent();
+                alert('Event deleted');
+                onGoBack();
+              } catch (error) {
+                alert('Unexpected error! Please try again later');
+                console.error(error);
+              }
+            }}
+          >
             delete event
           </button>
         </div>

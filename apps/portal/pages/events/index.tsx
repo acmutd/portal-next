@@ -12,7 +12,7 @@ import SingleEventView from 'components/events/SingleEventView';
 import { gql, useMutation, useQuery } from 'urql';
 import { ActiveEventResult, EventResult } from '../../lib/types/event';
 import EventForm from 'components/events/EventForm';
-import { Event, UpdateEventArgs } from '@generated/type-graphql';
+import { Event, UpdateEventArgs, DeleteEventArgs } from '@generated/type-graphql';
 
 const COMPONENT_QUERY = gql`
   query {
@@ -50,6 +50,14 @@ const UPDATE_EVENT_MUTATION = gql`
   }
 `;
 
+const DELETE_EVENT_MUTATION = gql`
+  mutation DeleteEvent($where: EventWhereUniqueInput!) {
+    deleteEvent(where: $where) {
+      id
+    }
+  }
+`;
+
 interface QueryResultType {
   me: {
     attendedEvents: EventResult[];
@@ -63,6 +71,7 @@ export default function EventPage() {
     query: COMPONENT_QUERY,
   });
   const [__, updateEvent] = useMutation<Event, UpdateEventArgs>(UPDATE_EVENT_MUTATION);
+  const [__2, deleteEvent] = useMutation<Event, DeleteEventArgs>(DELETE_EVENT_MUTATION);
 
   const { data: queryResult, fetching, error } = result;
 
@@ -82,6 +91,10 @@ export default function EventPage() {
       <EventForm
         formAction="Edit"
         onGoBack={() => setCurrentEvent(null)}
+        onDeleteEvent={() => {
+          deleteEvent({ where: { id: currentEvent.id } });
+          setCurrentEvent(null);
+        }}
         onFormSubmit={async (form) => {
           await updateEvent({
             data: {
@@ -144,7 +157,7 @@ export default function EventPage() {
           events={me.attendedEvents}
           allowedActions={[]}
           allowCreateEventAction={false}
-          isEditMode={isEditMode}
+          isEditMode={false}
         />
       </div>
     </div>
