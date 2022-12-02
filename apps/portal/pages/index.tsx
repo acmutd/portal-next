@@ -83,9 +83,10 @@ export default function HomePage({ profileVisited }) {
       </div>
 
       {/* Attended event boxes */}
-      <div>
+      <h1 className="text-2xl text-white font-semibold mb-4">attended events</h1>
+      <div className="flex">
         {data.me.attendedEvents.slice(0, 3).map((event) => (
-          <div className="flex flex-col items-end w-fit">
+          <div className="flex flex-col items-end w-fit mx-4">
             <h3 className="font-bold text-white mr-5 mb-[5px] text-[20px]">development</h3>
             <div className="bg-gray-200/10 outline outline-gray-100/10 w-80 h-48 p-6 rounded-3xl space-y-2 flex flex-col justify-between">
               <div>
