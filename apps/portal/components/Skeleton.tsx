@@ -18,6 +18,11 @@ import CameraIcon from '../icons/CameraIcon';
 
 const pages = [
   {
+    uri: '/',
+    name: 'home',
+    svg: undefined,
+  },
+  {
     uri: '/events',
     name: 'events',
     svg: EventIcon,
@@ -67,7 +72,7 @@ const Skeleton = ({ children }: any) => {
             })}
           </ACMDesktopNavbar>
         )}
-        <div>
+        <div className="w-full">
           <div className="w-full relative">{children}</div>
           {mobile && (
             <>
