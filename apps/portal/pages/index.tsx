@@ -102,6 +102,15 @@ export default function HomePage({ profileVisited }) {
           </div>
         ))}
       </div>
+      <ACMButton
+        onClick={() => {
+          router.push('/events');
+        }}
+        theme={pageTheme}
+        gradientcolor={'#4cb2e9'}
+      >
+        See more
+      </ACMButton>
     </>
   );
 }
