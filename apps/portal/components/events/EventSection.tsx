@@ -49,7 +49,7 @@ export default function EventSection({
   return (
     <div>
       <h1 className="text-lg font-bold">{sectionName}</h1>
-      <div className="flex flex-col md:flex-row gap-x-3 gap-y-2 items-center">
+      <div className="flex flex-col md:flex-row gap-x-3 gap-y-2 items-center my-5">
         {eventCards.length === 0 ? (
           <div className="py-3">
             <h1>No events found! </h1>
