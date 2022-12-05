@@ -25,4 +25,9 @@ export default class AdditionalUserResolver {
   async attendedEvents(@Root() user: User): Promise<Event[]> {
     return this.userService.getAttendedEventsByUserId(user.id);
   }
+
+  @FieldResolver(() => String)
+  async resumeFilename(@Root() user: User): Promise<string> {
+    return this.userService.getResumeFileName(user.id);
+  }
 }
