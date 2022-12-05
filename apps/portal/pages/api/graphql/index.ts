@@ -15,7 +15,6 @@ import { resolversEnhanceMap } from 'lib/graphql/resolver-enhancer/enhancer';
 
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 
-
 import { exposedResolvers } from './exposedResolvers';
 
 if (process.env.NODE_ENV !== 'development') {
