@@ -10,7 +10,7 @@ export default class AdditionalCRUDEventResolver {
   constructor(private eventSerivce: AdditionalCRUDEventService) {}
 
   @Query(() => [Event])
-  async upcomingEvent(): Promise<Event[]> {
+  async upcomingEvents(): Promise<Event[]> {
     return this.eventSerivce.getUpcomingEvent();
   }
 }
