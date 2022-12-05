@@ -2,10 +2,14 @@ import { Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-g
 import { User, Event } from '@generated/type-graphql';
 import { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
-import * as fs from 'fs/promises';
+import { injectable } from 'tsyringe';
+import UsersService from '../services/users.service';
 
 @Resolver(() => User)
+@injectable()
 export default class AdditionalUserResolver {
+  constructor(private userService: UsersService) {}
+
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
   async me(@Ctx() context: TContext) {
@@ -14,6 +18,11 @@ export default class AdditionalUserResolver {
         id: context.session.id,
       },
     });
+  }
+
+  @FieldResolver(() => String)
+  async resumeFilename(@Root() user: User): Promise<string> {
+    return this.userService.getResumeFileName(user.id);
   }
 
   @FieldResolver(() => Boolean)

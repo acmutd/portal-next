@@ -1,6 +1,7 @@
 import { NonEmptyArray } from 'type-graphql/dist/interfaces/NonEmptyArray';
 
 import {
+  FindManyUserResolver,
   CreateAccountResolver,
   UpdateAccountResolver,
   DeleteAccountResolver,
@@ -28,6 +29,7 @@ import {
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
+  FindManyUserResolver,
   CreateAccountResolver,
   UpdateAccountResolver,
   DeleteAccountResolver,
