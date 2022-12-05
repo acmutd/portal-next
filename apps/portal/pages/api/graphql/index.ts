@@ -11,12 +11,11 @@ import EventCheckinResolver from 'lib/graphql/resolvers/EventCheckin.resolver';
 import { getPrismaConnection } from 'lib/prisma/manager';
 import AdditionalCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEvent.resolver';
 
-import { resolversEnhanceMap } from 'lib/graphql/resolver-enhancer/enhancer';
+import { resolversEnhanceMap } from 'lib/graphql/typegraphql-prisma/enhancer';
 
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 
-
-import { exposedResolvers } from './exposedResolvers';
+import { exposedResolvers } from '../../../lib/graphql/typegraphql-prisma/exposedResolvers';
 
 if (process.env.NODE_ENV !== 'development') {
   applyResolversEnhanceMap(resolversEnhanceMap);
