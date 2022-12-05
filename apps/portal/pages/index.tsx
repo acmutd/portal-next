@@ -104,7 +104,7 @@ export default function HomePage({ profileVisited }) {
             </div>
           ))}
         </div>
-        <div className="absolute right-2">
+        <div className="absolute right-2 my-5">
           <ACMButton
             onClick={() => {
               router.push('/events');
