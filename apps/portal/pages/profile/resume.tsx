@@ -194,20 +194,20 @@ export default function ResumePage() {
               <Button onClick={handleResumeUpload}>confirm upload</Button>
             )}
           </div>
-          <span className="font-medium text-white text-[24px] whitespace-nowrap">
+          <span className="font-medium text-white text-[24px] whitespace-nowrap hidden sm:inline">
             upload new resume
           </span>
         </div>
 
         <div className="flex gap-4">
           <Button onClick={handleResumeDownload}>download</Button>
-          <span className="font-medium text-white text-[24px] whitespace-nowrap">
+          <span className="font-medium text-white text-[24px] whitespace-nowrap hidden sm:inline">
             download current resume
           </span>
         </div>
         <div className="flex gap-4">
           <Button onClick={handleResumeDelete}>delete</Button>
-          <span className="font-medium text-white text-[24px] whitespace-nowrap">
+          <span className="font-medium text-white text-[24px] whitespace-nowrap hidden sm:inline">
             delete current resume
           </span>
         </div>
