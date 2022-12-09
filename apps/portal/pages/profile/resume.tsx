@@ -81,7 +81,6 @@ export default function ResumePage() {
       )}`; // FirstnameLastname_resume.extension
 
       const disposition = contentDisposition(fileName); // This will be the default filename when downloading
-      console.log({ fileName });
 
       axios
         .put(url, uploadRef.current.files[0], {
