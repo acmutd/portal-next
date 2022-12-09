@@ -1,5 +1,6 @@
 import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
+import CircularBlur from 'components/CircularBlur';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -51,7 +52,9 @@ const ApplicationsPage: NextPage = () => {
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
-    <div className="px-16 py-[65px]">
+    <div className="px-16 py-[65px] relative">
+      <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
+      <CircularBlur backgroundColor="#daa635" bottom="20%" right="15%" />
       <header className="flex items-center justify-center relative mb-[30px]">
         <h1 className="text-[48px] font-Gilroy text-white font-semibold ml-auto">applications</h1>
 
