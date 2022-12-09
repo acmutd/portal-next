@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { gql, useQuery, useMutation, CombinedError } from 'urql';
 import LoadingComponent from 'components/LoadingComponent';
 import ErrorComponent from 'components/ErrorComponent';
-import { ACMButton } from 'packages/acm-ui/lib';
+import { default as ACMButton } from '../../components/PortalButton';
 import SuccessfulComponent from 'components/SuccessfulComponent';
 import { useSession } from 'next-auth/react';
 

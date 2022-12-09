@@ -1,7 +1,0 @@
-node_modules
-.build
-dist
-generated
-*.config.*
-*.js
-*.jsx
