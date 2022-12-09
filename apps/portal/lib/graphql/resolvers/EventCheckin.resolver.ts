@@ -2,7 +2,7 @@ import { injectable } from 'tsyringe';
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from 'type-graphql';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin, EventCheckinInput } from '../schemas/EventCheckin';
-import { TContext } from '../interfaces/context.interface';
+import type { TContext } from '../interfaces/context.interface';
 import { checkValidEvent } from '../middlewares/check-valid-event';
 
 @Resolver(() => EventCheckin)

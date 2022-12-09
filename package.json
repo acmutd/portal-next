@@ -17,7 +17,8 @@
   "dependencies": {
     "@dazn/lambda-powertools-logger": "^1.28.1",
     "aws-lambda": "^1.0.7",
-    "aws-sdk": "^2.1115.0"
+    "aws-sdk": "^2.1115.0",
+    "cookies-next": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -50,7 +51,7 @@
     "react-test-renderer": "17.0.2",
     "ts-jest": "^27.0.5",
     "turbo": "^1.2.16",
-    "typescript": "~4.5.2"
+    "typescript": "^4.9.4"
   },
   "config": {
     "commitizen": {

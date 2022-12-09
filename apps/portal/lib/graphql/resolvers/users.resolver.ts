@@ -1,6 +1,6 @@
 import { Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
 import { User, Event } from '@generated/type-graphql';
-import { TContext } from '../interfaces/context.interface';
+import type { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
 import { injectable } from 'tsyringe';
 import AdditionalUserService from '../services/users.service';
