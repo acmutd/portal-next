@@ -15,8 +15,14 @@ import EventIcon from '../icons/EventIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
+import HomeIcon from '../icons/HomeIcon';
 
 const pages = [
+  {
+    uri: '/',
+    name: 'home',
+    svg: HomeIcon,
+  },
   {
     uri: '/events',
     name: 'events',
