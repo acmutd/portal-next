@@ -53,11 +53,11 @@ const ApplicationsPage: NextPage = () => {
   return (
     <div className="px-16 py-[65px]">
       <header className="flex items-center justify-center relative mb-[30px]">
-        <h1 className="text-[48px] font-Gilroy text-white font-semibold">applications</h1>
+        <h1 className="text-[48px] font-Gilroy text-white font-semibold ml-auto">applications</h1>
 
         {data.me.isOfficer && (
           <Link href="/opportunities/edit">
-            <Button className="absolute right-0">edit</Button>
+            <Button className="ml-auto">edit</Button>
           </Link>
         )}
       </header>
