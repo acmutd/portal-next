@@ -45,7 +45,8 @@
     "type-graphql": "^1.1.1",
     "urql": "^2.2.0",
     "uuid": "^8.3.2",
-    "cookies-next": "^2.1.1"
+    "cookies-next": "^2.1.1",
+    "@typeform/embed-react": "^1.17.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",
