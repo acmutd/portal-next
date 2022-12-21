@@ -7,6 +7,7 @@ import {
   sendProfileCreationEmail,
 } from '../utilities/send-email';
 import { Event } from '@generated/type-graphql';
+import { sendSlackNotification } from '../utilities/slack';
 
 export const onProfileCreationComplete: MiddlewareFn<TContext> = async ({ args }, next) => {
   await next();
@@ -29,7 +30,7 @@ export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
       userId: session.id,
     },
   });
-  return sendApplicationCreationEmail(
+  sendApplicationCreationEmail(
     {
       description: args.data.description,
       external_link: args.data.externalResourceUrl || 'None',
@@ -39,6 +40,11 @@ export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
     },
     profile.email,
   );
+  sendSlackNotification({
+    email: profile.email,
+    form_name: 'Application Generator',
+    name: `${profile.firstName} ${profile.lastName}`,
+  });
 };
 
 export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, context }, next) => {
@@ -49,7 +55,7 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
       userId: session.id,
     },
   });
-  return sendEventCreationEmail(
+  sendEventCreationEmail(
     {
       checkin_link: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
       first_name: profile.firstName,
@@ -61,4 +67,10 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
     },
     profile.email,
   );
+  sendSlackNotification({
+    email: profile.email,
+    name: `${profile.firstName} ${profile.lastName}`,
+    form_name: 'Event Check-in Generator',
+    url: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
+  });
 };
