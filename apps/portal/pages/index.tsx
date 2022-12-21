@@ -15,6 +15,10 @@ export default function HomePage({ profileVisited }) {
 
   let pageTheme: any = 'dark';
 
+  if (!session && !profileVisited) {
+    router.push('/profile'); // redirect user to set up profile if they haven't already
+    console.log('redirecting to profile');
+  }
   if (!session)
     return (
       <>
@@ -25,10 +29,6 @@ export default function HomePage({ profileVisited }) {
         </Link>
       </>
     );
-
-  if (!profileVisited) {
-    router.push('/profile'); // redirect user to set up profile if they haven't already
-  }
 
   return (
     <>
