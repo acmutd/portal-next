@@ -16,9 +16,9 @@ interface SignInPageProps {
 
 // map providers to icons
 const providerIcons = {
-  Google: '/_next/static/media/google.png',
-  Discord: '/_next/static/media/discord.png',
-  'ACM Account': '/_next/static/media/logo_white.fbdb4d95.svg',
+  Google: '/assets/acm/google.png',
+  Discord: '/assets/acm/discord.png',
+  'ACM Account': '/assets/acm/logo_white.fbdb4d95.svg',
 };
 
 export default function SignInPage({ providers }: SignInPageProps) {
@@ -37,7 +37,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
 
       <div className="flex flex-col md:flex-row w-full md:w-[50%] backdrop-blur-lg">
         <div className="flex flex-col place-items-center">
-          <img src="/_next/static/media/mrpeechi.png" alt="acm mascot" />
+          <img src="/assets/acm/mrpeechi.png" alt="acm mascot" />
         </div>
         <div className="w-full flex flex-col ">
           {Object.values(providers)
