@@ -15,6 +15,7 @@ import EventIcon from '../icons/EventIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
+import { useSession } from 'next-auth/react';
 
 const pages = [
   {
@@ -42,8 +43,17 @@ const pages = [
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
   const router = useRouter();
-
+  const { data: session } = useSession();
   // if (disable) return children;
+  if (!session)
+    return (
+      <>
+        <Background splotches={3} />
+        <div className="h-screen w-screen overflow-x-hidden flex">
+          <div className="w-full relative">{children}</div>
+        </div>
+      </>
+    );
 
   return (
     <>
