@@ -1,15 +1,23 @@
 @font-face {
-    font-family: "Gilroy";
-    src: url("/fonts/Gilroy-Light.otf") format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: "Gilroy";
-    src: url("/fonts/Gilroy-ExtraBold.otf") format('opentype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-  }
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Medium.ttf') format('truetype');
+  font-weight: medium;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-ExtraBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}

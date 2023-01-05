@@ -16,8 +16,14 @@ import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
 import { useSession } from 'next-auth/react';
+import HomeIcon from '../icons/HomeIcon';
 
 const pages = [
+  {
+    uri: '/',
+    name: 'home',
+    svg: HomeIcon,
+  },
   {
     uri: '/events',
     name: 'events',
@@ -77,7 +83,7 @@ const Skeleton = ({ children }: any) => {
             })}
           </ACMDesktopNavbar>
         )}
-        <div>
+        <div className="w-full">
           <div className="w-full relative">{children}</div>
           {mobile && (
             <>

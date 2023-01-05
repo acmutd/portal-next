@@ -9,7 +9,7 @@ const client = createClient({
   url: '/api/graphql',
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps<any>) {
   return (
     <Provider value={client}>
       <SessionProvider session={pageProps.session}>
