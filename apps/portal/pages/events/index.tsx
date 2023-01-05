@@ -32,6 +32,7 @@ const COMPONENT_QUERY = gql`
       end
       description
       url
+      isPublic
     }
   }
 `;

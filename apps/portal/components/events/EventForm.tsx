@@ -32,17 +32,16 @@ export default function EventForm({
       summary: '',
       url: '',
       id: '',
+      isPublic: true,
     },
   );
   const {
     watch,
     register,
     handleSubmit,
-    formState: { errors },
-    getValues,
+    formState: { errors, isValid, isDirty },
     setValue,
-  } = useForm();
-  console.log(getValues());
+  } = useForm<ActiveEventResult>({ mode: 'onChange' });
   const watchStartDate = watch('start', new Date().toISOString());
   return (
     <div className="p-3">
@@ -64,6 +63,13 @@ export default function EventForm({
       >
         {/* NEW STYLE TODO: */}
         <div className="flex flex-wrap -mx-3 mb-6 w-[60%]">
+          <div className="w-full px-3 my-3">
+            <div className="md:w-1/3"></div>
+            <label className="md:w-2/3 block text-gray-500 font-bold">
+              <input className="mr-2 leading-tight" type="checkbox" {...register('isPublic')} />
+              <span className="text-md">Is this event public?</span>
+            </label>
+          </div>
           <div className="w-full px-3">
             <label className="block text-gray-200 font-semibold mb-2">name of event*</label>
             <input
@@ -91,6 +97,7 @@ export default function EventForm({
               {errors.description && errors.description.message}
             </div>
           </div>
+
           <div className="w-full px-3">
             <label className="block text-gray-200 font-semibold mb-2">location of event*</label>
             <input
@@ -150,11 +157,13 @@ export default function EventForm({
               minDate={watchStartDate}
             />
           </div>
+
           <div className="text-xs text-red-600">{errors.end && errors.end.message}</div>
         </div>
         <div className="flex gap-x-3">
           <button
             className="p-3 rounded-lg bg-green-400 font-semibold hover:bg-green-500"
+            disabled={!isDirty || !isValid}
             onClick={async () => {
               try {
                 await onFormSubmit(eventForm);

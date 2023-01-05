@@ -24,7 +24,7 @@ export default function EventSection({
   const eventCards =
     allowCreateEventAction && isEditMode
       ? [
-          <AddEventCard />,
+          <AddEventCard key={events.length} />,
           ...events.map((event, eventIndex) => (
             <EventCard
               key={eventIndex}

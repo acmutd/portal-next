@@ -9,4 +9,5 @@ export interface ActiveEventResult extends EventResult {
   id: string;
   description: string;
   url: string;
+  isPublic: boolean;
 }
