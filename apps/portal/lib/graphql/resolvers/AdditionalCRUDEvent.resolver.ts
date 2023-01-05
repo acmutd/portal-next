@@ -1,7 +1,7 @@
 import { Event } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
 import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { TContext } from '../interfaces/context.interface';
+import type { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import { checkIfUserIsOfficer } from '../utilities/check-officer';
