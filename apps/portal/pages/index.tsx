@@ -11,13 +11,18 @@ export const getServerSideProps = async (ctx) => {
 
 export default function HomePage({ profileVisited }) {
   const { data: session } = useSession();
-  const router = useRouter();
 
   let pageTheme: any = 'dark';
 
-  if (!session && !profileVisited) {
-    router.push('/profile'); // redirect user to set up profile if they haven't already
+  if (session && !profileVisited) {
+    // redirect user to set up profile if they haven't already
     console.log('redirecting to profile');
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/profile',
+      },
+    };
   }
   if (!session)
     return (
