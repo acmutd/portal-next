@@ -15,7 +15,7 @@ import EventIcon from '../icons/EventIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
 
 const pages = [
@@ -44,6 +44,11 @@ const pages = [
     name: 'resume',
     svg: CameraIcon,
   },
+  {
+    uri: '/',
+    name: 'sign out',
+    svg: HomeIcon,
+  },
 ];
 
 const Skeleton = ({ children }: any) => {
@@ -66,22 +71,30 @@ const Skeleton = ({ children }: any) => {
       <Background splotches={3} />
       <div className="h-screen w-screen overflow-x-hidden flex">
         {!mobile && (
-          <ACMDesktopNavbar>
-            <Link href="/" passHref>
-              <ACMDesktopNavbarItem isLogo>
-                <Image src={WhiteACMLogo} alt="ACM Logo" />
-              </ACMDesktopNavbarItem>
-            </Link>
-            {pages.map((page, idx) => {
-              return (
-                <Link key={idx} href={page.uri} passHref>
-                  <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
-                    {page.name}
-                  </ACMDesktopNavbarItem>
-                </Link>
-              );
-            })}
-          </ACMDesktopNavbar>
+          <>
+            <ACMDesktopNavbar>
+              <Link href="/" passHref>
+                <ACMDesktopNavbarItem isLogo>
+                  <Image src={WhiteACMLogo} alt="ACM Logo" />
+                </ACMDesktopNavbarItem>
+              </Link>
+              {pages.map((page, idx) => {
+                if (page.name === 'sign out')
+                  return (
+                    <ACMDesktopNavbarItem key={idx} onClick={() => signOut()}>
+                      {page.name}
+                    </ACMDesktopNavbarItem>
+                  );
+                return (
+                  <Link key={idx} href={page.uri} passHref>
+                    <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
+                      {page.name}
+                    </ACMDesktopNavbarItem>
+                  </Link>
+                );
+              })}
+            </ACMDesktopNavbar>
+          </>
         )}
         <div className="w-full">
           <div className="w-full relative">{children}</div>

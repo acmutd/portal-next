@@ -53,7 +53,9 @@ export default function SignInPage({ providers }: SignInPageProps) {
             </div>
           </div>
           <div className="flex flex-row place-content-center space-x-2">
-            <div className="text-xl mt-6 font-semibold text-gray-100 h-[60%]">Login with</div>
+            <div className="text-xl mt-6 font-semibold text-gray-100 h-[60%]">
+              {session ? 'connect your account' : 'log in'} with
+            </div>
           </div>
           {Object.values(providers)
             .filter(
