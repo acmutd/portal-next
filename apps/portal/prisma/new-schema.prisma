@@ -86,7 +86,8 @@ model User {
     profile       Profile?
     roles         RolesOnUser[]
 
-    user_app UserAppJunction @relation(fields: [userId], references: [id])
+    applications    UserAppJunction[]   @relation("UserLink")
+
     @@map("users")
 }
 
@@ -115,10 +116,12 @@ model Profile {
     resumeTS         DateTime?
 
     user User @relation(fields: [userId], references: [id])
-    officer Officer @relation(fields: [profileId], references: [id])
 
     userId String             @unique @db.ObjectId
     events EventReservation[]
+
+    officerId   String             @unique @db.ObjectId
+    officer     Officer            @relation(fields: [officerId], references: [id])
 }
 
 model Event {
@@ -143,24 +146,76 @@ model TypeformApplication {
     typeformId          String
     typeformName        String
 
-    user_app UserAppJunction @relation(fields: [formmId], references: [typeformId])
     @@map("typeform_applications")
 }
 
+model Application {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt           DateTime
+    expireDate          DateTime
+    type                String?
+    role                String?
+
+    users               UserAppJunction[]   @relation("AppLink")
+    departments         UserAppJunction[]   @relation("AppLink")
+
+    @@map("applications")
+}
+
+model Department {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    deptName            String
+
+    officers            Officer[]
+    applications        UserAppJunction[]   @relation("DeptLink")
+
+    @@map("departments")
+}
+
+model Officer {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    deptId              String
+
+    profile             Profile?
+    departments         Department[]
+
+    @@map("officers")
+}
+
+// if explicit m-to-n relations are needed:
+// model OffDeptJunction {
+//    officerId           String  
+//    officer             Officer    @relation(fields: [officerId], references: [id])
+
+//    deptId              String
+//    dept                Dept    @relation(fields: [deptId], references: [id])
+
+//    @@id([officerId, deptId])   @map("_id") @db.ObjectId
+//}
+
 model UserAppJunction {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    entryId             String
-    userId              String
-    formId              String
+    
+    userId              String  
+    user                User    @relation("UserLink", fields: [userId], references: [id])
+
+    formId              String 
+    form                Form    @relation("AppLink",  fields: [formId], references: [id]) 
+
     deptId              String
-    interId             String
-    responses           String
+    dept                Dept    @relation("DeptLink", fields: [deptId], references: [id])
+
+    responses           String?
     status              String
-    score               Int
-    first               String
+    score               Int?
+    first               String  
     second              String
     third               String
-    notes               String
+    notes               String?
+
+    interview           Interview?
+
+    //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
 }
 
 model Interview {
@@ -168,19 +223,7 @@ model Interview {
     interDate           String
     status              String
     link                String
-}
-
-
-model Department {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    deptName            String
-
-    officer Officer @relation(fields: [deptId], references: [id])
-    user_app UserAppJunction @relation(fields: [deptId], references: [id])
-}
-
-model Officer {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    profileId           String
-    deptId              String
-}
+    
+    appId               String  @unique
+    application         UserAppJunction     @relation(fields: [appId], references: [id])
+    }
