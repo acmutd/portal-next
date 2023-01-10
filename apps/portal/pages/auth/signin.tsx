@@ -41,7 +41,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
         </div>
         <div className="w-full flex flex-col h-full">
           <div className="flex flex-col p-10 place-items-center space-y-1 h-full">
-            <div className="text-2xl font-bold text-gray-100">Welcome to the</div>
+            {!session && <div className="text-2xl font-bold text-gray-100">Welcome to the</div>}
             <div className="flex flex-row place-content-center space-x-2">
               <div className="flex flex-col place-content-center">
                 <Image src="/assets/acm/logo_white.svg" alt="ACM Logo" width={70} height={70} />
@@ -58,10 +58,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
             </div>
           </div>
           {Object.values(providers)
-            .filter(
-              (provider) =>
-                (provider.id !== 'google_admin' && provider.name !== 'Cognito') || session,
-            )
+            .filter((provider) => provider.id !== 'google_admin' || session)
             .map((provider) => (
               <div className=" text-white flex place-content-center mt-2 p-2" key={provider.name}>
                 <button

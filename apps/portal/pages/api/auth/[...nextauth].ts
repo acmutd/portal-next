@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
-import CognitoProvider from 'next-auth/providers/cognito';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
 import { PrismaClient } from '@prisma/client';
@@ -28,11 +27,6 @@ export default NextAuth({
       clientId: process.env.OAUTH_DISCORD_CLIENTID!,
       clientSecret: process.env.OAUTH_DISCORD_SECRET!,
       authorization: process.env.OAUTH_DISCORD_AUTH_URL!,
-    }),
-    CognitoProvider({
-      clientId: process.env.COGNITO_CLIENT_ID!,
-      clientSecret: process.env.COGNITO_CLIENT_SECRET!,
-      issuer: process.env.COGNITO_ISSUER,
     }),
   ],
   adapter: PrismaAdapter(new PrismaClient()),
