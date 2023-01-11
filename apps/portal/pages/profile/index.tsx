@@ -205,10 +205,18 @@ export default function ProfilePage({ profileVisited }) {
                     set: vals.utdStudent,
                   },
                 },
-              }).then(() => {
-                setFormEditMode(false);
-                Router.push('/profile');
-              });
+              })
+                .then((obj) => {
+                  if (obj.error) {
+                    alert(obj.error.message);
+                  }
+                  setFormEditMode(false);
+                  reexecuteQuery();
+                  Router.push('/profile');
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             })}
           >
             <div className="flex flex-wrap -mx-3 mb-6">

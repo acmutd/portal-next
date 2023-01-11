@@ -84,6 +84,11 @@ export default function HomePage({ profileVisited, ...props }) {
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
+  if (!data.profile) {
+    router.push('/profile');
+    return <div></div>;
+  }
+
   return (
     <>
       {/* Header */}
