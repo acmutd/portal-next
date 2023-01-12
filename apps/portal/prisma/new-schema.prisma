@@ -86,8 +86,6 @@ model User {
     profile       Profile?
     roles         RolesOnUser[]
 
-    applications    UserAppJunction[]   @relation("UserLink")
-
     @@map("users")
 }
 
@@ -120,8 +118,10 @@ model Profile {
     userId String             @unique @db.ObjectId
     events EventReservation[]
 
-    officerId   String             @unique @db.ObjectId
     officer     Officer            @relation(fields: [officerId], references: [id])
+    officerId   String             @unique @db.ObjectId
+
+    fillApplications    FilledApplication[]
 }
 
 model Event {
@@ -156,28 +156,33 @@ model Application {
     type                String?
     role                String?
 
-    users               UserAppJunction[]   @relation("AppLink")
-    departments         UserAppJunction[]   @relation("AppLink")
+    fillApplications    FilledApplication[]
+    
+    divisionId         String      @db.ObjectId 
+    division           Division    @relation(fields: [divisionId], references: [id])
 
     @@map("applications")
 }
 
-model Department {
+model Division {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
     deptName            String
 
-    officers            Officer[]
-    applications        UserAppJunction[]   @relation("DeptLink")
+    officerIds          String[]  @db.ObjectId  
+    officers            Officer[] @relation(fields:[officerIds], references:[id])
+    
+    applications        Application[]
 
-    @@map("departments")
+    @@map("divisions")
 }
 
 model Officer {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    deptId              String
 
     profile             Profile?
-    departments         Department[]
+
+    divisionIds         String[]    @db.ObjectId
+    divisions           Division[]  @relation(fields:[divisionIds], references:[id])
 
     @@map("officers")
 }
@@ -193,17 +198,14 @@ model Officer {
 //    @@id([officerId, deptId])   @map("_id") @db.ObjectId
 //}
 
-model UserAppJunction {
+model FilledApplication {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
     
-    userId              String  
-    user                User    @relation("UserLink", fields: [userId], references: [id])
+    profileId           String     @db.ObjectId 
+    profile             Profile    @relation(fields: [profileId], references: [id])
 
-    formId              String 
-    form                Form    @relation("AppLink",  fields: [formId], references: [id]) 
-
-    deptId              String
-    dept                Dept    @relation("DeptLink", fields: [deptId], references: [id])
+    appId              String         @db.ObjectId 
+    app                Application    @relation(fields: [appId], references: [id])
 
     responses           String?
     status              String
@@ -215,15 +217,16 @@ model UserAppJunction {
 
     interview           Interview?
 
+    @@map("filled_apps")
     //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
 }
 
 model Interview {
     id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    interDate           String
+    interDate           DateTime
     status              String
     link                String
-    
-    appId               String  @unique
-    application         UserAppJunction     @relation(fields: [appId], references: [id])
-    }
+
+    fillApplication     FilledApplication            @relation(fields: [fillAppId], references: [id])
+    fillAppId           String                       @unique @db.ObjectId
+}
