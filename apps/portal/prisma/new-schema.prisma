@@ -154,7 +154,6 @@ model Application {
     createdAt           DateTime
     expireDate          DateTime
     type                String?
-    role                String?
 
     fillApplications    FilledApplication[]
     
