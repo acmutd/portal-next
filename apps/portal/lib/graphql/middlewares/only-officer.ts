@@ -2,6 +2,7 @@ import { getSession } from 'next-auth/react';
 import { MiddlewareFn } from 'type-graphql';
 import { CombinedError } from 'urql';
 import { TContext } from '../interfaces/context.interface';
+import { checkIfUserIsOfficer } from '../utilities/check-officer';
 
 export const onlyOfficerAllowed: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
@@ -11,20 +12,7 @@ export const onlyOfficerAllowed: MiddlewareFn<TContext> = async ({ args, context
       response: args,
     });
   }
-  const roleObj = await context.prisma.role.findFirst({
-    where: {
-      roleName: 'officer',
-    },
-  });
-  const isOfficer =
-    (
-      await context.prisma.rolesOnUser.findMany({
-        where: {
-          roleId: roleObj.id,
-          userId: session.id,
-        },
-      })
-    ).length !== 0;
+  const isOfficer = await checkIfUserIsOfficer(context.session.id);
   if (isOfficer) {
     return next();
   }
