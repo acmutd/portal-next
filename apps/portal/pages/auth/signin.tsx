@@ -10,6 +10,7 @@ import {
   useSession,
 } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface SignInPageProps {
   providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>;
@@ -28,7 +29,23 @@ export default function SignInPage({ providers }: SignInPageProps) {
   const router = useRouter();
 
   if (router.query.error) {
-    return <div>{router.query.error}</div>;
+    if (router.query.error === 'SessionRequired') {
+      return (
+        <>
+          <div className="text-white font-semibold">
+            Error: You must be signed in to view this page. Please sign in and try again.
+          </div>
+          <Link href="/auth/signin">
+            <ACMButton>Sign In</ACMButton>
+          </Link>
+        </>
+      );
+    }
+    return (
+      <div className="text-white font-semibold">
+        Error: {router.query.error} - Please contact an ACM Development officer
+      </div>
+    );
   }
 
   return (

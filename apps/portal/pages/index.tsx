@@ -13,23 +13,23 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default function HomePage({ profileVisited, ...props }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    console.log('session', session);
+    console.log('status', status);
 
-    if (session && !profileVisited) {
+    if (status == 'authenticated' && !profileVisited) {
       // redirect user to set up profile if they haven't already
       console.log('redirecting to profile');
       router.push('/profile');
     }
-    if (!session) {
+    if (status == 'unauthenticated') {
       // redirect user to sign in if they aren't signed in
       console.log('redirecting to sign in');
       router.push('/auth/signin');
     }
-  }, [session]);
+  }, [status]);
 
   let pageTheme: any = 'dark';
 
