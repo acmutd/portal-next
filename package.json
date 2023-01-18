@@ -18,8 +18,7 @@
     "@dazn/lambda-powertools-logger": "^1.28.1",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1115.0",
-    "cookies-next": "^2.1.1",
-    "qrcode": "^1.5.1"
+    "cookies-next": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
