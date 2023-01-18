@@ -1,8 +1,6 @@
 import { Event } from '@prisma/client';
 import { ActiveEventResult } from 'lib/types/event';
 import Link from 'next/link';
-import QRCode from 'qrcode';
-import { useEffect } from 'react';
 
 interface SingleEventViewProps {
   event: ActiveEventResult;
@@ -35,7 +33,6 @@ export default function SingleEventView({
         <Link className="whitespace-nowrap" href={`/events/${event.id}/qrcode`}>
           {'Click to view QR Code'}
         </Link>
-        <canvas id="qr-code"></canvas>
       </div>
       <div className="flex flex-col gap-y-3 w-full lg:w-1/2 h-full my-auto p-2">
         <button className="p-3 border-2 rounded-lg" onClick={() => onGoBack()}>
