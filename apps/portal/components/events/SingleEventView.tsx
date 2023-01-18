@@ -1,6 +1,8 @@
 import { Event } from '@prisma/client';
 import { ActiveEventResult } from 'lib/types/event';
 import Link from 'next/link';
+import QRCode from 'qrcode';
+import { useEffect } from 'react';
 
 interface SingleEventViewProps {
   event: ActiveEventResult;
@@ -15,7 +17,8 @@ export default function SingleEventView({
   onGoBack,
   onRsvp,
 }: SingleEventViewProps) {
-  const checkInLink = `/checkin/${event.id}`;
+  const checkInLink = `${window.location.origin}/checkin/${event.id}`;
+
   return (
     <div className="flex flex-col w-full h-full items-center text-white p-4">
       <div className="flex flex-col border-2 justify-between rounded-lg w-full lg:w-1/2 h-full my-auto p-4">
@@ -28,6 +31,11 @@ export default function SingleEventView({
             href={checkInLink}
           >{`check in link: ${checkInLink}`}</Link>
         )}
+
+        <Link className="whitespace-nowrap" href={`/events/${event.id}/qrcode`}>
+          {'Click to view QR Code'}
+        </Link>
+        <canvas id="qr-code"></canvas>
       </div>
       <div className="flex flex-col gap-y-3 w-full lg:w-1/2 h-full my-auto p-2">
         <button className="p-3 border-2 rounded-lg" onClick={() => onGoBack()}>
