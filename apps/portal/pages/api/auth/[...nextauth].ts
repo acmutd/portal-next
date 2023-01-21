@@ -5,6 +5,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
 import { PrismaClient } from '@prisma/client';
 import { grantRole } from 'lib/auth/grant-role';
+import { getPrismaConnection } from 'lib/prisma/manager';
 
 export default NextAuth({
   providers: [
@@ -29,7 +30,7 @@ export default NextAuth({
       authorization: process.env.OAUTH_DISCORD_AUTH_URL!,
     }),
   ],
-  adapter: PrismaAdapter(new PrismaClient()),
+  adapter: PrismaAdapter(getPrismaConnection()),
   session: {
     strategy: 'jwt',
   },

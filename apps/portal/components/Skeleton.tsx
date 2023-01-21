@@ -96,7 +96,7 @@ const Skeleton = ({ children }: any) => {
             </ACMDesktopNavbar>
           </>
         )}
-        <div className="w-full">
+        <div className="w-full h-full">
           <div className="w-full relative">{children}</div>
           {mobile && (
             <>
