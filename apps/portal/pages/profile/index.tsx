@@ -92,7 +92,7 @@ export default function ProfilePage({ profileVisited }) {
     <>
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
-          <div className="text-3xl font-semibold text-gray-100">my account</div>
+          <div className="text-[36px] font-semibold text-gray-100">my account</div>
           <div className="m-3">
             <ACMButton
               theme="dark"
@@ -121,7 +121,7 @@ export default function ProfilePage({ profileVisited }) {
         </div>
         {formEditMode && (
           <Link href="/auth/signin">
-            <span className="bg-gray-600 text-gray-200 font-semibold p-2 rounded-lg">
+            <span className="bg-gray-600 text-gray-200 font-semibold p-2 rounded-lg cursor-pointer">
               connect another account
             </span>
           </Link>

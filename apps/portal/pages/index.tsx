@@ -17,16 +17,10 @@ export default function HomePage({ profileVisited, ...props }) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('status', status);
-
     if (status == 'authenticated' && !profileVisited) {
-      // redirect user to set up profile if they haven't already
-      console.log('redirecting to profile');
       router.push('/profile');
     }
     if (status == 'unauthenticated') {
-      // redirect user to sign in if they aren't signed in
-      console.log('redirecting to sign in');
       router.push('/auth/signin');
     }
   }, [status]);

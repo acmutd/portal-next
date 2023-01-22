@@ -20,7 +20,7 @@ interface SignInPageProps {
 const providerIcons = {
   Google: '/assets/acm/google.png',
   Discord: '/assets/acm/discord.png',
-  'ACM Account': '/assets/acm/logo_white.fbdb4d95.svg',
+  'ACM Account': '/assets/acm/logo_white.svg',
   Cognito: '/assets/acm/logo_white.fbdb4d95.svg',
 };
 
@@ -87,7 +87,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
                     <img src={providerIcons[provider.name]} alt={provider.name} />
                   </div>
                   <div className="mx-5 w-full h-full whitespace-nowrap overflow-hidden flex flex-col place-content-center text-xl">
-                    <div>{provider.name}</div>
+                    <div>{provider.name != 'ACM Account' ? provider.name : 'ACM Email'}</div>
                   </div>
                   {/* <span>{provider.name}</span> */}
                 </button>
