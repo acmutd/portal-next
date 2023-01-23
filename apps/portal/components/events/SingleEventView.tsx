@@ -22,7 +22,14 @@ export default function SingleEventView({
       <div className="flex flex-col border-2 justify-between rounded-lg w-full lg:w-1/2 h-full my-auto p-4">
         <h1 className="text-xl font-bold">{event.summary}</h1>
         <p className="text-md my-6">{event.description}</p>
-        <p className="text-md">{event.start}</p>
+        <p className="text-md">
+          {new Date(event.start).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'short',
+          })}
+        </p>
         {isOfficer && (
           <Link
             className="whitespace-nowrap"
