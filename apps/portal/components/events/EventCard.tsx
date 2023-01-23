@@ -15,7 +15,14 @@ export default function EventCard({ event, onClick, eventActions }: EventCardPro
       </div> */}
       <div>
         <h1 className="text-l font-bold ">{event.summary}</h1>
-        <h1 className="text-md">{event.start}</h1>
+        <h1 className="text-md">
+          {new Date(event.start).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'short',
+          })}
+        </h1>
         <h1 className="text-md">{event.location}</h1>
       </div>
       <div className="flex justify-end">

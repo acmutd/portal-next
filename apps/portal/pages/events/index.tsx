@@ -131,6 +131,7 @@ export default function EventPage() {
         onGoBack={() => setCurrentEvent(null)}
         onRsvp={() => {}}
         event={currentEvent}
+        isOfficer={me.isOfficer}
       />
     );
   }
