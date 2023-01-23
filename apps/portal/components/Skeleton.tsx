@@ -81,9 +81,11 @@ const Skeleton = ({ children }: any) => {
               {pages.map((page, idx) => {
                 if (page.name === 'sign out')
                   return (
-                    <ACMDesktopNavbarItem key={idx} onClick={() => signOut()}>
-                      {page.name}
-                    </ACMDesktopNavbarItem>
+                    <span className="cursor-pointer">
+                      <ACMDesktopNavbarItem key={idx} onClick={() => signOut()}>
+                        {page.name}
+                      </ACMDesktopNavbarItem>
+                    </span>
                   );
                 return (
                   <Link key={idx} href={page.uri} passHref>
