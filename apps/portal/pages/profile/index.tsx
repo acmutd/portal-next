@@ -100,7 +100,7 @@ export default function ProfilePage({ profileVisited }) {
                 setFormEditMode(!formEditMode);
               }}
             >
-              cancel
+              formEditMode ? cancel ; edit;
             </ACMButton>
           </div>
         </div>
