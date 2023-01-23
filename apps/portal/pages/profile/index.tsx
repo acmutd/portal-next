@@ -206,16 +206,17 @@ export default function ProfilePage({ profileVisited }) {
                   },
                 },
               })
-                .then((obj) => {
-                  if (obj.error) {
-                    alert(obj.error.message);
+                .then(({ data, error }) => {
+                  // TODO: add typed errors, see: check-netid.ts
+                  if (error && error.message.includes('[VALIDATION_ERROR]')) {
+                    alert('NetID has already been linked to an account');
                   }
                   setFormEditMode(false);
                   reexecuteQuery();
                   Router.push('/profile');
                 })
                 .catch((err) => {
-                  console.log(err);
+                  alert(err);
                 });
             })}
           >
