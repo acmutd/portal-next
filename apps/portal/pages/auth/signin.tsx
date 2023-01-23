@@ -75,7 +75,10 @@ export default function SignInPage({ providers }: SignInPageProps) {
             </div>
           </div>
           {Object.values(providers)
-            .filter((provider) => provider.id !== 'google_admin' || session)
+            .filter(
+              (provider) =>
+                (provider.id !== 'google_admin' && provider.name != 'Cognito') || session,
+            )
             .map((provider) => (
               <div className=" text-white flex place-content-center mt-2 p-2" key={provider.name}>
                 <button
