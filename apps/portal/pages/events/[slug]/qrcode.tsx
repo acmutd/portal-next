@@ -10,7 +10,10 @@ export default function QRCodePage() {
 
   useEffect(() => {
     if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, `/checkin/${slug}`, { margin: 3.5, width: 300 });
+      QRCode.toCanvas(canvasRef.current, `${window.location.origin}/checkin/${slug}`, {
+        margin: 3.5,
+        width: 300,
+      });
     }
   }, [canvasRef]);
 
