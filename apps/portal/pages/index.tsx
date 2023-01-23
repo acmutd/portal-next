@@ -1,21 +1,35 @@
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from 'urql';
 import Link from 'next/link';
 import { Event } from '@generated/type-graphql';
 
 import ACMButton from '../components/PortalButton';
+import { useEffect } from 'react';
 
 export const getServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
   return { props: { profileVisited: profileVisited ?? null } };
 };
 
-export default function HomePage({ profileVisited }) {
-  const { data: session } = useSession();
+export default function HomePage({ profileVisited, ...props }) {
+  const { data: session, status } = useSession();
   const router = useRouter();
 
+  useEffect(() => {
+    if (status == 'authenticated' && !profileVisited) {
+      router.push('/profile');
+    }
+    if (status == 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status]);
+
   let pageTheme: any = 'dark';
+
+  if (!session) {
+    return <></>;
+  }
 
   // Homepage query
   const HOMEPAGE_QUERY = gql`
@@ -64,6 +78,11 @@ export default function HomePage({ profileVisited }) {
   if (fetching) return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
+  if (!data.profile) {
+    router.push('/profile');
+    return <div></div>;
+  }
+
   return (
     <>
       {/* Header */}
@@ -72,17 +91,14 @@ export default function HomePage({ profileVisited }) {
           <h1 className="text-white text-5xl font-medium"> Welcome to your acm portal, </h1>
           <h1 className="text-white text-6xl font-medium my-10"> {data.profile.firstName} </h1>
         </div>
-
         <div>
           <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
         </div>
-
         <div className="hidden lg:block">
           <h1 className="text-white text-5xl font-medium"> net ID </h1>
           <h1 className="text-white text-3xl font-medion ml-8"> {data.profile.netid} </h1>
         </div>
       </div>
-
       {/* Attended event boxes */}
       <h1 className="px-4 text-2xl text-left text-white font-semibold mb-4">attended events</h1>
       <div className="relative">
