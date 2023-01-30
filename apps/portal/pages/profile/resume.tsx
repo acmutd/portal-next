@@ -12,7 +12,7 @@ import DocumentIcon from 'apps/portal/icons/DocumentIcon';
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
   const uploadRef = useRef<HTMLInputElement>();
-  const { data: session } = useSession();
+  const { data: session } = useSession({ required: true });
 
   const GET_SIGNED_URL = `
     mutation resume_GetSignedURlMutation($options: SignedURLInput!) {

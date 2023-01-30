@@ -23,7 +23,7 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default function ProfilePage({ profileVisited }) {
-  const { data: session, status } = useSession({ required: true });
+  const { data: session } = useSession({ required: true });
 
   let pageTheme: any = 'dark';
   useEffect(() => {

@@ -2,6 +2,7 @@ import EventForm from 'components/events/EventForm';
 import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from 'urql';
 import { Event, CreateEventArgs } from '@generated/type-graphql';
+import { useSession } from 'next-auth/react';
 
 interface QueryResultType {
   me: {
@@ -27,6 +28,8 @@ const CREATE_EVENT_MUTATION = gql`
 
 export default function AddEventPage() {
   const router = useRouter();
+  const { data: session } = useSession({ required: true });
+
   const [result, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
