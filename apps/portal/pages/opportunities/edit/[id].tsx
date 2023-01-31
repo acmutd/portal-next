@@ -2,6 +2,7 @@ import { TypeformApplication } from '@prisma/client';
 import Button from 'components/Button';
 import { renderTypeformEdit } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import { Router, useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,6 +20,7 @@ import { gql, useMutation, useQuery } from 'urql';
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { data: session } = useSession({ required: true });
 
   const GET_TYPEFORM = gql`
     query FindFirstTypeformApplication($where: TypeformApplicationWhereInput) {
