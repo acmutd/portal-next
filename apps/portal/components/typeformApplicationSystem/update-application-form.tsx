@@ -29,6 +29,9 @@ function renderTypeformView(typeformApplication: TypeformApplication): JSX.Eleme
       <div className="w-full px-3">
         <ProfileField label="typeformName" text={typeformApplication.typeformName} />
       </div>
+      <div className="w-full px-3">
+        <ProfileField label="division" text={typeformApplication.division} />
+      </div>
     </div>
   );
 }
@@ -68,6 +71,9 @@ function renderTypeformEdit(
               },
               typeformName: {
                 set: vals.typeformName,
+              },
+              division: {
+                set: vals.division,
               },
             },
           }).then(() => {
@@ -133,6 +139,23 @@ function renderTypeformEdit(
               {...register('typeformName')}
             />
           </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">division</label>
+            <select
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              defaultValue={currentApplicationData ? currentApplicationData.division : ''}
+              {...register('division')}
+            >
+              <option value="Development">Development</option>
+              <option value="Research">Research</option>
+              <option value="Media">Media</option>
+              <option value="Projects">Projects</option>
+              <option value="Education">Education</option>
+              <option value="Community">Community</option>
+              <option value="Hackutd">Hackutd</option>
+              <option value="Industry">Industry</option>
+            </select>
+          </div>
         </div>
       </form>
     </div>
@@ -154,6 +177,7 @@ function renderTypeformCreate(handleSubmit, register, updateTypeformApplication)
               externalResourceUrl: vals.externalResourceUrl,
               typeformId: vals.typeformId,
               typeformName: vals.typeformName,
+              division: vals.division,
             },
           }).then(() => {
             Router.push('/opportunities');
@@ -209,6 +233,22 @@ function renderTypeformCreate(handleSubmit, register, updateTypeformApplication)
               type="text"
               {...register('typeformName')}
             />
+          </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Division</label>
+            <select
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              {...register('division')}
+            >
+              <option value="Development">Development</option>
+              <option value="Research">Research</option>
+              <option value="Media">Media</option>
+              <option value="Projects">Projects</option>
+              <option value="Education">Education</option>
+              <option value="Community">Community</option>
+              <option value="Hackutd">Hackutd</option>
+              <option value="Industry">Industry</option>
+            </select>
           </div>
         </div>
       </form>
