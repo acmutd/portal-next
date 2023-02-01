@@ -32,6 +32,7 @@ const CreateApplicationPage: NextPage = () => {
     externalResourceUrl: string;
     typeformId: string;
     typeformName: string;
+    division: string;
   };
   const {
     register,
