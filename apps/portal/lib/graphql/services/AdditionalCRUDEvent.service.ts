@@ -20,4 +20,14 @@ export default class AdditionalCRUDEventService {
     const events = await prisma.event.findMany(eventFilter);
     return events;
   }
+
+  async findOldEventID(event_names: String[]): Promise<Event[]> {
+    //finds the event id in the new mongodb from the old events in firebase
+    const prisma = getPrismaConnection();
+    return prisma.event.findMany({
+      where: {
+        description: { $in: event_names },
+      },
+    });
+  }
 }
