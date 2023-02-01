@@ -94,9 +94,16 @@ export default function HomePage({ profileVisited, ...props }) {
         <div>
           <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
         </div>
-        <div className="hidden lg:block">
-          <h1 className="text-white text-5xl font-medium"> net ID </h1>
-          <h1 className="text-white text-3xl font-medion ml-8"> {data.profile.netid} </h1>
+        <div>
+          <div className="hidden lg:block">
+            <h1 className="text-white text-5xl font-medium"> net ID </h1>
+            <h1 className="text-white text-3xl font-medion ml-8"> {data.profile.netid} </h1>
+          </div>
+          <div className="my-5">
+            <ACMButton theme={pageTheme} gradientcolor={'#4cb2e9'}>
+              Migrate data
+            </ACMButton>
+          </div>
         </div>
       </div>
       {/* Attended event boxes */}
