@@ -22,23 +22,4 @@ export default class EventCheckinService {
       },
     });
   }
-
-  async checkInOldEvent({ eventId, profileId }: EventCheckinInput, ctx: TContext) {
-    return ctx.prisma.eventReservation.upsert({
-      where: {
-        profileId_eventId: {
-          eventId,
-          profileId,
-        },
-      },
-      create: {
-        profileId,
-        eventId,
-        status: 'old-event-checkin',
-      },
-      update: {
-        status: 'old-event-checkin',
-      },
-    });
-  }
 }
