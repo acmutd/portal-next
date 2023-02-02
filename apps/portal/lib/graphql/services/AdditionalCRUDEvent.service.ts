@@ -26,10 +26,10 @@ export default class AdditionalCRUDEventService {
     const prisma = getPrismaConnection();
 
     const event_desc = [];
-    var temp = event_names[0];
+    const temp = event_names[0];
 
     for (var i = 0; i < temp.length; i++) {
-      var elem = JSON.parse(JSON.stringify(temp[i]));
+      const elem = JSON.parse(JSON.stringify(temp[i]));
       event_desc.push(elem.name);
     }
 

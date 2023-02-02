@@ -3,7 +3,7 @@ import { injectable } from 'tsyringe';
 import { Arg, Ctx, FieldResolver, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
-import Firebase from '../services/Firebase.service';
+import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin, EventCheckinInput } from '../schemas/EventCheckin';
@@ -14,7 +14,7 @@ export default class OldEventResolver {
   constructor(
     private eventService: AdditionalCRUDEventService,
     private checkService: EventCheckinService,
-    private firebase: Firebase,
+    private firebaseService: FirebaseService,
   ) {}
 
   @Mutation(() => [EventCheckin])
@@ -22,8 +22,8 @@ export default class OldEventResolver {
     @Arg('netID', () => String) netId: string,
     @Arg('email', () => String) email: string,
     @Ctx() context: TContext,
-  ) {
-    const event_data = await this.firebase.returnEventsbyProfile(netId, email);
+  ): Promise<EventCheckin[]> {
+    const event_data = await this.firebaseService.returnEventsbyProfile(netId, email);
 
     const events = await this.eventService.findOldEventID(event_data);
 
