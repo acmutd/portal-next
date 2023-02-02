@@ -15,6 +15,7 @@ import EventIcon from '../icons/EventIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
+import { signOut, useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
 
 const pages = [
@@ -43,35 +44,59 @@ const pages = [
     name: 'resume',
     svg: CameraIcon,
   },
+  {
+    uri: '/',
+    name: 'sign out',
+    svg: HomeIcon,
+  },
 ];
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
   const router = useRouter();
-
+  const { data: session } = useSession();
   // if (disable) return children;
+  if (!session)
+    return (
+      <>
+        <Background splotches={3} />
+        <div className="h-screen w-screen overflow-x-hidden flex">
+          <div className="w-full relative">{children}</div>
+        </div>
+      </>
+    );
 
   return (
     <>
       <Background splotches={3} />
       <div className="h-screen w-screen overflow-x-hidden flex">
         {!mobile && (
-          <ACMDesktopNavbar>
-            <Link href="/" passHref>
-              <ACMDesktopNavbarItem isLogo>
-                <Image src={WhiteACMLogo} alt="ACM Logo" />
-              </ACMDesktopNavbarItem>
-            </Link>
-            {pages.map((page, idx) => {
-              return (
-                <Link key={idx} href={page.uri} passHref>
-                  <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
-                    {page.name}
-                  </ACMDesktopNavbarItem>
-                </Link>
-              );
-            })}
-          </ACMDesktopNavbar>
+          <>
+            <ACMDesktopNavbar>
+              <Link href="/" passHref>
+                <ACMDesktopNavbarItem isLogo>
+                  <Image src={WhiteACMLogo} alt="ACM Logo" />
+                </ACMDesktopNavbarItem>
+              </Link>
+              {pages.map((page, idx) => {
+                if (page.name === 'sign out')
+                  return (
+                    <span className="cursor-pointer">
+                      <ACMDesktopNavbarItem key={idx} onClick={() => signOut()}>
+                        {page.name}
+                      </ACMDesktopNavbarItem>
+                    </span>
+                  );
+                return (
+                  <Link key={idx} href={page.uri} passHref>
+                    <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
+                      {page.name}
+                    </ACMDesktopNavbarItem>
+                  </Link>
+                );
+              })}
+            </ACMDesktopNavbar>
+          </>
         )}
         <div className="w-full h-full">
           <div className="w-full relative">{children}</div>

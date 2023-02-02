@@ -26,9 +26,11 @@ import {
   DeleteEventReservationResolver,
   UpsertEventReservationResolver,
   FindManyEventReservationResolver,
+  UserRelationsResolver,
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
+  UserRelationsResolver,
   CreateAccountResolver,
   UpdateAccountResolver,
   DeleteAccountResolver,
