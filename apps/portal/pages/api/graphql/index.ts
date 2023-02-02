@@ -16,6 +16,7 @@ import { resolversEnhanceMap } from 'lib/graphql/typegraphql-prisma/enhancer';
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 
 import { exposedResolvers } from '../../../lib/graphql/typegraphql-prisma/exposedResolvers';
+import OldEventResolver from 'lib/graphql/resolvers/OldEvent.resolver';
 
 if (process.env.NODE_ENV !== 'development') {
   applyResolversEnhanceMap(resolversEnhanceMap);
@@ -28,6 +29,7 @@ const schema = buildSchemaSync({
     EventCheckinResolver,
     AdditionalCRUDEventResolver,
     AdditionalUserResolver,
+    OldEventResolver,
   ],
   dateScalarMode: 'isoDate',
   container: {
