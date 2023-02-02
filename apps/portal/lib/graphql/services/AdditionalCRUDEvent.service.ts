@@ -28,15 +28,10 @@ export default class AdditionalCRUDEventService {
     const event_desc = [];
     var temp = event_names[0];
 
-    temp.forEach((element) => {
-      event_desc.push(element.name);
-    });
-
-    //   event_desc.forEach( (element) => {
-    //     console.log(element)
-    // })
-
-    console.log(event_desc);
+    for (var i = 0; i < temp.length; i++) {
+      var elem = JSON.parse(JSON.stringify(temp[i]));
+      event_desc.push(elem.name);
+    }
 
     return prisma.event.findMany({
       where: {

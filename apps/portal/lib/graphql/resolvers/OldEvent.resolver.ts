@@ -17,7 +17,7 @@ export default class OldEventResolver {
     private firebase: Firebase,
   ) {}
 
-  @Mutation(() => EventCheckin)
+  @Mutation(() => [EventCheckin])
   async checkInOldEvent(
     @Arg('netID', () => String) netId: string,
     @Arg('email', () => String) email: string,
@@ -33,13 +33,8 @@ export default class OldEventResolver {
       },
     });
 
-    console.log(profile.netid + profile.email);
-
     const reservations = await Promise.all(
       events.map((event) =>
-        // console.log(event.id + event.description),
-        // console.log(profile.id)
-
         this.checkService.checkInEvent(
           {
             eventId: event.id,
@@ -49,7 +44,6 @@ export default class OldEventResolver {
         ),
       ),
     );
-    console.log(reservations);
     return reservations;
   }
 }
