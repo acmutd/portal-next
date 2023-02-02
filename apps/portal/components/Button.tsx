@@ -9,6 +9,7 @@ const sizeClasses = {
 const colorClasses = {
   primary:
     'bg-gradient-to-r from-pink-700 to-purple-700 hover:opacity-80 text-white font-Gilroy font-bold',
+  secondary: 'text-gray-200 hover:bg-slate-700',
 };
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
