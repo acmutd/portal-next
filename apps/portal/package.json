@@ -28,6 +28,8 @@
     "class-validator": "^0.13.2",
     "content-disposition": "^0.5.4",
     "cookies-next": "^2.1.1",
+    "firebase": "^8.10.0",
+    "firebase-admin": "^11.5.0",
     "framer-motion": "^6.5.1",
     "graphql": "^15.8.0",
     "graphql-fields": "^2.0.3",
