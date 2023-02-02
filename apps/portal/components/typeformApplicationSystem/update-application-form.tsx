@@ -10,9 +10,7 @@ function TypeformView(typeformApplication: TypeformApplication): JSX.Element {
     <div className="flex w-1/2 flex-wrap mb-6">
       <div className="w-full md:w-1/2 px-3">
         <label className="block text-gray-200 font-semibold mb-2">active</label>
-        <div className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white">
-          {typeformApplication.active.toString()}
-        </div>
+        <div className="rounded">{typeformApplication.active.toString()}</div>
       </div>
       <div className="w-full md:w-1/2 px-3">
         <ProfileField label="description" text={typeformApplication.description} />
@@ -78,8 +76,9 @@ function TypeformEditForm(
         <div className="flex flex-wrap gap-8 -mx-3 mb-6 text-gray-100">
           <div className="grid gap-y-4 w-full px-3">
             <label className="block text-2xl text-gray-200 font-semibold mb-2">status</label>
+            <p>Whether or not the typeform application is active</p>
             <input
-              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              className="rounded"
               type="checkbox"
               defaultChecked={currentApplicationData ? currentApplicationData.active : false}
               {...register('active')}
