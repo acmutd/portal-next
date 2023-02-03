@@ -1,4 +1,4 @@
-import { renderTypeformCreate } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
@@ -49,7 +49,7 @@ const CreateApplicationPage: NextPage = () => {
           <div className="text-2xl font-semibold text-gray-100">Create Typeform Application</div>
         </div>
         <div className="w-full flex justify-center">
-          {renderTypeformCreate(handleSubmit, register, createTypeformApplication)}
+          {TypeformCreateForm(handleSubmit, register, createTypeformApplication)}
         </div>
         <div className="flex gap-20">
           <button
