@@ -77,9 +77,13 @@ const ApplicationsPage: NextPage = () => {
                 <PopupButton id={typeformId} className="my-button">
                   <Button>apply</Button>
                 </PopupButton>,
-                <Link href={externalResourceUrl} target="_blank">
-                  <Button color="secondary">learn more</Button>
-                </Link>,
+                // exclude 'learn more' button when external url is blank
+                ...(externalResourceUrl &&
+                  externalResourceUrl !== '' && [
+                    <Link href={externalResourceUrl} target="_blank">
+                      <Button color="secondary">learn more</Button>
+                    </Link>,
+                  ]),
               ]}
               division="development."
             />
