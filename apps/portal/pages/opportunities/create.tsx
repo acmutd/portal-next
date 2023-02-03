@@ -5,6 +5,7 @@ import { gql, useMutation } from 'urql';
 import { TypeformApplication } from '@prisma/client';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import EmailToast from 'components/EmailToast';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const CreateApplicationPage: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+  const [open, setOpen] = useState(false);
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -56,6 +58,9 @@ const CreateApplicationPage: NextPage = () => {
             type="submit"
             className="bg-purple-600 text-gray-100 font-semibold px-12 py-2 rounded-lg"
             form="create-typeform"
+            onClick={() => {
+              setOpen(true);
+            }}
           >
             save
           </button>
@@ -65,6 +70,7 @@ const CreateApplicationPage: NextPage = () => {
         </div>
       </div>
       <div className="flex gap-x-16 px-16 justify-center"></div>
+      <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </div>
   );
 };

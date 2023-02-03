@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProfileField from '../ProfileField';
 import Router from 'next/router';
 import { TypeformApplication } from '@prisma/client';
+import EmailToast from 'components/EmailToast';
 
 function renderTypeformView(typeformApplication: TypeformApplication): JSX.Element {
   if (!typeformApplication) return <p className="text-gray-100">please select an application</p>;

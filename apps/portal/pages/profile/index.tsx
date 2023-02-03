@@ -16,6 +16,7 @@ import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 import Link from 'next/link';
+import EmailToast from 'components/EmailToast';
 
 export const getServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -24,6 +25,7 @@ export const getServerSideProps = async (ctx) => {
 
 export default function ProfilePage({ profileVisited }) {
   const { data: session, status } = useSession({ required: true });
+  const [open, setOpen] = useState(false);
 
   let pageTheme: any = 'dark';
   useEffect(() => {
@@ -112,6 +114,9 @@ export default function ProfilePage({ profileVisited }) {
                 type="submit"
                 className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
                 form="profile-form"
+                onClick={() => {
+                  setOpen(true);
+                }}
               >
                 save
               </button>
@@ -127,6 +132,7 @@ export default function ProfilePage({ profileVisited }) {
           </Link>
         )}
       </div>
+      <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </>
   );
 
