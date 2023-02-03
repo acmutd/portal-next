@@ -13,6 +13,7 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
+  externalResourceUrl: string;
   // division: string; in the future
 }
 
@@ -31,6 +32,7 @@ const ApplicationsPage: NextPage = () => {
         description
         typeformId
         typeformName
+        externalResourceUrl
       }
       me {
         isOfficer
@@ -67,19 +69,28 @@ const ApplicationsPage: NextPage = () => {
         )}
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
-          <ApplicationCard
-            key={id}
-            title={typeformName}
-            description={description}
-            button={
-              <PopupButton id={typeformId} className="my-button">
-                <Button>apply</Button>
-              </PopupButton>
-            }
-            division="development."
-          />
-        ))}
+        {data.typeformApplications.map(
+          ({ id, typeformName, description, typeformId, externalResourceUrl }) => (
+            <ApplicationCard
+              key={id}
+              title={typeformName}
+              description={description}
+              buttons={[
+                <PopupButton id={typeformId} className="my-button">
+                  <Button>apply</Button>
+                </PopupButton>,
+                // exclude 'learn more' button when external url is blank
+                ...(externalResourceUrl &&
+                  externalResourceUrl !== '' && [
+                    <Link href={externalResourceUrl} target="_blank">
+                      <Button color="secondary">learn more</Button>
+                    </Link>,
+                  ]),
+              ]}
+              division="development."
+            />
+          ),
+        )}
       </div>
     </div>
   );
