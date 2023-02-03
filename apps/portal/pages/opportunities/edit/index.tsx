@@ -49,8 +49,8 @@ const ApplicationsEditPage: NextPage = () => {
     },
   });
 
-  const { data: session } = useSession({ required: true });
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  const { data: session, status } = useSession({ required: true });
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (

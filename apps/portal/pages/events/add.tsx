@@ -28,7 +28,7 @@ const CREATE_EVENT_MUTATION = gql`
 
 export default function AddEventPage() {
   const router = useRouter();
-  const { data: session } = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
 
   const [result, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
@@ -36,7 +36,7 @@ export default function AddEventPage() {
   const [__, createEvent] = useMutation<Event, CreateEventArgs>(CREATE_EVENT_MUTATION);
 
   const { data: queryResult, fetching, error } = result;
-  if (fetching) return <p>Loading...</p>;
+  if (fetching || status == 'loading') return <p>Loading...</p>;
   if (error) {
     console.log(error);
     return <p>Whoops... {error.message}</p>;

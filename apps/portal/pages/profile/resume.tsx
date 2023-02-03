@@ -12,7 +12,7 @@ import DocumentIcon from 'apps/portal/icons/DocumentIcon';
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
   const uploadRef = useRef<HTMLInputElement>();
-  const { data: session } = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
 
   const GET_SIGNED_URL = `
     mutation resume_GetSignedURlMutation($options: SignedURLInput!) {
@@ -158,6 +158,7 @@ export default function ResumePage() {
     });
   }, [getSignedUrl, refetchResume]);
 
+  if (status == 'loading') return <p className="text-gray-100">loading...</p>;
   return (
     <div className="px-16 py-[65px] h-full relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />

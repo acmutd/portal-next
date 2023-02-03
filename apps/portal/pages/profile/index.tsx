@@ -23,7 +23,7 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default function ProfilePage({ profileVisited }) {
-  const { data: session } = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
 
   let pageTheme: any = 'dark';
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function ProfilePage({ profileVisited }) {
   });
 
   const { data, fetching, error } = profileResult;
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (

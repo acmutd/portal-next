@@ -69,7 +69,7 @@ interface QueryResultType {
 }
 
 export default function EventPage() {
-  const { data: session } = useSession({ required: true });
+  const { data: session, status } = useSession({ required: true });
   const [result, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
@@ -81,7 +81,7 @@ export default function EventPage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<ActiveEventResult | null>(null);
 
-  if (fetching) return <p className="text-white">Loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) {
     console.log(error);
     return <p className="text-white">Whoops... {error.message}</p>;
