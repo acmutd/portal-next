@@ -55,11 +55,7 @@ export default function ProfilePage({ profileVisited }) {
 
   const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm<Profile>();
 
   const PROFILE_QUERY = gql`
     query Query($where: ProfileWhereUniqueInput!) {
@@ -75,7 +71,7 @@ export default function ProfilePage({ profileVisited }) {
     }
   `;
 
-  const [profileResult, reexecuteQuery] = useQuery({
+  const [profileResult, reexecuteQuery] = useQuery<{ profile: Profile }>({
     query: PROFILE_QUERY,
     variables: {
       where: {
@@ -167,7 +163,7 @@ export default function ProfilePage({ profileVisited }) {
             onSubmit={handleSubmit((vals) => {
               updateProfile({
                 where: {
-                  userId: session.id as string,
+                  netid: vals.netid || data.profile.netid,
                 },
                 create: {
                   user: {
@@ -187,22 +183,22 @@ export default function ProfilePage({ profileVisited }) {
                 },
                 update: {
                   firstName: {
-                    set: vals.firstName,
+                    set: vals.firstName || data.profile.firstName,
                   },
                   lastName: {
-                    set: vals.lastName,
+                    set: vals.lastName || data.profile.lastName,
                   },
                   netid: {
-                    set: vals.netid,
+                    set: vals.netid || data.profile.netid,
                   },
                   classStanding: {
-                    set: vals.classStanding,
+                    set: vals.classStanding || data.profile.classStanding,
                   },
                   major: {
-                    set: vals.major,
+                    set: vals.major || data.profile.major,
                   },
                   utdStudent: {
-                    set: vals.utdStudent,
+                    set: vals.utdStudent || data.profile.utdStudent,
                   },
                 },
               })

@@ -12,10 +12,10 @@ export const checkNetId: MiddlewareFn<TContext> = async ({ args, context }, next
   }
 
   const profile = await context.prisma.profile.findFirst({
-    where: { netid: args.create.netid },
+    where: { netid: args.where.netid },
   });
 
-  if (profile && profile.userId !== args.where.userId) {
+  if (profile && profile.userId !== session.id) {
     // TODO: create error type
     throw new CombinedError({ graphQLErrors: ['[VALIDATION_ERROR]: NetID exists'] });
   }
