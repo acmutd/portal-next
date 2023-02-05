@@ -69,11 +69,11 @@ const ApplicationsEditPage: NextPage = () => {
           <ApplicationCard
             title={typeformName}
             description={description}
-            button={
+            buttons={[
               <Link href={`/opportunities/edit/${id}`}>
                 <Button>edit</Button>
-              </Link>
-            }
+              </Link>,
+            ]}
             division="development."
           />
         ))}
