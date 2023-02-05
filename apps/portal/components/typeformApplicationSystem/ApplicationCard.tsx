@@ -4,13 +4,13 @@ interface ApplicationCardProps {
   title: string;
   description: string;
   division: string;
-  button: JSX.Element;
+  buttons: JSX.Element[];
   icon?: JSX.Element;
 }
 const ApplicationCard: FC<ApplicationCardProps> = ({
   title,
   description,
-  button,
+  buttons,
   division,
   icon,
 }) => {
@@ -27,7 +27,11 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
           </div>
           <p className="text-white text-sm">{description}</p>
         </div>
-        <div className="relative w-fit ml-auto">{button}</div>
+        <div className="flex gap-1 ml-auto w-fit">
+          {buttons.map((button) => (
+            <div className="relative w-fit">{button}</div>
+          ))}
+        </div>
       </div>
     </div>
   );

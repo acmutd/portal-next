@@ -1,6 +1,6 @@
 import { TypeformApplication } from '@prisma/client';
 import Button from 'components/Button';
-import { renderTypeformEdit } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformEditForm } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
 import { Router, useRouter } from 'next/router';
 import { useState } from 'react';
@@ -100,7 +100,7 @@ const EditApplicationPage: NextPage = () => {
         </div>
         <div className="w-full">
           {data ? (
-            renderTypeformEdit(
+            TypeformEditForm(
               handleSubmit,
               register,
               id,
