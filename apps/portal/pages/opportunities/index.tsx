@@ -12,7 +12,7 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
-  // division: string; in the future
+  division: string;
 }
 
 interface ActiveApplicationsQuery {
@@ -30,6 +30,7 @@ const ApplicationsPage: NextPage = () => {
         description
         typeformId
         typeformName
+        division
       }
       me {
         isOfficer
@@ -65,19 +66,21 @@ const ApplicationsPage: NextPage = () => {
         )}
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
-          <ApplicationCard
-            key={id}
-            title={typeformName}
-            description={description}
-            button={
-              <PopupButton id={typeformId} className="my-button">
-                <Button>apply</Button>
-              </PopupButton>
-            }
-            division="development."
-          />
-        ))}
+        {data.typeformApplications.map(
+          ({ id, typeformName, description, typeformId, division }) => (
+            <ApplicationCard
+              key={id}
+              title={typeformName}
+              description={description}
+              button={
+                <PopupButton id={typeformId} className="my-button">
+                  <Button>apply</Button>
+                </PopupButton>
+              }
+              division={division}
+            />
+          ),
+        )}
       </div>
     </div>
   );
