@@ -45,7 +45,7 @@ const pages = [
     svg: CameraIcon,
   },
   {
-    uri: '/',
+    uri: '/sign-out',
     name: 'sign out',
     svg: HomeIcon,
   },
@@ -110,7 +110,7 @@ const Skeleton = ({ children }: any) => {
                     <Link key={idx} href={page.uri} passHref>
                       <ACMMobileNavbarItem $active={active}>
                         {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
-                        {page.name}
+                        <span className="text-center whitespace-nowrap">{page.name}</span>
                       </ACMMobileNavbarItem>
                     </Link>
                   );
