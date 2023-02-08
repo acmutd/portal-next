@@ -40,6 +40,8 @@ const CreateApplicationPage: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+  if (status !== 'authenticated') return <p className="text-gray-100">loading...</p>;
+
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
