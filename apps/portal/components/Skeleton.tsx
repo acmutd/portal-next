@@ -45,7 +45,7 @@ const pages = [
     svg: CameraIcon,
   },
   {
-    uri: '/sign-out',
+    uri: '/auth/signout',
     name: 'sign out',
     svg: HomeIcon,
   },
@@ -78,23 +78,11 @@ const Skeleton = ({ children }: any) => {
                   <Image src={WhiteACMLogo} alt="ACM Logo" />
                 </ACMDesktopNavbarItem>
               </Link>
-              {pages.map((page, idx) => {
-                if (page.name === 'sign out')
-                  return (
-                    <span className="cursor-pointer">
-                      <ACMDesktopNavbarItem key={idx} onClick={() => signOut()}>
-                        {page.name}
-                      </ACMDesktopNavbarItem>
-                    </span>
-                  );
-                return (
-                  <Link key={idx} href={page.uri} passHref>
-                    <ACMDesktopNavbarItem $active={router.pathname === page.uri ? true : false}>
-                      {page.name}
-                    </ACMDesktopNavbarItem>
-                  </Link>
-                );
-              })}
+              {pages.map((page, idx) => (
+                <Link key={idx} href={page.uri} passHref className="cursor-pointer">
+                  <ACMDesktopNavbarItem key={idx}>{page.name}</ACMDesktopNavbarItem>
+                </Link>
+              ))}
             </ACMDesktopNavbar>
           </>
         )}
@@ -107,7 +95,7 @@ const Skeleton = ({ children }: any) => {
                 {pages.map((page, idx) => {
                   const active = router.pathname === page.uri;
                   return (
-                    <Link key={idx} href={page.uri} passHref>
+                    <Link key={idx} href={page.uri} passHref className="cursor-pointer">
                       <ACMMobileNavbarItem $active={active}>
                         {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
                         <span className="text-center whitespace-nowrap">{page.name}</span>
