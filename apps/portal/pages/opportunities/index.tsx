@@ -3,6 +3,7 @@ import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from 'urql';
 
@@ -39,6 +40,7 @@ const ApplicationsPage: NextPage = () => {
     }
   `;
 
+  const { data: session, status } = useSession({ required: true });
   const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {
@@ -50,7 +52,7 @@ const ApplicationsPage: NextPage = () => {
     },
   });
 
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (

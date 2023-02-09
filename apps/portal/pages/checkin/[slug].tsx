@@ -53,7 +53,7 @@ function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: Nex
 export default function CheckinPage() {
   const router = useRouter();
   const { slug } = router.query;
-  useSession({
+  const { data: session, status } = useSession({
     required: true,
   });
 
@@ -84,6 +84,7 @@ export default function CheckinPage() {
     });
   }, [fetching, error, data]);
 
+  if (status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (loading) {
     return <LoadingComponent />;
   }
