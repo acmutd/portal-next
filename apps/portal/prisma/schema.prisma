@@ -139,6 +139,7 @@ model TypeformApplication {
     externalResourceUrl String
     typeformId          String
     typeformName        String
+    division            String
 
     @@map("typeform_applications")
 }
