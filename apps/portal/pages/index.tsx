@@ -109,7 +109,7 @@ export default function HomePage({ profileVisited, ...props }) {
             </div>
           ))}
         </div>
-        <div className="absolute right-2 my-5">
+        <div className="w-fit ml-auto">
           <ACMButton
             onClick={() => {
               router.push('/events');
