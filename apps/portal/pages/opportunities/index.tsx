@@ -13,8 +13,8 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
+  division: string;
   externalResourceUrl: string;
-  // division: string; in the future
 }
 
 interface ActiveApplicationsQuery {
@@ -32,6 +32,7 @@ const ApplicationsPage: NextPage = () => {
         description
         typeformId
         typeformName
+        division
         externalResourceUrl
       }
       me {
@@ -70,7 +71,7 @@ const ApplicationsPage: NextPage = () => {
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
         {data.typeformApplications.map(
-          ({ id, typeformName, description, typeformId, externalResourceUrl }) => (
+          ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
             <ApplicationCard
               key={id}
               title={typeformName}
@@ -87,7 +88,7 @@ const ApplicationsPage: NextPage = () => {
                     </Link>,
                   ]),
               ]}
-              division="development."
+              division={division}
             />
           ),
         )}

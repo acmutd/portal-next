@@ -14,7 +14,7 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
-  // division: string; in the future
+  division: string;
 }
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
@@ -31,6 +31,7 @@ const ApplicationsEditPage: NextPage = () => {
         description
         typeformId
         typeformName
+        division
       }
       me {
         isOfficer
@@ -67,18 +68,20 @@ const ApplicationsEditPage: NextPage = () => {
         <Link href="/opportunities/create">
           <AddNewApplicationCard />
         </Link>
-        {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
-          <ApplicationCard
-            title={typeformName}
-            description={description}
-            buttons={[
-              <Link href={`/opportunities/edit/${id}`}>
-                <Button>edit</Button>
-              </Link>,
-            ]}
-            division="development."
-          />
-        ))}
+        {data.typeformApplications.map(
+          ({ id, typeformName, description, typeformId, division }) => (
+            <ApplicationCard
+              title={typeformName}
+              description={description}
+              buttons={[
+                <Link href={`/opportunities/edit/${id}`}>
+                  <Button>edit</Button>
+                </Link>,
+              ]}
+              division={division}
+            />
+          ),
+        )}
       </div>
     </div>
   );

@@ -86,6 +86,7 @@ const EditApplicationPage: NextPage = () => {
     externalResourceUrl: string;
     typeformId: string;
     typeformName: string;
+    division: string;
   };
 
   const {
