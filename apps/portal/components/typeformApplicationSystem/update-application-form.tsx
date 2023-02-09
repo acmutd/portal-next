@@ -27,6 +27,9 @@ function TypeformView(typeformApplication: TypeformApplication): JSX.Element {
       <div className="w-full px-3">
         <ProfileField label="typeformName" text={typeformApplication.typeformName} />
       </div>
+      <div className="w-full px-3">
+        <ProfileField label="division" text={typeformApplication.division} />
+      </div>
     </div>
   );
 }
@@ -66,6 +69,9 @@ function TypeformEditForm(
               },
               typeformName: {
                 set: vals.typeformName,
+              },
+              division: {
+                set: vals.division,
               },
             },
           }).then(() => {
@@ -153,6 +159,32 @@ function TypeformEditForm(
               {...register('typeformId')}
             />
           </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">typeform Name</label>
+            <input
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              type="text"
+              defaultValue={currentApplicationData ? currentApplicationData.typeformName : ''}
+              {...register('typeformName')}
+            />
+          </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">division</label>
+            <select
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              defaultValue={currentApplicationData ? currentApplicationData.division : ''}
+              {...register('division')}
+            >
+              <option value="Development">Development</option>
+              <option value="Research">Research</option>
+              <option value="Media">Media</option>
+              <option value="Projects">Projects</option>
+              <option value="Education">Education</option>
+              <option value="Community">Community</option>
+              <option value="Hackutd">Hackutd</option>
+              <option value="Industry">Industry</option>
+            </select>
+          </div>
         </div>
       </form>
     </div>
@@ -174,6 +206,7 @@ function TypeformCreateForm(handleSubmit, register, updateTypeformApplication): 
               externalResourceUrl: vals.externalResourceUrl,
               typeformId: vals.typeformId,
               typeformName: vals.typeformName,
+              division: vals.division,
             },
           }).then(() => {
             Router.push('/opportunities');
@@ -241,6 +274,30 @@ function TypeformCreateForm(handleSubmit, register, updateTypeformApplication): 
               type="text"
               {...register('typeformId')}
             />
+          </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Typeform Name</label>
+            <input
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              type="text"
+              {...register('typeformName')}
+            />
+          </div>
+          <div className="grid gap-y-4 w-full px-3">
+            <label className="block text-2xl text-gray-200 font-semibold mb-2">Division</label>
+            <select
+              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+              {...register('division')}
+            >
+              <option value="Development">Development</option>
+              <option value="Research">Research</option>
+              <option value="Media">Media</option>
+              <option value="Projects">Projects</option>
+              <option value="Education">Education</option>
+              <option value="Community">Community</option>
+              <option value="Hackutd">Hackutd</option>
+              <option value="Industry">Industry</option>
+            </select>
           </div>
         </div>
       </form>
