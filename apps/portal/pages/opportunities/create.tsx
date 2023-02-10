@@ -2,13 +2,8 @@ import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
-import { TypeformApplication } from '@prisma/client';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-
-import EmailToast from 'components/EmailToast';
 import { useSession } from 'next-auth/react';
-
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
@@ -44,11 +39,6 @@ const CreateApplicationPage: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-
-  const [open, setOpen] = useState(false);
-
-  if (status !== 'authenticated') return <p className="text-gray-100">loading...</p>;
-  
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -68,7 +58,7 @@ const CreateApplicationPage: NextPage = () => {
             className="bg-purple-600 text-gray-100 font-semibold px-12 py-2 rounded-lg"
             form="create-typeform"
             onClick={() => {
-              setOpen(true);
+              sessionStorage.setItem('showToast', '1');
             }}
           >
             save
@@ -79,7 +69,6 @@ const CreateApplicationPage: NextPage = () => {
         </div>
       </div>
       <div className="flex gap-x-16 px-16 justify-center"></div>
-      <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </div>
   );
 };
