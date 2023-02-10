@@ -12,7 +12,7 @@ export const onlyOfficerAllowed: MiddlewareFn<TContext> = async ({ args, context
       response: args,
     });
   }
-  const isOfficer = await checkIfUserIsOfficer(context.session.id);
+  const isOfficer = await checkIfUserIsOfficer(session.id);
   if (isOfficer) {
     return next();
   }

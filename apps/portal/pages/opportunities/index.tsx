@@ -3,6 +3,7 @@ import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from 'urql';
 
@@ -12,7 +13,8 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
-  // division: string; in the future
+  division: string;
+  externalResourceUrl: string;
 }
 
 interface ActiveApplicationsQuery {
@@ -30,6 +32,8 @@ const ApplicationsPage: NextPage = () => {
         description
         typeformId
         typeformName
+        division
+        externalResourceUrl
       }
       me {
         isOfficer
@@ -37,6 +41,7 @@ const ApplicationsPage: NextPage = () => {
     }
   `;
 
+  const { data: session, status } = useSession({ required: true });
   const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {
@@ -48,7 +53,7 @@ const ApplicationsPage: NextPage = () => {
     },
   });
 
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
@@ -65,19 +70,28 @@ const ApplicationsPage: NextPage = () => {
         )}
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
-          <ApplicationCard
-            key={id}
-            title={typeformName}
-            description={description}
-            button={
-              <PopupButton id={typeformId} className="my-button">
-                <Button>apply</Button>
-              </PopupButton>
-            }
-            division="development."
-          />
-        ))}
+        {data.typeformApplications.map(
+          ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
+            <ApplicationCard
+              key={id}
+              title={typeformName}
+              description={description}
+              buttons={[
+                <PopupButton id={typeformId} className="my-button">
+                  <Button>apply</Button>
+                </PopupButton>,
+                // exclude 'learn more' button when external url is blank
+                ...(externalResourceUrl &&
+                  externalResourceUrl !== '' && [
+                    <Link href={externalResourceUrl} target="_blank">
+                      <Button color="secondary">learn more</Button>
+                    </Link>,
+                  ]),
+              ]}
+              division={division}
+            />
+          ),
+        )}
       </div>
     </div>
   );

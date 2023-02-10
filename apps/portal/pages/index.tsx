@@ -58,17 +58,6 @@ export default function HomePage({ profileVisited, ...props }) {
     },
   });
 
-  if (!session)
-    return (
-      <>
-        <Link href="/auth/signin" passHref>
-          <ACMButton theme={pageTheme} gradientcolor="#4cb2e9">
-            Sign In
-          </ACMButton>
-        </Link>
-      </>
-    );
-
   if (!profileVisited) {
     router.push('/profile'); // redirect user to set up profile if they haven't already
   }
@@ -120,7 +109,7 @@ export default function HomePage({ profileVisited, ...props }) {
             </div>
           ))}
         </div>
-        <div className="absolute right-2 my-5">
+        <div className="w-fit ml-auto">
           <ACMButton
             onClick={() => {
               router.push('/events');

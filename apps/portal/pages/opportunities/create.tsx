@@ -1,15 +1,19 @@
-import { renderTypeformCreate } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
 import { TypeformApplication } from '@prisma/client';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+
 import EmailToast from 'components/EmailToast';
+import { useSession } from 'next-auth/react';
+
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
 
+  const { data: session, status } = useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
     mutation CreateTypeformApplication($create: TypeformApplicationCreateInput!) {
       createTypeformApplication(data: $create) {
@@ -33,13 +37,18 @@ const CreateApplicationPage: NextPage = () => {
     externalResourceUrl: string;
     typeformId: string;
     typeformName: string;
+    division: string;
   };
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+
   const [open, setOpen] = useState(false);
+
+  if (status !== 'authenticated') return <p className="text-gray-100">loading...</p>;
+  
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -51,7 +60,7 @@ const CreateApplicationPage: NextPage = () => {
           <div className="text-2xl font-semibold text-gray-100">Create Typeform Application</div>
         </div>
         <div className="w-full flex justify-center">
-          {renderTypeformCreate(handleSubmit, register, createTypeformApplication)}
+          {TypeformCreateForm(handleSubmit, register, createTypeformApplication)}
         </div>
         <div className="flex gap-20">
           <button
