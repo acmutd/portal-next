@@ -30,7 +30,12 @@ export const onlySelfUpdateProfile: MiddlewareFn<TContext> = async ({ context, a
       graphQLErrors: ['Login required'],
     });
   }
-  if (args.where.userId !== session.id) {
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      netid: args.where.netid,
+    },
+  });
+  if (profile.userId !== session.id) {
     throw new CombinedError({
       graphQLErrors: ['Invalid user found'],
     });
