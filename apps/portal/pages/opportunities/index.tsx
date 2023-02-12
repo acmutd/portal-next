@@ -1,10 +1,12 @@
 import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
+import EmailToast from 'components/EmailToast';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { gql, useQuery } from 'urql';
 
 interface TypeformApplication {
@@ -53,6 +55,14 @@ const ApplicationsPage: NextPage = () => {
     },
   });
 
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (sessionStorage.getItem('showToast') == '1') {
+      setOpen(true);
+      sessionStorage.removeItem('showToast');
+    }
+  }, []);
+
   if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
@@ -93,6 +103,7 @@ const ApplicationsPage: NextPage = () => {
           ),
         )}
       </div>
+      <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </div>
   );
 };
