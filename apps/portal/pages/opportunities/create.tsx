@@ -2,8 +2,6 @@ import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
-import { TypeformApplication } from '@prisma/client';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
@@ -41,8 +39,6 @@ const CreateApplicationPage: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-  if (status !== 'authenticated') return <p className="text-gray-100">loading...</p>;
-
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -61,6 +57,9 @@ const CreateApplicationPage: NextPage = () => {
             type="submit"
             className="bg-purple-600 text-gray-100 font-semibold px-12 py-2 rounded-lg"
             form="create-typeform"
+            onClick={() => {
+              sessionStorage.setItem('showToast', '1');
+            }}
           >
             save
           </button>
