@@ -30,9 +30,11 @@ import {
   UpdateVanityLinkResolver,
   DeleteVanityLinkResolver,
   FindManyVanityLinkResolver,
+  UserRelationsResolver,
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
+  UserRelationsResolver,
   CreateAccountResolver,
   UpdateAccountResolver,
   DeleteAccountResolver,

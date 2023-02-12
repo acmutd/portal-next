@@ -15,6 +15,7 @@ import { Profile } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Router from 'next/router';
+import Link from 'next/link';
 
 export const getServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -24,6 +25,7 @@ export const getServerSideProps = async (ctx) => {
 export default function ProfilePage({ profileVisited }) {
   const { data: session, status } = useSession({ required: true });
 
+  let pageTheme: any = 'dark';
   useEffect(() => {
     if (!profileVisited) {
       // set visited cookie to true so that the user is not redirected to the profile page on login anymore
@@ -53,11 +55,7 @@ export default function ProfilePage({ profileVisited }) {
 
   const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm<Profile>();
 
   const PROFILE_QUERY = gql`
     query Query($where: ProfileWhereUniqueInput!) {
@@ -73,7 +71,7 @@ export default function ProfilePage({ profileVisited }) {
     }
   `;
 
-  const [profileResult, reexecuteQuery] = useQuery({
+  const [profileResult, reexecuteQuery] = useQuery<{ profile: Profile }>({
     query: PROFILE_QUERY,
     variables: {
       where: {
@@ -83,40 +81,49 @@ export default function ProfilePage({ profileVisited }) {
   });
 
   const { data, fetching, error } = profileResult;
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
-    <div className="w-full grid place-items-center">
-      <div className="flex flex-col p-10 place-items-center">
-        <div className="text-3xl font-semibold text-gray-100">my account</div>
-        <div className="m-3">
-          <ACMButton
-            theme="dark"
-            onClick={() => {
-              setFormEditMode(!formEditMode);
-            }}
-          >
-            edit
-          </ACMButton>
-        </div>
-      </div>
-      <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
-        <div className="flex flex-col place-items-center">
-          <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
-          {formEditMode && (
-            <button
-              type="submit"
-              className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
-              form="profile-form"
+    <>
+      <div className="w-full grid place-items-center">
+        <div className="flex flex-col p-10 place-items-center">
+          <div className="text-[36px] font-semibold text-gray-100">my account</div>
+          <div className="m-3">
+            <ACMButton
+              theme="dark"
+              onClick={() => {
+                setFormEditMode(!formEditMode);
+              }}
             >
-              save
-            </button>
-          )}
+              {formEditMode ? 'cancel' : 'edit'}
+            </ACMButton>
+          </div>
         </div>
-        {formEditMode ? renderFormEdit() : renderFormView(data.profile)}
+        <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
+          <div className="flex flex-col place-items-center">
+            <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
+            {formEditMode && (
+              <button
+                type="submit"
+                className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
+                form="profile-form"
+              >
+                save
+              </button>
+            )}
+          </div>
+          {formEditMode ? renderFormEdit() : renderFormView(data.profile)}
+        </div>
+        {formEditMode && (
+          <Link href="/auth/signin">
+            <span className="bg-gray-600 text-gray-200 font-semibold p-2 rounded-lg cursor-pointer">
+              connect another account
+            </span>
+          </Link>
+        )}
       </div>
-    </div>
+    </>
   );
 
   function renderFormView(profile: Profile): JSX.Element {
@@ -156,7 +163,7 @@ export default function ProfilePage({ profileVisited }) {
             onSubmit={handleSubmit((vals) => {
               updateProfile({
                 where: {
-                  userId: session.id as string,
+                  netid: vals.netid || data.profile.netid,
                 },
                 create: {
                   user: {
@@ -176,28 +183,37 @@ export default function ProfilePage({ profileVisited }) {
                 },
                 update: {
                   firstName: {
-                    set: vals.firstName,
+                    set: vals.firstName || data.profile.firstName,
                   },
                   lastName: {
-                    set: vals.lastName,
+                    set: vals.lastName || data.profile.lastName,
                   },
                   netid: {
-                    set: vals.netid,
+                    set: vals.netid || data.profile.netid,
                   },
                   classStanding: {
-                    set: vals.classStanding,
+                    set: vals.classStanding || data.profile.classStanding,
                   },
                   major: {
-                    set: vals.major,
+                    set: vals.major || data.profile.major,
                   },
                   utdStudent: {
-                    set: vals.utdStudent,
+                    set: vals.utdStudent || data.profile.utdStudent,
                   },
                 },
-              }).then(() => {
-                setFormEditMode(false);
-                Router.push('/profile');
-              });
+              })
+                .then(({ data, error }) => {
+                  // TODO: add typed errors, see: check-netid.ts
+                  if (error && error.message.includes('[VALIDATION_ERROR]')) {
+                    alert('NetID has already been linked to an account');
+                  }
+                  setFormEditMode(false);
+                  reexecuteQuery();
+                  Router.push('/profile');
+                })
+                .catch((err) => {
+                  alert(err);
+                });
             })}
           >
             <div className="flex flex-wrap -mx-3 mb-6">
