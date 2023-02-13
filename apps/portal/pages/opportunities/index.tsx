@@ -47,6 +47,7 @@ const ApplicationsPage: NextPage = () => {
           lastName
           major
           netid
+          classStanding
         }
       }
     }
@@ -104,6 +105,7 @@ const ApplicationsPage: NextPage = () => {
                     last_name: data.me.profile.lastName,
                     major: data.me.profile.major,
                     net_id: data.me.profile.netid,
+                    classification: data.me.profile.classStanding,
                   }}
                   className="my-button"
                 >
