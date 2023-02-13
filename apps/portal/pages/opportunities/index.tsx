@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from 'urql';
+import { Profile } from '@generated/type-graphql';
 
 interface TypeformApplication {
   id: string;
@@ -23,6 +24,7 @@ interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
   me: {
     isOfficer: boolean;
+    profile: Profile;
   };
 }
 const ApplicationsPage: NextPage = () => {
@@ -39,6 +41,13 @@ const ApplicationsPage: NextPage = () => {
       }
       me {
         isOfficer
+        profile {
+          firstName
+          email
+          lastName
+          major
+          netid
+        }
       }
     }
   `;
@@ -87,7 +96,17 @@ const ApplicationsPage: NextPage = () => {
               title={typeformName}
               description={description}
               buttons={[
-                <PopupButton id={typeformId} className="my-button">
+                <PopupButton
+                  id={typeformId}
+                  hidden={{
+                    email: data.me.profile.email,
+                    first_name: data.me.profile.firstName,
+                    last_name: data.me.profile.lastName,
+                    major: data.me.profile.major,
+                    net_id: data.me.profile.netid,
+                  }}
+                  className="my-button"
+                >
                   <Button>apply</Button>
                 </PopupButton>,
                 // exclude 'learn more' button when external url is blank
