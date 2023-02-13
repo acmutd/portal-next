@@ -161,15 +161,6 @@ function TypeformEditForm(
             />
           </div>
           <div className="grid gap-y-4 w-full px-3">
-            <label className="block text-2xl text-gray-200 font-semibold mb-2">typeform Name</label>
-            <input
-              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
-              type="text"
-              defaultValue={currentApplicationData ? currentApplicationData.typeformName : ''}
-              {...register('typeformName')}
-            />
-          </div>
-          <div className="grid gap-y-4 w-full px-3">
             <label className="block text-2xl text-gray-200 font-semibold mb-2">division</label>
             <select
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
@@ -274,14 +265,6 @@ function TypeformCreateForm(handleSubmit, register, updateTypeformApplication): 
               className="appearance-none block w-full  rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
               type="text"
               {...register('typeformId')}
-            />
-          </div>
-          <div className="grid gap-y-4 w-full px-3">
-            <label className="block text-2xl text-gray-200 font-semibold mb-2">Typeform Name</label>
-            <input
-              className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
-              type="text"
-              {...register('typeformName')}
             />
           </div>
           <div className="grid gap-y-4 w-full px-3">
