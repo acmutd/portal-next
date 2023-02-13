@@ -21,7 +21,7 @@ export const addTypeformHiddenFields: MiddlewareFn<TContext> = async ({ args, co
   return next();
 };
 
-export const addTypeformWebhook: MiddlewareFn<TContext> = async ({ args, context }, next) => {
+export const addTypeformWebhook: MiddlewareFn<TContext> = async ({ args }, next) => {
   await next();
   try {
     const baseUrl =
@@ -33,6 +33,10 @@ export const addTypeformWebhook: MiddlewareFn<TContext> = async ({ args, context
       {
         enabled: true,
         url: `${baseUrl}/api/typeform/submission`,
+        ...(process.env.NODE_ENV !== 'development' && {
+          secret: process.env.TYPEFORM_SECRET,
+          verify_ssl: true,
+        }),
       },
       {
         headers: {
