@@ -9,6 +9,7 @@ import {
   onEventCreationComplete,
   onProfileCreationComplete,
 } from '../middlewares/send-email';
+import { addTypeformHiddenFields, addTypeformWebhook } from '../middlewares/typeform';
 
 export const resolversEnhanceMap: ResolversEnhanceMap = {
   Event: {
@@ -20,6 +21,8 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     createTypeformApplication: [
       UseMiddleware(onlyOfficerAllowed),
       UseMiddleware(onApplicationCreationComplete),
+      UseMiddleware(addTypeformHiddenFields),
+      UseMiddleware(addTypeformWebhook),
     ],
     updateTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
     deleteTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
