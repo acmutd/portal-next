@@ -7,6 +7,7 @@ import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin, EventCheckinInput } from '../schemas/EventCheckin';
+import { CombinedError } from 'urql';
 
 @Resolver(() => Event)
 @injectable()
@@ -25,6 +26,9 @@ export default class OldEventResolver {
   ): Promise<EventCheckin[]> {
     const event_data = await this.firebaseService.returnEventsbyProfile(netId, email);
 
+    if (event_data.length == 0) {
+      return [];
+    }
     const events = await this.eventService.findOldEventID(event_data);
 
     const profile = await context.prisma.profile.findFirst({
@@ -33,6 +37,9 @@ export default class OldEventResolver {
       },
     });
 
+    if (profile === null || profile === undefined) {
+      return [];
+    }
     const reservations = await Promise.all(
       events.map((event) =>
         this.checkService.checkInEvent(
