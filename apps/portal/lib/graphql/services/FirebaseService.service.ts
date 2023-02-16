@@ -36,9 +36,12 @@ export default class FirebaseService {
       .get();
 
     const events = [];
-    querySnapshot.forEach((doc) => {
-      events.push(doc.data().past_events);
-    });
+
+    if (querySnapshot.exists()) {
+      querySnapshot.forEach((doc) => {
+        events.push(doc.data().past_events);
+      });
+    }
 
     return events;
   }
