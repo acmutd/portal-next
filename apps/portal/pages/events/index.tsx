@@ -69,7 +69,7 @@ interface QueryResultType {
 }
 
 export default function EventPage() {
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });

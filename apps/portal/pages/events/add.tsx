@@ -28,7 +28,7 @@ const CREATE_EVENT_MUTATION = gql`
 
 export default function AddEventPage() {
   const router = useRouter();
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
 
   const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,

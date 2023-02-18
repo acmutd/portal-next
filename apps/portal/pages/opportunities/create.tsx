@@ -9,7 +9,7 @@ import { TypeformApplication, CreateOneTypeformApplicationArgs } from '@generate
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
 
-  const { data: session, status } = useSession({ required: true });
+  useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
     mutation CreateOneTypeformApplication($data: TypeformApplicationCreateInput!) {
       createOneTypeformApplication(data: $data) {
@@ -31,20 +31,7 @@ const CreateApplicationPage: NextPage = () => {
     CreateOneTypeformApplicationArgs
   >(CREATE_TYPEFORM_APPLICATION);
 
-  type FormInputs = {
-    active: boolean;
-    description: string;
-    endpoint: string;
-    externalResourceUrl: string;
-    typeformId: string;
-    typeformName: string;
-    division: string;
-  };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Omit<TypeformApplication, 'id'>>();
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">

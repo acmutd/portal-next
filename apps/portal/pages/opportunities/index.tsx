@@ -53,7 +53,7 @@ const ApplicationsPage: NextPage = () => {
     }
   `;
 
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {

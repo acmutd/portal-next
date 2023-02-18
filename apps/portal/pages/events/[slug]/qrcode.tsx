@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 export default function QRCodePage() {
   const { query } = useRouter();
   const { slug } = query;
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

@@ -8,7 +8,6 @@ import { useMutation, gql, useQuery } from 'urql';
 import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import DocumentIcon from 'apps/portal/icons/DocumentIcon';
-import { SignedURLInput } from 'lib/graphql/schemas/SignedURL';
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
@@ -44,7 +43,7 @@ export default function ResumePage() {
     }
   `;
 
-  const [{ data, error }, refetchResume] = useQuery({
+  const [{ data }, refetchResume] = useQuery({
     query: HOMEPAGE_QUERY,
     variables: {
       where: {

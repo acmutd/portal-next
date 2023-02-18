@@ -1,8 +1,5 @@
-import { useState } from 'react';
-import ProfileField from '../ProfileField';
 import Router from 'next/router';
 import { TypeformApplication } from '@prisma/client';
-import EmailToast from 'components/EmailToast';
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import {
   UpdateOneTypeformApplicationArgs,
@@ -33,37 +30,6 @@ type CreateTypeformApplicationMutationType = (
     CreateOneTypeformApplicationArgs
   >
 >;
-
-function TypeformView(typeformApplication: TypeformApplication): JSX.Element {
-  if (!typeformApplication) return <p className="text-gray-100">please select an application</p>;
-  return (
-    // view mode
-    <div className="flex w-1/2 flex-wrap mb-6">
-      <div className="w-full md:w-1/2 px-3">
-        <label className="block text-gray-200 font-semibold mb-2">active</label>
-        <div className="rounded">{typeformApplication.active.toString()}</div>
-      </div>
-      <div className="w-full md:w-1/2 px-3">
-        <ProfileField label="description" text={typeformApplication.description} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="endpoint" text={typeformApplication.endpoint} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="externalResourceUrl" text={typeformApplication.externalResourceUrl} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="typeformId" text={typeformApplication.typeformId} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="typeformName" text={typeformApplication.typeformName} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="division" text={typeformApplication.division} />
-      </div>
-    </div>
-  );
-}
 
 interface TypeformEditFormProps {
   handleSubmit: UseFormHandleSubmit<Omit<TypeformApplication, 'id'>>;
@@ -337,4 +303,4 @@ function TypeformCreateForm({
   );
 }
 
-export { TypeformView, TypeformEditForm, TypeformCreateForm };
+export { TypeformEditForm, TypeformCreateForm };

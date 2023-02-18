@@ -3,7 +3,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
-import { PrismaClient } from '@prisma/client';
 import { grantRole } from 'lib/auth/grant-role';
 import { getPrismaConnection } from 'lib/prisma/manager';
 

@@ -1,11 +1,10 @@
-import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
 import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { gql, useMutation, useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
 
 interface TypeformApplication {
@@ -39,7 +38,7 @@ const ApplicationsEditPage: NextPage = () => {
     }
   `;
 
-  const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
+  const [{ data, fetching, error }, _] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {
       where: {
@@ -50,7 +49,7 @@ const ApplicationsEditPage: NextPage = () => {
     },
   });
 
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 

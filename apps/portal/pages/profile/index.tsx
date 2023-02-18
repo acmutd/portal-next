@@ -213,7 +213,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
                   },
                 },
               })
-                .then(({ data, error }) => {
+                .then(({ error }) => {
                   // TODO: add typed errors, see: check-netid.ts
                   if (error && error.message.includes('[VALIDATION_ERROR]')) {
                     alert('NetID has already been linked to an account');

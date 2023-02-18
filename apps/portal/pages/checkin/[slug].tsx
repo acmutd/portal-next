@@ -53,7 +53,7 @@ function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: Nex
 export default function CheckinPage() {
   const router = useRouter();
   const { slug } = router.query;
-  const { data: session, status } = useSession({
+  const { status } = useSession({
     required: true,
   });
 

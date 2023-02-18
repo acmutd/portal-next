@@ -7,24 +7,14 @@ import Button from 'components/Button';
 import { TypeformEditForm } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import { Router, useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from 'urql';
-
-// interface TypeformApplication {
-//   id: string;
-//   active: boolean;
-//   description: string;
-//   typeformId: string;
-//   typeformName: string;
-//   // division: string; in the future
-// }
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: session } = useSession({ required: true });
+  useSession({ required: true });
 
   const GET_TYPEFORM = gql`
     query FindFirstTypeformApplication($where: TypeformApplicationWhereInput) {
@@ -93,11 +83,7 @@ const EditApplicationPage: NextPage = () => {
     DeleteOneTypeformApplicationArgs
   >(DELETE_TYPEFORM_APPLICATION);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Omit<TypeformApplication, 'id'>>();
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
 
   return (
     <div className="w-full p-20">
