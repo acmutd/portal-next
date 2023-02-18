@@ -50,11 +50,11 @@ const EditApplicationPage: NextPage = () => {
   });
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
-    mutation UpdateTypeformApplication(
+    mutation UpdateOneTypeformApplication(
       $update: TypeformApplicationUpdateInput!
       $where: TypeformApplicationWhereUniqueInput!
     ) {
-      updateTypeformApplication(data: $update, where: $where) {
+      updateOneTypeformApplication(data: $update, where: $where) {
         id
         active
         description
@@ -67,8 +67,8 @@ const EditApplicationPage: NextPage = () => {
   `;
 
   const DELETE_TYPEFORM_APPLICATION = gql`
-    mutation DeleteTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
-      deleteTypeformApplication(where: $where) {
+    mutation DeleteOneTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
+      deleteOneTypeformApplication(where: $where) {
         id
         typeformName
         description

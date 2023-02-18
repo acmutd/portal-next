@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import { singleton } from 'tsyringe';
 const { initializeApp, getApps, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
-require('dotenv').config();
 
 @singleton()
 export default class FirebaseService {

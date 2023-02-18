@@ -4,14 +4,15 @@ import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { TypeformApplication, CreateOneTypeformApplicationArgs } from '@generated/type-graphql';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
 
   const { data: session, status } = useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
-    mutation CreateTypeformApplication($create: TypeformApplicationCreateInput!) {
-      createTypeformApplication(data: $create) {
+    mutation CreateOneTypeformApplication($create: TypeformApplicationCreateInput!) {
+      createOneTypeformApplication(data: $create) {
         id
         active
         description
@@ -23,7 +24,12 @@ const CreateApplicationPage: NextPage = () => {
     }
   `;
 
-  const [__, createTypeformApplication] = useMutation<any>(CREATE_TYPEFORM_APPLICATION);
+  const [__, createTypeformApplication] = useMutation<
+    {
+      createOneTypeformApplication: TypeformApplication;
+    },
+    CreateOneTypeformApplicationArgs
+  >(CREATE_TYPEFORM_APPLICATION);
 
   type FormInputs = {
     active: boolean;
