@@ -68,7 +68,7 @@ const ApplicationsEditPage: NextPage = () => {
         <Link href="/opportunities/create">
           <AddNewApplicationCard />
         </Link>
-        {data.typeformApplications.map(
+        {data!.typeformApplications.map(
           ({ id, typeformName, description, typeformId, division }) => (
             <ApplicationCard
               title={typeformName}

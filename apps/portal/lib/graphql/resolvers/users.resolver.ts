@@ -13,7 +13,7 @@ export default class AdditionalUserResolver {
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
   async me(@Ctx() context: TContext) {
-    return this.userService.getUserById(context.session.id);
+    return this.userService.getUserById(context.session!.id);
   }
 
   @FieldResolver(() => Boolean)

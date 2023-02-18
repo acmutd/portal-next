@@ -11,8 +11,8 @@ const CreateApplicationPage: NextPage = () => {
 
   const { data: session, status } = useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
-    mutation CreateOneTypeformApplication($create: TypeformApplicationCreateInput!) {
-      createOneTypeformApplication(data: $create) {
+    mutation CreateOneTypeformApplication($data: TypeformApplicationCreateInput!) {
+      createOneTypeformApplication(data: $data) {
         id
         active
         description
@@ -44,7 +44,7 @@ const CreateApplicationPage: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<Omit<TypeformApplication, 'id'>>();
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -56,7 +56,11 @@ const CreateApplicationPage: NextPage = () => {
           <div className="text-2xl font-semibold text-gray-100">Create Typeform Application</div>
         </div>
         <div className="w-full flex justify-center">
-          {TypeformCreateForm(handleSubmit, register, createTypeformApplication)}
+          <TypeformCreateForm
+            handleSubmit={handleSubmit}
+            register={register}
+            createTypeformApplication={createTypeformApplication}
+          />
         </div>
         <div className="flex gap-20">
           <button

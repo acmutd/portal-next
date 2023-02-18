@@ -30,7 +30,7 @@ export default function AddEventPage() {
   const router = useRouter();
   const { data: session, status } = useSession({ required: true });
 
-  const [result, _] = useQuery<QueryResultType>({
+  const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
   const [__, createEvent] = useMutation<
@@ -40,14 +40,13 @@ export default function AddEventPage() {
     CreateOneEventArgs
   >(CREATE_EVENT_MUTATION);
 
-  const { data: queryResult, fetching, error } = result;
   if (fetching || status == 'loading') return <p>Loading...</p>;
   if (error) {
     console.log(error);
     return <p>Whoops... {error.message}</p>;
   }
 
-  const { me } = queryResult;
+  const { me } = queryResult!;
   if (!me.isOfficer) {
     return (
       <div>

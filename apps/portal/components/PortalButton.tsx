@@ -85,7 +85,7 @@ const ACMButton = React.forwardRef<
         onHoverEnd={() => setHover(false)}
         width={width}
         fontSize={fontSize}
-        rounded={rounded ? true : undefined}
+        rounded={rounded}
         theme={theme}
       >
         <StyledBG

@@ -17,17 +17,17 @@ import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 import Link from 'next/link';
 import EmailToast from 'components/EmailToast';
+import { GetServerSideProps } from 'next';
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
   return { props: { profileVisited: profileVisited ?? null } };
 };
 
-export default function ProfilePage({ profileVisited }) {
+export default function ProfilePage({ profileVisited }: { profileVisited: boolean }) {
   const { data: session, status } = useSession({ required: true });
   const [open, setOpen] = useState(false);
 
-  let pageTheme: any = 'dark';
   useEffect(() => {
     if (!profileVisited) {
       // set visited cookie to true so that the user is not redirected to the profile page on login anymore
@@ -123,7 +123,7 @@ export default function ProfilePage({ profileVisited }) {
               </button>
             )}
           </div>
-          {formEditMode ? renderFormEdit() : renderFormView(data.profile)}
+          {formEditMode ? renderFormEdit() : renderFormView(data!.profile)}
         </div>
         {formEditMode && (
           <Link href="/auth/signin">
@@ -174,17 +174,17 @@ export default function ProfilePage({ profileVisited }) {
             onSubmit={handleSubmit((vals) => {
               updateProfile({
                 where: {
-                  netid: vals.netid || data.profile.netid,
+                  netid: vals.netid || data!.profile.netid,
                 },
                 create: {
                   user: {
                     connect: {
-                      id: session.id as string,
+                      id: session!.id as string,
                     },
                   },
                   firstName: vals.firstName,
                   lastName: vals.lastName,
-                  email: session.user.email,
+                  email: session!.user!.email!,
                   netid: vals.netid,
                   classStanding: vals.classStanding,
                   major: vals.major,
@@ -194,22 +194,22 @@ export default function ProfilePage({ profileVisited }) {
                 },
                 update: {
                   firstName: {
-                    set: vals.firstName || data.profile.firstName,
+                    set: vals.firstName || data!.profile.firstName,
                   },
                   lastName: {
-                    set: vals.lastName || data.profile.lastName,
+                    set: vals.lastName || data!.profile.lastName,
                   },
                   netid: {
-                    set: vals.netid || data.profile.netid,
+                    set: vals.netid || data!.profile.netid,
                   },
                   classStanding: {
-                    set: vals.classStanding || data.profile.classStanding,
+                    set: vals.classStanding || data!.profile.classStanding,
                   },
                   major: {
-                    set: vals.major || data.profile.major,
+                    set: vals.major || data!.profile.major,
                   },
                   utdStudent: {
-                    set: vals.utdStudent || data.profile.utdStudent,
+                    set: vals.utdStudent || data!.profile.utdStudent,
                   },
                 },
               })
@@ -233,7 +233,7 @@ export default function ProfilePage({ profileVisited }) {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   id="grid-first-name"
-                  placeholder={data.profile ? data.profile.firstName : ''}
+                  placeholder={data!.profile ? data!.profile.firstName : ''}
                   {...register('firstName')}
                 />
               </div>
@@ -243,7 +243,7 @@ export default function ProfilePage({ profileVisited }) {
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   id="grid-last-name"
                   type="text"
-                  placeholder={data.profile ? data.profile.lastName : ''}
+                  placeholder={data!.profile ? data!.profile.lastName : ''}
                   {...register('lastName')}
                 />
               </div>
@@ -254,7 +254,7 @@ export default function ProfilePage({ profileVisited }) {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder={data.profile ? data.profile.email : ''}
+                  placeholder={data!.profile ? data!.profile.email : ''}
                   {...register('email')}
                 />
               </div>
@@ -264,7 +264,7 @@ export default function ProfilePage({ profileVisited }) {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder={data.profile ? data.profile.netid : ''}
+                  placeholder={data!.profile ? data!.profile.netid : ''}
                   {...register('netid')}
                 />
               </div>
@@ -273,7 +273,7 @@ export default function ProfilePage({ profileVisited }) {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder={data.profile ? data.profile.classStanding : ''}
+                  placeholder={data!.profile ? data!.profile.classStanding : ''}
                   {...register('classStanding')}
                 />
               </div>
@@ -282,7 +282,7 @@ export default function ProfilePage({ profileVisited }) {
                 <input
                   className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                   type="text"
-                  placeholder={data.profile ? data.profile.major : ''}
+                  placeholder={data!.profile ? data!.profile.major : ''}
                   {...register('major')}
                 />
               </div>

@@ -3,6 +3,36 @@ import ProfileField from '../ProfileField';
 import Router from 'next/router';
 import { TypeformApplication } from '@prisma/client';
 import EmailToast from 'components/EmailToast';
+import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
+import {
+  UpdateOneTypeformApplicationArgs,
+  CreateOneTypeformApplicationArgs,
+} from '@generated/type-graphql';
+import { OperationContext, OperationResult } from 'urql';
+
+type UpdateTypeformApplicationMutationType = (
+  variables?: UpdateOneTypeformApplicationArgs,
+  context?: Partial<OperationContext>,
+) => Promise<
+  OperationResult<
+    {
+      updateTypeformApplication: TypeformApplication;
+    },
+    UpdateOneTypeformApplicationArgs
+  >
+>;
+
+type CreateTypeformApplicationMutationType = (
+  variables?: CreateOneTypeformApplicationArgs,
+  context?: Partial<OperationContext>,
+) => Promise<
+  OperationResult<
+    {
+      createOneTypeformApplication: TypeformApplication;
+    },
+    CreateOneTypeformApplicationArgs
+  >
+>;
 
 function TypeformView(typeformApplication: TypeformApplication): JSX.Element {
   if (!typeformApplication) return <p className="text-gray-100">please select an application</p>;
@@ -35,13 +65,21 @@ function TypeformView(typeformApplication: TypeformApplication): JSX.Element {
   );
 }
 
-function TypeformEditForm(
+interface TypeformEditFormProps {
+  handleSubmit: UseFormHandleSubmit<Omit<TypeformApplication, 'id'>>;
+  register: UseFormRegister<Omit<TypeformApplication, 'id'>>;
+  id: string;
+  updateTypeformApplication: UpdateTypeformApplicationMutationType;
+  currentApplicationData: TypeformApplication;
+}
+
+function TypeformEditForm({
   handleSubmit,
   register,
   id,
   updateTypeformApplication,
   currentApplicationData,
-): JSX.Element {
+}: TypeformEditFormProps): JSX.Element {
   return (
     <div className="pb-16">
       <form
@@ -52,7 +90,7 @@ function TypeformEditForm(
             where: {
               id: id,
             },
-            update: {
+            data: {
               active: {
                 set: vals.active,
               },
@@ -183,15 +221,25 @@ function TypeformEditForm(
   );
 }
 
-function TypeformCreateForm(handleSubmit, register, updateTypeformApplication): JSX.Element {
+interface TypeformCreateFormProps {
+  handleSubmit: UseFormHandleSubmit<Omit<TypeformApplication, 'id'>>;
+  register: UseFormRegister<Omit<TypeformApplication, 'id'>>;
+  createTypeformApplication: CreateTypeformApplicationMutationType;
+}
+
+function TypeformCreateForm({
+  handleSubmit,
+  register,
+  createTypeformApplication,
+}: TypeformCreateFormProps): JSX.Element {
   return (
     <div className="flex justify-center md:flex-row-reverse w-full md:w-[50%]">
       <form
         id="create-typeform"
         className="justify-between min-h-full h-full"
         onSubmit={handleSubmit((vals) => {
-          updateTypeformApplication({
-            create: {
+          createTypeformApplication({
+            data: {
               active: true, // new typeforms should always be visible
               description: vals.description,
               endpoint: vals.endpoint,

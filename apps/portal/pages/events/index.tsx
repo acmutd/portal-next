@@ -70,7 +70,7 @@ interface QueryResultType {
 
 export default function EventPage() {
   const { data: session, status } = useSession({ required: true });
-  const [result, _] = useQuery<QueryResultType>({
+  const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
   const [__, updateEvent] = useMutation<
@@ -86,8 +86,6 @@ export default function EventPage() {
     DeleteOneEventArgs
   >(DELETE_EVENT_MUTATION);
 
-  const { data: queryResult, fetching, error } = result;
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<ActiveEventResult | null>(null);
 
@@ -97,7 +95,7 @@ export default function EventPage() {
     return <p className="text-white">Whoops... {error.message}</p>;
   }
 
-  const { me, upcomingEvents } = queryResult;
+  const { me, upcomingEvents } = queryResult!;
 
   if (currentEvent) {
     return isEditMode ? (

@@ -83,14 +83,14 @@ const ApplicationsPage: NextPage = () => {
       <header className="flex items-center justify-center relative mb-[30px]">
         <h1 className="text-[48px] font-Gilroy text-white font-semibold ml-auto">applications</h1>
 
-        {data.me.isOfficer && (
+        {data!.me.isOfficer && (
           <Link href="/opportunities/edit">
             <Button className="ml-auto">edit</Button>
           </Link>
         )}
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        {data.typeformApplications.map(
+        {data!.typeformApplications.map(
           ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
             <ApplicationCard
               key={id}
@@ -100,24 +100,25 @@ const ApplicationsPage: NextPage = () => {
                 <PopupButton
                   id={typeformId}
                   hidden={{
-                    email: data.me.profile.email,
-                    first_name: data.me.profile.firstName,
-                    last_name: data.me.profile.lastName,
-                    major: data.me.profile.major,
-                    net_id: data.me.profile.netid,
-                    classification: data.me.profile.classStanding,
+                    email: data!.me.profile.email,
+                    first_name: data!.me.profile.firstName,
+                    last_name: data!.me.profile.lastName,
+                    major: data!.me.profile.major,
+                    net_id: data!.me.profile.netid,
+                    classification: data!.me.profile.classStanding,
                   }}
                   className="my-button"
                 >
                   <Button>apply</Button>
                 </PopupButton>,
                 // exclude 'learn more' button when external url is blank
-                ...(externalResourceUrl &&
-                  externalResourceUrl !== '' && [
-                    <Link href={externalResourceUrl} target="_blank">
-                      <Button color="secondary">learn more</Button>
-                    </Link>,
-                  ]),
+                ...(externalResourceUrl && externalResourceUrl !== ''
+                  ? [
+                      <Link href={externalResourceUrl} target="_blank">
+                        <Button color="secondary">learn more</Button>
+                      </Link>,
+                    ]
+                  : []),
               ]}
               division={division}
             />

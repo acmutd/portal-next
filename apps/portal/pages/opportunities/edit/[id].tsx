@@ -1,4 +1,8 @@
-import { TypeformApplication } from '@prisma/client';
+import {
+  TypeformApplication,
+  DeleteOneTypeformApplicationArgs,
+  UpdateOneTypeformApplicationArgs,
+} from '@generated/type-graphql';
 import Button from 'components/Button';
 import { TypeformEditForm } from 'components/typeformApplicationSystem/update-application-form';
 import { NextPage } from 'next';
@@ -51,10 +55,10 @@ const EditApplicationPage: NextPage = () => {
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
     mutation UpdateOneTypeformApplication(
-      $update: TypeformApplicationUpdateInput!
+      $data: TypeformApplicationUpdateInput!
       $where: TypeformApplicationWhereUniqueInput!
     ) {
-      updateOneTypeformApplication(data: $update, where: $where) {
+      updateOneTypeformApplication(data: $data, where: $where) {
         id
         active
         description
@@ -76,24 +80,24 @@ const EditApplicationPage: NextPage = () => {
     }
   `;
 
-  const [_, updateTypeformApplication] = useMutation<any>(UPDATE_TYPEFORM_APPLICATION);
-  const [___, deleteTypeformApplication] = useMutation<any>(DELETE_TYPEFORM_APPLICATION);
-
-  type FormInputs = {
-    active: boolean;
-    description: string;
-    endpoint: string;
-    externalResourceUrl: string;
-    typeformId: string;
-    typeformName: string;
-    division: string;
-  };
+  const [_, updateTypeformApplication] = useMutation<
+    {
+      updateTypeformApplication: TypeformApplication;
+    },
+    UpdateOneTypeformApplicationArgs
+  >(UPDATE_TYPEFORM_APPLICATION);
+  const [___, deleteTypeformApplication] = useMutation<
+    {
+      deleteTypeformApplication: TypeformApplication;
+    },
+    DeleteOneTypeformApplicationArgs
+  >(DELETE_TYPEFORM_APPLICATION);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<Omit<TypeformApplication, 'id'>>();
 
   return (
     <div className="w-full p-20">
@@ -103,13 +107,13 @@ const EditApplicationPage: NextPage = () => {
         </div>
         <div className="w-full">
           {data ? (
-            TypeformEditForm(
-              handleSubmit,
-              register,
-              id,
-              updateTypeformApplication,
-              data.findFirstTypeformApplication,
-            )
+            <TypeformEditForm
+              currentApplicationData={data.findFirstTypeformApplication}
+              updateTypeformApplication={updateTypeformApplication}
+              id={id as string}
+              register={register}
+              handleSubmit={handleSubmit}
+            />
           ) : (
             <div>Loading..</div>
           )}
@@ -130,7 +134,7 @@ const EditApplicationPage: NextPage = () => {
           onClick={() => {
             deleteTypeformApplication({
               where: {
-                id,
+                id: id as string,
               },
             }).then(router.back);
           }}
