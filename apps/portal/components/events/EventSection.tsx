@@ -1,6 +1,4 @@
-import { Event } from '@prisma/client';
 import { EventResult } from 'lib/types/event';
-import { useSession } from 'next-auth/react';
 import AddEventCard from './AddEventCard';
 import EventCard from './EventCard';
 
