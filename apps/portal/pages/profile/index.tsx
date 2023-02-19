@@ -10,14 +10,15 @@ import { useState, useEffect } from 'react';
 import type { UpsertOneProfileArgs } from '@generated/type-graphql';
 import { setCookies } from 'cookies-next';
 import { gql, useMutation, useQuery } from 'urql';
-import ProfileField from 'components/ProfileField';
-import { Profile } from '@prisma/client';
+import ProfileEditView from 'components/profile/ProfileEditView';
+import { Profile } from '@generated/type-graphql';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 import Link from 'next/link';
 import EmailToast from 'components/EmailToast';
 import { GetServerSideProps } from 'next';
+import ProfileView from 'components/profile/ProfileView';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -55,12 +56,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
     }
   `;
 
-  const [_, updateProfile] = useMutation<
-    {
-      upsertOneProfile: Profile;
-    },
-    UpsertOneProfileArgs
-  >(UPDATE_PROFILE);
+  const [_, updateProfile] = useMutation<void, UpsertOneProfileArgs>(UPDATE_PROFILE);
 
   const { register, handleSubmit } = useForm<Profile>();
 
@@ -123,7 +119,27 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
               </button>
             )}
           </div>
-          {formEditMode ? renderFormEdit() : renderFormView(data!.profile)}
+          {formEditMode ? (
+            <ProfileEditView
+              handleSubmit={handleSubmit}
+              onUpdateFormCompleted={({ error }) => {
+                // TODO: add typed errors, see: check-netid.ts
+                if (error && error.message.includes('[VALIDATION_ERROR]')) {
+                  alert('NetID has already been linked to an account');
+                }
+                setFormEditMode(false);
+                reexecuteQuery();
+                Router.push('/profile');
+              }}
+              register={register}
+              updateProfile={updateProfile}
+              userEmail={session!.user!.email!}
+              userId={session!.id}
+              profile={data!.profile}
+            />
+          ) : (
+            <ProfileView profile={data!.profile} />
+          )}
         </div>
         {formEditMode && (
           <Link href="/auth/signin">
@@ -136,33 +152,6 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
       <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </>
   );
-
-  function renderFormView(profile: Profile): JSX.Element {
-    if (!profile) return <p className="text-gray-100">please set up your profile</p>;
-    return (
-      // view mode
-      <div className="flex w-1/2 flex-wrap mb-6">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <ProfileField label="first name" text={profile.firstName.toLowerCase()} />
-        </div>
-        <div className="w-full md:w-1/2 px-3">
-          <ProfileField label="last name" text={profile.lastName.toLowerCase()} />
-        </div>
-        <div className="w-full px-3">
-          <ProfileField label="email" text={profile.email.toLowerCase()} />
-        </div>
-        <div className="w-full px-3">
-          <ProfileField label="netid" text={profile.netid.toLowerCase()} />
-        </div>
-        <div className="w-full px-3">
-          <ProfileField label="class standing" text={profile.classStanding.toLowerCase()} />
-        </div>
-        <div className="w-full px-3">
-          <ProfileField label="major" text={profile.major.toLowerCase()} />
-        </div>
-      </div>
-    );
-  }
 
   function renderFormEdit(): JSX.Element {
     return (
