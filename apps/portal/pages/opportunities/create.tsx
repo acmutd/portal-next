@@ -1,4 +1,4 @@
-import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformCreateForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';

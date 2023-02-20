@@ -4,7 +4,7 @@ import {
   UpdateOneTypeformApplicationArgs,
 } from '@generated/type-graphql';
 import Button from 'components/Button';
-import { TypeformEditForm } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformEditForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
