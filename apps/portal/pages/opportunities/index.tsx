@@ -80,12 +80,12 @@ const ApplicationsPage: NextPage = () => {
     <div className="px-16 py-[65px] relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
       <CircularBlur backgroundColor="#daa635" bottom="20%" right="15%" />
-      <header className="flex items-center justify-center relative mb-[30px]">
-        <h1 className="text-[48px] font-Gilroy text-white font-semibold ml-auto">applications</h1>
+      <header className="flex items-center relative mb-[30px]">
+        <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
 
         {data!.me.isOfficer && (
           <Link href="/opportunities/edit">
-            <Button className="ml-auto">edit</Button>
+            <Button>edit</Button>
           </Link>
         )}
       </header>
