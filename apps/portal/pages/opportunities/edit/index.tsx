@@ -6,15 +6,8 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
+import { TypeformApplication } from '@generated/type-graphql';
 
-interface TypeformApplication {
-  id: string;
-  active: boolean;
-  description: string;
-  typeformId: string;
-  typeformName: string;
-  division: string;
-}
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
   me: {

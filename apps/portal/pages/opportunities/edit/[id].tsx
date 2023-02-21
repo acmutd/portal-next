@@ -2,6 +2,7 @@ import {
   TypeformApplication,
   DeleteOneTypeformApplicationArgs,
   UpdateOneTypeformApplicationArgs,
+  FindFirstTypeformApplicationArgs,
 } from '@generated/type-graphql';
 import Button from 'components/Button';
 import { TypeformEditForm } from 'components/typeformApplicationSystem';
@@ -30,14 +31,17 @@ const EditApplicationPage: NextPage = () => {
     }
   `;
 
-  const [{ data }] = useQuery<{
-    findFirstTypeformApplication: TypeformApplication;
-  }>({
+  const [{ data }] = useQuery<
+    {
+      findFirstTypeformApplication: TypeformApplication;
+    },
+    FindFirstTypeformApplicationArgs
+  >({
     query: GET_TYPEFORM,
     variables: {
       where: {
         id: {
-          equals: id,
+          equals: id as string,
         },
       },
     },

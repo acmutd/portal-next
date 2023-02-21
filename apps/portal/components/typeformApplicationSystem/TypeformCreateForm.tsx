@@ -1,26 +1,19 @@
 import Router from 'next/router';
-import type { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import type {
   CreateOneTypeformApplicationArgs,
   TypeformApplication,
 } from '@generated/type-graphql';
-import type { OperationContext, OperationResult } from 'urql';
+import type { ReactHookFormProps } from 'lib/types/form';
+import type { MutationFunctionType } from 'lib/types/graphql';
 
-type CreateTypeformApplicationMutationType = (
-  variables?: CreateOneTypeformApplicationArgs,
-  context?: Partial<OperationContext>,
-) => Promise<
-  OperationResult<
-    {
-      createOneTypeformApplication: TypeformApplication;
-    },
-    CreateOneTypeformApplicationArgs
-  >
+type CreateTypeformApplicationMutationType = MutationFunctionType<
+  CreateOneTypeformApplicationArgs,
+  {
+    createOneTypeformApplication: TypeformApplication;
+  }
 >;
 
-interface TypeformCreateFormProps {
-  handleSubmit: UseFormHandleSubmit<Omit<TypeformApplication, 'id'>>;
-  register: UseFormRegister<Omit<TypeformApplication, 'id'>>;
+interface TypeformCreateFormProps extends ReactHookFormProps<Omit<TypeformApplication, 'id'>> {
   createTypeformApplication: CreateTypeformApplicationMutationType;
 }
 

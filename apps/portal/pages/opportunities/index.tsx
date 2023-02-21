@@ -8,17 +8,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from 'urql';
-import { Profile } from '@generated/type-graphql';
-
-interface TypeformApplication {
-  id: string;
-  active: boolean;
-  description: string;
-  typeformId: string;
-  typeformName: string;
-  division: string;
-  externalResourceUrl: string;
-}
+import { Profile, TypeformApplication } from '@generated/type-graphql';
 
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];

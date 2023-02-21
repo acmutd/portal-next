@@ -1,20 +1,15 @@
-import type { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import type { Profile, UpsertOneProfileArgs } from '@generated/type-graphql';
-import type { OperationContext, OperationResult } from 'urql';
+import type { ReactHookFormProps } from 'lib/types/form';
+import type { MutationFunctionType } from 'lib/types/graphql';
 
-type UpdateProfileMutationType = (
-  variables?: UpsertOneProfileArgs | undefined,
-  context?: Partial<OperationContext> | undefined,
-) => Promise<OperationResult<void, UpsertOneProfileArgs>>;
+type UpdateProfileMutationType = MutationFunctionType<UpsertOneProfileArgs | undefined, void>;
 
-interface ProfileEditViewProps {
-  handleSubmit: UseFormHandleSubmit<Profile>;
+interface ProfileEditViewProps extends ReactHookFormProps<Profile> {
   profile?: Profile;
   updateProfile: UpdateProfileMutationType;
   userId: string;
   userEmail: string;
   onUpdateFormCompleted: (obj: Awaited<ReturnType<UpdateProfileMutationType>>) => void;
-  register: UseFormRegister<Profile>;
 }
 
 export default function ProfileEditView({
