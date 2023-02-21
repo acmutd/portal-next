@@ -16,6 +16,7 @@ import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Router from 'next/router';
 import Link from 'next/link';
+import EmailToast from 'components/EmailToast';
 
 export const getServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -24,6 +25,7 @@ export const getServerSideProps = async (ctx) => {
 
 export default function ProfilePage({ profileVisited }) {
   const { data: session, status } = useSession({ required: true });
+  const [open, setOpen] = useState(false);
 
   let pageTheme: any = 'dark';
   useEffect(() => {
@@ -55,11 +57,7 @@ export default function ProfilePage({ profileVisited }) {
 
   const [_, updateProfile] = useMutation<any, UpsertProfileArgs>(UPDATE_PROFILE);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm<Profile>();
 
   const PROFILE_QUERY = gql`
     query Query($where: ProfileWhereUniqueInput!) {
@@ -75,7 +73,7 @@ export default function ProfilePage({ profileVisited }) {
     }
   `;
 
-  const [profileResult, reexecuteQuery] = useQuery({
+  const [profileResult, reexecuteQuery] = useQuery<{ profile: Profile }>({
     query: PROFILE_QUERY,
     variables: {
       where: {
@@ -85,7 +83,7 @@ export default function ProfilePage({ profileVisited }) {
   });
 
   const { data, fetching, error } = profileResult;
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
@@ -112,6 +110,9 @@ export default function ProfilePage({ profileVisited }) {
                 type="submit"
                 className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
                 form="profile-form"
+                onClick={() => {
+                  setOpen(true);
+                }}
               >
                 save
               </button>
@@ -127,6 +128,7 @@ export default function ProfilePage({ profileVisited }) {
           </Link>
         )}
       </div>
+      <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </>
   );
 
@@ -167,7 +169,7 @@ export default function ProfilePage({ profileVisited }) {
             onSubmit={handleSubmit((vals) => {
               updateProfile({
                 where: {
-                  userId: session.id as string,
+                  netid: vals.netid || data.profile.netid,
                 },
                 create: {
                   user: {
@@ -187,22 +189,22 @@ export default function ProfilePage({ profileVisited }) {
                 },
                 update: {
                   firstName: {
-                    set: vals.firstName,
+                    set: vals.firstName || data.profile.firstName,
                   },
                   lastName: {
-                    set: vals.lastName,
+                    set: vals.lastName || data.profile.lastName,
                   },
                   netid: {
-                    set: vals.netid,
+                    set: vals.netid || data.profile.netid,
                   },
                   classStanding: {
-                    set: vals.classStanding,
+                    set: vals.classStanding || data.profile.classStanding,
                   },
                   major: {
-                    set: vals.major,
+                    set: vals.major || data.profile.major,
                   },
                   utdStudent: {
-                    set: vals.utdStudent,
+                    set: vals.utdStudent || data.profile.utdStudent,
                   },
                 },
               })

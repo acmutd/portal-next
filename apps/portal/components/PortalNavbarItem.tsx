@@ -83,11 +83,11 @@ const NavbarItem = React.forwardRef<
         href={href}
         onClick={onClick}
         ref={ref}
+        theme={theme}
         type="button"
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
         $active={$active}
-        theme={theme}
       >
         <motion.div
           style={{ position: 'relative', zIndex: 999, paddingLeft: '5%' }}

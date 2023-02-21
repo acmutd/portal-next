@@ -43,7 +43,8 @@ export default function SignInPage({ providers }: SignInPageProps) {
     }
     return (
       <div className="text-white font-semibold">
-        Error: {router.query.error} - Please contact an ACM Development officer
+        Error: {router.query.error} - Please contact an ACM Development officer for help or try
+        again.
       </div>
     );
   }

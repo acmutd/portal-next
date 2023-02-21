@@ -2,13 +2,13 @@ import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
-import { TypeformApplication } from '@prisma/client';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
 
+  const { data: session, status } = useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
     mutation CreateTypeformApplication($create: TypeformApplicationCreateInput!) {
       createTypeformApplication(data: $create) {
@@ -32,6 +32,7 @@ const CreateApplicationPage: NextPage = () => {
     externalResourceUrl: string;
     typeformId: string;
     typeformName: string;
+    division: string;
   };
   const {
     register,
@@ -56,6 +57,9 @@ const CreateApplicationPage: NextPage = () => {
             type="submit"
             className="bg-purple-600 text-gray-100 font-semibold px-12 py-2 rounded-lg"
             form="create-typeform"
+            onClick={() => {
+              sessionStorage.setItem('showToast', '1');
+            }}
           >
             save
           </button>

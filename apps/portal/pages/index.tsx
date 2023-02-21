@@ -1,8 +1,8 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { gql, useQuery } from 'urql';
+import { gql, useQuery, useMutation } from 'urql';
 import Link from 'next/link';
-import { Event } from '@generated/type-graphql';
+import { Event, EventReservation } from '@generated/type-graphql';
 
 import ACMButton from '../components/PortalButton';
 import { useEffect } from 'react';
@@ -45,6 +45,17 @@ export default function HomePage({ profileVisited, ...props }) {
       profile(where: $where) {
         firstName
         netid
+        email
+      }
+    }
+  `;
+
+  // Migrate data mutation
+  const MIGRATE_DATA_MUTATION = gql`
+    mutation CheckInOldEvent($email: String!, $netId: String!) {
+      checkInOldEvent(email: $email, netID: $netId) {
+        eventId
+        profileId
       }
     }
   `;
@@ -57,6 +68,10 @@ export default function HomePage({ profileVisited, ...props }) {
       },
     },
   });
+
+  const [_, migrateData] = useMutation<EventReservation, { email: string; netId: string }>(
+    MIGRATE_DATA_MUTATION,
+  );
 
   if (!session)
     return (
@@ -94,9 +109,25 @@ export default function HomePage({ profileVisited, ...props }) {
         <div>
           <img src="assets/acm/mrpeechi.png" alt="acm mascot" />
         </div>
-        <div className="hidden lg:block">
-          <h1 className="text-white text-5xl font-medium"> net ID </h1>
-          <h1 className="text-white text-3xl font-medion ml-8"> {data.profile.netid} </h1>
+        <div>
+          <div className="hidden lg:block">
+            <h1 className="text-white text-5xl font-medium"> net ID </h1>
+            <h1 className="text-white text-3xl font-medion ml-8"> {data.profile.netid} </h1>
+          </div>
+          <div className="my-5">
+            <ACMButton
+              onClick={() => {
+                migrateData({
+                  email: data.profile.email,
+                  netId: data.profile.netid,
+                }).then(() => alert('Success'));
+              }}
+              theme={pageTheme}
+              gradientcolor={'#4cb2e9'}
+            >
+              Migrate data
+            </ACMButton>
+          </div>
         </div>
       </div>
       {/* Attended event boxes */}
@@ -120,7 +151,7 @@ export default function HomePage({ profileVisited, ...props }) {
             </div>
           ))}
         </div>
-        <div className="absolute right-2 my-5">
+        <div className="w-fit ml-auto">
           <ACMButton
             onClick={() => {
               router.push('/events');

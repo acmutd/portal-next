@@ -3,6 +3,7 @@ import Button from 'components/Button';
 import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useMutation, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
@@ -13,7 +14,7 @@ interface TypeformApplication {
   description: string;
   typeformId: string;
   typeformName: string;
-  // division: string; in the future
+  division: string;
 }
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
@@ -30,6 +31,7 @@ const ApplicationsEditPage: NextPage = () => {
         description
         typeformId
         typeformName
+        division
       }
       me {
         isOfficer
@@ -48,7 +50,8 @@ const ApplicationsEditPage: NextPage = () => {
     },
   });
 
-  if (fetching) return <p className="text-gray-100">loading...</p>;
+  const { data: session, status } = useSession({ required: true });
+  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
   return (
@@ -65,18 +68,20 @@ const ApplicationsEditPage: NextPage = () => {
         <Link href="/opportunities/create">
           <AddNewApplicationCard />
         </Link>
-        {data.typeformApplications.map(({ id, typeformName, description, typeformId }) => (
-          <ApplicationCard
-            title={typeformName}
-            description={description}
-            buttons={[
-              <Link href={`/opportunities/edit/${id}`}>
-                <Button>edit</Button>
-              </Link>,
-            ]}
-            division="development."
-          />
-        ))}
+        {data.typeformApplications.map(
+          ({ id, typeformName, description, typeformId, division }) => (
+            <ApplicationCard
+              title={typeformName}
+              description={description}
+              buttons={[
+                <Link href={`/opportunities/edit/${id}`}>
+                  <Button>edit</Button>
+                </Link>,
+              ]}
+              division={division}
+            />
+          ),
+        )}
       </div>
     </div>
   );

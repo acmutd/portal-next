@@ -139,6 +139,14 @@ model TypeformApplication {
     externalResourceUrl String
     typeformId          String
     typeformName        String
+    division            String
 
     @@map("typeform_applications")
+}
+
+model VanityLink {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    originalUrl  String
+    vanityDomain String
+    slashtag     String
 }
