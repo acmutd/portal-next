@@ -30,15 +30,17 @@ export default function SingleEventView({
           })}
         </p>
         {isOfficer && (
-          <Link
-            className="whitespace-nowrap"
-            href={checkInLink}
-          >{`check in link: ${checkInLink}`}</Link>
-        )}
+          <>
+            <Link
+              className="whitespace-nowrap"
+              href={checkInLink}
+            >{`check in link: ${checkInLink}`}</Link>
 
-        <Link className="whitespace-nowrap" href={`/events/${event.id}/qrcode`}>
-          {'Click to view QR Code'}
-        </Link>
+            <Link className="whitespace-nowrap" href={`/events/${event.id}/qrcode`}>
+              {'Click to view QR Code'}
+            </Link>
+          </>
+        )}
       </div>
       <div className="flex flex-col gap-y-3 w-full lg:w-1/2 h-full my-auto p-2">
         <button className="p-3 border-2 rounded-lg" onClick={() => onGoBack()}>
