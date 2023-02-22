@@ -66,7 +66,8 @@ export default function ProfileEditView({
                   set: vals.major || profile!.major,
                 },
                 utdStudent: {
-                  set: vals.utdStudent || profile!.utdStudent,
+                  set:
+                    vals.utdStudent === undefined ? profile?.utdStudent || false : vals.utdStudent,
                 },
               },
             })
