@@ -1,10 +1,8 @@
 import { ActiveEventResult } from 'lib/types/event';
 import { useState } from 'react';
-import { DateTimePicker } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
-import { useForm, Resolver, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import DateTimePickerWrapper from './DateTimePickerWrapper';
-import { start } from 'repl';
 
 interface EventFormProps {
   event?: ActiveEventResult;

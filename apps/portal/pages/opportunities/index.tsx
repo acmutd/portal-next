@@ -8,17 +8,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from 'urql';
-import { Profile } from '@generated/type-graphql';
-
-interface TypeformApplication {
-  id: string;
-  active: boolean;
-  description: string;
-  typeformId: string;
-  typeformName: string;
-  division: string;
-  externalResourceUrl: string;
-}
+import { Profile, TypeformApplication } from '@generated/type-graphql';
 
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
@@ -53,7 +43,7 @@ const ApplicationsPage: NextPage = () => {
     }
   `;
 
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {
@@ -83,14 +73,14 @@ const ApplicationsPage: NextPage = () => {
       <header className="flex items-center relative mb-[30px]">
         <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
 
-        {data.me.isOfficer && (
+        {data!.me.isOfficer && (
           <Link href="/opportunities/edit">
             <Button>edit</Button>
           </Link>
         )}
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        {data.typeformApplications.map(
+        {data!.typeformApplications.map(
           ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
             <ApplicationCard
               key={id}
@@ -100,24 +90,25 @@ const ApplicationsPage: NextPage = () => {
                 <PopupButton
                   id={typeformId}
                   hidden={{
-                    email: data.me.profile.email,
-                    first_name: data.me.profile.firstName,
-                    last_name: data.me.profile.lastName,
-                    major: data.me.profile.major,
-                    net_id: data.me.profile.netid,
-                    classification: data.me.profile.classStanding,
+                    email: data!.me.profile.email,
+                    first_name: data!.me.profile.firstName,
+                    last_name: data!.me.profile.lastName,
+                    major: data!.me.profile.major,
+                    net_id: data!.me.profile.netid,
+                    classification: data!.me.profile.classStanding,
                   }}
                   className="my-button"
                 >
                   <Button>apply</Button>
                 </PopupButton>,
                 // exclude 'learn more' button when external url is blank
-                ...(externalResourceUrl &&
-                  externalResourceUrl !== '' && [
-                    <Link href={externalResourceUrl} target="_blank">
-                      <Button color="secondary">learn more</Button>
-                    </Link>,
-                  ]),
+                ...(externalResourceUrl && externalResourceUrl !== ''
+                  ? [
+                      <Link href={externalResourceUrl} target="_blank">
+                        <Button color="secondary">learn more</Button>
+                      </Link>,
+                    ]
+                  : []),
               ]}
               division={division}
             />

@@ -53,11 +53,16 @@ function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: Nex
 export default function CheckinPage() {
   const router = useRouter();
   const { slug } = router.query;
-  const { data: session, status } = useSession({
+  const { status } = useSession({
     required: true,
   });
 
-  const [_, checkInToEvent] = useMutation<any, CheckInMutationArgType>(CHECK_IN_MUTATION);
+  const [_, checkInToEvent] = useMutation<
+    {
+      checkInToEvent: unknown;
+    },
+    CheckInMutationArgType
+  >(CHECK_IN_MUTATION);
   const [queryError, setQueryError] = useState<CombinedError | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -75,7 +80,7 @@ export default function CheckinPage() {
     checkInToEvent({
       checkInData: {
         eventId: slug as string,
-        profileId: data.me.profile.id,
+        profileId: data!.me.profile.id,
       },
     }).then((result) => {
       if (result.error) {

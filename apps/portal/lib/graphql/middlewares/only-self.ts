@@ -35,6 +35,12 @@ export const onlySelfUpdateProfile: MiddlewareFn<TContext> = async ({ context, a
       netid: args.where.netid,
     },
   });
+  if (!profile) {
+    throw new CombinedError({
+      graphQLErrors: ['Profile creation required'],
+      response: args,
+    });
+  }
   if (profile.userId !== session.id) {
     throw new CombinedError({
       graphQLErrors: ['Invalid user found'],

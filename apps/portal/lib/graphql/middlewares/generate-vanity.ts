@@ -8,13 +8,26 @@ import { sendSlackNotification } from '../utilities/slack';
 
 export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
+  if (!session) {
+    throw new CombinedError({
+      graphQLErrors: ['Login required'],
+      response: args,
+    });
+  }
   const profile = await context.prisma.profile.findFirst({
     where: {
       userId: session.id,
     },
   });
 
-  const vanityObj = await context.prisma.vanityLink.findFirst({
+  if (!profile) {
+    throw new CombinedError({
+      graphQLErrors: ['Profile creation required'],
+      response: args,
+    });
+  }
+
+  const vanityObj: any = await context.prisma.vanityLink.findFirst({
     where: {
       id: args.where.id,
     },
@@ -57,6 +70,12 @@ export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context
       userId: session.id,
     },
   });
+  if (!profile) {
+    throw new CombinedError({
+      graphQLErrors: ['Profile creation required'],
+      response: args,
+    });
+  }
   const { originalUrl, vanityDomain, slashtag } = args.data as VanityLinkCreateInput;
   try {
     await generateVanityLink({

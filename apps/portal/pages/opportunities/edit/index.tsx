@@ -1,21 +1,13 @@
-import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
 import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { gql, useMutation, useQuery } from 'urql';
+import { gql, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
+import { TypeformApplication } from '@generated/type-graphql';
 
-interface TypeformApplication {
-  id: string;
-  active: boolean;
-  description: string;
-  typeformId: string;
-  typeformName: string;
-  division: string;
-}
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
   me: {
@@ -39,7 +31,7 @@ const ApplicationsEditPage: NextPage = () => {
     }
   `;
 
-  const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
+  const [{ data, fetching, error }, _] = useQuery<ActiveApplicationsQuery>({
     query: ACTIVE_APPLICATIONS_QUERY,
     variables: {
       where: {
@@ -50,7 +42,7 @@ const ApplicationsEditPage: NextPage = () => {
     },
   });
 
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
 
@@ -68,7 +60,7 @@ const ApplicationsEditPage: NextPage = () => {
         <Link href="/opportunities/create">
           <AddNewApplicationCard />
         </Link>
-        {data.typeformApplications.map(
+        {data!.typeformApplications.map(
           ({ id, typeformName, description, typeformId, division }) => (
             <ApplicationCard
               title={typeformName}

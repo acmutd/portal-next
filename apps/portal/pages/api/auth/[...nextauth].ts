@@ -3,7 +3,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import ACMAdminProvider from '../../../lib/providers/ACMAdminProvider';
-import { PrismaClient } from '@prisma/client';
 import { grantRole } from 'lib/auth/grant-role';
 import { getPrismaConnection } from 'lib/prisma/manager';
 
@@ -42,10 +41,10 @@ export default NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      if (user.email!.indexOf('@acmutd.co') !== -1 && account.provider === 'google') {
+      if (user.email!.indexOf('@acmutd.co') !== -1 && account!.provider === 'google') {
         return '/auth/error/officer';
       }
-      if (account.provider === 'google_admin') {
+      if (account!.provider === 'google_admin') {
         try {
           await grantRole(user.id, 'officer');
         } catch (error) {
@@ -55,7 +54,7 @@ export default NextAuth({
       return true;
     },
     async session({ session, token }) {
-      return { ...session, id: token.sub };
+      return { ...session, id: token.sub! };
     },
   },
 });

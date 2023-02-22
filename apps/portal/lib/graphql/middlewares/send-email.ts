@@ -27,7 +27,7 @@ export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
   const session = await getSession(context);
   const profile = await context.prisma.profile.findFirst({
     where: {
-      userId: session.id,
+      userId: session!.id,
     },
   });
   sendApplicationCreationEmail(
@@ -38,12 +38,12 @@ export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
       subject: 'Application Creation Confirmation',
       typeform_name: args.data.typeformName,
     },
-    profile.email,
+    profile!.email,
   );
   sendSlackNotification({
-    email: profile.email,
+    email: profile!.email,
     form_name: 'Application Generator',
-    name: `${profile.firstName} ${profile.lastName}`,
+    name: `${profile!.firstName} ${profile!.lastName}`,
   });
 };
 
@@ -52,24 +52,24 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
   const session = await getSession(context);
   const profile = await context.prisma.profile.findFirst({
     where: {
-      userId: session.id,
+      userId: session!.id,
     },
   });
   sendEventCreationEmail(
     {
       checkin_link: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
-      first_name: profile.firstName,
+      first_name: profile!.firstName,
       date: createdEvent.start.toDateString(),
-      last_name: profile.lastName,
+      last_name: profile!.lastName,
       name: createdEvent.summary,
       public_event: true,
       subject: 'Event Creation Confirmation',
     },
-    profile.email,
+    profile!.email,
   );
   sendSlackNotification({
-    email: profile.email,
-    name: `${profile.firstName} ${profile.lastName}`,
+    email: profile!.email,
+    name: `${profile!.firstName} ${profile!.lastName}`,
     form_name: 'Event Check-in Generator',
     url: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
   });

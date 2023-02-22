@@ -17,7 +17,7 @@ interface SignInPageProps {
 }
 
 // map providers to icons
-const providerIcons = {
+const providerIcons: Record<string, string> = {
   Google: '/assets/acm/google.png',
   Discord: '/assets/acm/discord.png',
   'ACM Account': '/assets/acm/logo_white.svg',

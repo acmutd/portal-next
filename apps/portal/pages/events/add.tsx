@@ -1,7 +1,7 @@
 import EventForm from 'components/events/EventForm';
 import { useRouter } from 'next/router';
 import { gql, useMutation, useQuery } from 'urql';
-import { Event, CreateEventArgs } from '@generated/type-graphql';
+import { Event, CreateOneEventArgs } from '@generated/type-graphql';
 import { useSession } from 'next-auth/react';
 
 interface QueryResultType {
@@ -19,8 +19,8 @@ const COMPONENT_QUERY = gql`
 `;
 
 const CREATE_EVENT_MUTATION = gql`
-  mutation CreateEvent($data: EventCreateInput!) {
-    createEvent(data: $data) {
+  mutation CreateOneEvent($data: EventCreateInput!) {
+    createOneEvent(data: $data) {
       id
     }
   }
@@ -28,21 +28,25 @@ const CREATE_EVENT_MUTATION = gql`
 
 export default function AddEventPage() {
   const router = useRouter();
-  const { data: session, status } = useSession({ required: true });
+  const { status } = useSession({ required: true });
 
-  const [result, _] = useQuery<QueryResultType>({
+  const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
-  const [__, createEvent] = useMutation<Event, CreateEventArgs>(CREATE_EVENT_MUTATION);
+  const [__, createEvent] = useMutation<
+    {
+      createOneEvent: Event;
+    },
+    CreateOneEventArgs
+  >(CREATE_EVENT_MUTATION);
 
-  const { data: queryResult, fetching, error } = result;
   if (fetching || status == 'loading') return <p>Loading...</p>;
   if (error) {
     console.log(error);
     return <p>Whoops... {error.message}</p>;
   }
 
-  const { me } = queryResult;
+  const { me } = queryResult!;
   if (!me.isOfficer) {
     return (
       <div>

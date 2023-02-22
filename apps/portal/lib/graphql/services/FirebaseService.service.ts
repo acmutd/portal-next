@@ -1,12 +1,10 @@
-import { PrismaClient } from '@prisma/client';
 import { singleton } from 'tsyringe';
-const { initializeApp, getApps, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
-require('dotenv').config();
+import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 
 @singleton()
 export default class FirebaseService {
-  db: any;
+  private db: Firestore;
   constructor() {
     if (!getApps().length) {
       initializeApp({
@@ -21,7 +19,7 @@ export default class FirebaseService {
           token_uri: process.env.FBASE_TOKENURI,
           auth_provider_x509_cert_url: process.env.FBASE_AUTHCERT,
           client_x509_cert_url: process.env.FBASE_CLIENTCERT,
-        }),
+        } as ServiceAccount),
       });
     }
     this.db = getFirestore();
@@ -35,9 +33,9 @@ export default class FirebaseService {
       .limit(1)
       .get();
 
-    const events = [];
+    const events: string[] = [];
 
-    if (querySnapshot.exists()) {
+    if (!querySnapshot.empty) {
       querySnapshot.forEach((doc) => {
         events.push(doc.data().past_events);
       });
