@@ -198,7 +198,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
                     set: vals.major || data!.profile.major,
                   },
                   utdStudent: {
-                    set: vals.utdStudent || data!.profile.utdStudent,
+                    set: vals.utdStudent || data!.profile.utdStudent || false,
                   },
                 },
               })
