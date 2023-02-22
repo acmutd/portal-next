@@ -94,7 +94,7 @@ const ACMButton = React.forwardRef<
           gradientcolor={gradientcolor}
         />
         <motion.div
-          style={{ position: 'relative', zIndex: 999 }}
+          style={{ position: 'relative' }}
           animate={{
             scale: hover ? 1.15 : 1,
             transition: { transition },
