@@ -80,7 +80,9 @@ const Skeleton = ({ children }: any) => {
               </Link>
               {pages.map((page, idx) => (
                 <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                  <ACMDesktopNavbarItem key={idx}>{page.name}</ACMDesktopNavbarItem>
+                  <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
+                    {page.name}
+                  </ACMDesktopNavbarItem>
                 </Link>
               ))}
             </ACMDesktopNavbar>
