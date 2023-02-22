@@ -8,15 +8,12 @@ export default class AdditionalCRUDEventService {
     const prisma = getPrismaConnection();
     const eventFilter = {
       where: {
-        isPublic: true,
+        ...(!userIsOfficer && { isPublic: true }),
         start: {
           gte: new Date(),
         },
       },
     };
-    if (userIsOfficer) {
-      delete eventFilter.where.isPublic;
-    }
     const events = await prisma.event.findMany(eventFilter);
     return events;
   }
@@ -28,7 +25,7 @@ export default class AdditionalCRUDEventService {
     const event_desc = [];
     const temp = event_names[0];
 
-    for (var i = 0; i < temp.length; i++) {
+    for (let i = 0; i < temp.length; i++) {
       const elem = JSON.parse(JSON.stringify(temp[i]));
       event_desc.push(elem.name);
     }

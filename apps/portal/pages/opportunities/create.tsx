@@ -1,17 +1,18 @@
-import { TypeformCreateForm } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformCreateForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation } from 'urql';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { TypeformApplication, CreateOneTypeformApplicationArgs } from '@generated/type-graphql';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
 
-  const { data: session, status } = useSession({ required: true });
+  useSession({ required: true });
   const CREATE_TYPEFORM_APPLICATION = gql`
-    mutation CreateTypeformApplication($create: TypeformApplicationCreateInput!) {
-      createTypeformApplication(data: $create) {
+    mutation CreateOneTypeformApplication($data: TypeformApplicationCreateInput!) {
+      createOneTypeformApplication(data: $data) {
         id
         active
         description
@@ -23,22 +24,14 @@ const CreateApplicationPage: NextPage = () => {
     }
   `;
 
-  const [__, createTypeformApplication] = useMutation<any>(CREATE_TYPEFORM_APPLICATION);
+  const [__, createTypeformApplication] = useMutation<
+    {
+      createOneTypeformApplication: TypeformApplication;
+    },
+    CreateOneTypeformApplicationArgs
+  >(CREATE_TYPEFORM_APPLICATION);
 
-  type FormInputs = {
-    active: boolean;
-    description: string;
-    endpoint: string;
-    externalResourceUrl: string;
-    typeformId: string;
-    typeformName: string;
-    division: string;
-  };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>();
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
   return (
     <div className="px-16 py-[65px] w-full">
       <header className="flex items-center justify-center relative mb-[30px]">
@@ -50,7 +43,11 @@ const CreateApplicationPage: NextPage = () => {
           <div className="text-2xl font-semibold text-gray-100">Create Typeform Application</div>
         </div>
         <div className="w-full flex justify-center">
-          {TypeformCreateForm(handleSubmit, register, createTypeformApplication)}
+          <TypeformCreateForm
+            handleSubmit={handleSubmit}
+            register={register}
+            createTypeformApplication={createTypeformApplication}
+          />
         </div>
         <div className="flex gap-20">
           <button

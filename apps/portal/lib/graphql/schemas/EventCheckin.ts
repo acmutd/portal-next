@@ -3,17 +3,17 @@ import { Field, InputType, ObjectType } from 'type-graphql';
 @InputType()
 export class EventCheckinInput {
   @Field()
-  public eventId: string;
+  public eventId!: string;
 
   @Field()
-  public profileId: string;
+  public profileId!: string;
 }
 
 @ObjectType()
 export class EventCheckin {
   @Field()
-  public eventId: string;
+  public eventId!: string;
 
   @Field()
-  public profileId: string;
+  public profileId!: string;
 }

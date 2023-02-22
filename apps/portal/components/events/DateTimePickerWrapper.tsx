@@ -44,7 +44,7 @@ export default function DateTimePickerWrapper({
       value={new Date(date)}
       minDate={moment(minDate)}
       onChange={(newValue) => {
-        setDate(newValue.toISOString());
+        setDate(newValue?.toISOString() || '');
       }}
       renderInput={renderInput}
     />

@@ -10,7 +10,7 @@ export default class AdditionalUserService {
   constructor() {
     this.prismaConnection = getPrismaConnection();
   }
-  async getUserById(userId: string): Promise<User> {
+  async getUserById(userId: string): Promise<User | null> {
     return this.prismaConnection.user.findFirst({
       where: {
         id: userId,
@@ -26,7 +26,7 @@ export default class AdditionalUserService {
     });
     const isOfficer = await this.prismaConnection.rolesOnUser.findFirst({
       where: {
-        roleId: officerRole.id,
+        roleId: officerRole!.id,
         userId,
       },
     });

@@ -1,4 +1,3 @@
-import { Event } from '@prisma/client';
 import { ActiveEventResult } from 'lib/types/event';
 import Link from 'next/link';
 

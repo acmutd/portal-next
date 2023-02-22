@@ -1,6 +1,6 @@
-import React, { RefObject, useState } from 'react';
-import styled, { StyledComponent } from 'styled-components';
-import { ForwardRefComponent, HTMLMotionProps, motion } from 'framer-motion';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface ACMNavbarItemPropTypes {
   children?: React.ReactNode;

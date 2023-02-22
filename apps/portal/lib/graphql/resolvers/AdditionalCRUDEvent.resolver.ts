@@ -14,7 +14,7 @@ export default class AdditionalCRUDEventResolver {
   @Query(() => [Event])
   @UseMiddleware(InjectSessionMiddleware)
   async upcomingEvents(@Ctx() context: TContext): Promise<Event[]> {
-    const userIsOfficer = await checkIfUserIsOfficer(context.session.id);
+    const userIsOfficer = await checkIfUserIsOfficer(context.session!.id);
     return this.eventSerivce.getUpcomingEvent(userIsOfficer);
   }
 }
