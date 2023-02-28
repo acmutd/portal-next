@@ -85,7 +85,7 @@ const ACMButton = React.forwardRef<
         onHoverEnd={() => setHover(false)}
         width={width}
         fontSize={fontSize}
-        rounded={rounded ? true : undefined}
+        rounded={rounded}
         theme={theme}
       >
         <StyledBG
@@ -94,7 +94,7 @@ const ACMButton = React.forwardRef<
           gradientcolor={gradientcolor}
         />
         <motion.div
-          style={{ position: 'relative', zIndex: 999 }}
+          style={{ position: 'relative' }}
           animate={{
             scale: hover ? 1.15 : 1,
             transition: { transition },
@@ -108,56 +108,3 @@ const ACMButton = React.forwardRef<
 });
 
 export default ACMButton;
-
-// const TACMButton = React.forwardRef(
-//   (
-//     {
-//       // props needed to make the prop next/link compatible
-//       onClick,
-//       href,
-//       ...props
-//     }: React.PropsWithChildren<NextLinkForwardRefTypes & ACMButtonPropTypes>,
-//     ref: Ref<HTMLAnchorElement>,
-//   ): JSX.Element => {
-//     const [hover, setHover] = useState<boolean>(false);
-
-//     const transition = {
-//       type: 'spring',
-//       duration: 0.5,
-//       bounce: 0.4,
-//     };
-
-//     return (
-//       <a href={href} onClick={onClick} ref={ref}>
-//         <StyledButton
-//           type="button"
-//           onHoverStart={() => setHover(true)}
-//           onHoverEnd={() => setHover(false)}
-//           animate={{
-//             scale: hover ? 1.02 : 1,
-//             transition: { transition },
-//           }}
-//           {...props}
-//         >
-//           <StyledBG
-//             animate={{
-//               x: hover ? -props.width - 20 : 0,
-//             }}
-//             {...props}
-//           />
-//           <motion.div
-//             style={{ position: 'relative', zIndex: 999 }}
-//             animate={{
-//               scale: hover ? 1.15 : 1,
-//               transition: { transition },
-//             }}
-//           >
-//             {props.children}
-//           </motion.div>
-//         </StyledButton>
-//       </a>
-//     );
-//   },
-// );
-
-// export default ACMButton;

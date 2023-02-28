@@ -35,7 +35,7 @@ export const onlySelfUpdateProfile: MiddlewareFn<TContext> = async ({ context, a
       netid: args.where.netid,
     },
   });
-  if (profile.userId !== session.id) {
+  if (profile && profile.userId !== session.id) {
     throw new CombinedError({
       graphQLErrors: ['Invalid user found'],
     });

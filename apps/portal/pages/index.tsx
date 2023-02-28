@@ -6,13 +6,14 @@ import { Event, EventReservation } from '@generated/type-graphql';
 
 import ACMButton from '../components/PortalButton';
 import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
   return { props: { profileVisited: profileVisited ?? null } };
 };
 
-export default function HomePage({ profileVisited, ...props }) {
+export default function HomePage({ profileVisited }: { profileVisited: boolean }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 

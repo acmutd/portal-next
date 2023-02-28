@@ -12,7 +12,7 @@ import SingleEventView from 'components/events/SingleEventView';
 import { gql, useMutation, useQuery } from 'urql';
 import { ActiveEventResult, EventResult } from '../../lib/types/event';
 import EventForm from 'components/events/EventForm';
-import { Event, UpdateEventArgs, DeleteEventArgs } from '@generated/type-graphql';
+import { Event, UpdateOneEventArgs, DeleteOneEventArgs } from '@generated/type-graphql';
 import { useSession } from 'next-auth/react';
 
 const COMPONENT_QUERY = gql`
@@ -39,8 +39,8 @@ const COMPONENT_QUERY = gql`
 `;
 
 const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateEvent($data: EventUpdateInput!, $where: EventWhereUniqueInput!) {
-    updateEvent(data: $data, where: $where) {
+  mutation UpdateOneEvent($data: EventUpdateInput!, $where: EventWhereUniqueInput!) {
+    updateOneEvent(data: $data, where: $where) {
       summary
       description
       url
@@ -53,8 +53,8 @@ const UPDATE_EVENT_MUTATION = gql`
 `;
 
 const DELETE_EVENT_MUTATION = gql`
-  mutation DeleteEvent($where: EventWhereUniqueInput!) {
-    deleteEvent(where: $where) {
+  mutation DeleteOneEvent($where: EventWhereUniqueInput!) {
+    deleteOneEvent(where: $where) {
       id
     }
   }
@@ -69,14 +69,22 @@ interface QueryResultType {
 }
 
 export default function EventPage() {
-  const { data: session, status } = useSession({ required: true });
-  const [result, _] = useQuery<QueryResultType>({
+  const { status } = useSession({ required: true });
+  const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
     query: COMPONENT_QUERY,
   });
-  const [__, updateEvent] = useMutation<Event, UpdateEventArgs>(UPDATE_EVENT_MUTATION);
-  const [__2, deleteEvent] = useMutation<Event, DeleteEventArgs>(DELETE_EVENT_MUTATION);
-
-  const { data: queryResult, fetching, error } = result;
+  const [__, updateEvent] = useMutation<
+    {
+      updateOneEvent: Event;
+    },
+    UpdateOneEventArgs
+  >(UPDATE_EVENT_MUTATION);
+  const [__2, deleteEvent] = useMutation<
+    {
+      deleteOneEvent: Event;
+    },
+    DeleteOneEventArgs
+  >(DELETE_EVENT_MUTATION);
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<ActiveEventResult | null>(null);
@@ -87,7 +95,7 @@ export default function EventPage() {
     return <p className="text-white">Whoops... {error.message}</p>;
   }
 
-  const { me, upcomingEvents } = queryResult;
+  const { me, upcomingEvents } = queryResult!;
 
   if (currentEvent) {
     return isEditMode ? (

@@ -5,20 +5,20 @@ import Action from '../../enums/Action';
 @InputType()
 export class SignedURLInput {
   @Field(() => Action, { nullable: true })
-  public action: Action;
+  public action!: Action;
 
   @Field(() => FileCategory, { nullable: true })
-  public fileType: FileCategory;
+  public fileType!: FileCategory;
 }
 
 @ObjectType()
 export default class SignedURL {
   @Field(() => Action, { nullable: true })
-  public action: Action;
+  public action!: Action;
 
   @Field(() => FileCategory, { nullable: true })
-  public fileType: FileCategory;
+  public fileType!: FileCategory;
 
   @Field({ nullable: true })
-  public url: string;
+  public url!: string;
 }

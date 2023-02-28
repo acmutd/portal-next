@@ -15,8 +15,9 @@ import EventIcon from '../icons/EventIcon';
 import ProfileIcon from '../icons/ProfileIcon';
 import ApplyIcon from '../icons/ApplyIcon';
 import CameraIcon from '../icons/CameraIcon';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
+import SignOutIcon from '../icons/SignOutIcon';
 
 const pages = [
   {
@@ -47,7 +48,7 @@ const pages = [
   {
     uri: '/auth/signout',
     name: 'sign out',
-    svg: HomeIcon,
+    svg: SignOutIcon,
   },
 ];
 
@@ -80,7 +81,9 @@ const Skeleton = ({ children }: any) => {
               </Link>
               {pages.map((page, idx) => (
                 <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                  <ACMDesktopNavbarItem key={idx}>{page.name}</ACMDesktopNavbarItem>
+                  <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
+                    {page.name}
+                  </ACMDesktopNavbarItem>
                 </Link>
               ))}
             </ACMDesktopNavbar>

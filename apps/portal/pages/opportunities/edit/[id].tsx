@@ -1,26 +1,21 @@
-import { TypeformApplication } from '@prisma/client';
+import {
+  TypeformApplication,
+  DeleteOneTypeformApplicationArgs,
+  UpdateOneTypeformApplicationArgs,
+  FindFirstTypeformApplicationArgs,
+} from '@generated/type-graphql';
 import Button from 'components/Button';
-import { TypeformEditForm } from 'components/typeformApplicationSystem/update-application-form';
+import { TypeformEditForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import { Router, useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation, useQuery } from 'urql';
-
-// interface TypeformApplication {
-//   id: string;
-//   active: boolean;
-//   description: string;
-//   typeformId: string;
-//   typeformName: string;
-//   // division: string; in the future
-// }
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data: session } = useSession({ required: true });
+  useSession({ required: true });
 
   const GET_TYPEFORM = gql`
     query FindFirstTypeformApplication($where: TypeformApplicationWhereInput) {
@@ -36,25 +31,28 @@ const EditApplicationPage: NextPage = () => {
     }
   `;
 
-  const [{ data }] = useQuery<{
-    findFirstTypeformApplication: TypeformApplication;
-  }>({
+  const [{ data }] = useQuery<
+    {
+      findFirstTypeformApplication: TypeformApplication;
+    },
+    FindFirstTypeformApplicationArgs
+  >({
     query: GET_TYPEFORM,
     variables: {
       where: {
         id: {
-          equals: id,
+          equals: id as string,
         },
       },
     },
   });
 
   const UPDATE_TYPEFORM_APPLICATION = gql`
-    mutation UpdateTypeformApplication(
-      $update: TypeformApplicationUpdateInput!
+    mutation UpdateOneTypeformApplication(
+      $data: TypeformApplicationUpdateInput!
       $where: TypeformApplicationWhereUniqueInput!
     ) {
-      updateTypeformApplication(data: $update, where: $where) {
+      updateOneTypeformApplication(data: $data, where: $where) {
         id
         active
         description
@@ -67,8 +65,8 @@ const EditApplicationPage: NextPage = () => {
   `;
 
   const DELETE_TYPEFORM_APPLICATION = gql`
-    mutation DeleteTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
-      deleteTypeformApplication(where: $where) {
+    mutation DeleteOneTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
+      deleteOneTypeformApplication(where: $where) {
         id
         typeformName
         description
@@ -76,24 +74,20 @@ const EditApplicationPage: NextPage = () => {
     }
   `;
 
-  const [_, updateTypeformApplication] = useMutation<any>(UPDATE_TYPEFORM_APPLICATION);
-  const [___, deleteTypeformApplication] = useMutation<any>(DELETE_TYPEFORM_APPLICATION);
+  const [_, updateTypeformApplication] = useMutation<
+    {
+      updateTypeformApplication: TypeformApplication;
+    },
+    UpdateOneTypeformApplicationArgs
+  >(UPDATE_TYPEFORM_APPLICATION);
+  const [___, deleteTypeformApplication] = useMutation<
+    {
+      deleteTypeformApplication: TypeformApplication;
+    },
+    DeleteOneTypeformApplicationArgs
+  >(DELETE_TYPEFORM_APPLICATION);
 
-  type FormInputs = {
-    active: boolean;
-    description: string;
-    endpoint: string;
-    externalResourceUrl: string;
-    typeformId: string;
-    typeformName: string;
-    division: string;
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormInputs>();
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
 
   return (
     <div className="w-full p-20">
@@ -103,13 +97,13 @@ const EditApplicationPage: NextPage = () => {
         </div>
         <div className="w-full">
           {data ? (
-            TypeformEditForm(
-              handleSubmit,
-              register,
-              id,
-              updateTypeformApplication,
-              data.findFirstTypeformApplication,
-            )
+            <TypeformEditForm
+              currentApplicationData={data.findFirstTypeformApplication}
+              updateTypeformApplication={updateTypeformApplication}
+              id={id as string}
+              register={register}
+              handleSubmit={handleSubmit}
+            />
           ) : (
             <div>Loading..</div>
           )}
@@ -130,7 +124,7 @@ const EditApplicationPage: NextPage = () => {
           onClick={() => {
             deleteTypeformApplication({
               where: {
-                id,
+                id: id as string,
               },
             }).then(router.back);
           }}

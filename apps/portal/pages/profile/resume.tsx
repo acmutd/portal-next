@@ -11,17 +11,25 @@ import DocumentIcon from 'apps/portal/icons/DocumentIcon';
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
-  const uploadRef = useRef<HTMLInputElement>();
+  const uploadRef = useRef<HTMLInputElement | null>(null);
   const { data: session, status } = useSession({ required: true });
 
-  const GET_SIGNED_URL = `
+  const GET_SIGNED_URL = gql`
     mutation resume_GetSignedURlMutation($options: SignedURLInput!) {
       transferFile(options: $options) {
         url
       }
     }
   `;
-  const [_, getSignedUrl] = useMutation(GET_SIGNED_URL);
+  const [_, getSignedUrl] = useMutation<
+    { transferFile: { url: string } },
+    {
+      options: {
+        action: string;
+        fileType: string;
+      };
+    }
+  >(GET_SIGNED_URL);
 
   const HOMEPAGE_QUERY = gql`
     query Query($where: ProfileWhereUniqueInput!) {
@@ -35,7 +43,7 @@ export default function ResumePage() {
     }
   `;
 
-  const [{ data, error }, refetchResume] = useQuery({
+  const [{ data }, refetchResume] = useQuery({
     query: HOMEPAGE_QUERY,
     variables: {
       where: {
@@ -46,8 +54,9 @@ export default function ResumePage() {
   });
 
   const handleResumeUploadReady = useCallback(() => {
+    if (!uploadRef.current || !uploadRef.current.files) return;
     if (
-      uploadRef.current.files.length !== 1 ||
+      uploadRef.current.files!.length !== 1 ||
       uploadRef.current.files[0].size > 2000000 ||
       (!(uploadRef.current.files[0].type === mime.lookup('.pdf')) &&
         !(uploadRef.current.files[0].type === mime.lookup('.docx')) &&
@@ -76,16 +85,16 @@ export default function ResumePage() {
 
       const { url } = result.data.transferFile;
 
-      const fileName = `${session.user.name.replace(/\W/g, '')}_resume.${mime.extension(
-        uploadRef.current.files[0].type,
+      const fileName = `${session!.user!.name!.replace(/\W/g, '')}_resume.${mime.extension(
+        uploadRef.current!.files![0].type,
       )}`; // FirstnameLastname_resume.extension
 
       const disposition = contentDisposition(fileName); // This will be the default filename when downloading
 
       axios
-        .put(url, uploadRef.current.files[0], {
+        .put(url, uploadRef.current!.files![0], {
           headers: {
-            'Content-Type': mime.contentType(uploadRef.current.files[0].type),
+            'Content-Type': mime.contentType(uploadRef.current!.files![0].type),
             'Content-Disposition': disposition,
           },
         })

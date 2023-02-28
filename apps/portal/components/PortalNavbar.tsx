@@ -29,7 +29,7 @@ const DesktopDivBG = styled.div`
   width: 90%;
 `;
 
-export default function Navbar({ children }) {
+export default function Navbar({ children }: React.PropsWithChildren<unknown>) {
   return (
     <>
       <Placeholder />

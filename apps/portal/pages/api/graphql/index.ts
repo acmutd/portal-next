@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server-micro';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { ApolloServer } from '@apollo/server';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { buildSchemaSync } from 'type-graphql';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
@@ -17,6 +18,7 @@ import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 
 import { exposedResolvers } from '../../../lib/graphql/typegraphql-prisma/exposedResolvers';
 import OldEventResolver from 'lib/graphql/resolvers/OldEvent.resolver';
+import { TContext } from 'lib/graphql/interfaces/context.interface';
 
 if (process.env.NODE_ENV !== 'development') {
   applyResolversEnhanceMap(resolversEnhanceMap);
@@ -36,31 +38,15 @@ const schema = buildSchemaSync({
     get: (someClass) => container.resolve(someClass),
   },
   scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+  validate: { forbidUnknownValues: false },
 });
 
-const apolloServer = new ApolloServer({
+const apolloServer = new ApolloServer<TContext>({
   schema,
   introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-  context: ({ req }) => ({ req, prisma: getPrismaConnection() }),
 });
 
-const startServer = apolloServer.start();
-
-export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.end();
-    return false;
-  }
-
-  await startServer;
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res);
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export default startServerAndCreateNextHandler(apolloServer, {
+  context: async (req, res) => ({ req, res, prisma: getPrismaConnection() }),
+});

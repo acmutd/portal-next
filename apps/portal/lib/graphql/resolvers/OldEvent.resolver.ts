@@ -1,13 +1,11 @@
 import { Event } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
-import { Arg, Ctx, FieldResolver, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
-import { InjectSessionMiddleware } from '../middlewares/inject-session';
 import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
-import { EventCheckin, EventCheckinInput } from '../schemas/EventCheckin';
-import { CombinedError } from 'urql';
+import { EventCheckin } from '../schemas/EventCheckin';
 
 @Resolver(() => Event)
 @injectable()

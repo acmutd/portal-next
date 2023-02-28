@@ -13,32 +13,32 @@ import { addTypeformHiddenFields, addTypeformWebhook } from '../middlewares/type
 
 export const resolversEnhanceMap: ResolversEnhanceMap = {
   Event: {
-    createEvent: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEventCreationComplete)],
-    updateEvent: [UseMiddleware(onlyOfficerAllowed)],
-    deleteEvent: [UseMiddleware(onlyOfficerAllowed)],
+    createOneEvent: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEventCreationComplete)],
+    updateOneEvent: [UseMiddleware(onlyOfficerAllowed)],
+    deleteOneEvent: [UseMiddleware(onlyOfficerAllowed)],
   },
   TypeformApplication: {
-    createTypeformApplication: [
+    createOneTypeformApplication: [
       UseMiddleware(onlyOfficerAllowed),
       UseMiddleware(onApplicationCreationComplete),
       UseMiddleware(addTypeformHiddenFields),
       UseMiddleware(addTypeformWebhook),
     ],
-    updateTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
-    deleteTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
+    updateOneTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
+    deleteOneTypeformApplication: [UseMiddleware(onlyOfficerAllowed)],
   },
   EventReservation: {
-    createEventReservation: [UseMiddleware(onlySelfCheckIn)],
+    createOneEventReservation: [UseMiddleware(onlySelfCheckIn)],
   },
   Profile: {
-    upsertProfile: [
+    upsertOneProfile: [
       UseMiddleware(onlySelfUpdateProfile),
       UseMiddleware(checkNetId),
       UseMiddleware(onProfileCreationComplete),
     ],
   },
   VanityLink: {
-    createVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
-    updateVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEditVanityLink)],
+    createOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
+    updateOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEditVanityLink)],
   },
 };

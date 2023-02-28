@@ -1,5 +1,24 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nextConfig = {};
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  distDir: 'build',
+  webpack: function (config, { isServer, webpack }) {
+    if (!isServer) {
+      // Ensures no server modules are included on the client.
+      config.plugins.push(
+        new webpack.IgnorePlugin({
+          resourceRegExp: /lib\/server/,
+        }),
+      );
+    }
+    config.experiments = { layers: true, topLevelAwait: true };
+    if (isNext12(config)) {
+      return updateNextGreaterThan12Config(config);
+    }
+
+    return updateNextLessThan12Config(config);
+  },
+};
 
 const isNext12 = (config) => !!config.module.rules.find((rule) => rule.oneOf);
 
@@ -31,23 +50,4 @@ const updateNextLessThan12Config = (config) => {
   return config;
 };
 
-module.exports = {
-  reactStrictMode: true,
-  distDir: 'build',
-  webpack: function (config, { isServer, webpack }) {
-    if (!isServer) {
-      // Ensures no server modules are included on the client.
-      config.plugins.push(
-        new webpack.IgnorePlugin({
-          resourceRegExp: /lib\/server/,
-        }),
-      );
-    }
-    config.experiments = { layers: true, topLevelAwait: true };
-    if (isNext12(config)) {
-      return updateNextGreaterThan12Config(config);
-    }
-
-    return updateNextLessThan12Config(config);
-  },
-};
+module.exports = nextConfig;
