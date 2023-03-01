@@ -1,17 +1,9 @@
-# https://github.com/prettier/prettier/issues/4081
-# Must include .prettierignore in each directory that will run prettier
-# Add files here to ignore them from prettier formatting
-dist
-.build
-coverage
 .cache
 .husky
 .next
 .vscode
+package.json
 package-lock.json
 public
 schema.gql
-generated
-.serverless
-.webpack
-node_modules
+queries/__generated__/

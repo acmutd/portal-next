@@ -1,24 +1,42 @@
 {
   "extends": [
+    "next",
+    "next/core-web-vitals",
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:eslint-comments/recommended",
-    "plugin:jest/recommended",
-    "plugin:jest/style",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "eslint-comments", "jest"],
+  "ignorePatterns": ["*.config.js", "**/*", "*.config.js", "build", "public"],
+  "plugins": ["@typescript-eslint", "eslint-comments"],
   "root": true,
   "globals": {},
   "rules": {
     "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "off",
+    "no-underscore-dangle": "off",
+    "react/require-default-props": "off"
   },
   "parser": "@typescript-eslint/parser",
-  "env": { "jest/globals": true },
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "overrides": [],
-  "settings": {}
+  "settings": {},
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  }
 }
