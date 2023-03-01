@@ -1,11 +1,29 @@
 {
-  "extends": "./tsconfig.build.json",
   "compilerOptions": {
+    "target": "es2018",
     "baseUrl": ".",
+    "lib": ["dom", "dom.iterable", "esnext", "ESNext.AsyncIterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["node"],
     "paths": {
-      "@acmutd/*": ["packages/*"]
-      // "@acmutd/acm-ui": ["packages/acm-ui/src"]
-    },
-    "jsx": "react-jsx"
-  }
+      "lib/*": ["lib/*"],
+      "components/*": ["components/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/next-auth.d.ts"]
 }
