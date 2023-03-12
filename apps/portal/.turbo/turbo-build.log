@@ -1,0 +1,46 @@
+
+> build
+> next build
+
+info  - Linting and checking validity of types...
+info  - Creating an optimized production build...
+info  - Disabled SWC as replacement for Babel because of custom Babel configuration ".babelrc" https://nextjs.org/docs/messages/swc-disabled
+info  - Compiled successfully
+info  - Collecting page data...
+info  - Generating static pages (0/12)
+info  - Generating static pages (3/12)
+info  - Generating static pages (6/12)
+info  - Generating static pages (9/12)
+info  - Generating static pages (12/12)
+info  - Finalizing page optimization...
+
+Route (pages)                              Size     First Load JS
+┌ λ /                                      2.84 kB         165 kB
+├   /_app                                  0 B             162 kB
+├ ○ /404                                   1.48 kB         163 kB
+├ λ /api/auth/[...nextauth]                0 B             162 kB
+├ λ /api/graphql                           0 B             162 kB
+├ ○ /auth/error/officer                    425 B           162 kB
+├ λ /auth/signin                           555 B           162 kB
+├ ○ /checkin/[slug]                        2.71 kB         164 kB
+├ ○ /events                                1.64 kB         163 kB
+├ ○ /events/[slug]                         297 B           162 kB
+├ ○ /opportunities                         15.1 kB         177 kB
+├ ○ /opportunities/create                  1.8 kB          171 kB
+├ ○ /opportunities/edit                    2.56 kB         164 kB
+├ ○ /opportunities/edit/[id]               2.26 kB         172 kB
+├ λ /profile                               4.47 kB         174 kB
+├ ○ /profile/resume                        39.8 kB         202 kB
+└ ○ /rsvp/[slug]                           306 B           162 kB
++ First Load JS shared by all              166 kB
+  ├ chunks/framework-0bff4c72fef67389.js   42 kB
+  ├ chunks/main-134846e1f2c7d759.js        29.6 kB
+  ├ chunks/pages/_app-2a11b30b41bfaa82.js  88.5 kB
+  ├ chunks/webpack-217c4792bd6c72aa.js     1.64 kB
+  └ css/8ebddd4c7083efa1.css               4.58 kB
+
+ƒ Middleware                               22 kB
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
