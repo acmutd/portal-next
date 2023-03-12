@@ -1,0 +1,36 @@
+{
+  "permalink": "/blog/welcome",
+  "editUrl": "https://github.com/acmutd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/blog/2022-03-15-welcome/index.md",
+  "source": "@site/blog/2022-03-15-welcome/index.md",
+  "title": "Welcome",
+  "description": "First Blog Post! Very excited to see how the ACM Leadership Project continues to grow!",
+  "date": "2022-03-15T00:00:00.000Z",
+  "formattedDate": "March 15, 2022",
+  "tags": [
+    {
+      "label": "general",
+      "permalink": "/blog/tags/general"
+    }
+  ],
+  "readingTime": 0.075,
+  "truncated": false,
+  "authors": [
+    {
+      "name": "Harsha Srikara",
+      "title": "Strategic Advisor @ ACM",
+      "url": "https://harshasrikara.dev",
+      "imageURL": "https://github.com/harshasrikara.png",
+      "key": "harsha"
+    }
+  ],
+  "frontMatter": {
+    "slug": "welcome",
+    "title": "Welcome",
+    "authors": [
+      "harsha"
+    ],
+    "tags": [
+      "general"
+    ]
+  }
+}

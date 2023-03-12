@@ -1,0 +1,27 @@
+{
+  "unversionedId": "guides/monorepo/build-tools",
+  "id": "guides/monorepo/build-tools",
+  "title": "Build Tools",
+  "description": "Turborepo",
+  "source": "@site/docs/guides/monorepo/build-tools.md",
+  "sourceDirName": "guides/monorepo",
+  "slug": "/guides/monorepo/build-tools",
+  "permalink": "/docs/guides/monorepo/build-tools",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/guides/monorepo/build-tools.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "NPM Workspaces",
+    "permalink": "/docs/guides/monorepo/npm-workspaces"
+  },
+  "next": {
+    "title": "Configurations",
+    "permalink": "/docs/guides/monorepo/configurations"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "unversionedId": "api-reference/slack",
+  "id": "api-reference/slack",
+  "title": "Slack",
+  "description": "",
+  "source": "@site/docs/api-reference/slack.md",
+  "sourceDirName": "api-reference",
+  "slug": "/api-reference/slack",
+  "permalink": "/docs/api-reference/slack",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/api-reference/slack.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Email",
+    "permalink": "/docs/api-reference/email"
+  },
+  "next": {
+    "title": "Learning Resources",
+    "permalink": "/docs/resources"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "unversionedId": "api-reference/email",
+  "id": "api-reference/email",
+  "title": "Email",
+  "description": "",
+  "source": "@site/docs/api-reference/email.md",
+  "sourceDirName": "api-reference",
+  "slug": "/api-reference/email",
+  "permalink": "/docs/api-reference/email",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/api-reference/email.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Check-In",
+    "permalink": "/docs/api-reference/checkin"
+  },
+  "next": {
+    "title": "Slack",
+    "permalink": "/docs/api-reference/slack"
+  }
+}

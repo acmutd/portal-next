@@ -1,0 +1,27 @@
+{
+  "unversionedId": "guides/ui components/create-new-components",
+  "id": "guides/ui components/create-new-components",
+  "title": "Creating Components",
+  "description": "Open the project with code workspace.code-workspace.",
+  "source": "@site/docs/guides/ui components/create-new-components.md",
+  "sourceDirName": "guides/ui components",
+  "slug": "/guides/ui components/create-new-components",
+  "permalink": "/docs/guides/ui components/create-new-components",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/guides/ui components/create-new-components.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "ACMButton Reference",
+    "permalink": "/docs/guides/ui components/ACMButton"
+  },
+  "next": {
+    "title": "Architecture",
+    "permalink": "/docs/principles-architecture/architecture"
+  }
+}

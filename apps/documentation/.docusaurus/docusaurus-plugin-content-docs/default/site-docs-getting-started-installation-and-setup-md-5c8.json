@@ -1,0 +1,27 @@
+{
+  "unversionedId": "getting-started/Installation and Setup",
+  "id": "getting-started/Installation and Setup",
+  "title": "Installation and Setup",
+  "description": "We'll first need to get you set up with some tools and configurations to ensure a smooth development experience. For a more comprehensive overview or detailed explanation on any of the following, please reference the corresponding official documentation.",
+  "source": "@site/docs/getting-started/Installation and Setup.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/Installation and Setup",
+  "permalink": "/docs/getting-started/Installation and Setup",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/getting-started/Installation and Setup.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Welcome",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "Portal",
+    "permalink": "/docs/getting-started/portal"
+  }
+}

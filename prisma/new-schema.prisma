@@ -153,6 +153,7 @@ model Application {
     expireDate          DateTime
     type                String?
 
+    questions           String[]
     fillApplications    FilledApplication[]
     
     divisionId         String      @db.ObjectId 
@@ -204,7 +205,7 @@ model FilledApplication {
     appId              String         @db.ObjectId 
     app                Application    @relation(fields: [appId], references: [id])
 
-    responses           String?
+    responses           String[]
     status              String
     score               Int?
     first               String  
@@ -212,18 +213,8 @@ model FilledApplication {
     third               String
     notes               String?
 
-    interview           Interview?
+    interviewLink       String?
 
     @@map("filled_apps")
     //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
-}
-
-model Interview {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    interDate           DateTime
-    status              String
-    link                String
-
-    fillApplication     FilledApplication            @relation(fields: [fillAppId], references: [id])
-    fillAppId           String                       @unique @db.ObjectId
 }
