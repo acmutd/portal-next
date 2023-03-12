@@ -1,0 +1,23 @@
+{
+  "unversionedId": "resources",
+  "id": "resources",
+  "title": "Learning Resources",
+  "description": "Node Version Manager",
+  "source": "@site/docs/resources.md",
+  "sourceDirName": ".",
+  "slug": "/resources",
+  "permalink": "/docs/resources",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/resources.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Slack",
+    "permalink": "/docs/api-reference/slack"
+  }
+}

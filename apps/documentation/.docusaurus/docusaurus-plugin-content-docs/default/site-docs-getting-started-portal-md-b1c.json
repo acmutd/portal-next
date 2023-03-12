@@ -1,0 +1,27 @@
+{
+  "unversionedId": "getting-started/portal",
+  "id": "getting-started/portal",
+  "title": "Portal",
+  "description": "To get started with running a version of the leadership site locally follow these steps:",
+  "source": "@site/docs/getting-started/portal.md",
+  "sourceDirName": "getting-started",
+  "slug": "/getting-started/portal",
+  "permalink": "/docs/getting-started/portal",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/getting-started/portal.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Installation and Setup",
+    "permalink": "/docs/getting-started/Installation and Setup"
+  },
+  "next": {
+    "title": "Create a Serverless API endpoint",
+    "permalink": "/docs/getting-started/serverless-api"
+  }
+}

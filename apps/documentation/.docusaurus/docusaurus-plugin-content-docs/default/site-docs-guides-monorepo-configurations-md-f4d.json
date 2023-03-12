@@ -1,0 +1,27 @@
+{
+  "unversionedId": "guides/monorepo/configurations",
+  "id": "guides/monorepo/configurations",
+  "title": "Configurations",
+  "description": "TypeScript",
+  "source": "@site/docs/guides/monorepo/configurations.md",
+  "sourceDirName": "guides/monorepo",
+  "slug": "/guides/monorepo/configurations",
+  "permalink": "/docs/guides/monorepo/configurations",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/guides/monorepo/configurations.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Build Tools",
+    "permalink": "/docs/guides/monorepo/build-tools"
+  },
+  "next": {
+    "title": "TypeGraphQL-Prisma",
+    "permalink": "/docs/guides/graphql/typegraphql-prisma"
+  }
+}

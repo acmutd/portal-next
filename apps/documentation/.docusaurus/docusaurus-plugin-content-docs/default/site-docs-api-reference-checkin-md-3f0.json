@@ -1,0 +1,27 @@
+{
+  "unversionedId": "api-reference/checkin",
+  "id": "api-reference/checkin",
+  "title": "Check-In",
+  "description": "",
+  "source": "@site/docs/api-reference/checkin.md",
+  "sourceDirName": "api-reference",
+  "slug": "/api-reference/checkin",
+  "permalink": "/docs/api-reference/checkin",
+  "draft": false,
+  "editUrl": "https://github.com/acmutstartd/docs-leadership/tree/main/packages/create-docusaurus/templates/shared/docs/api-reference/checkin.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 0,
+  "frontMatter": {
+    "sidebar_position": 0
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Architecture",
+    "permalink": "/docs/principles-architecture/architecture"
+  },
+  "next": {
+    "title": "Email",
+    "permalink": "/docs/api-reference/email"
+  }
+}
