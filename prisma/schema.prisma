@@ -115,6 +115,11 @@ model Profile {
 
     userId String             @unique @db.ObjectId
     events EventReservation[]
+
+    officer     Officer            @relation(fields: [officerId], references: [id])
+    officerId   String             @unique @db.ObjectId
+
+    fillApplications    FilledApplication[]
 }
 
 model Event {
@@ -149,4 +154,76 @@ model VanityLink {
     originalUrl  String
     vanityDomain String
     slashtag     String
+}
+
+model Application {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt           DateTime
+    expireDate          DateTime
+    type                String?
+
+    questions           String[]
+    fillApplications    FilledApplication[]
+    
+    divisionId         String      @db.ObjectId 
+    division           Division    @relation(fields: [divisionId], references: [id])
+
+    @@map("applications")
+}
+
+model Division {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    deptName            String
+
+    officerIds          String[]  @db.ObjectId  
+    officers            Officer[] @relation(fields:[officerIds], references:[id])
+    
+    applications        Application[]
+
+    @@map("divisions")
+}
+
+model Officer {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+
+    profile             Profile?
+
+    divisionIds         String[]    @db.ObjectId
+    divisions           Division[]  @relation(fields:[divisionIds], references:[id])
+
+    @@map("officers")
+}
+
+// if explicit m-to-n relations are needed:
+// model OffDeptJunction {
+//    officerId           String  
+//    officer             Officer    @relation(fields: [officerId], references: [id])
+
+//    deptId              String
+//    dept                Dept    @relation(fields: [deptId], references: [id])
+
+//    @@id([officerId, deptId])   @map("_id") @db.ObjectId
+//}
+
+model FilledApplication {
+    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    
+    profileId           String     @db.ObjectId 
+    profile             Profile    @relation(fields: [profileId], references: [id])
+
+    appId              String         @db.ObjectId 
+    app                Application    @relation(fields: [appId], references: [id])
+
+    responses           String[]
+    status              String
+    score               Int?
+    first               String  
+    second              String
+    third               String
+    notes               String?
+
+    interviewLink       String?
+
+    @@map("filled_apps")
+    //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
 }
