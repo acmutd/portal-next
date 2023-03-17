@@ -52,7 +52,7 @@ const NewApplicationCard: FC<NewApplicationCardProps> = ({
   icon,
 }) => {
   return (
-    <div className=" flex flex-row w-80 h-20 p-4 rounded-2xl space-y-2 justify-between bg-gray-200/10 outline outline-gray-100/10">
+    <div className=" flex flex-row w-80 h-[4.5rem] p-4 rounded-2xl space-y-2 justify-between bg-gray-200/10 outline outline-gray-100/10">
       <div className='flex flex-col'>
         <h4 className='w-40 text-base text-white truncate'>
           {title}
