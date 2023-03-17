@@ -32,4 +32,16 @@ const Button1: FC<ButtonProps> = ({
   </button>
 );
 
-export default Button1;
+const Button2: FC<ButtonProps> = ({
+  color = 'primary',
+  size = 'sm',
+  className = '',
+  children,
+  ...props
+}) => (
+  <button className={`text-transparent bg-clip-text text-center cursor-pointer duration-75 w-fit bg-gradient-to-r from-[#E10087] to-[#4004C0] ${sizeClasses[size]} ${className}`} {...props}>
+      <span>{children}</span>
+  </button>
+)
+
+export { Button1, Button2 };
