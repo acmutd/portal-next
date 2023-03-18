@@ -119,7 +119,7 @@ model Profile {
     officer     Officer?            @relation(fields: [officerId], references: [id])
     officerId   String?             @unique @db.ObjectId
 
-    fillApplications    FilledApplication[]
+    fillApplications FilledApplication[]
 }
 
 model Event {
@@ -157,39 +157,40 @@ model VanityLink {
 }
 
 model Application {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt           DateTime
-    expireDate          DateTime
-    type                String?
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt  DateTime
+    expireDate DateTime
+    type       String?
 
-    questions           String[]
-    fillApplications    FilledApplication[]
-    
-    divisionId         String      @db.ObjectId 
-    division           Division    @relation(fields: [divisionId], references: [id])
+    questions        String[]
+    fillApplications FilledApplication[]
+
+    divisionId String   @db.ObjectId
+    division   Division @relation(fields: [divisionId], references: [id])
 
     @@map("applications")
 }
 
 model Division {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    deptName            String
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    deptName String
 
-    officerIds          String[]  @db.ObjectId  
-    officers            Officer[] @relation(fields:[officerIds], references:[id])
-    
-    applications        Application[]
+    officerIds String[]  @db.ObjectId
+    officers   Officer[] @relation(fields: [officerIds], references: [id])
+
+    applications Application[]
 
     @@map("divisions")
 }
 
 model Officer {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+    id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    profile             Profile?
+    profile   Profile @relation(fields: [profileId], references: [id])
+    profileId String  @unique @db.ObjectId
 
-    divisionIds         String[]    @db.ObjectId
-    divisions           Division[]  @relation(fields:[divisionIds], references:[id])
+    divisionIds String[]   @db.ObjectId
+    divisions   Division[] @relation(fields: [divisionIds], references: [id])
 
     @@map("officers")
 }
@@ -206,24 +207,24 @@ model Officer {
 //}
 
 model FilledApplication {
-    id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-    
-    profileId           String     @db.ObjectId 
-    profile             Profile    @relation(fields: [profileId], references: [id])
+    id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    appId              String         @db.ObjectId 
-    app                Application    @relation(fields: [appId], references: [id])
+    profileId String  @db.ObjectId
+    profile   Profile @relation(fields: [profileId], references: [id])
 
-    responses           String[]
-    status              String
-    score               Int?
-    first               String  
-    second              String
-    third               String
-    notes               String?
+    appId String      @db.ObjectId
+    app   Application @relation(fields: [appId], references: [id])
 
-    interviewLink       String?
+    responses String[]
+    status    String
+    score     Int?
+    first     String
+    second    String
+    third     String
+    notes     String?
+
+    interviewLink String?
+    //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
 
     @@map("filled_apps")
-    //@@id([userId, formId, deptId])      @map("_id") @db.ObjectId
 }
