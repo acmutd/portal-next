@@ -116,8 +116,8 @@ model Profile {
     userId String             @unique @db.ObjectId
     events EventReservation[]
 
-    officer     Officer            @relation(fields: [officerId], references: [id])
-    officerId   String             @unique @db.ObjectId
+    officer     Officer?            @relation(fields: [officerId], references: [id])
+    officerId   String?             @unique @db.ObjectId
 
     fillApplications    FilledApplication[]
 }

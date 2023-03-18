@@ -4,7 +4,7 @@ import { getPrismaConnection } from 'lib/prisma/manager';
 
 @singleton()
 export default class RetrieveAppsByDivision {
-  async getUpcomingEvent(divIds: string[]): Promise<Application[]> {
+  async retrieveApps(divIds: string[]): Promise<Application[]> {
     const prisma = getPrismaConnection();
     const eventFilter = {
       where: {
