@@ -7,6 +7,8 @@ import { gql, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
 import { TypeformApplication } from '@generated/type-graphql';
 
+// Write GraphQL query to retrieve applications for the selected divisions
+
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
   me: {
@@ -44,6 +46,9 @@ const ApplicationsEditPage: NextPage = () => {
   const { status } = useSession({ required: true });
   if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+
+  // Add divisions selector component (Multiselect with custom ui)
+  // Change ApplicationCards to use new data (Applications Query by Division)
 
   return (
     <div className="px-16 py-[65px] relative">

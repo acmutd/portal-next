@@ -9,6 +9,10 @@ import {
   FindFirstTypeformApplicationArgs,
 } from '@generated/type-graphql';
 
+// Get specific application by id (GraphQL query)
+
+// Get application response by user
+
 interface ViewApplicationsProps {
   id: string;
   title: string;
@@ -48,6 +52,9 @@ const ViewApplicationSubmissionsPage: NextPage = () => {
       },
     },
   });
+
+  // Review Application Response - Better UI 
+  // Write notes for application, not present in schema
 
   return (
     <div className="pb-16">
