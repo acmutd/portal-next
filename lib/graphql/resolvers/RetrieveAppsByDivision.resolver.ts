@@ -16,24 +16,27 @@ export default class RetrieveAppsByDivisionResolver {
   @Query(() => [Application])
   @UseMiddleware(onlyOfficerAllowed, InjectSessionMiddleware)
   async retrieveAppsByDiv(@Ctx() context: TContext): Promise<Application[]> {
-        const userId = context.session!.id
-
+        const userId = context.session!.id;
         const profile = await context.prisma.profile.findFirst({
             where: {
                 userId: userId,
             },
         });
 
-        const officerId = profile!.officerId;
+        const officer = await context.prisma.officer.findFirst({
+            where: {
+                profileId: profile!.id
+            }
+        })
 
-        if(officerId === null){
+        if(!officer?.id){
             return [];
         }
 
         const divisions = await context.prisma.division.findMany({
             where: {
                 officerIds: {
-                    has: officerId,
+                    has: officer.id,
                 },
             },
         });
