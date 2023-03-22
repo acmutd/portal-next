@@ -48,6 +48,7 @@ const UPDATE_EVENT_MUTATION = gql`
       start
       end
       id
+      isPublic
     }
   }
 `;
@@ -126,6 +127,9 @@ export default function EventPage() {
               },
               url: {
                 set: form.url,
+              },
+              isPublic: {
+                set: form.isPublic,
               },
             },
             where: {
