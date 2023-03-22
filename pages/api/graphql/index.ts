@@ -28,6 +28,7 @@ if (process.env.NODE_ENV !== 'development') {
 const schema = buildSchemaSync({
   resolvers: [
     ...exposedResolvers,
+    ReturnAllOpenApp,
     SignedURLResolver,
     EventCheckinResolver,
     AdditionalCRUDEventResolver,
