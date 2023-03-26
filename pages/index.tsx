@@ -1,21 +1,45 @@
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { gql, useQuery, useMutation } from 'urql';
 import Link from 'next/link';
-import { Event, EventReservation } from '@generated/type-graphql';
+import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries, queryClient } from 'src/api';
 
 import ACMButton from '../components/PortalButton';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+  await queryClient.prefetchQuery('homepageData', () =>
+    gqlQueries.getHomePageUserInfo({
+      where: {
+        userId: session?.id || '',
+      },
+    }),
+  );
   const { profileVisited } = ctx.req.cookies;
-  return { props: { profileVisited: profileVisited ?? null } };
+  return {
+    props: {
+      profileVisited: profileVisited ?? null,
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 };
 
 export default function HomePage({ profileVisited }: { profileVisited: boolean }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const { data, error, isLoading } = useQuery(
+    ['homepageData'],
+    () =>
+      gqlQueries.getHomePageUserInfo({
+        where: {
+          userId: session?.id || '',
+        },
+      }),
+    { enabled: status === 'authenticated' },
+  );
 
   useEffect(() => {
     if (status == 'authenticated' && !profileVisited) {
@@ -31,48 +55,6 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
   if (!session) {
     return <></>;
   }
-
-  // Homepage query
-  const HOMEPAGE_QUERY = gql`
-    query Query($where: ProfileWhereUniqueInput!) {
-      me {
-        attendedEvents {
-          description
-          location
-          summary
-          start
-        }
-      }
-      profile(where: $where) {
-        firstName
-        netid
-        email
-      }
-    }
-  `;
-
-  // Migrate data mutation
-  const MIGRATE_DATA_MUTATION = gql`
-    mutation CheckInOldEvent($email: String!, $netId: String!) {
-      checkInOldEvent(email: $email, netID: $netId) {
-        eventId
-        profileId
-      }
-    }
-  `;
-
-  const [profileResult, reexecuteQuery] = useQuery({
-    query: HOMEPAGE_QUERY,
-    variables: {
-      where: {
-        userId: session ? session.id : '',
-      },
-    },
-  });
-
-  const [_, migrateData] = useMutation<EventReservation, { email: string; netId: string }>(
-    MIGRATE_DATA_MUTATION,
-  );
 
   if (!session)
     return (
@@ -90,9 +72,9 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
   }
 
   // Fetch data
-  const { data, fetching, error } = profileResult;
-  if (fetching) return <p className="text-gray-100">loading...</p>;
-  if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+  // const { data, fetching, error } = profileResult;
+  if (isLoading) return <p className="text-gray-100">loading...</p>;
+  if (error || !data) return <p className="text-gray-100">whoops... {error}</p>;
 
   if (!data.profile) {
     router.push('/profile');
@@ -118,10 +100,12 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
           <div className="my-5">
             <ACMButton
               onClick={() => {
-                migrateData({
-                  email: data.profile.email,
-                  netId: data.profile.netid,
-                }).then(() => alert('Success'));
+                gqlQueries
+                  .migrateEvent({
+                    email: data.profile!.email,
+                    netId: data.profile!.netid,
+                  })
+                  .then(() => alert('Success'));
               }}
               theme={pageTheme}
               gradientcolor={'#4cb2e9'}
@@ -135,7 +119,7 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
       <h1 className="px-4 text-2xl text-left text-white font-semibold mb-4">attended events</h1>
       <div className="relative">
         <div className="flex flex-col items-center lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-y-6">
-          {data.me.attendedEvents.slice(0, 3).map((event: Event) => (
+          {data.me?.attendedEvents.slice(0, 3).map((event) => (
             <div className="flex flex-col items-end w-fit mx-4">
               <h3 className="font-bold text-white mr-5 mb-[5px] text-[20px]">development</h3>
               <div className="bg-gray-200/10 outline outline-gray-100/10 w-80 h-48 p-6 rounded-3xl space-y-2 flex flex-col justify-between">

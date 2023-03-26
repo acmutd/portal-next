@@ -8,7 +8,7 @@ interface EventFormProps {
   event?: ActiveEventResult;
   formAction: 'Edit' | 'Create';
   onGoBack: () => void;
-  onDeleteEvent?: () => void;
+  onDeleteEvent?: () => Promise<void>;
   submitActionName: string;
   onFormSubmit: (form: ActiveEventResult) => Promise<void>;
 }

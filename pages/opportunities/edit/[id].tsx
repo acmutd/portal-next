@@ -1,93 +1,48 @@
-import {
-  TypeformApplication,
-  DeleteOneTypeformApplicationArgs,
-  UpdateOneTypeformApplicationArgs,
-  FindFirstTypeformApplicationArgs,
-} from '@generated/type-graphql';
 import Button from 'components/Button';
 import { TypeformEditForm } from 'components/typeformApplicationSystem';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from 'urql';
+import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries, queryClient } from 'src/api';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await queryClient.prefetchQuery(['editSingleApp'], () =>
+    gqlQueries.findTypeformApplication({
+      where: {
+        id: {
+          equals: ctx.params!.id! as string,
+        },
+      },
+    }),
+  );
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  useSession({ required: true });
-
-  const GET_TYPEFORM = gql`
-    query FindFirstTypeformApplication($where: TypeformApplicationWhereInput) {
-      findFirstTypeformApplication(where: $where) {
-        id
-        typeformName
-        description
-        endpoint
-        externalResourceUrl
-        active
-        typeformId
-      }
-    }
-  `;
-
-  const [{ data }] = useQuery<
-    {
-      findFirstTypeformApplication: TypeformApplication;
-    },
-    FindFirstTypeformApplicationArgs
-  >({
-    query: GET_TYPEFORM,
-    variables: {
-      where: {
-        id: {
-          equals: id as string,
+  const { status } = useSession({ required: true });
+  const { data, isLoading, error } = useQuery(
+    ['editSingleApp'],
+    () =>
+      gqlQueries.findTypeformApplication({
+        where: {
+          id: {
+            equals: id! as string,
+          },
         },
-      },
-    },
-  });
+      }),
+    { enabled: status === 'authenticated' },
+  );
 
-  const UPDATE_TYPEFORM_APPLICATION = gql`
-    mutation UpdateOneTypeformApplication(
-      $data: TypeformApplicationUpdateInput!
-      $where: TypeformApplicationWhereUniqueInput!
-    ) {
-      updateOneTypeformApplication(data: $data, where: $where) {
-        id
-        active
-        description
-        endpoint
-        externalResourceUrl
-        typeformId
-        typeformName
-      }
-    }
-  `;
-
-  const DELETE_TYPEFORM_APPLICATION = gql`
-    mutation DeleteOneTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
-      deleteOneTypeformApplication(where: $where) {
-        id
-        typeformName
-        description
-      }
-    }
-  `;
-
-  const [_, updateTypeformApplication] = useMutation<
-    {
-      updateTypeformApplication: TypeformApplication;
-    },
-    UpdateOneTypeformApplicationArgs
-  >(UPDATE_TYPEFORM_APPLICATION);
-  const [___, deleteTypeformApplication] = useMutation<
-    {
-      deleteTypeformApplication: TypeformApplication;
-    },
-    DeleteOneTypeformApplicationArgs
-  >(DELETE_TYPEFORM_APPLICATION);
-
-  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
+  if (!data!.findFirstTypeformApplication) {
+    return <div>No application exists</div>;
+  }
 
   return (
     <div className="w-full p-20">
@@ -96,13 +51,10 @@ const EditApplicationPage: NextPage = () => {
           <div className="text-4xl font-semibold text-gray-100">Update Typeform Application</div>
         </div>
         <div className="w-full">
-          {data ? (
+          {!isLoading ? (
             <TypeformEditForm
-              currentApplicationData={data.findFirstTypeformApplication}
-              updateTypeformApplication={updateTypeformApplication}
+              currentApplicationData={data!.findFirstTypeformApplication}
               id={id as string}
-              register={register}
-              handleSubmit={handleSubmit}
             />
           ) : (
             <div>Loading..</div>
@@ -122,11 +74,13 @@ const EditApplicationPage: NextPage = () => {
         </button>
         <Button
           onClick={() => {
-            deleteTypeformApplication({
-              where: {
-                id: id as string,
-              },
-            }).then(router.back);
+            gqlQueries
+              .deleteTypeformApplication({
+                where: {
+                  id: id as string,
+                },
+              })
+              .then(router.back);
           }}
         >
           delete application

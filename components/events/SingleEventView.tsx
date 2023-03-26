@@ -5,15 +5,9 @@ interface SingleEventViewProps {
   event: ActiveEventResult;
   isOfficer: boolean;
   onGoBack: () => void;
-  onRsvp: () => void;
 }
 
-export default function SingleEventView({
-  event,
-  isOfficer,
-  onGoBack,
-  onRsvp,
-}: SingleEventViewProps) {
+export default function SingleEventView({ event, isOfficer, onGoBack }: SingleEventViewProps) {
   const checkInLink = `${window.location.origin}/checkin/${event.id}`;
 
   return (

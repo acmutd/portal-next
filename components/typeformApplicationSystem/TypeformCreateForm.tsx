@@ -1,46 +1,31 @@
 import Router from 'next/router';
-import type {
-  CreateOneTypeformApplicationArgs,
-  TypeformApplication,
-} from '@generated/type-graphql';
-import type { ReactHookFormProps } from 'lib/types/form';
-import type { MutationFunctionType } from 'lib/types/graphql';
+import type { TypeformApplication } from '@generated/type-graphql';
+import { useForm } from 'react-hook-form';
+import { gqlQueries } from 'src/api';
 
-type CreateTypeformApplicationMutationType = MutationFunctionType<
-  CreateOneTypeformApplicationArgs,
-  {
-    createOneTypeformApplication: TypeformApplication;
-  }
->;
-
-interface TypeformCreateFormProps extends ReactHookFormProps<Omit<TypeformApplication, 'id'>> {
-  createTypeformApplication: CreateTypeformApplicationMutationType;
-}
-
-export default function TypeformCreateForm({
-  handleSubmit,
-  register,
-  createTypeformApplication,
-}: TypeformCreateFormProps): JSX.Element {
+export default function TypeformCreateForm(): JSX.Element {
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
   return (
     <div className="flex justify-center md:flex-row-reverse w-full md:w-[50%]">
       <form
         id="create-typeform"
         className="justify-between min-h-full h-full"
         onSubmit={handleSubmit((vals) => {
-          createTypeformApplication({
-            data: {
-              active: true, // new typeforms should always be visible
-              description: vals.description,
-              endpoint: vals.endpoint,
-              externalResourceUrl: vals.externalResourceUrl,
-              typeformId: vals.typeformId,
-              typeformName: vals.typeformName,
-              division: vals.division,
-            },
-          }).then(() => {
-            Router.push('/opportunities');
-          });
+          gqlQueries
+            .createTypeformApplication({
+              data: {
+                active: true, // new typeforms should always be visible
+                description: vals.description,
+                endpoint: vals.endpoint,
+                externalResourceUrl: vals.externalResourceUrl,
+                typeformId: vals.typeformId,
+                typeformName: vals.typeformName,
+                division: vals.division,
+              },
+            })
+            .then(() => {
+              Router.push('/opportunities');
+            });
         })}
       >
         <div className="flex flex-wrap gap-8 -mx-3 mb-6 text-gray-200">

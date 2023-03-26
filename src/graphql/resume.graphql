@@ -1,0 +1,15 @@
+mutation getResumeSignedURL($options: SignedURLInput!) {
+  transferFile(options: $options) {
+    url
+  }
+}
+
+query getResumePageUserInfo($where: ProfileWhereUniqueInput!) {
+  me {
+    resumeFilename
+  }
+  profile(where: $where) {
+    firstName
+    netid
+  }
+}
