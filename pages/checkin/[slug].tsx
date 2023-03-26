@@ -1,45 +1,23 @@
 import { NextRouter, useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { gql, useQuery, useMutation, CombinedError } from 'urql';
+import { CombinedError } from 'urql';
 import LoadingComponent from 'components/LoadingComponent';
 import ErrorComponent from 'components/ErrorComponent';
 import { default as ACMButton } from '../../components/PortalButton';
 import SuccessfulComponent from 'components/SuccessfulComponent';
 import { useSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import { gqlQueries, queryClient } from 'src/api';
+import { dehydrate, useQuery } from 'react-query';
 
-const PAGE_QUERY = gql`
-  query {
-    me {
-      profile {
-        id
-      }
-    }
-  }
-`;
-
-const CHECK_IN_MUTATION = gql`
-  mutation CheckInMutation($checkInData: EventCheckinInput!) {
-    checkinToEvent(options: $checkInData) {
-      profileId
-      eventId
-    }
-  }
-`;
-
-interface QueryResultType {
-  me: {
-    profile: {
-      id: string;
-    };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await queryClient.prefetchQuery(['checkInData'], () => gqlQueries.getCheckInPageUserInfo());
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
   };
-}
-
-interface CheckInMutationArgType {
-  checkInData: {
-    eventId: string;
-    profileId: string;
-  };
-}
+};
 
 function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: NextRouter }>) {
   return (
@@ -56,45 +34,44 @@ export default function CheckinPage() {
   const { status } = useSession({
     required: true,
   });
+  const { data, error, isLoading } = useQuery(
+    ['checkInData'],
+    () => gqlQueries.getCheckInPageUserInfo(),
+    { enabled: status === 'authenticated' },
+  );
 
-  const [_, checkInToEvent] = useMutation<
-    {
-      checkInToEvent: unknown;
-    },
-    CheckInMutationArgType
-  >(CHECK_IN_MUTATION);
   const [queryError, setQueryError] = useState<CombinedError | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [{ fetching, error, data }, reexecuteQuery] = useQuery<QueryResultType>({
-    query: PAGE_QUERY,
-  });
-
   useEffect(() => {
-    if (fetching) return;
+    if (isLoading) return;
     setLoading(false);
     if (error) {
-      setQueryError(error);
+      setQueryError(error as CombinedError);
       return;
     }
-    checkInToEvent({
+    if (!data!.me.profile) {
+      setQueryError(
+        new CombinedError({
+          graphQLErrors: ['Profile does not exist'],
+        }),
+      );
+      return;
+    }
+
+    gqlQueries.checkInToEvent({
       checkInData: {
         eventId: slug as string,
         profileId: data!.me.profile.id,
       },
-    }).then((result) => {
-      if (result.error) {
-        setQueryError(result.error);
-      }
     });
-  }, [fetching, error, data]);
+  }, [isLoading, error, data]);
 
   if (status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (loading) {
     return <LoadingComponent />;
   }
   if (queryError) {
-    console.error(queryError);
     return (
       <ViewWrapper router={router}>
         <ErrorComponent errorMessage={queryError.message} />
