@@ -5,9 +5,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { gql, useQuery } from 'urql';
 import CircularBlur from '../../../components/CircularBlur';
-import { TypeformApplication } from '@generated/type-graphql';
-
-// Write GraphQL query to retrieve applications for the selected divisions
+import { Application } from '@generated/type-graphql';
 
 interface ActiveApplicationsQuery {
   typeformApplications: TypeformApplication[];
@@ -15,32 +13,26 @@ interface ActiveApplicationsQuery {
     isOfficer: boolean;
   };
 }
+
+interface ApplicationsByDivisionQuery {
+  applications: Application[];
+}
+
 const ApplicationsEditPage: NextPage = () => {
-  const ACTIVE_APPLICATIONS_QUERY = gql`
-    query GetActiveApplications($where: TypeformApplicationWhereInput) {
-      typeformApplications(where: $where) {
+
+  const APPLICATIONS_BY_DIVISION = gql`
+    query RetrieveAppsByDivision {
+      retrieveAppsByDiv {
         id
-        active
-        description
-        typeformId
-        typeformName
-        division
-      }
-      me {
-        isOfficer
+        divisionId
+        createdAt
+        expireDate
       }
     }
   `;
 
-  const [{ data, fetching, error }, _] = useQuery<ActiveApplicationsQuery>({
-    query: ACTIVE_APPLICATIONS_QUERY,
-    variables: {
-      where: {
-        active: {
-          equals: true,
-        },
-      },
-    },
+  const [{ data, fetching, error }, _] = useQuery<ApplicationsByDivisionQuery>({
+    query: APPLICATIONS_BY_DIVISION,
   });
 
   const { status } = useSession({ required: true });
@@ -64,18 +56,18 @@ const ApplicationsEditPage: NextPage = () => {
       <div>
         <h2 className='text-3xl font-Gilroy text-white font-medium mb-4'>Applications</h2>
         <div className="w-full flex flex-wrap gap-12 mb-8">
-        {data!.typeformApplications.map(
-          ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
+        {data!.retrieveAppsByDiv.map(
+          ({ id, divisionId}) => (
             <NewApplicationCard
               key={id}
-              title={typeformName}
-              description={description}
+              title="Application"
+              description="Description"
               button={
                 <Link href={`/opportunities/admin/${id}`}>
                     <Button1>More Info</Button1>
                 </Link>
               }
-              division={division}
+              division={divisionId}
             />
           ),
         )}
