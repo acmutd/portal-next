@@ -37,4 +37,35 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
   );
 };
 
-export default ApplicationCard;
+interface NewApplicationCardProps {
+  title: string;
+  description: string;
+  division: string;
+  button: JSX.Element;
+  icon?: JSX.Element;
+}
+const NewApplicationCard: FC<NewApplicationCardProps> = ({
+  title,
+  description,
+  button,
+  division,
+  icon,
+}) => {
+  return (
+    <div className=" flex flex-row w-80 h-[4.5rem] p-4 rounded-2xl space-y-2 justify-between bg-gray-200/10 outline outline-gray-100/10">
+      <div className='flex flex-col'>
+        <h4 className='w-40 text-base text-white truncate'>
+          {title}
+        </h4>
+        <p className='w-24 text-sm text-white truncate'>
+          {division}
+        </p>
+      </div>
+      <div className='w-fit'>
+        {button}
+      </div>
+    </div>
+  );
+};
+
+export {ApplicationCard, NewApplicationCard};
