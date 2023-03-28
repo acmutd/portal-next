@@ -1,57 +1,53 @@
-/* eslint-disable no-alert */
 import { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
 import contentDisposition from 'content-disposition';
 import mime from 'mime-types';
-import { useSession } from 'next-auth/react';
-import { useMutation, gql, useQuery } from 'urql';
+import { getSession, useSession } from 'next-auth/react';
+import { useQuery } from 'react-query';
 import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import DocumentIcon from 'icons/DocumentIcon';
+import { GetServerSideProps } from 'next';
+import { gqlQueries, queryClient } from 'src/api';
+import { dehydrate } from 'react-query';
+import { Action, FileCategory } from 'lib/generated/graphql';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+  await queryClient.prefetchQuery('resumeData', () =>
+    gqlQueries.getResumePageUserInfo({
+      where: {
+        userId: session?.id || '',
+      },
+    }),
+  );
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
   const uploadRef = useRef<HTMLInputElement | null>(null);
   const { data: session, status } = useSession({ required: true });
-
-  const GET_SIGNED_URL = gql`
-    mutation resume_GetSignedURlMutation($options: SignedURLInput!) {
-      transferFile(options: $options) {
-        url
-      }
-    }
-  `;
-  const [_, getSignedUrl] = useMutation<
-    { transferFile: { url: string } },
+  const {
+    data,
+    isLoading,
+    refetch: refetchResume,
+  } = useQuery(
+    ['resumeData'],
+    () =>
+      gqlQueries.getResumePageUserInfo({
+        where: {
+          userId: session?.id || '',
+        },
+      }),
     {
-      options: {
-        action: string;
-        fileType: string;
-      };
-    }
-  >(GET_SIGNED_URL);
-
-  const HOMEPAGE_QUERY = gql`
-    query Query($where: ProfileWhereUniqueInput!) {
-      me {
-        resumeFilename
-      }
-      profile(where: $where) {
-        firstName
-        netid
-      }
-    }
-  `;
-
-  const [{ data }, refetchResume] = useQuery({
-    query: HOMEPAGE_QUERY,
-    variables: {
-      where: {
-        userId: session ? session.id : '',
-      },
+      enabled: status === 'authenticated',
     },
-    requestPolicy: 'network-only',
-  });
+  );
 
   const handleResumeUploadReady = useCallback(() => {
     if (!uploadRef.current || !uploadRef.current.files) return;
@@ -70,20 +66,15 @@ export default function ResumePage() {
     setUploadReady(true);
   }, [setUploadReady, uploadRef]);
 
-  const handleResumeUpload = useCallback(() => {
-    const variables = {
-      options: {
-        action: 'UPLOAD',
-        fileType: 'RESUME',
-      },
-    };
-
-    getSignedUrl(variables).then((result: any) => {
-      if (result.error) {
-        console.error('Uhoh', result.error);
-      }
-
-      const { url } = result.data.transferFile;
+  const handleResumeUpload = useCallback(async () => {
+    try {
+      const data = await gqlQueries.getResumeSignedURL({
+        options: {
+          action: Action.Upload,
+          fileType: FileCategory.Resume,
+        },
+      });
+      const { url } = data.transferFile;
 
       const fileName = `${session!.user!.name!.replace(/\W/g, '')}_resume.${mime.extension(
         uploadRef.current!.files![0].type,
@@ -91,83 +82,70 @@ export default function ResumePage() {
 
       const disposition = contentDisposition(fileName); // This will be the default filename when downloading
 
-      axios
-        .put(url, uploadRef.current!.files![0], {
-          headers: {
-            'Content-Type': mime.contentType(uploadRef.current!.files![0].type),
-            'Content-Disposition': disposition,
-          },
-        })
-        .then(() => {
-          alert('Upload succeeded...');
-          refetchResume();
-        })
-        .catch(() => alert('Upload failed. Please try again later...'));
-
+      await axios.put(url!, uploadRef.current!.files![0], {
+        headers: {
+          'Content-Type': mime.contentType(uploadRef.current!.files![0].type),
+          'Content-Disposition': disposition,
+        },
+      });
+      await refetchResume();
       setUploadReady(false);
-    });
-  }, [getSignedUrl, refetchResume]);
+    } catch (error) {
+      console.error('Uhoh', error);
+      alert('Upload failed. Please try again later...');
+    }
+  }, [gqlQueries.getResumeSignedURL, refetchResume]);
 
-  const handleResumeDownload = useCallback(() => {
-    const variables = {
+  const handleResumeDownload = useCallback(async () => {
+    const data = await gqlQueries.getResumeSignedURL({
       options: {
-        action: 'DOWNLOAD',
-        fileType: 'RESUME',
+        action: Action.Download,
+        fileType: FileCategory.Resume,
       },
-    };
-    getSignedUrl(variables).then((result: any) => {
-      if (result.error) {
-        console.error('Uhoh', result.error);
-      }
+    });
+    const { url } = data.transferFile;
 
-      const { url } = result.data.transferFile;
-
-      axios({
-        url,
-        method: 'GET',
-        responseType: 'blob', // important
+    axios({
+      url: url!,
+      method: 'GET',
+      responseType: 'blob', // important
+    })
+      .then((response) => {
+        const disposition = contentDisposition.parse(response.headers['content-disposition']);
+        const fileName = disposition.parameters.filename;
+        const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
       })
-        .then((response) => {
-          const disposition = contentDisposition.parse(response.headers['content-disposition']);
-          const fileName = disposition.parameters.filename;
-          const objectUrl = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = objectUrl;
-          link.setAttribute('download', fileName);
-          document.body.appendChild(link);
-          link.click();
-        })
-        .catch(() => alert('Download failed. Please try again later...'));
-    });
-  }, [getSignedUrl]);
+      .catch(() => alert('Download failed. Please try again later...'));
+  }, [gqlQueries.getResumeSignedURL]);
 
-  const handleResumeDelete = useCallback(() => {
-    const variables = {
-      options: {
-        action: 'DELETE',
-        fileType: 'RESUME',
-      },
-    };
-    getSignedUrl(variables).then((result: any) => {
-      if (result.error) {
-        console.error('Uhoh', result.error);
-      }
-
-      const { url } = result.data.transferFile;
-      axios({
-        url,
+  const handleResumeDelete = useCallback(async () => {
+    try {
+      const data = await gqlQueries.getResumeSignedURL({
+        options: {
+          action: Action.Delete,
+          fileType: FileCategory.Resume,
+        },
+      });
+      const { url } = data.transferFile;
+      await axios({
+        url: url!,
         method: 'DELETE',
         responseType: 'blob', // important
-      })
-        .then(() => {
-          alert('Successfully deleted resume.');
-          refetchResume();
-        })
-        .catch(() => alert('Delete failed. Please try again later...'));
-    });
-  }, [getSignedUrl, refetchResume]);
+      });
+      alert('Successfully deleted resume.');
+      await refetchResume();
+    } catch (err) {
+      console.error(err);
+      alert('Delete failed. Please try again later...');
+    }
+  }, [gqlQueries.getResumeSignedURL, refetchResume]);
 
-  if (status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   return (
     <div className="px-16 py-[65px] h-full relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
@@ -177,10 +155,10 @@ export default function ResumePage() {
       </h1>
       <div className="flex gap-10 items-center flex-wrap mb-[32px]">
         <DocumentIcon fill="#fff" width={100} height={180} />
-        {data ? (
+        {!isLoading ? (
           <div>
             <h3 className="text-white font-semibold text-[32px]">Uploaded resume: </h3>
-            <h3 className="text-white text-[24px]">{data ? data.me.resumeFilename : 'N/A'}</h3>
+            <h3 className="text-white text-[24px]">{data?.me.resumeFilename || 'N/A'}</h3>
           </div>
         ) : (
           <h3 className="text-white font-semibold text-[32px]">Loading...</h3>

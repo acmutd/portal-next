@@ -1,0 +1,57 @@
+query getEventPageUserInfo {
+  me {
+    attendedEvents {
+      summary
+      start
+      location
+    }
+    isOfficer
+  }
+  upcomingEvents {
+    id
+    summary
+    start
+    location
+    end
+    description
+    url
+    isPublic
+  }
+}
+
+mutation updateEventData($data: EventUpdateInput!, $where: EventWhereUniqueInput!) {
+  updateOneEvent(data: $data, where: $where) {
+    summary
+    description
+    url
+    location
+    start
+    end
+    id
+  }
+}
+
+mutation deleteEvent($where: EventWhereUniqueInput!) {
+  deleteOneEvent(where: $where) {
+    id
+  }
+}
+
+query getCreateEventPageUserInfo {
+  me {
+    isOfficer
+  }
+}
+
+mutation createNewEvent($data: EventCreateInput!) {
+  createOneEvent(data: $data) {
+    id
+  }
+}
+
+mutation migrateEvent($email: String!, $netId: String!) {
+  checkInOldEvent(email: $email, netID: $netId) {
+    eventId
+    profileId
+  }
+}

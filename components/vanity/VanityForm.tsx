@@ -3,16 +3,17 @@ import { gql, useMutation } from 'urql';
 import { VanityLink, CreateOneVanityLinkArgs } from '@generated/type-graphql';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { gqlQueries } from 'src/api';
 
-const CREATE_VANITY_LINK = gql`
-  mutation CreateOneVanityLink($data: VanityLinkCreateInput!) {
-    createOneVanityLink(data: $data) {
-      originalUrl
-      vanityDomain
-      slashtag
-    }
-  }
-`;
+// const CREATE_VANITY_LINK = gql`
+//   mutation CreateOneVanityLink($data: VanityLinkCreateInput!) {
+//     createOneVanityLink(data: $data) {
+//       originalUrl
+//       vanityDomain
+//       slashtag
+//     }
+//   }
+// `;
 
 const vanityDomainOptions = ['content', 'survey', 'apply', 'rsvp', 'join'];
 
@@ -36,10 +37,10 @@ export default function VanityForm() {
       vanityDomain: 'content',
     },
   });
-  const [_, createVanityLink] = useMutation<
-    { createOneVanityLink: VanityLink },
-    CreateOneVanityLinkArgs
-  >(CREATE_VANITY_LINK);
+  // const [_, createVanityLink] = useMutation<
+  //   { createOneVanityLink: VanityLink },
+  //   CreateOneVanityLinkArgs
+  // >(CREATE_VANITY_LINK);
 
   return (
     <div className="w-full grid place-items-center px-3">
@@ -51,10 +52,9 @@ export default function VanityForm() {
           className="w-full"
           onSubmit={handleSubmit(async (vals) => {
             try {
-              const { error } = await createVanityLink({
+              await gqlQueries.createVanityLink({
                 data: vals,
               });
-              if (error) throw error;
               alert('Vanity Link Generated');
             } catch (error) {
               alert('Failed to generate vanity link!');

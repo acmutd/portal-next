@@ -1,0 +1,27 @@
+mutation upsertProfile(
+  $where: ProfileWhereUniqueInput!
+  $create: ProfileCreateInput!
+  $update: ProfileUpdateInput!
+) {
+  upsertOneProfile(where: $where, create: $create, update: $update) {
+    firstName
+    lastName
+    email
+    netid
+    classStanding
+    major
+    utdStudent
+  }
+}
+
+query findProfile($where: ProfileWhereUniqueInput!) {
+  profile(where: $where) {
+    firstName
+    lastName
+    email
+    netid
+    classStanding
+    major
+    utdStudent
+  }
+}
