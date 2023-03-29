@@ -1,50 +1,49 @@
 import Button from 'components/Button';
 import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { gql, useQuery } from 'urql';
+import { useQuery } from 'react-query';
 import CircularBlur from '../../../components/CircularBlur';
-import { TypeformApplication } from '@generated/type-graphql';
+import { gqlQueries, queryClient } from 'src/api';
+import { dehydrate } from 'react-query';
 
-interface ActiveApplicationsQuery {
-  typeformApplications: TypeformApplication[];
-  me: {
-    isOfficer: boolean;
-  };
-}
-const ApplicationsEditPage: NextPage = () => {
-  const ACTIVE_APPLICATIONS_QUERY = gql`
-    query GetActiveApplications($where: TypeformApplicationWhereInput) {
-      typeformApplications(where: $where) {
-        id
-        active
-        description
-        typeformId
-        typeformName
-        division
-      }
-      me {
-        isOfficer
-      }
-    }
-  `;
-
-  const [{ data, fetching, error }, _] = useQuery<ActiveApplicationsQuery>({
-    query: ACTIVE_APPLICATIONS_QUERY,
-    variables: {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await queryClient.prefetchQuery('editAppData', () =>
+    gqlQueries.getEditViewApplicationList({
       where: {
         active: {
           equals: true,
         },
       },
+    }),
+  );
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
     },
-  });
+  };
+};
 
+const ApplicationsEditPage: NextPage = () => {
   const { status } = useSession({ required: true });
-  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+  const { data, isLoading, error } = useQuery(
+    ['editAppData'],
+    () =>
+      gqlQueries.getEditViewApplicationList({
+        where: {
+          active: {
+            equals: true,
+          },
+        },
+      }),
+    {
+      enabled: status === 'authenticated',
+    },
+  );
+  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (error) return <p className="text-gray-100">whoops... {error}</p>;
 
   return (
     <div className="px-16 py-[65px] relative">
