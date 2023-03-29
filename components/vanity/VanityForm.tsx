@@ -139,7 +139,7 @@ export default function VanityForm() {
               >
                 save
               </button>
-              <a className=" text-center py-2 px-6 font-bold text-white" href="/">
+              <a className=" text-center py-2 px-6 font-bold text-white" href="/admin">
                 cancel
               </a>
             </div>
