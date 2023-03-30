@@ -6,17 +6,17 @@ import ReturnAllOpenApp from '../services/ReturnAllOpenApp.service';
 
 @Resolver(() => Event)
 @injectable()
-export default class OldEventResolver {
+export default class ReturnAllOpenAppResolver {
   constructor(
     private returnOpenApp: ReturnAllOpenApp
   ) {}
 
   @Query(() => [Application])
-  async checkInOldEvent(
-    @Arg('date', () => Date) netId: Date,
+  async returnAlLOpenApp(
+    @Arg('date', () => Date) dateCur: Date,
     @Ctx() context: TContext
   ){
-    const open_apps = await this.returnOpenApp.getOpenApps(netId);
+    const open_apps = await this.returnOpenApp.getOpenApps(dateCur);
     return open_apps;
   }
 }
