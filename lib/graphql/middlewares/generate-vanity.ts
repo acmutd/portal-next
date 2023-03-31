@@ -3,15 +3,17 @@ import { TContext } from '../interfaces/context.interface';
 import { VanityLinkCreateInput, VanityLinkUpdateInput } from '@generated/type-graphql';
 import { generateVanityLink } from '../utilities/vanity';
 import { getSession } from 'next-auth/react';
-import { CombinedError } from 'urql';
 import { sendSlackNotification } from '../utilities/slack';
+import { GraphQLError } from 'graphql/error';
 
 export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
   if (!session) {
-    throw new CombinedError({
-      graphQLErrors: ['Login required'],
-      response: args,
+    throw new GraphQLError('Login required',
+    {
+      extensions: {
+        code: 'LOGIN_REQUIRED',
+      },
     });
   }
   const profile = await context.prisma.profile.findFirst({
@@ -21,9 +23,11 @@ export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }
   });
 
   if (!profile) {
-    throw new CombinedError({
-      graphQLErrors: ['Profile creation required'],
-      response: args,
+    throw new GraphQLError('Profile creation required',
+    {
+      extensions: {
+        code: 'PROFILE_CREATION_REQUIRED',
+      },
     });
   }
 
@@ -60,9 +64,11 @@ export const onEditVanityLink: MiddlewareFn<TContext> = async ({ args, context }
 export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
   if (!session) {
-    throw new CombinedError({
-      graphQLErrors: ['Login required'],
-      response: args,
+    throw new GraphQLError('Login required',
+    {
+      extensions: {
+        code: 'LOGIN_REQUIRED',
+      },
     });
   }
   const profile = await context.prisma.profile.findFirst({
@@ -71,9 +77,10 @@ export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context
     },
   });
   if (!profile) {
-    throw new CombinedError({
-      graphQLErrors: ['Profile creation required'],
-      response: args,
+    throw new GraphQLError('Profile creation required', {
+      extensions: {
+        code: 'PROFILE_CREATION_REQUIRED',
+      }
     });
   }
   const { originalUrl, vanityDomain, slashtag } = args.data as VanityLinkCreateInput;
@@ -96,8 +103,11 @@ export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context
     return args.data;
   } catch (error) {
     console.error(error);
-    throw new CombinedError({
-      graphQLErrors: ['Error generating Vanity Link'],
+    throw new GraphQLError('Error generating Vanity Link',
+    {
+      extensions: {
+        code: 'ERROR_GENERATING_VANITY_LINK',
+      }
     });
   }
 };

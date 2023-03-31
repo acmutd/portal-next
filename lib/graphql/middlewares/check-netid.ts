@@ -1,13 +1,16 @@
+import { GraphQLError } from 'graphql/error';
 import { getSession } from 'next-auth/react';
 import { MiddlewareFn } from 'type-graphql';
-import { CombinedError } from 'urql';
 import { TContext } from '../interfaces/context.interface';
 
 export const checkNetId: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   const session = await getSession(context);
   if (!session) {
-    throw new CombinedError({
-      graphQLErrors: ['Login required'],
+    throw new GraphQLError('Login required',
+    {
+      extensions: {
+        code: 'LOGIN_REQUIRED',
+      },
     });
   }
 
@@ -16,8 +19,12 @@ export const checkNetId: MiddlewareFn<TContext> = async ({ args, context }, next
   });
 
   if (profile && profile.userId !== session.id) {
-    // TODO: create error type
-    throw new CombinedError({ graphQLErrors: ['[VALIDATION_ERROR]: NetID exists'] });
+    throw new GraphQLError('[VALIDATION_ERROR]: NetID exists',
+    {
+      extensions: {
+        code: 'NETID_EXISTS',
+      },
+    });
   }
 
   return next();
