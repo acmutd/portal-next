@@ -77,7 +77,7 @@ export default function CheckinPage() {
   if (queryError) {
     return (
       <ViewWrapper router={router}>
-        <ErrorComponent errorMessage={queryError.message} />
+        <ErrorComponent errorCode={queryError.extensions.code as string} errorMessage={queryError.message} />
       </ViewWrapper>
     );
   }

@@ -11,6 +11,8 @@ import { useQuery } from 'react-query';
 import { gqlQueries, queryClient } from 'src/api';
 import { dehydrate } from 'react-query';
 import { useRouter } from 'next/router';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql/error';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['applicationPage'], () =>
@@ -56,7 +58,7 @@ const ApplicationsPage: NextPage = () => {
   }, []);
 
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <p className="text-gray-100">whoops... {error}</p>;
+  if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
   if (!data!.me.profile) {
     router.push('/profile');
   }

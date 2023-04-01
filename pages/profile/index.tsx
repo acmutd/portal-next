@@ -66,7 +66,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
   if (error) return <p className="text-gray-100">whoops... {error}</p>;
   return (
     <>
-      {errors && <ErrorComponent errorMessage={errors.message} />}
+      {errors && <ErrorComponent errorCode={errors.extensions.code as string} errorMessage={errors.message} />}
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
           <div className="text-[36px] font-semibold text-gray-100">my account</div>

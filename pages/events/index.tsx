@@ -15,6 +15,8 @@ import { GetServerSideProps } from 'next';
 import { gqlQueries, queryClient } from 'src/api';
 import { dehydrate, useQuery } from 'react-query';
 import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql/error';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['eventsData'], () => gqlQueries.getEventPageUserInfo());
@@ -41,7 +43,7 @@ export default function EventPage() {
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) {
     console.log(error);
-    return <p className="text-white">Whoops... {error}</p>;
+    return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
   }
 
   if (currentEvent) {

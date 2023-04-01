@@ -7,6 +7,8 @@ import { gqlQueries, queryClient } from 'src/api';
 import ACMButton from '../components/PortalButton';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import { GraphQLError } from 'graphql';
+import ErrorComponent from 'components/ErrorComponent';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -74,7 +76,7 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
   // Fetch data
   // const { data, fetching, error } = profileResult;
   if (isLoading) return <p className="text-gray-100">loading...</p>;
-  if (error || !data) return <p className="text-gray-100">whoops... {error}</p>;
+  if (error || !data) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
 
   if (!data.profile) {
     router.push('/profile');

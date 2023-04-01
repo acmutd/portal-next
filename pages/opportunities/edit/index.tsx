@@ -8,6 +8,8 @@ import { useQuery } from 'react-query';
 import CircularBlur from '../../../components/CircularBlur';
 import { gqlQueries, queryClient } from 'src/api';
 import { dehydrate } from 'react-query';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql/error';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery('editAppData', () =>
@@ -43,7 +45,7 @@ const ApplicationsEditPage: NextPage = () => {
     },
   );
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <p className="text-gray-100">whoops... {error}</p>;
+  if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
 
   return (
     <div className="px-16 py-[65px] relative">
