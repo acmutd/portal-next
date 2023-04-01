@@ -17,6 +17,8 @@ import { GetServerSideProps } from 'next';
 import ProfileView from 'components/profile/ProfileView';
 import { gqlQueries, queryClient } from 'src/api';
 import { dehydrate, useQuery } from 'react-query';
+import { GraphQLError } from 'graphql/error';
+import ErrorComponent from 'components/ErrorComponent';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -39,6 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function ProfilePage({ profileVisited }: { profileVisited: boolean }) {
   const { data: session, status } = useSession({ required: true });
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState<GraphQLError|null>(null);
 
   useEffect(() => {
     if (!profileVisited) {
@@ -61,9 +64,10 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
 
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error}</p>;
-
+  console.log(errors)
   return (
     <>
+      {((errors) &&  <ErrorComponent errorMessage={errors.message} /> )}
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
           <div className="text-[36px] font-semibold text-gray-100">my account</div>
@@ -97,6 +101,9 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
           {formEditMode ? (
             <ProfileEditView
               profile={data!.profile}
+              onErrorEncounter={(error) => {
+                setErrors(error);
+              }}
               onUpdateFormCompleted={() => {
                 // TODO: add typed errors, see: check-netid.ts
                 // if (error && error.message.includes('[VALIDATION_ERROR]')) {

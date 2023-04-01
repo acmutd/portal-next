@@ -1,17 +1,22 @@
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql';
 import type { FindProfileQuery, Profile } from 'lib/generated/graphql';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { gqlQueries } from 'src/api';
 
 interface ProfileEditViewProps {
   profile: FindProfileQuery['profile'];
   onUpdateFormCompleted: () => void;
+  onErrorEncounter: (error: GraphQLError) => void;
 }
 
-export default function ProfileEditView({ profile, onUpdateFormCompleted }: ProfileEditViewProps) {
+export default function ProfileEditView({ profile, onUpdateFormCompleted, onErrorEncounter }: ProfileEditViewProps) {
   // TODO: Handle possibility of `profile` being undefined
   const { register, handleSubmit } = useForm<NonNullable<typeof profile>>();
   const { data: session } = useSession();
+  
   return (
     <>
       <div className="">
@@ -66,7 +71,7 @@ export default function ProfileEditView({ profile, onUpdateFormCompleted }: Prof
               });
               onUpdateFormCompleted();
             } catch (error) {
-              alert(error);
+              onErrorEncounter(error as GraphQLError);
             }
             // .then((operationResult) => {
             //   onUpdateFormCompleted(operationResult);
