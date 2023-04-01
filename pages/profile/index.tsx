@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 export default function ProfilePage({ profileVisited }: { profileVisited: boolean }) {
   const { data: session, status } = useSession({ required: true });
   const [open, setOpen] = useState(false);
-  const [errors, setErrors] = useState<GraphQLError|null>(null);
+  const [errors, setErrors] = useState<GraphQLError | null>(null);
 
   useEffect(() => {
     if (!profileVisited) {
@@ -64,10 +64,9 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
 
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <p className="text-gray-100">whoops... {error}</p>;
-  console.log(errors)
   return (
     <>
-      {((errors) &&  <ErrorComponent errorMessage={errors.message} /> )}
+      {errors && <ErrorComponent errorMessage={errors.message} />}
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
           <div className="text-[36px] font-semibold text-gray-100">my account</div>

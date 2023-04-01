@@ -12,11 +12,15 @@ interface ProfileEditViewProps {
   onErrorEncounter: (error: GraphQLError) => void;
 }
 
-export default function ProfileEditView({ profile, onUpdateFormCompleted, onErrorEncounter }: ProfileEditViewProps) {
+export default function ProfileEditView({
+  profile,
+  onUpdateFormCompleted,
+  onErrorEncounter,
+}: ProfileEditViewProps) {
   // TODO: Handle possibility of `profile` being undefined
   const { register, handleSubmit } = useForm<NonNullable<typeof profile>>();
   const { data: session } = useSession();
-  
+
   return (
     <>
       <div className="">
@@ -24,8 +28,8 @@ export default function ProfileEditView({ profile, onUpdateFormCompleted, onErro
           id="profile-form"
           className="w-full max-w-lg"
           onSubmit={handleSubmit(async (vals) => {
-            try {
-              await gqlQueries.upsertProfile({
+            await gqlQueries
+              .upsertProfile({
                 where: {
                   netid: vals.netid || profile!.netid,
                 },
@@ -68,11 +72,20 @@ export default function ProfileEditView({ profile, onUpdateFormCompleted, onErro
                         : vals.utdStudent,
                   },
                 },
+              })
+              .catch((error) => {
+                // const err: GraphQLError[] = ;
+                onErrorEncounter(
+                  JSON.parse(JSON.stringify(error)).response.errors[0] as GraphQLError,
+                );
               });
-              onUpdateFormCompleted();
-            } catch (error) {
-              onErrorEncounter(error as GraphQLError);
-            }
+            // try {
+
+            //   onUpdateFormCompleted();
+            // } catch (error) {
+            //   console.error((error as Error).stack);
+            //   onErrorEncounter(error as GraphQLError);
+            // }
             // .then((operationResult) => {
             //   onUpdateFormCompleted(operationResult);
             // })
