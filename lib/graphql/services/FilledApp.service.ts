@@ -21,7 +21,7 @@ export default class FilledApp {
       where: {
         id: fillAppId
       },
-      update: {
+      data: {
         status: status,
         score: score,
         notes: notes,

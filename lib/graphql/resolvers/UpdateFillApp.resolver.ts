@@ -1,4 +1,4 @@
-import { Event } from '@generated/type-graphql';
+import { Event, Profile } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
 import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
@@ -28,11 +28,11 @@ export default class UpdateFillAppResolver {
 
     const profile = await context.prisma.profile.findFirst({
         where: {
-            userId: userId,
+            userId: userId
         },
     });
 
-    const officerId = profile!.officerId;
+    const officerId = profile!.officer;
 
     if(officerId != null){
         const to_update = this.filledApp.getFilledApp(fillAppId)
