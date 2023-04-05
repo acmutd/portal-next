@@ -1,4 +1,4 @@
-import { Event, Profile } from '@generated/type-graphql';
+import { FilledApplication, Profile } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
 import { Arg, Ctx, Int, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
@@ -7,24 +7,24 @@ import FilledApp from '../services/FilledApp.service';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
 import { onlyOfficerAllowed } from '../middlewares/only-officer';
 
-@Resolver(() => Event)
+@Resolver(() => FilledApplication)
 @injectable()
 export default class UpdateFillAppResolver {
   constructor(private filledApp: FilledApp) {}
 
-  @Mutation(() => [])
+  @Mutation(() => FilledApplication)
   @UseMiddleware(onlyOfficerAllowed, InjectSessionMiddleware)
-  async checkInOldEvent(
+  async updateFilledApp(
     @Arg('fillAppId', () => String) fillAppId: string,
     @Arg('status', () => String) status: string,
     @Arg('score', () => Int) score: number,
     @Arg('notes', () => String) notes: string,
     @Arg('interviewLink', () => String) interviewLink: string,
-    @Ctx() context: TContext,
+    //@Ctx() context: TContext,
   ) {
-    const userId = context.session!.id;
+    //const userId = context.session!.id;
 
-    const profile: Profile | null = await context.prisma.profile.findFirst({
+    const profile: Profile | null = await prisma.profile.findFirst({
       where: {
         userId: userId,
       },
