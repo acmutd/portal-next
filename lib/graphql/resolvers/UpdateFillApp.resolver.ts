@@ -30,9 +30,9 @@ export default class UpdateFillAppResolver {
       },
     });
 
-    const officerId = profile!.officer?.id;
+    const officer = profile!.officer;
 
-    if (officerId !== null) {
+    if (officer !== null) {
       const to_update = this.filledApp.getFilledApp(fillAppId);
       return this.filledApp.updateFilledApp(fillAppId, status, score, notes, interviewLink);
     }
