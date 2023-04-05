@@ -10,9 +10,7 @@ import { onlyOfficerAllowed } from '../middlewares/only-officer';
 @Resolver(() => Event)
 @injectable()
 export default class UpdateFillAppResolver {
-  constructor(
-    private filledApp: FilledApp
-  ) {}
+  constructor(private filledApp: FilledApp) {}
 
   @Mutation(() => [])
   @UseMiddleware(onlyOfficerAllowed, InjectSessionMiddleware)
@@ -23,20 +21,20 @@ export default class UpdateFillAppResolver {
     @Arg('notes', () => String) notes: string,
     @Arg('interviewLink', () => String) interviewLink: string,
     @Ctx() context: TContext,
-  ){
-    const userId = context.session!.id
+  ) {
+    const userId = context.session!.id;
 
-    const profile = await context.prisma.profile.findFirst({
-        where: {
-            userId: userId
-        },
+    const profile: Profile | null = await context.prisma.profile.findFirst({
+      where: {
+        userId: userId,
+      },
     });
 
-    const officerId = profile!.officer;
+    const officerId = profile!.officer?.id;
 
-    if(officerId != null){
-        const to_update = this.filledApp.getFilledApp(fillAppId)
-        return this.filledApp.updateFilledApp(fillAppId, status, score, notes, interviewLink);
+    if (officerId !== null) {
+      const to_update = this.filledApp.getFilledApp(fillAppId);
+      return this.filledApp.updateFilledApp(fillAppId, status, score, notes, interviewLink);
     }
   }
 }
