@@ -1,9 +1,7 @@
-import aws from 'aws-sdk';
+import { SFNClient } from '@aws-sdk/client-sfn';
 
 export function createStepFunctionInstance() {
-  aws.config.update({
+  return new SFNClient({
     region: 'us-east-1',
   });
-
-  return new aws.StepFunctions();
 }

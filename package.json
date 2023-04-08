@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/server": "^4.4.0",
     "@as-integrations/next": "^1.2.0",
+    "@aws-sdk/client-sfn": "^3.309.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@google-cloud/pubsub": "^3.2.0",
@@ -24,7 +25,6 @@
     "@prisma/client": "^4.10.1",
     "@typeform/embed-react": "^1.17.0",
     "@typegoose/typegoose": "^9.5.0",
-    "aws-sdk": "^2.1321.0",
     "axios": "^0.26.0",
     "class-validator": "^0.14.0",
     "content-disposition": "^0.5.4",
