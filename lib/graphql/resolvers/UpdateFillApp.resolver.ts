@@ -14,29 +14,23 @@ export default class UpdateFillAppResolver {
   constructor(private filledApp: FilledApp) {}
 
   @Mutation(() => FilledApplication)
-  @UseMiddleware(InjectSessionMiddleware)
+  @UseMiddleware(onlyOfficerAllowed, InjectSessionMiddleware)
   async updateFilledApp(
     @Arg('fillAppId', () => String) fillAppId: string,
     @Arg('status', () => String) status: string,
     @Arg('score', () => Int) score: number,
     @Arg('notes', () => String) notes: string,
     @Arg('interviewLink', () => String) interviewLink: string,
-    //@Ctx() context: TContext,
+    @Ctx() context: TContext,
   ) {
-    console.log("hi")
-    const prisma = getPrismaConnection();
-    //const userId = context.session!.id;
-    const userId = "635ed2eb1907a687abdc56a2"
-    console.log(userId)
-    const profile: Profile | null = await prisma.profile.findFirst({
+    const userId = context.session!.id;
+    const profile: Profile | null = await context.prisma.profile.findFirst({
       where: {
         userId: userId
       },
     });
 
     const officer = profile!.officer;
-    fillAppId = "641c61babc9b4373e013cac6"
-    console.log("officer")
     if (officer !== null) {
       const to_update = this.filledApp.getFilledApp(fillAppId);
       return this.filledApp.updateFilledApp(fillAppId, status, score, notes, interviewLink);
