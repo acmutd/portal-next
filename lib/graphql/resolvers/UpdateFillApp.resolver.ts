@@ -28,7 +28,7 @@ export default class UpdateFillAppResolver {
     //const userId = context.session!.id;
     const userId = "635ed2eb1907a687abdc56a2"
     console.log(userId)
-    const profile = await prisma.profile.findFirst({
+    const profile: Profile | null = await prisma.profile.findFirst({
       where: {
         userId: userId
       },
