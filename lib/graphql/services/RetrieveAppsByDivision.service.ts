@@ -6,12 +6,12 @@ import { getPrismaConnection } from 'lib/prisma/manager';
 export default class RetrieveAppsByDivision {
   async retrieveApps(divIds: string[]): Promise<Application[]> {
     const prisma = getPrismaConnection();
-    const divisionFilter = {
+    const appFilterbyDiv = {
       where: {
         divisionId: { in: divIds },
       },
     };
-    const apps = await prisma.application.findMany(divisionFilter);
+    const apps = await prisma.application.findMany(appFilterbyDiv);
     return apps;
   }
 }
