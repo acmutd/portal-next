@@ -6,12 +6,12 @@ import { getPrismaConnection } from 'lib/prisma/manager';
 export default class FilledApp {
   async getFilledApp(fillAppId: string): Promise<FilledApplication | null> {
     const prisma = getPrismaConnection();
-    const eventFilter = {
+    const fillAppFilter = {
       where: {
         id: fillAppId
       },
     };
-    const filled_app = await prisma.filledApplication.findFirst(eventFilter);
+    const filled_app = await prisma.filledApplication.findFirst(fillAppFilter);
     return filled_app;
   }
 

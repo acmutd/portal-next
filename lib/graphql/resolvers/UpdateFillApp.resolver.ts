@@ -30,8 +30,12 @@ export default class UpdateFillAppResolver {
       },
     });
 
+    //checks if officer exists
     const officer = profile!.officer!;
+
+    //checks if a filled app exists
     const to_update = this.filledApp.getFilledApp(fillAppId);
+
     return this.filledApp.updateFilledApp(fillAppId, status, score, notes, interviewLink);
   }
 }
