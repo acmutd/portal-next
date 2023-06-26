@@ -76,6 +76,9 @@ export default function EventPage() {
               url: {
                 set: form.url,
               },
+              isPublic: {
+                set: form.isPublic,
+              },
             },
             where: {
               id: currentEvent.id,
