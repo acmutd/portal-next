@@ -1,8 +1,8 @@
-import { Profile } from '@generated/type-graphql';
 import ProfileField from 'components/profile/ProfileField';
+import { FindProfileQuery } from 'lib/generated/graphql';
 
 interface ProfileViewProps {
-  profile?: Profile;
+  profile?: FindProfileQuery['profile'];
 }
 
 export default function ProfileView({ profile }: ProfileViewProps) {
