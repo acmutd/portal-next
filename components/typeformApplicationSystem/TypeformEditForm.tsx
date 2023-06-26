@@ -1,67 +1,58 @@
 import Router from 'next/router';
-import type {
-  TypeformApplication,
-  UpdateOneTypeformApplicationArgs,
-} from '@generated/type-graphql';
-import type { ReactHookFormProps } from 'lib/types/form';
-import type { MutationFunctionType } from 'lib/types/graphql';
+import type { TypeformApplication } from '@generated/type-graphql';
+import { useForm } from 'react-hook-form';
+import { gqlQueries } from 'src/api';
+import { FindTypeformApplicationQuery } from 'lib/generated/graphql';
 
-type UpdateTypeformApplicationMutationType = MutationFunctionType<
-  UpdateOneTypeformApplicationArgs,
-  {
-    updateTypeformApplication: TypeformApplication;
-  }
->;
-
-interface TypeformEditFormProps extends ReactHookFormProps<Omit<TypeformApplication, 'id'>> {
+interface TypeformEditFormProps {
   id: string;
-  updateTypeformApplication: UpdateTypeformApplicationMutationType;
-  currentApplicationData: TypeformApplication;
+  currentApplicationData: FindTypeformApplicationQuery['findFirstTypeformApplication'];
 }
 
 export default function TypeformEditForm({
-  handleSubmit,
-  register,
   id,
-  updateTypeformApplication,
   currentApplicationData,
 }: TypeformEditFormProps): JSX.Element {
+  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
+
   return (
     <div className="pb-16">
       <form
         id="update-typeform"
         className="justify-between min-h-full h-full"
         onSubmit={handleSubmit((vals) => {
-          updateTypeformApplication({
-            where: {
-              id: id,
-            },
-            data: {
-              active: {
-                set: vals.active,
+          gqlQueries
+            .updateTypeformApplication({
+              where: {
+                id: id,
               },
-              description: {
-                set: vals.description,
+              data: {
+                active: {
+                  set: vals.active,
+                },
+                description: {
+                  set: vals.description,
+                },
+                endpoint: {
+                  set: vals.endpoint,
+                },
+                externalResourceUrl: {
+                  set: vals.externalResourceUrl,
+                },
+                typeformId: {
+                  set: vals.typeformId,
+                },
+                typeformName: {
+                  set: vals.typeformName,
+                },
+                division: {
+                  set: vals.division,
+                },
               },
-              endpoint: {
-                set: vals.endpoint,
-              },
-              externalResourceUrl: {
-                set: vals.externalResourceUrl,
-              },
-              typeformId: {
-                set: vals.typeformId,
-              },
-              typeformName: {
-                set: vals.typeformName,
-              },
-              division: {
-                set: vals.division,
-              },
-            },
-          }).then(() => {
-            Router.push('/opportunities');
-          });
+            })
+            .then(() => {
+              Router.push('/opportunities');
+            });
         })}
       >
         <div className="flex flex-wrap gap-8 -mx-3 mb-6 text-gray-100">

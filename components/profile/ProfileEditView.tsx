@@ -1,82 +1,97 @@
-import type { Profile, UpsertOneProfileArgs } from '@generated/type-graphql';
-import type { ReactHookFormProps } from 'lib/types/form';
-import type { MutationFunctionType } from 'lib/types/graphql';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql';
+import type { FindProfileQuery, Profile } from 'lib/generated/graphql';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { gqlQueries } from 'src/api';
 
-type UpdateProfileMutationType = MutationFunctionType<UpsertOneProfileArgs | undefined, void>;
-
-interface ProfileEditViewProps extends ReactHookFormProps<Profile> {
-  profile?: Profile;
-  updateProfile: UpdateProfileMutationType;
-  userId: string;
-  userEmail: string;
-  onUpdateFormCompleted: (obj: Awaited<ReturnType<UpdateProfileMutationType>>) => void;
+interface ProfileEditViewProps {
+  profile: FindProfileQuery['profile'];
+  onUpdateFormCompleted: () => void;
+  onErrorEncounter: (error: GraphQLError) => void;
 }
 
 export default function ProfileEditView({
-  handleSubmit,
-  register,
   profile,
-  updateProfile,
-  userId,
-  userEmail,
   onUpdateFormCompleted,
+  onErrorEncounter,
 }: ProfileEditViewProps) {
   // TODO: Handle possibility of `profile` being undefined
+  const { register, handleSubmit } = useForm<NonNullable<typeof profile>>();
+  const { data: session } = useSession();
+
   return (
     <>
       <div className="">
         <form
           id="profile-form"
           className="w-full max-w-lg"
-          onSubmit={handleSubmit((vals) => {
-            updateProfile({
-              where: {
-                netid: vals.netid || profile!.netid,
-              },
-              create: {
-                user: {
-                  connect: {
-                    id: userId,
+          onSubmit={handleSubmit(async (vals) => {
+            await gqlQueries
+              .upsertProfile({
+                where: {
+                  netid: vals.netid || profile!.netid,
+                },
+                create: {
+                  user: {
+                    connect: {
+                      id: session!.id,
+                    },
+                  },
+                  firstName: vals.firstName,
+                  lastName: vals.lastName,
+                  email: session!.user!.email!,
+                  netid: vals.netid,
+                  classStanding: vals.classStanding,
+                  major: vals.major,
+                  utdStudent: vals.utdStudent,
+                  membershipStatus: false,
+                  resume: false,
+                },
+                update: {
+                  firstName: {
+                    set: vals.firstName || profile!.firstName,
+                  },
+                  lastName: {
+                    set: vals.lastName || profile!.lastName,
+                  },
+                  netid: {
+                    set: vals.netid || profile!.netid,
+                  },
+                  classStanding: {
+                    set: vals.classStanding || profile!.classStanding,
+                  },
+                  major: {
+                    set: vals.major || profile!.major,
+                  },
+                  utdStudent: {
+                    set:
+                      vals.utdStudent === undefined
+                        ? profile?.utdStudent || false
+                        : vals.utdStudent,
                   },
                 },
-                firstName: vals.firstName,
-                lastName: vals.lastName,
-                email: userEmail,
-                netid: vals.netid,
-                classStanding: vals.classStanding,
-                major: vals.major,
-                utdStudent: vals.utdStudent,
-                membershipStatus: false,
-                resume: false,
-              },
-              update: {
-                firstName: {
-                  set: vals.firstName || profile!.firstName,
-                },
-                lastName: {
-                  set: vals.lastName || profile!.lastName,
-                },
-                netid: {
-                  set: vals.netid || profile!.netid,
-                },
-                classStanding: {
-                  set: vals.classStanding || profile!.classStanding,
-                },
-                major: {
-                  set: vals.major || profile!.major,
-                },
-                utdStudent: {
-                  set:
-                    vals.utdStudent === undefined ? profile?.utdStudent || false : vals.utdStudent,
-                },
-              },
-            })
-              .then((operationResult) => {
-                onUpdateFormCompleted(operationResult);
               })
-              .catch((err) => {
-                alert(err);
+              .catch((error) => {
+                // const err: GraphQLError[] = ;
+                onErrorEncounter(
+                  JSON.parse(JSON.stringify(error)).response.errors[0] as GraphQLError,
+                );
               });
+            // try {
+
+            //   onUpdateFormCompleted();
+            // } catch (error) {
+            //   console.error((error as Error).stack);
+            //   onErrorEncounter(error as GraphQLError);
+            // }
+            // .then((operationResult) => {
+            //   onUpdateFormCompleted(operationResult);
+            // })
+            // .catch((err) => {
+            //   alert(err);
+            // });
           })}
         >
           <div className="flex flex-wrap -mx-3 mb-6">

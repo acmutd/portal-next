@@ -9,105 +9,54 @@ import EventHeader from 'components/events/EventHeader';
 import EventSection from 'components/events/EventSection';
 import { useState } from 'react';
 import SingleEventView from 'components/events/SingleEventView';
-import { gql, useMutation, useQuery } from 'urql';
-import { ActiveEventResult, EventResult } from '../../lib/types/event';
 import EventForm from 'components/events/EventForm';
-import { Event, UpdateOneEventArgs, DeleteOneEventArgs } from '@generated/type-graphql';
 import { useSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+import { gqlQueries, queryClient } from 'src/api';
+import { dehydrate, useQuery } from 'react-query';
+import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql/error';
 
-const COMPONENT_QUERY = gql`
-  query {
-    me {
-      attendedEvents {
-        summary
-        start
-        location
-      }
-      isOfficer
-    }
-    upcomingEvents {
-      id
-      summary
-      start
-      location
-      end
-      description
-      url
-      isPublic
-    }
-  }
-`;
-
-const UPDATE_EVENT_MUTATION = gql`
-  mutation UpdateOneEvent($data: EventUpdateInput!, $where: EventWhereUniqueInput!) {
-    updateOneEvent(data: $data, where: $where) {
-      summary
-      description
-      url
-      location
-      start
-      end
-      id
-    }
-  }
-`;
-
-const DELETE_EVENT_MUTATION = gql`
-  mutation DeleteOneEvent($where: EventWhereUniqueInput!) {
-    deleteOneEvent(where: $where) {
-      id
-    }
-  }
-`;
-
-interface QueryResultType {
-  me: {
-    attendedEvents: EventResult[];
-    isOfficer: boolean;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await queryClient.prefetchQuery(['eventsData'], () => gqlQueries.getEventPageUserInfo());
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
   };
-  upcomingEvents: ActiveEventResult[];
-}
+};
 
 export default function EventPage() {
   const { status } = useSession({ required: true });
-  const [{ data: queryResult, fetching, error }, _] = useQuery<QueryResultType>({
-    query: COMPONENT_QUERY,
-  });
-  const [__, updateEvent] = useMutation<
-    {
-      updateOneEvent: Event;
-    },
-    UpdateOneEventArgs
-  >(UPDATE_EVENT_MUTATION);
-  const [__2, deleteEvent] = useMutation<
-    {
-      deleteOneEvent: Event;
-    },
-    DeleteOneEventArgs
-  >(DELETE_EVENT_MUTATION);
+  const { data, isLoading, error } = useQuery(
+    ['eventsData'],
+    () => gqlQueries.getEventPageUserInfo(),
+    { enabled: status === 'authenticated' },
+  );
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState<ActiveEventResult | null>(null);
+  const [currentEvent, setCurrentEvent] = useState<
+    GetEventPageUserInfoQuery['upcomingEvents'][0] | null
+  >(null);
 
-  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) {
     console.log(error);
-    return <p className="text-white">Whoops... {error.message}</p>;
+    return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
   }
-
-  const { me, upcomingEvents } = queryResult!;
 
   if (currentEvent) {
     return isEditMode ? (
       <EventForm
         formAction="Edit"
         onGoBack={() => setCurrentEvent(null)}
-        onDeleteEvent={() => {
-          deleteEvent({ where: { id: currentEvent.id } });
+        onDeleteEvent={async () => {
+          await gqlQueries.deleteEvent({ where: { id: currentEvent.id } });
           setCurrentEvent(null);
         }}
         onFormSubmit={async (form) => {
-          await updateEvent({
+          await gqlQueries.updateEventData({
             data: {
               description: {
                 set: form.description,
@@ -127,6 +76,9 @@ export default function EventPage() {
               url: {
                 set: form.url,
               },
+              isPublic: {
+                set: form.isPublic,
+              },
             },
             where: {
               id: currentEvent.id,
@@ -139,9 +91,8 @@ export default function EventPage() {
     ) : (
       <SingleEventView
         onGoBack={() => setCurrentEvent(null)}
-        onRsvp={() => {}}
         event={currentEvent}
-        isOfficer={me.isOfficer}
+        isOfficer={data!.me.isOfficer}
       />
     );
   }
@@ -150,7 +101,7 @@ export default function EventPage() {
     <div className="w-full text-white p-4">
       <EventHeader
         isInEditMode={isEditMode}
-        isOfficer={me.isOfficer}
+        isOfficer={data!.me.isOfficer}
         toggleEdit={() => {
           setIsEditMode(!isEditMode);
         }}
@@ -158,15 +109,15 @@ export default function EventPage() {
       <div className="flex flex-col gap-y-5">
         <EventSection
           sectionName="upcoming events"
-          events={upcomingEvents}
-          onEventSelected={(eventIndex) => setCurrentEvent(upcomingEvents[eventIndex])}
+          events={data!.upcomingEvents}
+          onEventSelected={(eventIndex) => setCurrentEvent(data!.upcomingEvents[eventIndex])}
           allowedActions={isEditMode ? ['click to edit'] : ['click to view details']}
-          allowCreateEventAction={me.isOfficer}
+          allowCreateEventAction={data!.me.isOfficer}
           isEditMode={isEditMode}
         />
         <EventSection
           sectionName="attended events"
-          events={me.attendedEvents}
+          events={data!.me.attendedEvents}
           allowedActions={[]}
           allowCreateEventAction={false}
           isEditMode={false}
