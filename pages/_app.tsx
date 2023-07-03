@@ -3,25 +3,24 @@ import '../styles/fonts.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import Skeleton from '../components/Skeleton';
-import { createClient, Provider } from 'urql';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-
-const client = createClient({
-  url: '/api/graphql',
-});
+import { Hydrate, QueryClientProvider } from 'react-query';
+import { queryClient } from 'src/api';
 
 function MyApp({ Component, pageProps }: AppProps<any>) {
   return (
-    <Provider value={client}>
-      <SessionProvider session={pageProps.session}>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          <Skeleton>
-            <Component {...pageProps} />
-          </Skeleton>
-        </LocalizationProvider>
-      </SessionProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <SessionProvider session={pageProps.session}>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <Skeleton>
+              <Component {...pageProps} />
+            </Skeleton>
+          </LocalizationProvider>
+        </SessionProvider>
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
 export default MyApp;

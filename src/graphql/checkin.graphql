@@ -1,0 +1,14 @@
+mutation checkInToEvent($checkInData: EventCheckinInput!) {
+  checkinToEvent(options: $checkInData) {
+    profileId
+    eventId
+  }
+}
+
+query getCheckInPageUserInfo {
+  me {
+    profile {
+      id
+    }
+  }
+}

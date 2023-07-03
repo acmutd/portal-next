@@ -3,57 +3,51 @@ import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import EmailToast from 'components/EmailToast';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { gql, useQuery } from 'urql';
-import { Profile, TypeformApplication } from '@generated/type-graphql';
+import { useQuery } from 'react-query';
+import { gqlQueries, queryClient } from 'src/api';
+import { dehydrate } from 'react-query';
+import { useRouter } from 'next/router';
+import ErrorComponent from 'components/ErrorComponent';
+import { GraphQLError } from 'graphql/error';
 
-interface ActiveApplicationsQuery {
-  typeformApplications: TypeformApplication[];
-  me: {
-    isOfficer: boolean;
-    profile: Profile;
-  };
-}
-const ApplicationsPage: NextPage = () => {
-  const ACTIVE_APPLICATIONS_QUERY = gql`
-    query GetActiveApplications($where: TypeformApplicationWhereInput) {
-      typeformApplications(where: $where) {
-        id
-        active
-        description
-        typeformId
-        typeformName
-        division
-        externalResourceUrl
-      }
-      me {
-        isOfficer
-        profile {
-          firstName
-          email
-          lastName
-          major
-          netid
-          classStanding
-        }
-      }
-    }
-  `;
-
-  const { status } = useSession({ required: true });
-  const [{ data, fetching, error }, reexecuteQuery] = useQuery<ActiveApplicationsQuery>({
-    query: ACTIVE_APPLICATIONS_QUERY,
-    variables: {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await queryClient.prefetchQuery(['applicationPage'], () =>
+    gqlQueries.getTypeformApplicationsWithUserData({
       where: {
         active: {
           equals: true,
         },
       },
+    }),
+  );
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
     },
-  });
+  };
+};
+
+const ApplicationsPage: NextPage = () => {
+  const { status } = useSession({ required: true });
+  const router = useRouter();
+  const { data, error, isLoading } = useQuery(
+    ['applicationData'],
+    () =>
+      gqlQueries.getTypeformApplicationsWithUserData({
+        where: {
+          active: {
+            equals: true,
+          },
+        },
+      }),
+    {
+      enabled: status === 'authenticated',
+    },
+  );
 
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -63,8 +57,11 @@ const ApplicationsPage: NextPage = () => {
     }
   }, []);
 
-  if (fetching || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <p className="text-gray-100">whoops... {error.message}</p>;
+  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
+  if (!data!.me.profile) {
+    router.push('/profile');
+  }
 
   return (
     <div className="px-16 py-[65px] relative">
@@ -90,12 +87,12 @@ const ApplicationsPage: NextPage = () => {
                 <PopupButton
                   id={typeformId}
                   hidden={{
-                    email: data!.me.profile.email,
-                    first_name: data!.me.profile.firstName,
-                    last_name: data!.me.profile.lastName,
-                    major: data!.me.profile.major,
-                    net_id: data!.me.profile.netid,
-                    classification: data!.me.profile.classStanding,
+                    email: data!.me.profile!.email || '',
+                    first_name: data!.me.profile!.firstName || '',
+                    last_name: data!.me.profile!.lastName || '',
+                    major: data!.me.profile!.major || '',
+                    net_id: data!.me.profile!.netid || '',
+                    classification: data!.me.profile!.classStanding || '',
                   }}
                   className="my-button"
                 >

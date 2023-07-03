@@ -1,0 +1,84 @@
+mutation createTypeformApplication($data: TypeformApplicationCreateInput!) {
+  createOneTypeformApplication(data: $data) {
+    id
+    active
+    description
+    endpoint
+    externalResourceUrl
+    typeformId
+    typeformName
+  }
+}
+
+query getTypeformApplicationsWithUserData($where: TypeformApplicationWhereInput) {
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+    externalResourceUrl
+  }
+  me {
+    isOfficer
+    profile {
+      firstName
+      email
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+}
+
+query findTypeformApplication($where: TypeformApplicationWhereInput) {
+  findFirstTypeformApplication(where: $where) {
+    id
+    typeformName
+    description
+    endpoint
+    externalResourceUrl
+    active
+    typeformId
+    division
+  }
+}
+
+mutation updateTypeformApplication(
+  $data: TypeformApplicationUpdateInput!
+  $where: TypeformApplicationWhereUniqueInput!
+) {
+  updateOneTypeformApplication(data: $data, where: $where) {
+    id
+    active
+    description
+    endpoint
+    externalResourceUrl
+    typeformId
+    typeformName
+  }
+}
+
+mutation deleteTypeformApplication($where: TypeformApplicationWhereUniqueInput!) {
+  deleteOneTypeformApplication(where: $where) {
+    id
+    typeformName
+    description
+  }
+}
+
+query getEditViewApplicationList($where: TypeformApplicationWhereInput) {
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+  }
+  me {
+    isOfficer
+  }
+}

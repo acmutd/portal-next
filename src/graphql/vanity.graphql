@@ -1,0 +1,7 @@
+mutation createVanityLink($data: VanityLinkCreateInput!) {
+  createOneVanityLink(data: $data) {
+    originalUrl
+    vanityDomain
+    slashtag
+  }
+}

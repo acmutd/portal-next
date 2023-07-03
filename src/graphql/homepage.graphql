@@ -1,0 +1,15 @@
+query getHomePageUserInfo($where: ProfileWhereUniqueInput!) {
+  me {
+    attendedEvents {
+      description
+      location
+      summary
+      start
+    }
+  }
+  profile(where: $where) {
+    firstName
+    netid
+    email
+  }
+}
