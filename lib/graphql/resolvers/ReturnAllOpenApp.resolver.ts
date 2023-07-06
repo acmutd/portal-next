@@ -12,7 +12,7 @@ export default class ReturnAllOpenAppResolver {
   ) {}
 
   @Query(() => [Application])
-  async returnAlLOpenApp(
+  async returnAllOpenApp(
     @Arg('date', () => Date) dateCur: Date,
     @Ctx() context: TContext
   ){
