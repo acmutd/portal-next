@@ -256,6 +256,32 @@ export enum Action {
   Upload = 'UPLOAD'
 }
 
+export type Application = {
+  __typename?: 'Application';
+  _count?: Maybe<ApplicationCount>;
+  createdAt: Scalars['DateTime'];
+  divisionId: Scalars['String'];
+  expireDate: Scalars['DateTime'];
+  id: Scalars['String'];
+  questions: Array<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ApplicationCount = {
+  __typename?: 'ApplicationCount';
+  fillApplications: Scalars['Int'];
+};
+
+export type ApplicationCreateInput = {
+  createdAt: Scalars['DateTime'];
+  division: DivisionCreateNestedOneWithoutApplicationsInput;
+  expireDate: Scalars['DateTime'];
+  fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutAppInput>;
+  id?: InputMaybe<Scalars['String']>;
+  questions?: InputMaybe<ApplicationCreatequestionsInput>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
 export type ApplicationCreateManyDivisionInput = {
   createdAt: Scalars['DateTime'];
   expireDate: Scalars['DateTime'];
@@ -319,10 +345,34 @@ export type ApplicationListRelationFilter = {
   some?: InputMaybe<ApplicationWhereInput>;
 };
 
+export type ApplicationOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type ApplicationOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  division?: InputMaybe<DivisionOrderByWithRelationInput>;
+  divisionId?: InputMaybe<SortOrder>;
+  expireDate?: InputMaybe<SortOrder>;
+  fillApplications?: InputMaybe<FilledApplicationOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  questions?: InputMaybe<SortOrder>;
+  type?: InputMaybe<SortOrder>;
+};
+
 export type ApplicationRelationFilter = {
   is?: InputMaybe<ApplicationWhereInput>;
   isNot?: InputMaybe<ApplicationWhereInput>;
 };
+
+export enum ApplicationScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  DivisionId = 'divisionId',
+  ExpireDate = 'expireDate',
+  Id = 'id',
+  Questions = 'questions',
+  Type = 'type'
+}
 
 export type ApplicationScalarWhereInput = {
   AND?: InputMaybe<Array<ApplicationScalarWhereInput>>;
@@ -334,6 +384,15 @@ export type ApplicationScalarWhereInput = {
   id?: InputMaybe<StringFilter>;
   questions?: InputMaybe<StringNullableListFilter>;
   type?: InputMaybe<StringNullableFilter>;
+};
+
+export type ApplicationUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  division?: InputMaybe<DivisionUpdateOneRequiredWithoutApplicationsNestedInput>;
+  expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  fillApplications?: InputMaybe<FilledApplicationUpdateManyWithoutAppNestedInput>;
+  questions?: InputMaybe<ApplicationUpdatequestionsInput>;
+  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateManyMutationInput = {
@@ -509,6 +568,14 @@ export type DivisionListRelationFilter = {
 
 export type DivisionOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
+};
+
+export type DivisionOrderByWithRelationInput = {
+  applications?: InputMaybe<ApplicationOrderByRelationAggregateInput>;
+  deptName?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  officerIds?: InputMaybe<SortOrder>;
+  officers?: InputMaybe<OfficerOrderByRelationAggregateInput>;
 };
 
 export type DivisionRelationFilter = {
@@ -1217,24 +1284,28 @@ export type Mutation = {
   checkInOldEvent: Array<EventCheckin>;
   checkinToEvent: EventCheckin;
   createOneAccount: Account;
+  createOneApplication: Application;
   createOneEvent: Event;
   createOneEventReservation: EventReservation;
   createOneProfile: Profile;
   createOneTypeformApplication: TypeformApplication;
   createOneVanityLink: VanityLink;
   deleteOneAccount?: Maybe<Account>;
+  deleteOneApplication?: Maybe<Application>;
   deleteOneEvent?: Maybe<Event>;
   deleteOneEventReservation?: Maybe<EventReservation>;
   deleteOneTypeformApplication?: Maybe<TypeformApplication>;
   deleteOneVanityLink?: Maybe<VanityLink>;
   transferFile: SignedUrl;
   updateOneAccount?: Maybe<Account>;
+  updateOneApplication?: Maybe<Application>;
   updateOneEvent?: Maybe<Event>;
   updateOneEventReservation?: Maybe<EventReservation>;
   updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   updateOneVanityLink?: Maybe<VanityLink>;
   upsertOneAccount: Account;
+  upsertOneApplication: Application;
   upsertOneEvent: Event;
   upsertOneEventReservation: EventReservation;
   upsertOneProfile: Profile;
@@ -1254,6 +1325,11 @@ export type MutationCheckinToEventArgs = {
 
 export type MutationCreateOneAccountArgs = {
   data: AccountCreateInput;
+};
+
+
+export type MutationCreateOneApplicationArgs = {
+  data: ApplicationCreateInput;
 };
 
 
@@ -1287,6 +1363,11 @@ export type MutationDeleteOneAccountArgs = {
 };
 
 
+export type MutationDeleteOneApplicationArgs = {
+  where: ApplicationWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneEventArgs = {
   where: EventWhereUniqueInput;
 };
@@ -1315,6 +1396,12 @@ export type MutationTransferFileArgs = {
 export type MutationUpdateOneAccountArgs = {
   data: AccountUpdateInput;
   where: AccountWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneApplicationArgs = {
+  data: ApplicationUpdateInput;
+  where: ApplicationWhereUniqueInput;
 };
 
 
@@ -1352,6 +1439,13 @@ export type MutationUpsertOneAccountArgs = {
   create: AccountCreateInput;
   update: AccountUpdateInput;
   where: AccountWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneApplicationArgs = {
+  create: ApplicationCreateInput;
+  update: ApplicationUpdateInput;
+  where: ApplicationWhereUniqueInput;
 };
 
 
@@ -1505,6 +1599,10 @@ export type OfficerListRelationFilter = {
   every?: InputMaybe<OfficerWhereInput>;
   none?: InputMaybe<OfficerWhereInput>;
   some?: InputMaybe<OfficerWhereInput>;
+};
+
+export type OfficerOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type OfficerOrderByWithRelationInput = {
@@ -2003,15 +2101,28 @@ export type ProfileWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  applications: Array<Application>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
+  findFirstApplication?: Maybe<Application>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
   me: User;
   profile?: Maybe<Profile>;
   profiles: Array<Profile>;
+  returnAllOpenApp: Array<Application>;
   typeformApplications: Array<TypeformApplication>;
   upcomingEvents: Array<Event>;
   vanityLinks: Array<VanityLink>;
+};
+
+
+export type QueryApplicationsArgs = {
+  cursor?: InputMaybe<ApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ApplicationWhereInput>;
 };
 
 
@@ -2032,6 +2143,16 @@ export type QueryEventsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<EventWhereInput>;
+};
+
+
+export type QueryFindFirstApplicationArgs = {
+  cursor?: InputMaybe<ApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ApplicationWhereInput>;
 };
 
 
@@ -2057,6 +2178,11 @@ export type QueryProfilesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ProfileWhereInput>;
+};
+
+
+export type QueryReturnAllOpenAppArgs = {
+  date: Scalars['DateTime'];
 };
 
 
@@ -2764,6 +2890,13 @@ export type VanityLinkWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type FindFirstApplicationQueryVariables = Exact<{
+  where?: InputMaybe<ApplicationWhereInput>;
+}>;
+
+
+export type FindFirstApplicationQuery = { __typename?: 'Query', findFirstApplication?: { __typename?: 'Application', id: string, divisionId: string, questions: Array<string> } | null };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -2909,6 +3042,15 @@ export type CreateVanityLinkMutationVariables = Exact<{
 export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanityLink: { __typename?: 'VanityLink', originalUrl: string, vanityDomain: string, slashtag: string } };
 
 
+export const FindFirstApplicationDocument = gql`
+    query findFirstApplication($where: ApplicationWhereInput) {
+  findFirstApplication(where: $where) {
+    id
+    divisionId
+    questions
+  }
+}
+    `;
 export const CheckInToEventDocument = gql`
     mutation checkInToEvent($checkInData: EventCheckinInput!) {
   checkinToEvent(options: $checkInData) {
@@ -3163,6 +3305,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    findFirstApplication(variables?: FindFirstApplicationQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindFirstApplicationQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindFirstApplicationQuery>(FindFirstApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFirstApplication', 'query');
+    },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
     },

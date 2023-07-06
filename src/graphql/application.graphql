@@ -1,0 +1,15 @@
+query findFirstApplication($where: ApplicationWhereInput) {
+  findFirstApplication(where: $where) {
+    id
+    divisionId
+    questions
+  }
+}
+
+# query fetchAllOpenApplications($date: DateTime!) {
+#   returnAllOpenApp(date: $date) {
+#     divisionId
+#     id
+#     questions
+#   }
+# }
