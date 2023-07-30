@@ -161,7 +161,9 @@ model Application {
     externalResourceUrl String
     description         String
     createdAt           DateTime
-    expireDate          DateTime    questions        String[]
+    expireDate          DateTime    
+    questions        String[]
+    
     fillApplications FilledApplication[]
 
     divisionId String   @db.ObjectId
