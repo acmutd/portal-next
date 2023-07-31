@@ -2897,6 +2897,15 @@ export type FindFirstApplicationQueryVariables = Exact<{
 
 export type FindFirstApplicationQuery = { __typename?: 'Query', findFirstApplication?: { __typename?: 'Application', id: string, divisionId: string, questions: Array<string> } | null };
 
+export type FetchAllOpenApplicationsQueryVariables = Exact<{
+  date: Scalars['DateTime'];
+}>;
+
+
+export type FetchAllOpenApplicationsQuery = {
+    __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, id: string, questions: Array<string> }> 
+};
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -3047,6 +3056,15 @@ export const FindFirstApplicationDocument = gql`
   findFirstApplication(where: $where) {
     id
     divisionId
+    questions
+  }
+}
+    `;
+export const FetchAllOpenApplicationsDocument = gql`
+    query fetchAllOpenApplications($date: DateTime!) {
+  returnAllOpenApp(date: $date) {
+    divisionId
+    id
     questions
   }
 }
@@ -3307,6 +3325,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     findFirstApplication(variables?: FindFirstApplicationQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindFirstApplicationQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindFirstApplicationQuery>(FindFirstApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFirstApplication', 'query');
+    },
+    fetchAllOpenApplications(variables: FetchAllOpenApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FetchAllOpenApplicationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchAllOpenApplicationsQuery>(FetchAllOpenApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchAllOpenApplications', 'query');
     },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
