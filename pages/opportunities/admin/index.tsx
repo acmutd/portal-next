@@ -10,7 +10,7 @@ import { gqlQueries, queryClient } from 'src/api';
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['viewAllApps'], () =>
     gqlQueries.fetchAllOpenApplications({
-        date : new Date(Date.now()).toISOString()
+      date: new Date(Date.now()).toISOString(),
     }),
   );
   return {
@@ -26,10 +26,7 @@ const ViewApplicationsPage: NextPage = () => {
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
     ['viewAllApps'],
-    () =>
-      gqlQueries.fetchAllOpenApplications(
-        {date : new Date(Date.now()).toISOString()}
-      ),
+    () => gqlQueries.fetchAllOpenApplications({ date: new Date(Date.now()).toISOString() }),
     { enabled: status === 'authenticated' },
   );
 
@@ -41,19 +38,19 @@ const ViewApplicationsPage: NextPage = () => {
     <div className="w-full p-20">
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
-          <div className="text-4xl font-semibold text-gray-100">Update Typeform Application</div>
+          <div className="text-4xl font-semibold text-gray-100">Administrate Applications</div>
         </div>
         <div className="w-full">
           {!isLoading ? (
             data.returnAllOpenApp.map((application) => (
               <ApplicationCard
                 title={application.id}
-                description={application.questions.concat().join(', ')}
+                description={application.questions.concat().join(',\n ')}
                 division={application.divisionId}
                 key={application.id}
                 buttons={[
-                  <Link href={`/opportunities/edit/${id}`}>
-                    <Button>edit</Button>
+                  <Link href={`/opportunities/admin/${application.id}`}>
+                    <Button>details</Button>
                   </Link>,
                 ]}
               />
@@ -64,29 +61,9 @@ const ViewApplicationsPage: NextPage = () => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-x-16 px-16">
-        <button
-          type="submit"
-          className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
-          form="update-typeform"
-        >
-          save
-        </button>
         <button className="text-gray-100 font-semibold p-2 rounded-lg" onClick={router.back}>
           cancel
         </button>
-        <Button
-          onClick={() => {
-            gqlQueries
-              .deleteTypeformApplication({
-                where: {
-                  id: id as string,
-                },
-              })
-              .then(router.back);
-          }}
-        >
-          delete application
-        </Button>
       </div>
     </div>
   );

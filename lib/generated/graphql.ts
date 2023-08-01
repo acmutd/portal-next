@@ -1029,6 +1029,21 @@ export enum FileCategory {
   Resume = 'RESUME'
 }
 
+export type FilledApplication = {
+  __typename?: 'FilledApplication';
+  appId: Scalars['String'];
+  first: Scalars['String'];
+  id: Scalars['String'];
+  interviewLink?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  profileId: Scalars['String'];
+  responses: Array<Scalars['String']>;
+  score?: Maybe<Scalars['Int']>;
+  second: Scalars['String'];
+  status: Scalars['String'];
+  third: Scalars['String'];
+};
+
 export type FilledApplicationCreateManyAppInput = {
   first: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
@@ -1127,6 +1142,36 @@ export type FilledApplicationOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
+export type FilledApplicationOrderByWithRelationInput = {
+  app?: InputMaybe<ApplicationOrderByWithRelationInput>;
+  appId?: InputMaybe<SortOrder>;
+  first?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  interviewLink?: InputMaybe<SortOrder>;
+  notes?: InputMaybe<SortOrder>;
+  profile?: InputMaybe<ProfileOrderByWithRelationInput>;
+  profileId?: InputMaybe<SortOrder>;
+  responses?: InputMaybe<SortOrder>;
+  score?: InputMaybe<SortOrder>;
+  second?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
+  third?: InputMaybe<SortOrder>;
+};
+
+export enum FilledApplicationScalarFieldEnum {
+  AppId = 'appId',
+  First = 'first',
+  Id = 'id',
+  InterviewLink = 'interviewLink',
+  Notes = 'notes',
+  ProfileId = 'profileId',
+  Responses = 'responses',
+  Score = 'score',
+  Second = 'second',
+  Status = 'status',
+  Third = 'third'
+}
+
 export type FilledApplicationScalarWhereInput = {
   AND?: InputMaybe<Array<FilledApplicationScalarWhereInput>>;
   NOT?: InputMaybe<Array<FilledApplicationScalarWhereInput>>;
@@ -1142,6 +1187,19 @@ export type FilledApplicationScalarWhereInput = {
   second?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringFilter>;
   third?: InputMaybe<StringFilter>;
+};
+
+export type FilledApplicationUpdateInput = {
+  app?: InputMaybe<ApplicationUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  first?: InputMaybe<StringFieldUpdateOperationsInput>;
+  interviewLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  notes?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  responses?: InputMaybe<FilledApplicationUpdateresponsesInput>;
+  score?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  second?: InputMaybe<StringFieldUpdateOperationsInput>;
+  status?: InputMaybe<StringFieldUpdateOperationsInput>;
+  third?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type FilledApplicationUpdateManyMutationInput = {
@@ -1301,6 +1359,7 @@ export type Mutation = {
   updateOneApplication?: Maybe<Application>;
   updateOneEvent?: Maybe<Event>;
   updateOneEventReservation?: Maybe<EventReservation>;
+  updateOneFilledApplication?: Maybe<FilledApplication>;
   updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   updateOneVanityLink?: Maybe<VanityLink>;
@@ -1414,6 +1473,12 @@ export type MutationUpdateOneEventArgs = {
 export type MutationUpdateOneEventReservationArgs = {
   data: EventReservationUpdateInput;
   where: EventReservationWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneFilledApplicationArgs = {
+  data: FilledApplicationUpdateInput;
+  where: FilledApplicationWhereUniqueInput;
 };
 
 
@@ -2104,6 +2169,7 @@ export type Query = {
   applications: Array<Application>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
+  filledApplications: Array<FilledApplication>;
   findFirstApplication?: Maybe<Application>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
   me: User;
@@ -2143,6 +2209,16 @@ export type QueryEventsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<EventWhereInput>;
+};
+
+
+export type QueryFilledApplicationsArgs = {
+  cursor?: InputMaybe<FilledApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FilledApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FilledApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FilledApplicationWhereInput>;
 };
 
 
@@ -2902,9 +2978,7 @@ export type FetchAllOpenApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllOpenApplicationsQuery = {
-    __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, id: string, questions: Array<string> }> 
-};
+export type FetchAllOpenApplicationsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, id: string, questions: Array<string> }> };
 
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
@@ -2957,6 +3031,14 @@ export type MigrateEventMutationVariables = Exact<{
 
 
 export type MigrateEventMutation = { __typename?: 'Mutation', checkInOldEvent: Array<{ __typename?: 'EventCheckin', eventId: string, profileId: string }> };
+
+export type FindFilledApplicationsQueryVariables = Exact<{
+  whereFilled?: InputMaybe<FilledApplicationWhereInput>;
+  whereApp?: InputMaybe<ApplicationWhereInput>;
+}>;
+
+
+export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, filledApplications: Array<{ __typename?: 'FilledApplication', profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null }>, findFirstApplication?: { __typename?: 'Application', createdAt: any, expireDate: any, type?: string | null, questions: Array<string>, id: string, divisionId: string } | null };
 
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -3147,6 +3229,33 @@ export const MigrateEventDocument = gql`
   checkInOldEvent(email: $email, netID: $netId) {
     eventId
     profileId
+  }
+}
+    `;
+export const FindFilledApplicationsDocument = gql`
+    query findFilledApplications($whereFilled: FilledApplicationWhereInput, $whereApp: ApplicationWhereInput) {
+  me {
+    isOfficer
+  }
+  filledApplications(where: $whereFilled) {
+    profileId
+    appId
+    responses
+    status
+    first
+    notes
+    second
+    third
+    score
+    interviewLink
+  }
+  findFirstApplication(where: $whereApp) {
+    createdAt
+    expireDate
+    type
+    questions
+    id
+    divisionId
   }
 }
     `;
@@ -3352,6 +3461,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     migrateEvent(variables: MigrateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MigrateEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<MigrateEventMutation>(MigrateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'migrateEvent', 'mutation');
+    },
+    findFilledApplications(variables?: FindFilledApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindFilledApplicationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindFilledApplicationsQuery>(FindFilledApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFilledApplications', 'query');
     },
     getHomePageUserInfo(variables: GetHomePageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetHomePageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHomePageUserInfo', 'query');

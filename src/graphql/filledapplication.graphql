@@ -1,0 +1,25 @@
+query findFilledApplications($whereFilled: FilledApplicationWhereInput, $whereApp: ApplicationWhereInput) {
+  me {
+    isOfficer
+  }
+  filledApplications(where: $whereFilled) {
+    profileId
+    appId
+    responses
+    status
+    first
+    notes
+    second
+    third
+    score
+    interviewLink
+  }
+  findFirstApplication(where: $whereApp) {
+    createdAt
+    expireDate
+    type
+    questions
+    id
+    divisionId
+  }
+}
