@@ -156,12 +156,14 @@ model VanityLink {
 }
 
 model Application {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt  DateTime
-    expireDate DateTime
-    type       String?
-
+    id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+    name                String 
+    externalResourceUrl String
+    description         String
+    createdAt           DateTime
+    expireDate          DateTime    
     questions        String[]
+    
     fillApplications FilledApplication[]
 
     divisionId String   @db.ObjectId

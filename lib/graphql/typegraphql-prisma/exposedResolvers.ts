@@ -31,6 +31,8 @@ import {
   DeleteOneVanityLinkResolver,
   FindManyVanityLinkResolver,
   UserRelationsResolver,
+  FindManyApplicationResolver, 
+  FindManyFilledApplicationResolver
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
@@ -44,6 +46,7 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   CreateOneTypeformApplicationResolver,
   UpdateOneTypeformApplicationResolver,
   DeleteOneTypeformApplicationResolver,
+  FindManyApplicationResolver,
   CreateOneEventResolver,
   UpdateOneEventResolver,
   DeleteOneEventResolver,
@@ -64,4 +67,5 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   UpdateOneVanityLinkResolver,
   DeleteOneVanityLinkResolver,
   FindManyVanityLinkResolver,
+  FindManyFilledApplicationResolver
 ];
