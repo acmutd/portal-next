@@ -1,4 +1,4 @@
-query getApplicationData($where: TypeformApplicationWhereInput) {
+query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
   openApplications {
     id
     name
@@ -7,6 +7,12 @@ query getApplicationData($where: TypeformApplicationWhereInput) {
     }
     externalResourceUrl
     description
+  }
+  filledApplications(where: $fillAppWhere) {
+    status
+    app {
+      name
+    }
   }
   typeformApplications(where: $where) {
     id

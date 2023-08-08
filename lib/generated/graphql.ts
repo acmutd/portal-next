@@ -1060,11 +1060,13 @@ export enum FileCategory {
 
 export type FilledApplication = {
   __typename?: 'FilledApplication';
+  app: Application;
   appId: Scalars['String'];
   first: Scalars['String'];
   id: Scalars['String'];
   interviewLink?: Maybe<Scalars['String']>;
   notes?: Maybe<Scalars['String']>;
+  profile: Profile;
   profileId: Scalars['String'];
   responses: Array<Scalars['String']>;
   score?: Maybe<Scalars['Int']>;
@@ -2934,10 +2936,11 @@ export type VanityLinkWhereUniqueInput = {
 
 export type GetApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
+  fillAppWhere?: InputMaybe<FilledApplicationWhereInput>;
 }>;
 
 
-export type GetApplicationDataQuery = { __typename?: 'Query', openApplications: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
+export type GetApplicationDataQuery = { __typename?: 'Query', openApplications: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
 
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
@@ -3085,7 +3088,7 @@ export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanit
 
 
 export const GetApplicationDataDocument = gql`
-    query getApplicationData($where: TypeformApplicationWhereInput) {
+    query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
   openApplications {
     id
     name
@@ -3094,6 +3097,12 @@ export const GetApplicationDataDocument = gql`
     }
     externalResourceUrl
     description
+  }
+  filledApplications(where: $fillAppWhere) {
+    status
+    app {
+      name
+    }
   }
   typeformApplications(where: $where) {
     id
