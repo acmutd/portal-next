@@ -16,7 +16,7 @@ import { GraphQLError } from 'graphql/error';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['applicationPage'], () =>
-    gqlQueries.getTypeformApplicationsWithUserData({
+    gqlQueries.getApplicationData({
       where: {
         active: {
           equals: true,
@@ -37,7 +37,7 @@ const ApplicationsPage: NextPage = () => {
   const { data, error, isLoading } = useQuery(
     ['applicationData'],
     () =>
-      gqlQueries.getTypeformApplicationsWithUserData({
+      gqlQueries.getApplicationData({
         where: {
           active: {
             equals: true,
@@ -110,6 +110,18 @@ const ApplicationsPage: NextPage = () => {
               division={division}
             />
           ),
+        )}
+        {data!.openApplications.map(
+          ({ id, name, externalResourceUrl, division: {deptName}, description }) => <ApplicationCard buttons={[
+            ...[<Button>apply</Button>],
+            ...(externalResourceUrl && externalResourceUrl !== ''
+                  ? [
+                      <Link href={externalResourceUrl} target="_blank">
+                        <Button color="secondary">learn more</Button>
+                      </Link>,
+                    ]
+                  : [])
+          ]} key={id} title={name} description={description} division={deptName} />
         )}
       </div>
       <EmailToast open={open} setOpen={setOpen}></EmailToast>

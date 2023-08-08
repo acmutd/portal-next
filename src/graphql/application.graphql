@@ -1,0 +1,31 @@
+query getApplicationData($where: TypeformApplicationWhereInput) {
+  openApplications {
+    id
+    name
+    division {
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+    externalResourceUrl
+  }
+  me {
+    isOfficer
+    profile {
+      firstName
+      email
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+}

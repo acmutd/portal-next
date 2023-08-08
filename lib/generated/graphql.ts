@@ -256,12 +256,44 @@ export enum Action {
   Upload = 'UPLOAD'
 }
 
+export type Application = {
+  __typename?: 'Application';
+  _count?: Maybe<ApplicationCount>;
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  division: Division;
+  divisionId: Scalars['String'];
+  expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
+  fillApplications: Array<FilledApplication>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  questions: Array<Scalars['String']>;
+};
+
+
+export type ApplicationFillApplicationsArgs = {
+  cursor?: InputMaybe<FilledApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FilledApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FilledApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FilledApplicationWhereInput>;
+};
+
+export type ApplicationCount = {
+  __typename?: 'ApplicationCount';
+  fillApplications: Scalars['Int'];
+};
+
 export type ApplicationCreateManyDivisionInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreateManyDivisionInputEnvelope = {
@@ -293,20 +325,24 @@ export type ApplicationCreateOrConnectWithoutFillApplicationsInput = {
 
 export type ApplicationCreateWithoutDivisionInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutAppInput>;
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreateWithoutFillApplicationsInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   division: DivisionCreateNestedOneWithoutApplicationsInput;
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreatequestionsInput = {
@@ -319,28 +355,60 @@ export type ApplicationListRelationFilter = {
   some?: InputMaybe<ApplicationWhereInput>;
 };
 
+export type ApplicationOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type ApplicationOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
+  division?: InputMaybe<DivisionOrderByWithRelationInput>;
+  divisionId?: InputMaybe<SortOrder>;
+  expireDate?: InputMaybe<SortOrder>;
+  externalResourceUrl?: InputMaybe<SortOrder>;
+  fillApplications?: InputMaybe<FilledApplicationOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  questions?: InputMaybe<SortOrder>;
+};
+
 export type ApplicationRelationFilter = {
   is?: InputMaybe<ApplicationWhereInput>;
   isNot?: InputMaybe<ApplicationWhereInput>;
 };
+
+export enum ApplicationScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  Description = 'description',
+  DivisionId = 'divisionId',
+  ExpireDate = 'expireDate',
+  ExternalResourceUrl = 'externalResourceUrl',
+  Id = 'id',
+  Name = 'name',
+  Questions = 'questions'
+}
 
 export type ApplicationScalarWhereInput = {
   AND?: InputMaybe<Array<ApplicationScalarWhereInput>>;
   NOT?: InputMaybe<Array<ApplicationScalarWhereInput>>;
   OR?: InputMaybe<Array<ApplicationScalarWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   divisionId?: InputMaybe<StringFilter>;
   expireDate?: InputMaybe<DateTimeFilter>;
+  externalResourceUrl?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   questions?: InputMaybe<StringNullableListFilter>;
-  type?: InputMaybe<StringNullableFilter>;
 };
 
 export type ApplicationUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateManyWithWhereWithoutDivisionInput = {
@@ -377,18 +445,22 @@ export type ApplicationUpdateWithWhereUniqueWithoutDivisionInput = {
 
 export type ApplicationUpdateWithoutDivisionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
   fillApplications?: InputMaybe<FilledApplicationUpdateManyWithoutAppNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateWithoutFillApplicationsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   division?: InputMaybe<DivisionUpdateOneRequiredWithoutApplicationsNestedInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdatequestionsInput = {
@@ -412,13 +484,15 @@ export type ApplicationWhereInput = {
   NOT?: InputMaybe<Array<ApplicationWhereInput>>;
   OR?: InputMaybe<Array<ApplicationWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   division?: InputMaybe<DivisionRelationFilter>;
   divisionId?: InputMaybe<StringFilter>;
   expireDate?: InputMaybe<DateTimeFilter>;
+  externalResourceUrl?: InputMaybe<StringFilter>;
   fillApplications?: InputMaybe<FilledApplicationListRelationFilter>;
   id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   questions?: InputMaybe<StringNullableListFilter>;
-  type?: InputMaybe<StringNullableFilter>;
 };
 
 export type ApplicationWhereUniqueInput = {
@@ -459,6 +533,20 @@ export type DateTimeNullableFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
+};
+
+export type Division = {
+  __typename?: 'Division';
+  _count?: Maybe<DivisionCount>;
+  deptName: Scalars['String'];
+  id: Scalars['String'];
+  officerIds: Array<Scalars['String']>;
+};
+
+export type DivisionCount = {
+  __typename?: 'DivisionCount';
+  applications: Scalars['Int'];
+  officers: Scalars['Int'];
 };
 
 export type DivisionCreateNestedManyWithoutOfficersInput = {
@@ -509,6 +597,14 @@ export type DivisionListRelationFilter = {
 
 export type DivisionOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
+};
+
+export type DivisionOrderByWithRelationInput = {
+  applications?: InputMaybe<ApplicationOrderByRelationAggregateInput>;
+  deptName?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  officerIds?: InputMaybe<SortOrder>;
+  officers?: InputMaybe<OfficerOrderByRelationAggregateInput>;
 };
 
 export type DivisionRelationFilter = {
@@ -962,6 +1058,21 @@ export enum FileCategory {
   Resume = 'RESUME'
 }
 
+export type FilledApplication = {
+  __typename?: 'FilledApplication';
+  appId: Scalars['String'];
+  first: Scalars['String'];
+  id: Scalars['String'];
+  interviewLink?: Maybe<Scalars['String']>;
+  notes?: Maybe<Scalars['String']>;
+  profileId: Scalars['String'];
+  responses: Array<Scalars['String']>;
+  score?: Maybe<Scalars['Int']>;
+  second: Scalars['String'];
+  status: Scalars['String'];
+  third: Scalars['String'];
+};
+
 export type FilledApplicationCreateManyAppInput = {
   first: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
@@ -1059,6 +1170,36 @@ export type FilledApplicationListRelationFilter = {
 export type FilledApplicationOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
+
+export type FilledApplicationOrderByWithRelationInput = {
+  app?: InputMaybe<ApplicationOrderByWithRelationInput>;
+  appId?: InputMaybe<SortOrder>;
+  first?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  interviewLink?: InputMaybe<SortOrder>;
+  notes?: InputMaybe<SortOrder>;
+  profile?: InputMaybe<ProfileOrderByWithRelationInput>;
+  profileId?: InputMaybe<SortOrder>;
+  responses?: InputMaybe<SortOrder>;
+  score?: InputMaybe<SortOrder>;
+  second?: InputMaybe<SortOrder>;
+  status?: InputMaybe<SortOrder>;
+  third?: InputMaybe<SortOrder>;
+};
+
+export enum FilledApplicationScalarFieldEnum {
+  AppId = 'appId',
+  First = 'first',
+  Id = 'id',
+  InterviewLink = 'interviewLink',
+  Notes = 'notes',
+  ProfileId = 'profileId',
+  Responses = 'responses',
+  Score = 'score',
+  Second = 'second',
+  Status = 'status',
+  Third = 'third'
+}
 
 export type FilledApplicationScalarWhereInput = {
   AND?: InputMaybe<Array<FilledApplicationScalarWhereInput>>;
@@ -1505,6 +1646,10 @@ export type OfficerListRelationFilter = {
   every?: InputMaybe<OfficerWhereInput>;
   none?: InputMaybe<OfficerWhereInput>;
   some?: InputMaybe<OfficerWhereInput>;
+};
+
+export type OfficerOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type OfficerOrderByWithRelationInput = {
@@ -2003,15 +2148,28 @@ export type ProfileWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  applications: Array<Application>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
+  filledApplications: Array<FilledApplication>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
   me: User;
+  openApplications: Array<Application>;
   profile?: Maybe<Profile>;
   profiles: Array<Profile>;
   typeformApplications: Array<TypeformApplication>;
   upcomingEvents: Array<Event>;
   vanityLinks: Array<VanityLink>;
+};
+
+
+export type QueryApplicationsArgs = {
+  cursor?: InputMaybe<ApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<ApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<ApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ApplicationWhereInput>;
 };
 
 
@@ -2032,6 +2190,16 @@ export type QueryEventsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<EventWhereInput>;
+};
+
+
+export type QueryFilledApplicationsArgs = {
+  cursor?: InputMaybe<FilledApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FilledApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FilledApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FilledApplicationWhereInput>;
 };
 
 
@@ -2764,6 +2932,13 @@ export type VanityLinkWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type GetApplicationDataQueryVariables = Exact<{
+  where?: InputMaybe<TypeformApplicationWhereInput>;
+}>;
+
+
+export type GetApplicationDataQuery = { __typename?: 'Query', openApplications: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -2909,6 +3084,39 @@ export type CreateVanityLinkMutationVariables = Exact<{
 export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanityLink: { __typename?: 'VanityLink', originalUrl: string, vanityDomain: string, slashtag: string } };
 
 
+export const GetApplicationDataDocument = gql`
+    query getApplicationData($where: TypeformApplicationWhereInput) {
+  openApplications {
+    id
+    name
+    division {
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+    externalResourceUrl
+  }
+  me {
+    isOfficer
+    profile {
+      firstName
+      email
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+}
+    `;
 export const CheckInToEventDocument = gql`
     mutation checkInToEvent($checkInData: EventCheckinInput!) {
   checkinToEvent(options: $checkInData) {
@@ -3163,6 +3371,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getApplicationData(variables?: GetApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationData', 'query');
+    },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
     },
