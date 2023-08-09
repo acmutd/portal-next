@@ -52,6 +52,7 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   CreateOneTypeformApplicationResolver,
   UpdateOneTypeformApplicationResolver,
   DeleteOneTypeformApplicationResolver,
+  FindManyApplicationResolver,
   CreateOneEventResolver,
   UpdateOneEventResolver,
   DeleteOneEventResolver,
