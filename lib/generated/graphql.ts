@@ -260,11 +260,13 @@ export type Application = {
   __typename?: 'Application';
   _count?: Maybe<ApplicationCount>;
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   divisionId: Scalars['String'];
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   id: Scalars['String'];
+  name: Scalars['String'];
   questions: Array<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
 };
 
 export type ApplicationCount = {
@@ -274,20 +276,24 @@ export type ApplicationCount = {
 
 export type ApplicationCreateInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   division: DivisionCreateNestedOneWithoutApplicationsInput;
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutAppInput>;
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreateManyDivisionInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreateManyDivisionInputEnvelope = {
@@ -319,20 +325,24 @@ export type ApplicationCreateOrConnectWithoutFillApplicationsInput = {
 
 export type ApplicationCreateWithoutDivisionInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutAppInput>;
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreateWithoutFillApplicationsInput = {
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   division: DivisionCreateNestedOneWithoutApplicationsInput;
   expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   questions?: InputMaybe<ApplicationCreatequestionsInput>;
-  type?: InputMaybe<Scalars['String']>;
 };
 
 export type ApplicationCreatequestionsInput = {
@@ -351,13 +361,15 @@ export type ApplicationOrderByRelationAggregateInput = {
 
 export type ApplicationOrderByWithRelationInput = {
   createdAt?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   division?: InputMaybe<DivisionOrderByWithRelationInput>;
   divisionId?: InputMaybe<SortOrder>;
   expireDate?: InputMaybe<SortOrder>;
+  externalResourceUrl?: InputMaybe<SortOrder>;
   fillApplications?: InputMaybe<FilledApplicationOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
   questions?: InputMaybe<SortOrder>;
-  type?: InputMaybe<SortOrder>;
 };
 
 export type ApplicationRelationFilter = {
@@ -367,11 +379,13 @@ export type ApplicationRelationFilter = {
 
 export enum ApplicationScalarFieldEnum {
   CreatedAt = 'createdAt',
+  Description = 'description',
   DivisionId = 'divisionId',
   ExpireDate = 'expireDate',
+  ExternalResourceUrl = 'externalResourceUrl',
   Id = 'id',
-  Questions = 'questions',
-  Type = 'type'
+  Name = 'name',
+  Questions = 'questions'
 }
 
 export type ApplicationScalarWhereInput = {
@@ -379,27 +393,33 @@ export type ApplicationScalarWhereInput = {
   NOT?: InputMaybe<Array<ApplicationScalarWhereInput>>;
   OR?: InputMaybe<Array<ApplicationScalarWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   divisionId?: InputMaybe<StringFilter>;
   expireDate?: InputMaybe<DateTimeFilter>;
+  externalResourceUrl?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   questions?: InputMaybe<StringNullableListFilter>;
-  type?: InputMaybe<StringNullableFilter>;
 };
 
 export type ApplicationUpdateInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   division?: InputMaybe<DivisionUpdateOneRequiredWithoutApplicationsNestedInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
   fillApplications?: InputMaybe<FilledApplicationUpdateManyWithoutAppNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateManyMutationInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateManyWithWhereWithoutDivisionInput = {
@@ -436,18 +456,22 @@ export type ApplicationUpdateWithWhereUniqueWithoutDivisionInput = {
 
 export type ApplicationUpdateWithoutDivisionInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
   fillApplications?: InputMaybe<FilledApplicationUpdateManyWithoutAppNestedInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdateWithoutFillApplicationsInput = {
   createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   division?: InputMaybe<DivisionUpdateOneRequiredWithoutApplicationsNestedInput>;
   expireDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
+  name?: InputMaybe<StringFieldUpdateOperationsInput>;
   questions?: InputMaybe<ApplicationUpdatequestionsInput>;
-  type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
 export type ApplicationUpdatequestionsInput = {
@@ -471,13 +495,15 @@ export type ApplicationWhereInput = {
   NOT?: InputMaybe<Array<ApplicationWhereInput>>;
   OR?: InputMaybe<Array<ApplicationWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   division?: InputMaybe<DivisionRelationFilter>;
   divisionId?: InputMaybe<StringFilter>;
   expireDate?: InputMaybe<DateTimeFilter>;
+  externalResourceUrl?: InputMaybe<StringFilter>;
   fillApplications?: InputMaybe<FilledApplicationListRelationFilter>;
   id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   questions?: InputMaybe<StringNullableListFilter>;
-  type?: InputMaybe<StringNullableFilter>;
 };
 
 export type ApplicationWhereUniqueInput = {
@@ -2978,7 +3004,7 @@ export type FetchAllOpenApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type FetchAllOpenApplicationsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, id: string, questions: Array<string> }> };
+export type FetchAllOpenApplicationsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, questions: Array<string>, id: string, name: string, externalResourceUrl: string, description: string }> };
 
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
@@ -3038,7 +3064,7 @@ export type FindFilledApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, filledApplications: Array<{ __typename?: 'FilledApplication', profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null }>, findFirstApplication?: { __typename?: 'Application', createdAt: any, expireDate: any, type?: string | null, questions: Array<string>, id: string, divisionId: string } | null };
+export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, filledApplications: Array<{ __typename?: 'FilledApplication', profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null }>, findFirstApplication?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, createdAt: any, expireDate: any, questions: Array<string>, divisionId: string } | null };
 
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -3146,8 +3172,11 @@ export const FetchAllOpenApplicationsDocument = gql`
     query fetchAllOpenApplications($date: DateTime!) {
   returnAllOpenApp(date: $date) {
     divisionId
-    id
     questions
+    id
+    name
+    externalResourceUrl
+    description
   }
 }
     `;
@@ -3250,11 +3279,13 @@ export const FindFilledApplicationsDocument = gql`
     interviewLink
   }
   findFirstApplication(where: $whereApp) {
+    id
+    name
+    externalResourceUrl
+    description
     createdAt
     expireDate
-    type
     questions
-    id
     divisionId
   }
 }

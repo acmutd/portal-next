@@ -43,17 +43,19 @@ const ViewApplicationsPage: NextPage = () => {
         <div className="w-full">
           {!isLoading ? (
             data.returnAllOpenApp.map((application) => (
-              <ApplicationCard
-                title={application.id}
-                description={application.questions.concat().join(',\n ')}
-                division={application.divisionId}
-                key={application.id}
-                buttons={[
-                  <Link href={`/opportunities/admin/${application.id}`}>
-                    <Button>details</Button>
-                  </Link>,
-                ]}
-              />
+              <div className="mb-10">
+                <ApplicationCard
+                  title={application.name}
+                  description={application.description}
+                  division={application.divisionId}
+                  key={application.id}
+                  buttons={[
+                    <Link href={`/opportunities/admin/${application.id}`}>
+                      <Button>manage</Button>
+                    </Link>,
+                  ]}
+                />
+              </div>
             ))
           ) : (
             <div>Loading..</div>

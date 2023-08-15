@@ -9,7 +9,25 @@ query findFirstApplication($where: ApplicationWhereInput) {
 query fetchAllOpenApplications($date: DateTime!) {
   returnAllOpenApp(date: $date) {
     divisionId
-    id
     questions
+    id                  
+    name                
+    externalResourceUrl 
+    description     
+  }
+}
+
+
+query fetchAllOpenApplicationsWithDivisions($date: DateTime!) {
+  returnAllOpenApp(date: $date) {
+    divisionId
+    questions
+    id                  
+    name                
+    externalResourceUrl 
+    description     
+  }
+  divisions {
+    deptName
   }
 }

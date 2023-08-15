@@ -15,11 +15,13 @@ query findFilledApplications($whereFilled: FilledApplicationWhereInput, $whereAp
     interviewLink
   }
   findFirstApplication(where: $whereApp) {
-    createdAt
-    expireDate
-    type
-    questions
-    id
-    divisionId
+    id                  
+    name                
+    externalResourceUrl 
+    description         
+    createdAt           
+    expireDate          
+    questions        
+    divisionId 
   }
 }
