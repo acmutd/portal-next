@@ -66,7 +66,7 @@ export default function FillApplicationPage() {
                     third: formData.divisionChoices[2]
                 }
             });
-            alert("Your submission is successfully recorded");
+            alert("Your submission is successfully recorded. A confirmation email will be sent to you shortly");
             router.push("/opportunities");
         }}
     />

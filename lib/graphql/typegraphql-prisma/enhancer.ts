@@ -6,6 +6,7 @@ import { onlyOfficerAllowed } from '../middlewares/only-officer';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
 import {
   onApplicationCreationComplete,
+  onApplicationSubmissionComplete,
   onEventCreationComplete,
   onProfileCreationComplete,
 } from '../middlewares/send-email';
@@ -41,4 +42,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     createOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
     updateOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEditVanityLink)],
   },
+  FilledApplication: {
+    createOneFilledApplication: [UseMiddleware(onApplicationSubmissionComplete)]
+  }
 };
