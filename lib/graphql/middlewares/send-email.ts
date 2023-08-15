@@ -83,9 +83,14 @@ export const onApplicationSubmissionComplete: MiddlewareFn<TContext> = async({ar
       id: filledApplication.profileId
     }
   });
+  const appData = await context.prisma.application.findFirst({
+    where: {
+      id: filledApplication.appId
+    }
+  })
   await sendApplicationSubmissionEmail({
     first_name: profile!.firstName,
     last_name: profile!.lastName,
-    typeform_id: "random_id"
+    typeform_id: appData!.name
   }, profile!.email);
 }
