@@ -63,7 +63,10 @@ export default function FillApplicationPage() {
                     status: "pending",
                     first: formData.divisionChoices[0],
                     second: formData.divisionChoices[1],
-                    third: formData.divisionChoices[2]
+                    third: formData.divisionChoices[2],
+                    interviewLink: '',
+                    notes: '',
+                    score: 1
                 }
             });
             alert("Your submission is successfully recorded. A confirmation email will be sent to you shortly");
