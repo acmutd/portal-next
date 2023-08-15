@@ -35,3 +35,16 @@ query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: F
     }
   }
 }
+
+query getSingleApplicationData($where: ApplicationWhereInput) {
+  applications(where: $where) {
+    questions
+    name
+  }
+}
+
+mutation submitSingleApplication($data: FilledApplicationCreateInput!) {
+  createOneFilledApplication(data: $data) {
+    id
+  }
+}

@@ -1075,6 +1075,20 @@ export type FilledApplication = {
   third: Scalars['String'];
 };
 
+export type FilledApplicationCreateInput = {
+  app: ApplicationCreateNestedOneWithoutFillApplicationsInput;
+  first: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  interviewLink?: InputMaybe<Scalars['String']>;
+  notes?: InputMaybe<Scalars['String']>;
+  profile: ProfileCreateNestedOneWithoutFillApplicationsInput;
+  responses?: InputMaybe<FilledApplicationCreateresponsesInput>;
+  score?: InputMaybe<Scalars['Int']>;
+  second: Scalars['String'];
+  status: Scalars['String'];
+  third: Scalars['String'];
+};
+
 export type FilledApplicationCreateManyAppInput = {
   first: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
@@ -1362,6 +1376,7 @@ export type Mutation = {
   createOneAccount: Account;
   createOneEvent: Event;
   createOneEventReservation: EventReservation;
+  createOneFilledApplication: FilledApplication;
   createOneProfile: Profile;
   createOneTypeformApplication: TypeformApplication;
   createOneVanityLink: VanityLink;
@@ -1407,6 +1422,11 @@ export type MutationCreateOneEventArgs = {
 
 export type MutationCreateOneEventReservationArgs = {
   data: EventReservationCreateInput;
+};
+
+
+export type MutationCreateOneFilledApplicationArgs = {
+  data: FilledApplicationCreateInput;
 };
 
 
@@ -2942,6 +2962,20 @@ export type GetApplicationDataQueryVariables = Exact<{
 
 export type GetApplicationDataQuery = { __typename?: 'Query', openApplications: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
 
+export type GetSingleApplicationDataQueryVariables = Exact<{
+  where?: InputMaybe<ApplicationWhereInput>;
+}>;
+
+
+export type GetSingleApplicationDataQuery = { __typename?: 'Query', applications: Array<{ __typename?: 'Application', questions: Array<string>, name: string }> };
+
+export type SubmitSingleApplicationMutationVariables = Exact<{
+  data: FilledApplicationCreateInput;
+}>;
+
+
+export type SubmitSingleApplicationMutation = { __typename?: 'Mutation', createOneFilledApplication: { __typename?: 'FilledApplication', id: string } };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -3123,6 +3157,21 @@ export const GetApplicationDataDocument = gql`
       netid
       classStanding
     }
+  }
+}
+    `;
+export const GetSingleApplicationDataDocument = gql`
+    query getSingleApplicationData($where: ApplicationWhereInput) {
+  applications(where: $where) {
+    questions
+    name
+  }
+}
+    `;
+export const SubmitSingleApplicationDocument = gql`
+    mutation submitSingleApplication($data: FilledApplicationCreateInput!) {
+  createOneFilledApplication(data: $data) {
+    id
   }
 }
     `;
@@ -3382,6 +3431,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getApplicationData(variables?: GetApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationData', 'query');
+    },
+    getSingleApplicationData(variables?: GetSingleApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetSingleApplicationDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetSingleApplicationDataQuery>(GetSingleApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getSingleApplicationData', 'query');
+    },
+    submitSingleApplication(variables: SubmitSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SubmitSingleApplicationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SubmitSingleApplicationMutation>(SubmitSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'submitSingleApplication', 'mutation');
     },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');

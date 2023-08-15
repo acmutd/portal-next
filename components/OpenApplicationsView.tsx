@@ -55,7 +55,7 @@ export default function OpenApplicationsView({ applications, typeformApplication
         )}
         {applications.map(
           ({ id, name, externalResourceUrl, division, description }) => <ApplicationCard buttons={[
-            ...[<Button>apply</Button>],
+            ...[<Link href={`/opportunities/${id}`}><Button>apply</Button></Link>],
             ...(externalResourceUrl && externalResourceUrl !== ''
                   ? [
                       <Link href={externalResourceUrl} target="_blank">
