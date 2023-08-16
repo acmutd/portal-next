@@ -1,6 +1,10 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
-import { FilledApplication, FilledApplicationScalarFieldEnum, FindFilledApplicationsDocument } from 'lib/generated/graphql';
+import {
+  FilledApplication,
+  FilledApplicationScalarFieldEnum,
+  FindFilledApplicationsDocument,
+} from 'lib/generated/graphql';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -12,15 +16,8 @@ import { gqlQueries, queryClient } from 'src/api';
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['manageSingleApp'], () =>
     gqlQueries.findFilledApplications({
-      whereFilled: {
-        appId: {
-          equals: ctx.params!.id! as string,
-        },
-      },
       whereApp: {
-        id: {
-          equals: ctx.params!.id! as string,
-        },
+        id: ctx.params!.id! as string,
       },
     }),
   );
@@ -35,25 +32,24 @@ const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { status } = useSession({ required: true });
-  const [selected, setSelected] = useState<FilledApplication | undefined>(undefined);
+  const [selected, setSelected] = useState<number | undefined>(undefined);
+  const [filter, setFilter] = useState<string | undefined>(undefined);
+  const [filteredApplications, setFilteredApplications] = useState();
   const { data, isLoading, error } = useQuery(
     ['manageSingleApp'],
     () =>
       gqlQueries.findFilledApplications({
-        whereFilled: {
-          appId: {
-            equals: id! as string,
-          },
-        },
         whereApp: {
-          id: {
-            equals: id! as string,
-          },
+          id: id! as string,
         },
       }),
 
     { enabled: status === 'authenticated' },
   );
+
+  if (isLoading) {
+    return <LoadingComponent></LoadingComponent>;
+  }
 
   if (!data?.me.isOfficer) {
     return (
@@ -63,10 +59,9 @@ const EditApplicationPage: NextPage = () => {
     );
   }
 
-  if (!data?.filledApplications) {
+  if (!data?.application?.fillApplications) {
     return <div>No applicants have submitted a response yet</div>;
   }
-  
 
   return (
     <div className="w-full p-5 mt-5">
@@ -74,7 +69,7 @@ const EditApplicationPage: NextPage = () => {
         <button>
           {/* TODO: replace arrow with svg */}
           <div className="text-3xl font-semibold text-gray-100">
-            {"< " + data?.findFirstApplication!.name || 'Application Manager'}
+            {'< ' + data?.application!.name || 'Application Manager'}
           </div>
         </button>
       </Link>
@@ -109,22 +104,24 @@ const EditApplicationPage: NextPage = () => {
                 <LoadingComponent></LoadingComponent>
               ) : (
                 <div className="text-gray-100">
-                  {data.filledApplications.map((filledApp) => <div>
-                    <button onClick={()=>setSelected(filledApp)}>
-                      <p>{filledApp.profileId}</p>
-                    </button>
-                  </div>)}
+                  {data.application.fillApplications.map((filledApp, i) => (
+                    <div>
+                      <button onClick={() => setSelected(i)}>
+                        <p>{filledApp.profileId}</p>
+                      </button>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
             <div className="text-gray-100">
               {/* Right Side*/}
-              <div >Applicant Details</div>
+              <div>Applicant Details</div>
               <div className="flex flex-col p-5">
                 <div>
                   <label>Notes</label>
                   <div>
-                    <p>{selected===undefined ? "" : selected.notes}</p>
+                    <p>{selected === undefined ? '' : data.application.fillApplications[selected].notes}</p>
                     <button></button>
                     <button></button>
                   </div>
@@ -132,18 +129,18 @@ const EditApplicationPage: NextPage = () => {
                 <div>
                   <label>Applicant Responses</label>
                   <div>
-                    {selected===undefined ? (
+                    {selected === undefined ? (
                       <p>No Applicant Selected</p>
                     ) : (
-                        <div className="text-gray-100">
-                          {selected!.responses.map((response) => {
-                            return (
-                              <div>
-                                <p>{response}</p>
-                              </div>
-                            );
-                          })}
-                        </div>
+                      <div className="text-gray-100">
+                        {data.application.fillApplications[selected].responses.map((response) => {
+                          return (
+                            <div>
+                              <p>{response}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
                     )}
                   </div>
                 </div>

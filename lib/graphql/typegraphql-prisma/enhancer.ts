@@ -6,6 +6,7 @@ import { onlyOfficerAllowed } from '../middlewares/only-officer';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
 import {
   onApplicationCreationComplete,
+  onApplicationSubmissionComplete,
   onEventCreationComplete,
   onProfileCreationComplete,
 } from '../middlewares/send-email';
@@ -47,5 +48,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     findFirstFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
     deleteManyFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
     deleteOneFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
+    createOneFilledApplication: [UseMiddleware(onApplicationSubmissionComplete)]
   },
+  
 };

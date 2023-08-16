@@ -1,35 +1,62 @@
-query findFirstApplication($where: ApplicationWhereInput) {
-  findFirstApplication(where: $where) {
+query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
+  returnAllOpenApp {
     id
-    divisionId
-    questions
+    name
+    division {
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+  filledApplications(where: $fillAppWhere) {
+    status
+    app {
+      name
+    }
+  }
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+    externalResourceUrl
+  }
+  me {
+    isOfficer
+    profile {
+      firstName
+      email
+      lastName
+      major
+      netid
+      classStanding
+    }
   }
 }
 
-query fetchAllOpenApplications($date: DateTime!) {
-  returnAllOpenApp(date: $date) {
-    divisionId
+query getSingleApplicationData($where: ApplicationWhereInput) {
+  applications(where: $where) {
     questions
-    id                  
-    name                
-    externalResourceUrl 
-    description     
+    name
   }
 }
 
-
-query fetchAllOpenApplicationsWithDivisions($date: DateTime!) {
-  returnAllOpenApp(date: $date) {
-    divisionId
-    questions
-    id                  
-    name                
-    externalResourceUrl 
-    description     
-  }
-  divisions {
+mutation submitSingleApplication($data: FilledApplicationCreateInput!) {
+  createOneFilledApplication(data: $data) {
     id
-    deptName
-    officerIds
+  }
+}
+
+query getAllOpenApplications {
+  returnAllOpenApp {
+    id
+    name
+    division {
+      deptName
+    }
+    externalResourceUrl
+    description
   }
 }

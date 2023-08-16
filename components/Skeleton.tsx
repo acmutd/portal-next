@@ -18,6 +18,7 @@ import CameraIcon from '../icons/CameraIcon';
 import { useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
 import SignOutIcon from '../icons/SignOutIcon';
+import AdminIcon from 'icons/AdminIcon';
 
 const navBarPages = [
   {
@@ -49,6 +50,11 @@ const navBarPages = [
     uri: '/auth/signout',
     name: 'sign out',
     svg: SignOutIcon,
+  },
+  {
+    uri: '/admin',
+    name: 'admin',
+    svg: AdminIcon,
   },
 ];
 
