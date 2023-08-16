@@ -1,3 +1,4 @@
+import { StartExecutionCommand } from '@aws-sdk/client-sfn';
 import { createStepFunctionInstance } from '../aws/setup';
 import { v4 as uuid } from 'uuid';
 
@@ -11,11 +12,9 @@ interface SlackNotificationPayload {
 
 export async function sendSlackNotification(payload: SlackNotificationPayload) {
   const stepFunction = createStepFunctionInstance();
-  return stepFunction
-    .startExecution({
-      stateMachineArn: process.env.SLACK_ARN!,
-      name: uuid(),
-      input: JSON.stringify(payload),
-    })
-    .promise();
+  return stepFunction.send(new StartExecutionCommand({
+    stateMachineArn: process.env.SLACK_ARN!,
+    name: uuid(),
+    input: JSON.stringify(payload),
+  }));
 }
