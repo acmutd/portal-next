@@ -1,5 +1,5 @@
 query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
-  openApplications {
+  returnAllOpenApp {
     id
     name
     division {

@@ -107,7 +107,7 @@ const ApplicationsPage: NextPage = () => {
       {tabIndex === 0 ? <MyApplicationView 
         appData={data!.filledApplications}
       /> : <OpenApplicationsView 
-        applications={data!.openApplications}
+        applications={data!.returnAllOpenApp}
         typeformApplications={data!.typeformApplications}
         userData={{
           email: data!.me.profile!.email || "",

@@ -2176,9 +2176,9 @@ export type Query = {
   filledApplications: Array<FilledApplication>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
   me: User;
-  openApplications: Array<Application>;
   profile?: Maybe<Profile>;
   profiles: Array<Profile>;
+  returnAllOpenApp: Array<Application>;
   typeformApplications: Array<TypeformApplication>;
   upcomingEvents: Array<Event>;
   vanityLinks: Array<VanityLink>;
@@ -2960,7 +2960,7 @@ export type GetApplicationDataQueryVariables = Exact<{
 }>;
 
 
-export type GetApplicationDataQuery = { __typename?: 'Query', openApplications: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
+export type GetApplicationDataQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
 
 export type GetSingleApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<ApplicationWhereInput>;
@@ -3123,7 +3123,7 @@ export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanit
 
 export const GetApplicationDataDocument = gql`
     query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
-  openApplications {
+  returnAllOpenApp {
     id
     name
     division {
