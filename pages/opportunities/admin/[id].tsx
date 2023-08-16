@@ -1,15 +1,20 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
+import ACMButton from 'components/PortalButton';
+import ApplicationForm from 'components/applications/ApplicationForm';
+import OfficerApplicationForm from 'components/applications/OfficerApplicationForm';
 import {
   FilledApplication,
   FilledApplicationScalarFieldEnum,
   FindFilledApplicationsDocument,
+  FindFilledApplicationsQuery,
 } from 'lib/generated/graphql';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { dehydrate, useQuery } from 'react-query';
 import { gqlQueries, queryClient } from 'src/api';
 
@@ -32,9 +37,28 @@ const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { status } = useSession({ required: true });
-  const [selected, setSelected] = useState<number | undefined>(undefined);
-  const [filter, setFilter] = useState<string | undefined>(undefined);
-  const [filteredApplications, setFilteredApplications] = useState();
+  const [formEditMode, setFormEditMode] = useState(false);
+  type FilledAppData = {
+    __typename?: 'FilledApplication';
+    id: string;
+    profileId: string;
+    appId: string;
+    responses: Array<string>;
+    status: string;
+    first: string;
+    notes?: string | null;
+    second: string;
+    third: string;
+    score?: number | null;
+    interviewLink?: string | null;
+    profile?: {
+      __typename?: 'Profile';
+      id: string;
+      firstName: string;
+      lastName: string;
+    };
+  };
+  const [selected, setSelected] = useState<FilledAppData>();
   const { data, isLoading, error } = useQuery(
     ['manageSingleApp'],
     () =>
@@ -73,8 +97,20 @@ const EditApplicationPage: NextPage = () => {
           </div>
         </button>
       </Link>
-      <div className="w-full grid place-items-center">
-        <div className="flex flex-col p-10 place-items-center">
+      <div className="m-3">
+        <ACMButton
+          theme="dark"
+          onClick={() => {
+            if (selected !== undefined) {
+              setFormEditMode(!formEditMode);
+            }
+          }}
+        >
+          {formEditMode ? 'cancel' : 'edit'}
+        </ACMButton>
+      </div>
+      <div className="w-full grid">
+        <div className="flex flex-col">
           <div className="flex flex-row p-5 place-content-stretch w-full">
             <div>
               {/* Left Side*/}
@@ -99,15 +135,15 @@ const EditApplicationPage: NextPage = () => {
                 </div>
               </div>
               {/* List of applicants */}
-              <p>Matching Applicants</p>
+              <p className="text-gray-100">Matching Applicants</p>
               {isLoading ? (
                 <LoadingComponent></LoadingComponent>
               ) : (
                 <div className="text-gray-100">
                   {data.application.fillApplications.map((filledApp, i) => (
                     <div>
-                      <button onClick={() => setSelected(i)}>
-                        <p>{filledApp.profileId}</p>
+                      <button onClick={() => setSelected(filledApp)}>
+                        <p>{filledApp.profile.firstName}</p>
                       </button>
                     </div>
                   ))}
@@ -116,26 +152,50 @@ const EditApplicationPage: NextPage = () => {
             </div>
             <div className="text-gray-100">
               {/* Right Side*/}
-              <div>Applicant Details</div>
               <div className="flex flex-col p-5">
-                <div>
-                  <label>Notes</label>
-                  <div>
-                    <p>{selected === undefined ? '' : data.application.fillApplications[selected].notes}</p>
-                    <button></button>
-                    <button></button>
-                  </div>
+              <div className="text-xl">Applicant Details</div>
+                <label>Notes</label>
+                <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
+                  {formEditMode ? (
+                    <OfficerApplicationForm
+                      applicantName={
+                        selected?.profile?.firstName + ' ' + selected?.profile?.lastName
+                      }
+                      originalNotes={selected?.notes!}
+                      originalStatus={selected?.status!}
+                      originalScore={selected?.score!}
+                      onSubmit={async (formData) => {
+                        await gqlQueries.updateSingleApplication({
+                          data: {
+                            notes: { set: formData.notes },
+                            status: { set: formData.status },
+                            score: { set: formData.score },
+                          },
+                          where: {
+                            id: selected?.id!,
+                          },
+                        });
+                        alert('Your edit was successfully recorded.');
+                        router.reload();
+                      }}
+                    />
+                  ) : (
+                    <div>
+                      <p>{selected === undefined ? '' : String(selected.notes)} </p>
+                      <button></button>
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <label>Applicant Responses</label>
+                  <label className="text-xl">Applicant Responses</label>
                   <div>
                     {selected === undefined ? (
                       <p>No Applicant Selected</p>
                     ) : (
                       <div className="text-gray-100">
-                        {data.application.fillApplications[selected].responses.map((response) => {
+                        {selected.responses.map((response) => {
                           return (
-                            <div>
+                            <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
                               <p>{response}</p>
                             </div>
                           );

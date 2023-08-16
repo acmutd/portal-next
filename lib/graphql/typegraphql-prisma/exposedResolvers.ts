@@ -38,6 +38,7 @@ import {
   CreateOneFilledApplicationResolver,
   FindUniqueApplicationResolver,
   ProfileRelationsResolver,
+  UpdateOneFilledApplicationResolver,
 } from '@generated/type-graphql';
 
 export const exposedResolvers: NonEmptyArray<Function> = [
@@ -78,4 +79,5 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   ApplicationRelationsResolver,
   FilledApplicationRelationsResolver,
   ProfileRelationsResolver,
-];
+  UpdateOneFilledApplicationResolver,
+];  

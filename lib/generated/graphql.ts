@@ -1234,6 +1234,19 @@ export type FilledApplicationScalarWhereInput = {
   third?: InputMaybe<StringFilter>;
 };
 
+export type FilledApplicationUpdateInput = {
+  app?: InputMaybe<ApplicationUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  first?: InputMaybe<StringFieldUpdateOperationsInput>;
+  interviewLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  notes?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  responses?: InputMaybe<FilledApplicationUpdateresponsesInput>;
+  score?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  second?: InputMaybe<StringFieldUpdateOperationsInput>;
+  status?: InputMaybe<StringFieldUpdateOperationsInput>;
+  third?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
 export type FilledApplicationUpdateManyMutationInput = {
   first?: InputMaybe<StringFieldUpdateOperationsInput>;
   interviewLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -1389,6 +1402,7 @@ export type Mutation = {
   updateOneAccount?: Maybe<Account>;
   updateOneEvent?: Maybe<Event>;
   updateOneEventReservation?: Maybe<EventReservation>;
+  updateOneFilledApplication?: Maybe<FilledApplication>;
   updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   updateOneVanityLink?: Maybe<VanityLink>;
@@ -1490,6 +1504,12 @@ export type MutationUpdateOneEventArgs = {
 export type MutationUpdateOneEventReservationArgs = {
   data: EventReservationUpdateInput;
   where: EventReservationWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneFilledApplicationArgs = {
+  data: FilledApplicationUpdateInput;
+  where: FilledApplicationWhereUniqueInput;
 };
 
 
@@ -1624,6 +1644,19 @@ export type NullableIntFieldUpdateOperationsInput = {
 export type NullableStringFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['String']>;
   unset?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type Officer = {
+  __typename?: 'Officer';
+  _count?: Maybe<OfficerCount>;
+  divisionIds: Array<Scalars['String']>;
+  id: Scalars['String'];
+  profileId: Scalars['String'];
+};
+
+export type OfficerCount = {
+  __typename?: 'OfficerCount';
+  divisions: Scalars['Int'];
 };
 
 export type OfficerCreateNestedManyWithoutDivisionsInput = {
@@ -1780,6 +1813,8 @@ export type Profile = {
   _count?: Maybe<ProfileCount>;
   classStanding: Scalars['String'];
   email: Scalars['String'];
+  events: Array<EventReservation>;
+  fillApplications: Array<FilledApplication>;
   firstName: Scalars['String'];
   id: Scalars['String'];
   lastName: Scalars['String'];
@@ -1787,11 +1822,33 @@ export type Profile = {
   membershipStatus: Scalars['Boolean'];
   membershipTS?: Maybe<Scalars['DateTime']>;
   netid: Scalars['String'];
+  officer?: Maybe<Officer>;
   resume: Scalars['Boolean'];
   resumeTS?: Maybe<Scalars['DateTime']>;
   roles: Array<Scalars['String']>;
+  user: User;
   userId: Scalars['String'];
   utdStudent: Scalars['Boolean'];
+};
+
+
+export type ProfileEventsArgs = {
+  cursor?: InputMaybe<EventReservationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<EventReservationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<EventReservationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<EventReservationWhereInput>;
+};
+
+
+export type ProfileFillApplicationsArgs = {
+  cursor?: InputMaybe<FilledApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FilledApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FilledApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FilledApplicationWhereInput>;
 };
 
 export type ProfileCount = {
@@ -2982,6 +3039,14 @@ export type SubmitSingleApplicationMutationVariables = Exact<{
 
 export type SubmitSingleApplicationMutation = { __typename?: 'Mutation', createOneFilledApplication: { __typename?: 'FilledApplication', id: string } };
 
+export type UpdateSingleApplicationMutationVariables = Exact<{
+  where: FilledApplicationWhereUniqueInput;
+  data: FilledApplicationUpdateInput;
+}>;
+
+
+export type UpdateSingleApplicationMutation = { __typename?: 'Mutation', updateOneFilledApplication?: { __typename?: 'FilledApplication', id: string } | null };
+
 export type GetAllOpenApplicationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3044,7 +3109,7 @@ export type FindFilledApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, application?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, questions: Array<string>, divisionId: string, division: { __typename?: 'Division', id: string, deptName: string }, fillApplications: Array<{ __typename?: 'FilledApplication', id: string, profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null, profile: { __typename?: 'Profile', id: string } }> } | null };
+export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, application?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, questions: Array<string>, divisionId: string, division: { __typename?: 'Division', id: string, deptName: string }, fillApplications: Array<{ __typename?: 'FilledApplication', id: string, profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null, profile: { __typename?: 'Profile', id: string, firstName: string, lastName: string } }> } | null };
 
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -3193,6 +3258,13 @@ export const SubmitSingleApplicationDocument = gql`
   }
 }
     `;
+export const UpdateSingleApplicationDocument = gql`
+    mutation updateSingleApplication($where: FilledApplicationWhereUniqueInput!, $data: FilledApplicationUpdateInput!) {
+  updateOneFilledApplication(where: $where, data: $data) {
+    id
+  }
+}
+    `;
 export const GetAllOpenApplicationsDocument = gql`
     query getAllOpenApplications {
   returnAllOpenApp {
@@ -3308,6 +3380,8 @@ export const FindFilledApplicationsDocument = gql`
       profileId
       profile {
         id
+        firstName
+        lastName
       }
       appId
       responses
@@ -3488,7 +3562,7 @@ export const CreateVanityLinkDocument = gql`
 }
     `;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?: Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
@@ -3496,82 +3570,85 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
     getApplicationData(variables?: GetApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getApplicationData', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationData', 'query');
     },
     getSingleApplicationData(variables?: GetSingleApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetSingleApplicationDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetSingleApplicationDataQuery>(GetSingleApplicationDataDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getSingleApplicationData', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetSingleApplicationDataQuery>(GetSingleApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getSingleApplicationData', 'query');
     },
     submitSingleApplication(variables: SubmitSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SubmitSingleApplicationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SubmitSingleApplicationMutation>(SubmitSingleApplicationDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'submitSingleApplication', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<SubmitSingleApplicationMutation>(SubmitSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'submitSingleApplication', 'mutation');
+    },
+    updateSingleApplication(variables: UpdateSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateSingleApplicationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateSingleApplicationMutation>(UpdateSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateSingleApplication', 'mutation');
     },
     getAllOpenApplications(variables?: GetAllOpenApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAllOpenApplicationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetAllOpenApplicationsQuery>(GetAllOpenApplicationsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getAllOpenApplications', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAllOpenApplicationsQuery>(GetAllOpenApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAllOpenApplications', 'query');
     },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'checkInToEvent', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
     },
     getCheckInPageUserInfo(variables?: GetCheckInPageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCheckInPageUserInfoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCheckInPageUserInfoQuery>(GetCheckInPageUserInfoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getCheckInPageUserInfo', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCheckInPageUserInfoQuery>(GetCheckInPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCheckInPageUserInfo', 'query');
     },
     getEventPageUserInfo(variables?: GetEventPageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEventPageUserInfoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetEventPageUserInfoQuery>(GetEventPageUserInfoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getEventPageUserInfo', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetEventPageUserInfoQuery>(GetEventPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEventPageUserInfo', 'query');
     },
     updateEventData(variables: UpdateEventDataMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateEventDataMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateEventDataMutation>(UpdateEventDataDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'updateEventData', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateEventDataMutation>(UpdateEventDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateEventData', 'mutation');
     },
     deleteEvent(variables: DeleteEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteEventMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteEventMutation>(DeleteEventDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'deleteEvent', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteEventMutation>(DeleteEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteEvent', 'mutation');
     },
     getCreateEventPageUserInfo(variables?: GetCreateEventPageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCreateEventPageUserInfoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCreateEventPageUserInfoQuery>(GetCreateEventPageUserInfoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getCreateEventPageUserInfo', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCreateEventPageUserInfoQuery>(GetCreateEventPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCreateEventPageUserInfo', 'query');
     },
     createNewEvent(variables: CreateNewEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateNewEventMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateNewEventMutation>(CreateNewEventDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createNewEvent', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateNewEventMutation>(CreateNewEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createNewEvent', 'mutation');
     },
     migrateEvent(variables: MigrateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MigrateEventMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<MigrateEventMutation>(MigrateEventDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'migrateEvent', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<MigrateEventMutation>(MigrateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'migrateEvent', 'mutation');
     },
     findFilledApplications(variables: FindFilledApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindFilledApplicationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindFilledApplicationsQuery>(FindFilledApplicationsDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'findFilledApplications', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<FindFilledApplicationsQuery>(FindFilledApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFilledApplications', 'query');
     },
     getHomePageUserInfo(variables: GetHomePageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetHomePageUserInfoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getHomePageUserInfo', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHomePageUserInfo', 'query');
     },
     upsertProfile(variables: UpsertProfileMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertProfileMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertProfileMutation>(UpsertProfileDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'upsertProfile', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertProfileMutation>(UpsertProfileDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertProfile', 'mutation');
     },
     findProfile(variables: FindProfileQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindProfileQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindProfileQuery>(FindProfileDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'findProfile', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<FindProfileQuery>(FindProfileDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findProfile', 'query');
     },
     getResumeSignedURL(variables: GetResumeSignedUrlMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetResumeSignedUrlMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetResumeSignedUrlMutation>(GetResumeSignedUrlDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getResumeSignedURL', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetResumeSignedUrlMutation>(GetResumeSignedUrlDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getResumeSignedURL', 'mutation');
     },
     getResumePageUserInfo(variables: GetResumePageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetResumePageUserInfoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetResumePageUserInfoQuery>(GetResumePageUserInfoDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getResumePageUserInfo', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetResumePageUserInfoQuery>(GetResumePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getResumePageUserInfo', 'query');
     },
     createTypeformApplication(variables: CreateTypeformApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTypeformApplicationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateTypeformApplicationMutation>(CreateTypeformApplicationDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createTypeformApplication', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateTypeformApplicationMutation>(CreateTypeformApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTypeformApplication', 'mutation');
     },
     getTypeformApplicationsWithUserData(variables?: GetTypeformApplicationsWithUserDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTypeformApplicationsWithUserDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetTypeformApplicationsWithUserDataQuery>(GetTypeformApplicationsWithUserDataDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getTypeformApplicationsWithUserData', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTypeformApplicationsWithUserDataQuery>(GetTypeformApplicationsWithUserDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTypeformApplicationsWithUserData', 'query');
     },
     findTypeformApplication(variables?: FindTypeformApplicationQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindTypeformApplicationQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FindTypeformApplicationQuery>(FindTypeformApplicationDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'findTypeformApplication', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<FindTypeformApplicationQuery>(FindTypeformApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findTypeformApplication', 'query');
     },
     updateTypeformApplication(variables: UpdateTypeformApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateTypeformApplicationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTypeformApplicationMutation>(UpdateTypeformApplicationDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'updateTypeformApplication', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateTypeformApplicationMutation>(UpdateTypeformApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateTypeformApplication', 'mutation');
     },
     deleteTypeformApplication(variables: DeleteTypeformApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteTypeformApplicationMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeleteTypeformApplicationMutation>(DeleteTypeformApplicationDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'deleteTypeformApplication', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteTypeformApplicationMutation>(DeleteTypeformApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteTypeformApplication', 'mutation');
     },
     getEditViewApplicationList(variables?: GetEditViewApplicationListQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEditViewApplicationListQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetEditViewApplicationListQuery>(GetEditViewApplicationListDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getEditViewApplicationList', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetEditViewApplicationListQuery>(GetEditViewApplicationListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEditViewApplicationList', 'query');
     },
     getUserOfficerStatusData(variables?: GetUserOfficerStatusDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUserOfficerStatusDataQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetUserOfficerStatusDataQuery>(GetUserOfficerStatusDataDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'getUserOfficerStatusData', 'query');
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserOfficerStatusDataQuery>(GetUserOfficerStatusDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserOfficerStatusData', 'query');
     },
     createVanityLink(variables: CreateVanityLinkMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateVanityLinkMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreateVanityLinkMutation>(CreateVanityLinkDocument, variables, { ...requestHeaders, ...wrappedRequestHeaders }), 'createVanityLink', 'mutation');
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateVanityLinkMutation>(CreateVanityLinkDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createVanityLink', 'mutation');
     }
   };
 }

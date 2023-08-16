@@ -18,6 +18,8 @@ query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
       profileId
       profile {
         id
+        firstName
+        lastName
       }
       appId
       responses
