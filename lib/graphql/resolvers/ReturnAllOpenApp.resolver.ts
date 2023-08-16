@@ -13,10 +13,9 @@ export default class ReturnAllOpenAppResolver {
 
   @Query(() => [Application])
   async returnAllOpenApp(
-    @Arg('date', () => Date) dateCur: Date,
     @Ctx() context: TContext
   ){
-    const openApps = await this.returnOpenApp.getOpenApps(dateCur);
+    const openApps = await this.returnOpenApp.getOpenApps(new Date());
     return openApps;
   }
 }

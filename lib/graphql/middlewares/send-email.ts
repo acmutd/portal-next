@@ -3,10 +3,11 @@ import { MiddlewareFn } from 'type-graphql';
 import { TContext } from '../interfaces/context.interface';
 import {
   sendApplicationCreationEmail,
+  sendApplicationSubmissionEmail,
   sendEventCreationEmail,
   sendProfileCreationEmail,
 } from '../utilities/send-email';
-import { Event } from '@generated/type-graphql';
+import { Event, FilledApplication } from '@generated/type-graphql';
 import { sendSlackNotification } from '../utilities/slack';
 
 export const onProfileCreationComplete: MiddlewareFn<TContext> = async ({ args }, next) => {
@@ -74,3 +75,22 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
     url: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
   });
 };
+
+export const onApplicationSubmissionComplete: MiddlewareFn<TContext> = async({args, context}, next) => {
+  const filledApplication: FilledApplication = await next();
+  const profile = await context.prisma.profile.findFirst({
+    where: {
+      id: filledApplication.profileId
+    }
+  });
+  const appData = await context.prisma.application.findFirst({
+    where: {
+      id: filledApplication.appId
+    }
+  })
+  await sendApplicationSubmissionEmail({
+    first_name: profile!.firstName,
+    last_name: profile!.lastName,
+    typeform_id: appData!.name
+  }, profile!.email);
+}
