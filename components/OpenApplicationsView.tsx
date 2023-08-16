@@ -5,7 +5,7 @@ import Button from "./Button";
 import Link from "next/link";
 
 interface OpenApplicationsViewProps {
-    applications: GetApplicationDataQuery["openApplications"];
+    applications: GetApplicationDataQuery["returnAllOpenApp"];
     typeformApplications: GetApplicationDataQuery["typeformApplications"];
     userData: {
         email: string;
