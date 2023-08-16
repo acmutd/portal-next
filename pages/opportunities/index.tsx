@@ -13,10 +13,13 @@ import { dehydrate } from 'react-query';
 import { useRouter } from 'next/router';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
+import { Tab } from '@headlessui/react';
+import OpenApplicationsView from 'components/OpenApplicationsView';
+import MyApplicationView from 'components/MyApplicationView';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['applicationPage'], () =>
-    gqlQueries.getTypeformApplicationsWithUserData({
+    gqlQueries.getApplicationData({
       where: {
         active: {
           equals: true,
@@ -32,24 +35,34 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const ApplicationsPage: NextPage = () => {
-  const { status } = useSession({ required: true });
+  const { status, data: signedInUserData } = useSession({ required: true });
   const router = useRouter();
   const { data, error, isLoading } = useQuery(
     ['applicationData'],
     () =>
-      gqlQueries.getTypeformApplicationsWithUserData({
+      gqlQueries.getApplicationData({
         where: {
           active: {
             equals: true,
           },
         },
+        fillAppWhere: {
+          profile: {
+            is: {
+              email: {
+                equals: signedInUserData?.user?.email || ""
+              }
+            }
+          }
+        }
       }),
     {
       enabled: status === 'authenticated',
     },
-  );
-
-  const [open, setOpen] = useState(false);
+    );
+    
+    const [open, setOpen] = useState(false);
+    const [tabIndex, setTabIndex] = useState<number>(0); 
   useEffect(() => {
     if (sessionStorage.getItem('showToast') == '1') {
       setOpen(true);
@@ -63,11 +76,26 @@ const ApplicationsPage: NextPage = () => {
     router.push('/profile');
   }
 
+
   return (
     <div className="px-16 py-[65px] relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
       <CircularBlur backgroundColor="#daa635" bottom="20%" right="15%" />
       <header className="flex items-center relative mb-[30px]">
+        <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
+          <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+            <Tab className={({ selected }) => (
+              selected ? 
+              "rounded-xl bg-white p-3" : 
+              "ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white"
+            )}>My Application</Tab>
+            <Tab className={({ selected }) => (
+              selected ? 
+              "rounded-xl bg-white p-3" : 
+              "ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white"
+            )}>Open Application</Tab>
+          </Tab.List>
+        </Tab.Group>
         <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
 
         {data!.me.isOfficer && (
@@ -76,42 +104,21 @@ const ApplicationsPage: NextPage = () => {
           </Link>
         )}
       </header>
-      <div className="w-full flex flex-wrap gap-[30px]">
-        {data!.typeformApplications.map(
-          ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
-            <ApplicationCard
-              key={id}
-              title={typeformName}
-              description={description}
-              buttons={[
-                <PopupButton
-                  id={typeformId}
-                  hidden={{
-                    email: data!.me.profile!.email || '',
-                    first_name: data!.me.profile!.firstName || '',
-                    last_name: data!.me.profile!.lastName || '',
-                    major: data!.me.profile!.major || '',
-                    net_id: data!.me.profile!.netid || '',
-                    classification: data!.me.profile!.classStanding || '',
-                  }}
-                  className="my-button"
-                >
-                  <Button>apply</Button>
-                </PopupButton>,
-                // exclude 'learn more' button when external url is blank
-                ...(externalResourceUrl && externalResourceUrl !== ''
-                  ? [
-                      <Link href={externalResourceUrl} target="_blank">
-                        <Button color="secondary">learn more</Button>
-                      </Link>,
-                    ]
-                  : []),
-              ]}
-              division={division}
-            />
-          ),
-        )}
-      </div>
+      {tabIndex === 0 ? <MyApplicationView 
+        appData={data!.filledApplications}
+      /> : <OpenApplicationsView 
+        applications={data!.returnAllOpenApp}
+        typeformApplications={data!.typeformApplications}
+        userData={{
+          email: data!.me.profile!.email || "",
+          firstName: data!.me.profile!.firstName || "",
+          lastName: data!.me.profile!.lastName || '',
+          major: data!.me.profile!.major || '',
+          netid: data!.me.profile!.netid || '',
+          classStanding: data!.me.profile!.classStanding || '',
+        }}
+      />}
+     
       <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </div>
   );

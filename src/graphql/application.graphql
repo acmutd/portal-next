@@ -1,0 +1,50 @@
+query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
+  returnAllOpenApp {
+    id
+    name
+    division {
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+  filledApplications(where: $fillAppWhere) {
+    status
+    app {
+      name
+    }
+  }
+  typeformApplications(where: $where) {
+    id
+    active
+    description
+    typeformId
+    typeformName
+    division
+    externalResourceUrl
+  }
+  me {
+    isOfficer
+    profile {
+      firstName
+      email
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+}
+
+query getSingleApplicationData($where: ApplicationWhereInput) {
+  applications(where: $where) {
+    questions
+    name
+  }
+}
+
+mutation submitSingleApplication($data: FilledApplicationCreateInput!) {
+  createOneFilledApplication(data: $data) {
+    id
+  }
+}
