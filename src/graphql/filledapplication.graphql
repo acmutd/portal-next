@@ -3,6 +3,7 @@ query findFilledApplications($whereFilled: FilledApplicationWhereInput, $whereAp
     isOfficer
   }
   filledApplications(where: $whereFilled) {
+    id
     profileId
     appId
     responses

@@ -546,6 +546,20 @@ export type DateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']>>;
 };
 
+export type Division = {
+  __typename?: 'Division';
+  _count?: Maybe<DivisionCount>;
+  deptName: Scalars['String'];
+  id: Scalars['String'];
+  officerIds: Array<Scalars['String']>;
+};
+
+export type DivisionCount = {
+  __typename?: 'DivisionCount';
+  applications: Scalars['Int'];
+  officers: Scalars['Int'];
+};
+
 export type DivisionCreateNestedManyWithoutOfficersInput = {
   connect?: InputMaybe<Array<DivisionWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<DivisionCreateOrConnectWithoutOfficersInput>>;
@@ -608,6 +622,12 @@ export type DivisionRelationFilter = {
   is?: InputMaybe<DivisionWhereInput>;
   isNot?: InputMaybe<DivisionWhereInput>;
 };
+
+export enum DivisionScalarFieldEnum {
+  DeptName = 'deptName',
+  Id = 'id',
+  OfficerIds = 'officerIds'
+}
 
 export type DivisionScalarWhereInput = {
   AND?: InputMaybe<Array<DivisionScalarWhereInput>>;
@@ -2193,6 +2213,8 @@ export type ProfileWhereUniqueInput = {
 export type Query = {
   __typename?: 'Query';
   applications: Array<Application>;
+  division?: Maybe<Division>;
+  divisions: Array<Division>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
   filledApplications: Array<FilledApplication>;
@@ -2215,6 +2237,21 @@ export type QueryApplicationsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ApplicationWhereInput>;
+};
+
+
+export type QueryDivisionArgs = {
+  where: DivisionWhereUniqueInput;
+};
+
+
+export type QueryDivisionsArgs = {
+  cursor?: InputMaybe<DivisionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DivisionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DivisionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DivisionWhereInput>;
 };
 
 
@@ -3006,6 +3043,13 @@ export type FetchAllOpenApplicationsQueryVariables = Exact<{
 
 export type FetchAllOpenApplicationsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, questions: Array<string>, id: string, name: string, externalResourceUrl: string, description: string }> };
 
+export type FetchAllOpenApplicationsWithDivisionsQueryVariables = Exact<{
+  date: Scalars['DateTime'];
+}>;
+
+
+export type FetchAllOpenApplicationsWithDivisionsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', divisionId: string, questions: Array<string>, id: string, name: string, externalResourceUrl: string, description: string }>, divisions: Array<{ __typename?: 'Division', id: string, deptName: string, officerIds: Array<string> }> };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -3064,7 +3108,7 @@ export type FindFilledApplicationsQueryVariables = Exact<{
 }>;
 
 
-export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, filledApplications: Array<{ __typename?: 'FilledApplication', profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null }>, findFirstApplication?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, createdAt: any, expireDate: any, questions: Array<string>, divisionId: string } | null };
+export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, filledApplications: Array<{ __typename?: 'FilledApplication', id: string, profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null }>, findFirstApplication?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, createdAt: any, expireDate: any, questions: Array<string>, divisionId: string } | null };
 
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -3180,6 +3224,23 @@ export const FetchAllOpenApplicationsDocument = gql`
   }
 }
     `;
+export const FetchAllOpenApplicationsWithDivisionsDocument = gql`
+    query fetchAllOpenApplicationsWithDivisions($date: DateTime!) {
+  returnAllOpenApp(date: $date) {
+    divisionId
+    questions
+    id
+    name
+    externalResourceUrl
+    description
+  }
+  divisions {
+    id
+    deptName
+    officerIds
+  }
+}
+    `;
 export const CheckInToEventDocument = gql`
     mutation checkInToEvent($checkInData: EventCheckinInput!) {
   checkinToEvent(options: $checkInData) {
@@ -3267,6 +3328,7 @@ export const FindFilledApplicationsDocument = gql`
     isOfficer
   }
   filledApplications(where: $whereFilled) {
+    id
     profileId
     appId
     responses
@@ -3468,6 +3530,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     fetchAllOpenApplications(variables: FetchAllOpenApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FetchAllOpenApplicationsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FetchAllOpenApplicationsQuery>(FetchAllOpenApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchAllOpenApplications', 'query');
+    },
+    fetchAllOpenApplicationsWithDivisions(variables: FetchAllOpenApplicationsWithDivisionsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FetchAllOpenApplicationsWithDivisionsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchAllOpenApplicationsWithDivisionsQuery>(FetchAllOpenApplicationsWithDivisionsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchAllOpenApplicationsWithDivisions', 'query');
     },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');

@@ -28,6 +28,8 @@ query fetchAllOpenApplicationsWithDivisions($date: DateTime!) {
     description     
   }
   divisions {
+    id
     deptName
+    officerIds
   }
 }

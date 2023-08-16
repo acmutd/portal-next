@@ -1,5 +1,6 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
+import { FilledApplication, FilledApplicationScalarFieldEnum, FindFilledApplicationsDocument } from 'lib/generated/graphql';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { status } = useSession({ required: true });
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<FilledApplication | undefined>(undefined);
   const { data, isLoading, error } = useQuery(
     ['manageSingleApp'],
     () =>
@@ -65,27 +66,29 @@ const EditApplicationPage: NextPage = () => {
   if (!data?.filledApplications) {
     return <div>No applicants have submitted a response yet</div>;
   }
+  
 
   return (
-    <div className="w-full p-20">
+    <div className="w-full p-5 mt-5">
       <Link href={`/opportunities/admin/`}>
         <button>
+          {/* TODO: replace arrow with svg */}
           <div className="text-3xl font-semibold text-gray-100">
-            {data?.findFirstApplication!.name || 'Application Manager'}
+            {"< " + data?.findFirstApplication!.name || 'Application Manager'}
           </div>
         </button>
       </Link>
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
-          <div className="flex flex-row p-5 place-items-center">
-            <div className="w-[50%]">
-              <h2 className="text-2xl font-semibold text-gray-100">Information</h2>
+          <div className="flex flex-row p-5 place-content-stretch w-full">
+            <div>
               {/* Left Side*/}
+              <h2 className="text-2xl font-semibold text-gray-100">Information</h2>
               <div>
                 {/* Search Box*/}
-                <p className="text-sm font-semibold text-gray-100">Applicants</p>
-                <input type="text" id="name" placeholder='name' />
-                <input type="text" id="netid" placeholder='netid' />
+                <p className="text-sm font-semibold text-gray-100">Filter Applicants</p>
+                <input type="text" id="name" placeholder="name" />
+                <input type="text" id="netid" placeholder="netid" />
                 <div>
                   <span>
                     <select>
@@ -101,24 +104,27 @@ const EditApplicationPage: NextPage = () => {
                 </div>
               </div>
               {/* List of applicants */}
+              <p>Matching Applicants</p>
               {isLoading ? (
                 <LoadingComponent></LoadingComponent>
               ) : (
                 <div className="text-gray-100">
-                  {data!.filledApplications.map((filledApp) => {
-                    <div className=" border-emerald-700 ">{filledApp.profileId}</div>;
-                  })}
+                  {data.filledApplications.map((filledApp) => <div>
+                    <button onClick={()=>setSelected(filledApp)}>
+                      <p>{filledApp.profileId}</p>
+                    </button>
+                  </div>)}
                 </div>
               )}
             </div>
-            <div>
+            <div className="text-gray-100">
               {/* Right Side*/}
-              <div className="text-gray-100">Applicant Details</div>
-              <div className="flex flex-col p-5 place-items-center">
+              <div >Applicant Details</div>
+              <div className="flex flex-col p-5">
                 <div>
                   <label>Notes</label>
                   <div>
-                    <p></p>
+                    <p>{selected===undefined ? "" : selected.notes}</p>
                     <button></button>
                     <button></button>
                   </div>
@@ -126,14 +132,18 @@ const EditApplicationPage: NextPage = () => {
                 <div>
                   <label>Applicant Responses</label>
                   <div>
-                    {selected ? (
-                      <LoadingComponent></LoadingComponent>
+                    {selected===undefined ? (
+                      <p>No Applicant Selected</p>
                     ) : (
-                      <div className="text-gray-100">
-                        {/* {selected!.responses.map((response) => {
-                          response;
-                        })} */}
-                      </div>
+                        <div className="text-gray-100">
+                          {selected!.responses.map((response) => {
+                            return (
+                              <div>
+                                <p>{response}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
                     )}
                   </div>
                 </div>
