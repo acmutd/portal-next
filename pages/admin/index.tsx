@@ -20,8 +20,7 @@ export default function AdminToolsPage() {
     {
       title: 'Add officer to division',
       description: 'Add new officer into division.',
-      // TODO: update onChosen to match appropriate action
-      onChosen: () => router.push('/opportunities'),
+      onChosen: () => router.push('/admin/officer/add'),
     },
   ];
   return (
