@@ -1,28 +1,33 @@
-query findFilledApplications($whereFilled: FilledApplicationWhereInput, $whereApp: ApplicationWhereInput) {
+query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
   me {
     isOfficer
   }
-  filledApplications(where: $whereFilled) {
+  application(where: $whereApp) {
     id
-    profileId
-    appId
-    responses
-    status
-    first
-    notes
-    second
-    third
-    score
-    interviewLink
-  }
-  findFirstApplication(where: $whereApp) {
-    id                  
-    name                
-    externalResourceUrl 
-    description         
-    createdAt           
-    expireDate          
-    questions        
-    divisionId 
+    name
+    externalResourceUrl
+    description
+    questions
+    divisionId
+    division {
+      id
+      deptName
+    }
+    fillApplications {
+      id
+      profileId
+      profile {
+        id
+      }
+      appId
+      responses
+      status
+      first
+      notes
+      second
+      third
+      score
+      interviewLink
+    }
   }
 }

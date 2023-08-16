@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import LoadingComponent from 'components/LoadingComponent';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
@@ -9,9 +10,7 @@ import { gqlQueries, queryClient } from 'src/api';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['viewAllApps'], () =>
-    gqlQueries.fetchAllOpenApplications({
-      date: new Date(Date.now()).toISOString(),
-    }),
+    gqlQueries.getAllOpenApplications(),
   );
   return {
     props: {
@@ -26,9 +25,13 @@ const ViewApplicationsPage: NextPage = () => {
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
     ['viewAllApps'],
-    () => gqlQueries.fetchAllOpenApplications({ date: new Date(Date.now()).toISOString() }),
+    () => gqlQueries.getAllOpenApplications(),
     { enabled: status === 'authenticated' },
   );
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   if (!data || !data.returnAllOpenApp) {
     return <div>No application exists</div>;
@@ -47,7 +50,7 @@ const ViewApplicationsPage: NextPage = () => {
                 <ApplicationCard
                   title={application.name}
                   description={application.description}
-                  division={application.divisionId}
+                  division={application.division.deptName}
                   key={application.id}
                   buttons={[
                     <Link href={`/opportunities/admin/${application.id}`}>
