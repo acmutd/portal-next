@@ -19,6 +19,8 @@ import { useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
 import SignOutIcon from '../icons/SignOutIcon';
 import AdminIcon from 'icons/AdminIcon';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
 
 const pages = [
   {
@@ -51,18 +53,25 @@ const pages = [
     name: 'sign out',
     svg: SignOutIcon,
   },
-  {
+];
+
+const officerOnlyPages = [...pages, {
     uri: '/admin',
     name: 'admin',
     svg: AdminIcon,
-  },
-];
+}];
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
   const router = useRouter();
-  const { data: session } = useSession();
-  // if (disable) return children;
+  const { data: session, status } = useSession();
+  const { data: officerStatusData, isLoading } = useQuery(
+    ['officerStatus'],
+    () => gqlQueries.getOfficerStatus(),
+    { enabled: status === 'authenticated' }
+  );
+  if (isLoading || status === 'loading') return <></>;
+
   if (!session)
     return (
       <>
@@ -85,7 +94,7 @@ const Skeleton = ({ children }: any) => {
                   <Image src={WhiteACMLogo} alt="ACM Logo" />
                 </ACMDesktopNavbarItem>
               </Link>
-              {pages.map((page, idx) => (
+              {(officerStatusData?.me.isOfficer ? officerOnlyPages : pages).map((page, idx) => (
                 <Link key={idx} href={page.uri} passHref className="cursor-pointer">
                   <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
                     {page.name}
@@ -101,7 +110,7 @@ const Skeleton = ({ children }: any) => {
             <>
               <MobileNavPlaceholder />
               <ACMMobileNavbar>
-                {pages.map((page, idx) => {
+                {(officerStatusData?.me.isOfficer ? officerOnlyPages : pages).map((page, idx) => {
                   const active = router.pathname === page.uri;
                   return (
                     <Link key={idx} href={page.uri} passHref className="cursor-pointer">
