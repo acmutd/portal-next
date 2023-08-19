@@ -1,10 +1,14 @@
 import { useSession } from 'next-auth/react';
 import Button from 'components/Button';
 import { useRouter } from 'next/router';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import { useContext } from 'react';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export default function AdminToolsPage() {
   useSession({ required: true });
   const router = useRouter();
+  const isOfficer = useContext(OfficerStatusContext);
   const options = [
     {
       title: 'Create Vanity Link',
@@ -23,6 +27,9 @@ export default function AdminToolsPage() {
       onChosen: () => router.push('/admin/officer/add'),
     },
   ];
+  if (isOfficer) {
+    return <AdminOnlyComponent />
+  }
   return (
     <div className="p-4">
       <h1 className="text-[40px] text-white my-5 py-3">Admin Tools</h1>

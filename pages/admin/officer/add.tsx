@@ -3,11 +3,14 @@ import LoadingComponent from 'components/LoadingComponent';
 import { GetAddOfficerPageDataQuery } from 'lib/generated/graphql';
 import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { dehydrate, useQuery } from 'react-query';
 import { gqlQueries, queryClient } from 'src/api';
 import debounce from 'lodash.debounce';
 import MakeUserOfficerCard from 'components/admin/MakeUserOfficerCard';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import { useRouter } from 'next/router';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export const getServerSideProps: GetServerSideProps = async(ctx) => {
     await queryClient.prefetchQuery(['addOfficerPage'], () => 
@@ -24,10 +27,12 @@ export const getServerSideProps: GetServerSideProps = async(ctx) => {
 export default function AddOfficerPage() {
     // Need to get logged in user profile
     const { status, data: signedInUserData } = useSession({ required: true });
+    const isOfficer = useContext(OfficerStatusContext);
+    const router = useRouter();
     const { data, error, isLoading } = useQuery(
         ['addOfficerPage'], 
         () => gqlQueries.getAddOfficerPageData(),
-        { enabled: status === 'authenticated' }
+        { enabled: status === 'authenticated' && isOfficer }
     )
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery["me"]["userProfiles"]>([]);
@@ -59,6 +64,9 @@ export default function AddOfficerPage() {
     });
 
     if (isLoading) return <LoadingComponent />;
+    if (!isOfficer) {
+        return <AdminOnlyComponent />;   
+    }
 
     return <div className="p-5">
         <h1 className="text-2xl text-white p-3">Add user to division as officer</h1>
