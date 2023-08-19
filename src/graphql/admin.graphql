@@ -1,0 +1,5 @@
+query getOfficerStatus {
+  me {
+    isOfficer
+  }
+}

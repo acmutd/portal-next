@@ -2954,6 +2954,11 @@ export type VanityLinkWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type GetOfficerStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOfficerStatusQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean } };
+
 export type GetApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
   fillAppWhere?: InputMaybe<FilledApplicationWhereInput>;
@@ -3121,6 +3126,13 @@ export type CreateVanityLinkMutationVariables = Exact<{
 export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanityLink: { __typename?: 'VanityLink', originalUrl: string, vanityDomain: string, slashtag: string } };
 
 
+export const GetOfficerStatusDocument = gql`
+    query getOfficerStatus {
+  me {
+    isOfficer
+  }
+}
+    `;
 export const GetApplicationDataDocument = gql`
     query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
   returnAllOpenApp {
@@ -3429,6 +3441,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getOfficerStatus(variables?: GetOfficerStatusQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetOfficerStatusQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetOfficerStatusQuery>(GetOfficerStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getOfficerStatus', 'query');
+    },
     getApplicationData(variables?: GetApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationData', 'query');
     },
