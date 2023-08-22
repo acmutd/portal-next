@@ -55,11 +55,19 @@ mutation updateSingleApplication($where: FilledApplicationWhereUniqueInput!, $da
   }
 }
 
-query getAllOpenApplications {
+query getApplicationAdminPageData {
+  me {
+    profile {
+      officer {
+        divisionIds
+      }
+    }
+  }
   returnAllOpenApp {
     id
     name
     division {
+      id
       deptName
     }
     externalResourceUrl

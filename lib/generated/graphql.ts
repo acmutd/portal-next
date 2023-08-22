@@ -3047,10 +3047,10 @@ export type UpdateSingleApplicationMutationVariables = Exact<{
 
 export type UpdateSingleApplicationMutation = { __typename?: 'Mutation', updateOneFilledApplication?: { __typename?: 'FilledApplication', id: string } | null };
 
-export type GetAllOpenApplicationsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetApplicationAdminPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllOpenApplicationsQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }> };
+export type GetApplicationAdminPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisionIds: Array<string> } | null } | null }, returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', id: string, deptName: string } }> };
 
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
@@ -3265,12 +3265,20 @@ export const UpdateSingleApplicationDocument = gql`
   }
 }
     `;
-export const GetAllOpenApplicationsDocument = gql`
-    query getAllOpenApplications {
+export const GetApplicationAdminPageDataDocument = gql`
+    query getApplicationAdminPageData {
+  me {
+    profile {
+      officer {
+        divisionIds
+      }
+    }
+  }
   returnAllOpenApp {
     id
     name
     division {
+      id
       deptName
     }
     externalResourceUrl
@@ -3581,8 +3589,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     updateSingleApplication(variables: UpdateSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateSingleApplicationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateSingleApplicationMutation>(UpdateSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateSingleApplication', 'mutation');
     },
-    getAllOpenApplications(variables?: GetAllOpenApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAllOpenApplicationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetAllOpenApplicationsQuery>(GetAllOpenApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAllOpenApplications', 'query');
+    getApplicationAdminPageData(variables?: GetApplicationAdminPageDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationAdminPageDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationAdminPageDataQuery>(GetApplicationAdminPageDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationAdminPageData', 'query');
     },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');

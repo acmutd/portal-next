@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import LoadingComponent from 'components/LoadingComponent';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
+import { log } from 'console';
 import { GetServerSideProps, NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -10,7 +11,7 @@ import { gqlQueries, queryClient } from 'src/api';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery(['viewAllApps'], () =>
-    gqlQueries.getAllOpenApplications(),
+    gqlQueries.getApplicationAdminPageData(),
   );
   return {
     props: {
@@ -25,7 +26,7 @@ const ViewApplicationsPage: NextPage = () => {
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
     ['viewAllApps'],
-    () => gqlQueries.getAllOpenApplications(),
+    () => gqlQueries.getApplicationAdminPageData(),
     { enabled: status === 'authenticated' },
   );
 
@@ -45,7 +46,7 @@ const ViewApplicationsPage: NextPage = () => {
         </div>
         <div className="w-full">
           {!isLoading ? (
-            data.returnAllOpenApp.map((application) => (
+            data.returnAllOpenApp.filter((app) => data.me.profile!.officer!.divisionIds.includes(app.division.id)).map((application) => (
               <div className="mb-10">
                 <ApplicationCard
                   title={application.name}
