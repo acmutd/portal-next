@@ -38,7 +38,8 @@ const EditApplicationPage: NextPage = () => {
   const { id } = router.query;
   const { status } = useSession({ required: true });
   const [formEditMode, setFormEditMode] = useState(false);
-  const [filterQuery, setFilterQuery] = useState('');
+  const [filterQueryName, setFilterQueryName] = useState('');
+  const [filterQueryNetID, setFilterQueryNetID] = useState('');
   type FilledAppData = {
     __typename?: 'FilledApplication';
     id: string;
@@ -114,10 +115,16 @@ const EditApplicationPage: NextPage = () => {
                 type="text"
                 id="name"
                 placeholder="name"
-                onChange={(e) => setFilterQuery(e.target.value)}
+                onChange={(e) => setFilterQueryName(e.target.value)}
               />
               {/* Search by netID */}
-              <input className="rounded-xl" type="text" id="netid" placeholder="netid" />
+              <input
+                className="rounded-xl"
+                type="text"
+                id="netid"
+                placeholder="netid"
+                onChange={(e) => setFilterQueryNetID(e.target.value)}
+              />
               {/* <div>
                 <span>
                   <select className="rounded-xl">
@@ -138,7 +145,16 @@ const EditApplicationPage: NextPage = () => {
               ) : (
                 <div className="text-gray-100 border border-gray-300 rounded-xl bg-transparent p-3">
                   {data.application.fillApplications
-                    .filter((filledApp) => filledApp.profile.firstName.toLowerCase().includes(filterQuery.toLowerCase()))
+                    .filter(
+                      (filledApp) =>
+                        (filledApp.profile.firstName
+                          .toLowerCase()
+                          .includes(filterQueryName.toLowerCase()) ||
+                          filledApp.profile.lastName
+                            .toLowerCase()
+                            .includes(filterQueryName.toLowerCase())) &&
+                        filledApp.profile.netid.includes(filterQueryNetID),
+                    )
                     .map((filledApp, i) => (
                       <div key={filledApp.id}>
                         <button onClick={() => setSelected(filledApp)}>

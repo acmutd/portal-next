@@ -20,6 +20,7 @@ query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
         id
         firstName
         lastName
+        netid
       }
       appId
       responses
