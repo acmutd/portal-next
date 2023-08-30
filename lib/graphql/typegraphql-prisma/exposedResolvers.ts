@@ -36,6 +36,7 @@ import {
   ApplicationRelationsResolver,
   FilledApplicationRelationsResolver,
   CreateOneFilledApplicationResolver,
+  OfficerRelationsResolver,
   FindUniqueApplicationResolver,
   ProfileRelationsResolver,
   UpdateOneFilledApplicationResolver,
@@ -78,6 +79,8 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   FindUniqueApplicationResolver,
   ApplicationRelationsResolver,
   FilledApplicationRelationsResolver,
+  CreateOneFilledApplicationResolver,
   ProfileRelationsResolver,
+  OfficerRelationsResolver,
   UpdateOneFilledApplicationResolver,
 ];  

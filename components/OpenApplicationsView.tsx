@@ -18,7 +18,7 @@ interface OpenApplicationsViewProps {
 }
 
 export default function OpenApplicationsView({ applications, typeformApplications, userData } : OpenApplicationsViewProps) {
-    return <div className="w-full flex flex-wrap gap-[30px]">
+    return <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
         {typeformApplications.map(
           ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
             <ApplicationCard

@@ -256,6 +256,11 @@ export enum Action {
   Upload = 'UPLOAD'
 }
 
+export type AddUserToDivisionInput = {
+  divisionId: Scalars['String'];
+  profileId: Scalars['String'];
+};
+
 export type Application = {
   __typename?: 'Application';
   _count?: Maybe<ApplicationCount>;
@@ -611,6 +616,12 @@ export type DivisionRelationFilter = {
   is?: InputMaybe<DivisionWhereInput>;
   isNot?: InputMaybe<DivisionWhereInput>;
 };
+
+export enum DivisionScalarFieldEnum {
+  DeptName = 'deptName',
+  Id = 'id',
+  OfficerIds = 'officerIds'
+}
 
 export type DivisionScalarWhereInput = {
   AND?: InputMaybe<Array<DivisionScalarWhereInput>>;
@@ -1384,6 +1395,7 @@ export type IntNullableFilter = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addUserToDivision: Scalars['String'];
   checkInOldEvent: Array<EventCheckin>;
   checkinToEvent: EventCheckin;
   createOneAccount: Account;
@@ -1410,6 +1422,11 @@ export type Mutation = {
   upsertOneEvent: Event;
   upsertOneEventReservation: EventReservation;
   upsertOneProfile: Profile;
+};
+
+
+export type MutationAddUserToDivisionArgs = {
+  data: AddUserToDivisionInput;
 };
 
 
@@ -1650,8 +1667,20 @@ export type Officer = {
   __typename?: 'Officer';
   _count?: Maybe<OfficerCount>;
   divisionIds: Array<Scalars['String']>;
+  divisions: Array<Division>;
   id: Scalars['String'];
+  profile: Profile;
   profileId: Scalars['String'];
+};
+
+
+export type OfficerDivisionsArgs = {
+  cursor?: InputMaybe<DivisionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DivisionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DivisionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DivisionWhereInput>;
 };
 
 export type OfficerCount = {
@@ -2802,6 +2831,7 @@ export type User = {
   resumeFilename: Scalars['String'];
   roles: Array<RolesOnUser>;
   sessions: Array<Session>;
+  userProfiles: Array<Profile>;
 };
 
 
@@ -3017,6 +3047,11 @@ export type VanityLinkWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type GetOfficerStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOfficerStatusQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean } };
+
 export type GetApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
   fillAppWhere?: InputMaybe<FilledApplicationWhereInput>;
@@ -3118,6 +3153,18 @@ export type GetHomePageUserInfoQueryVariables = Exact<{
 
 export type GetHomePageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', attendedEvents: Array<{ __typename?: 'Event', description: string, location: string, summary: string, start: any }> }, profile?: { __typename?: 'Profile', firstName: string, netid: string, email: string } | null };
 
+export type GetAddOfficerPageDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAddOfficerPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', userProfiles: Array<{ __typename?: 'Profile', id: string, firstName: string, lastName: string, netid: string }>, profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } | null } | null } };
+
+export type AddUserToDivisionMutationVariables = Exact<{
+  data: AddUserToDivisionInput;
+}>;
+
+
+export type AddUserToDivisionMutation = { __typename?: 'Mutation', addUserToDivision: string };
+
 export type UpsertProfileMutationVariables = Exact<{
   where: ProfileWhereUniqueInput;
   create: ProfileCreateInput;
@@ -3204,6 +3251,13 @@ export type CreateVanityLinkMutationVariables = Exact<{
 export type CreateVanityLinkMutation = { __typename?: 'Mutation', createOneVanityLink: { __typename?: 'VanityLink', originalUrl: string, vanityDomain: string, slashtag: string } };
 
 
+export const GetOfficerStatusDocument = gql`
+    query getOfficerStatus {
+  me {
+    isOfficer
+  }
+}
+    `;
 export const GetApplicationDataDocument = gql`
     query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
   returnAllOpenApp {
@@ -3423,6 +3477,31 @@ export const GetHomePageUserInfoDocument = gql`
   }
 }
     `;
+export const GetAddOfficerPageDataDocument = gql`
+    query getAddOfficerPageData {
+  me {
+    userProfiles {
+      id
+      firstName
+      lastName
+      netid
+    }
+    profile {
+      officer {
+        divisions {
+          id
+          deptName
+        }
+      }
+    }
+  }
+}
+    `;
+export const AddUserToDivisionDocument = gql`
+    mutation addUserToDivision($data: AddUserToDivisionInput!) {
+  addUserToDivision(data: $data)
+}
+    `;
 export const UpsertProfileDocument = gql`
     mutation upsertProfile($where: ProfileWhereUniqueInput!, $create: ProfileCreateInput!, $update: ProfileUpdateInput!) {
   upsertOneProfile(where: $where, create: $create, update: $update) {
@@ -3579,6 +3658,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getOfficerStatus(variables?: GetOfficerStatusQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetOfficerStatusQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetOfficerStatusQuery>(GetOfficerStatusDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getOfficerStatus', 'query');
+    },
     getApplicationData(variables?: GetApplicationDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationDataQuery>(GetApplicationDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationData', 'query');
     },
@@ -3623,6 +3705,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getHomePageUserInfo(variables: GetHomePageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetHomePageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHomePageUserInfo', 'query');
+    },
+    getAddOfficerPageData(variables?: GetAddOfficerPageDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAddOfficerPageDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAddOfficerPageDataQuery>(GetAddOfficerPageDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAddOfficerPageData', 'query');
+    },
+    addUserToDivision(variables: AddUserToDivisionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddUserToDivisionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddUserToDivisionMutation>(AddUserToDivisionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'addUserToDivision', 'mutation');
     },
     upsertProfile(variables: UpsertProfileMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertProfileMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertProfileMutation>(UpsertProfileDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertProfile', 'mutation');
