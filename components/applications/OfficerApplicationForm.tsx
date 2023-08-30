@@ -30,17 +30,20 @@ export default function OfficerApplicationForm({
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl text-center mx-auto text-gray-100">{applicantName}</h1>
+      <div className='flex place-content-center w-4/5'>
+        <h1 className="text-2xl mx-auto text-gray-100">{applicantName}</h1>
+      </div>
       <div className="w-full mx-auto">
         <QuestionComponent
           question={`Notes:`}
           response={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
+        <div className="flex items-center gap-x-4">
         <div>
           <label>Status:</label>
           <select
-            className="appearance-none block w-[38%] text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+            className="appearance-none block text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
           >
@@ -52,7 +55,7 @@ export default function OfficerApplicationForm({
         <div>
           <label>Score:</label>
           <select
-            className="appearance-none block w-1/6 text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
+            className="appearance-none block w-20 text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
             value={score}
             onChange={(e) => setScore(Number(e.target.value))}
           >
@@ -63,6 +66,7 @@ export default function OfficerApplicationForm({
             <option className="text-gray-900" value={5}>5</option>
           </select>
         </div>
+        </div> 
       </div>
       <div className="flex gap-x-4">
         <Button

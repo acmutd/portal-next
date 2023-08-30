@@ -149,132 +149,151 @@ const EditApplicationPage: NextPage = () => {
           </div>
         </button>
       </Link>
-      <div className="flex flex-col place-content-center">
-        <div className="flex flex-row p-5 mt-5 place-content-center w-full">
-          <div className="w-1/3">
-            {/* ^ Left Side*/}
-            <div>
-              {/* ^ Search Box*/}
-              <p className="text-xl text-gray-100">Filter Applicants</p>
-              {/* Search By name */}
-              <input
-                className="rounded-xl"
-                type="text"
-                id="name"
-                placeholder="name"
-                onChange={(e) => setFilterQueryName(e.target.value)}
-              />
-              {/* Search by netID */}
-              <input
-                className="rounded-xl block"
-                type="text"
-                id="netid"
-                placeholder="netid"
-                onChange={(e) => setFilterQueryNetID(e.target.value)}
-              />
+      <div className="flex flex-col lg:flex-row p-5 mt-5 justify-between w-full">
+        <div className="flex flex-col w-full lg:w-1/3 p-5 ">
+          {/* ^ Left Side*/}
+          <div>
+            {/* ^ Search Box*/}
+            <p className="text-xl text-gray-100">Applicants</p>
+            {/* Search By name */}
+            <input
+              className="rounded-3xl w-full mt-2"
+              type="text"
+              id="name"
+              placeholder="name"
+              onChange={(e) => setFilterQueryName(e.target.value)}
+            />
+            {/* Search by netID */}
+            <input
+              className="rounded-3xl mt-2 block w-full"
+              type="text"
+              id="netid"
+              placeholder="netid"
+              onChange={(e) => setFilterQueryNetID(e.target.value)}
+            />
+            <div className="mt-2 sm:flex-col gap-x-2">
+                <select
+                  className="rounded-3xl text-black"
+                  onChange={(e) => setYearSelected(e.target.value)}
+                >
+                  <option value="">class</option>
+                  <option value="freshman">freshman</option>
+                  <option value="sophomore">sophomore</option>
+                  <option value="junior">junior</option>
+                  <option value="senior">senior</option>
+                </select>
+                <select className="rounded-3xl" onChange={(e) => setStatusSelected(e.target.value)}>
+                  <option value="">status</option>
+                  <option value="pending">pending</option>
+                  <option value="accepted">accepted</option>
+                  <option value="notselected">not selected</option>
+                </select>
+                <select className="rounded-3xl" onChange={(e) => setScoreSelected(e.target.value)}>
+                  <option value="">score</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                </select>
+            </div>
+            {/* List of applicants */}
+            <p className="text-gray-100 text-xl my-5">Matching Applicants</p>
+            {isLoading ? (
+              <LoadingComponent></LoadingComponent>
+            ) : (
               <div>
-                <span>
-                  <select className="rounded-xl text-black" onChange={(e) => setYearSelected(e.target.value)}>
-                    <option value="">class</option>
-                    <option value="freshman">freshman</option>
-                    <option value="sophomore">sophomore</option>
-                    <option value="junior">junior</option>
-                    <option value="senior">senior</option>
-                  </select>
-                  <select className="rounded-xl" onChange={(e) => setStatusSelected(e.target.value)}>
-                    <option value="">status</option>
-                    <option value="pending">pending</option>
-                    <option value="accepted">accepted</option>
-                    <option value="notselected">not selected</option>
-                  </select>
-                  <select className="rounded-xl" onChange={(e) => setScoreSelected(e.target.value)}>
-                    <option value="">score</option>
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                  </select>
-                </span>
+                {allFilters(data?.application?.fillApplications).map((filledApp, i) => (
+                  <div
+                    className="text-gray-100 border-b-2 border-gray-300 bg-transparent p-3"
+                    key={filledApp.id}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6 inline mx-3"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                      />
+                    </svg>
+
+                    <button onClick={() => setSelected(filledApp)}>
+                      <p>{filledApp.profile?.firstName + ' ' + filledApp.profile?.lastName}</p>
+                    </button>
+                  </div>
+                ))}
               </div>
-              {/* List of applicants */}
-              <p className="text-gray-100 text-xl mt-3">Matching Applicants</p>
-              {isLoading ? (
-                <LoadingComponent></LoadingComponent>
+            )}
+          </div>
+        </div>
+        <div className="text-gray-100 p-5 w-full lg:w-2/3">
+          {/* Right Side*/}
+          <div className="flex flex-col px-5">
+            {/* <div className="text-xl">Applicant Details</div> */}
+            {/* <label>Notes</label> */}
+            <div>
+              {formEditMode ? (
+                <OfficerApplicationForm
+                  applicantName={selected?.profile?.firstName + ' ' + selected?.profile?.lastName}
+                  originalNotes={selected?.notes!}
+                  originalStatus={selected?.status!}
+                  originalScore={selected?.score!}
+                  onSubmit={async (formData) => {
+                    await gqlQueries.updateSingleApplication({
+                      data: {
+                        notes: { set: formData.notes },
+                        status: { set: formData.status },
+                        score: { set: formData.score },
+                      },
+                      where: {
+                        id: selected?.id!,
+                      },
+                    });
+                    alert('Your edit was successfully recorded.');
+                    router.reload();
+                  }}
+                />
+              ) : selected == undefined ? (
+                ''
               ) : (
-                <div className="text-gray-100 border border-gray-300 rounded-xl bg-transparent p-3 w-[60%]">
-                  {allFilters(data?.application?.fillApplications).map((filledApp, i) => (
-                    <div key={filledApp.id}>
-                      <button onClick={() => setSelected(filledApp)}>
-                        <p>{filledApp.profile?.firstName + ' ' + filledApp.profile?.lastName}</p>
-                      </button>
-                    </div>
-                  ))}
+                <div className="w-4/5">
+                  <h1 className="text-3xl text-center mx-auto text-gray-100">
+                    {selected.profile?.firstName + ' ' + selected.profile?.lastName}
+                  </h1>
+                  <label className="text-xl">Notes</label>
+                  <div className="appearance-none block text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
+                    <p>{selected.notes}</p>
+                  </div>
+                  <label className="text-xl">Status: {prettyStatus(selected.status)}</label>
+                  <label className="text-xl block">Score: {selected.score}</label>
                 </div>
               )}
             </div>
-          </div>
-          <div className="w-[10%]"></div>
-          <div className="text-gray-100 w-1/3">
-            {/* Right Side*/}
-            <div className="flex flex-col px-5">
-              {/* <div className="text-xl">Applicant Details</div> */}
-              {/* <label>Notes</label> */}
+            <div style={{
+              marginTop: "3rem"
+            }}>
+              <label className="text-xl">Applicant Responses</label>
               <div>
-                {formEditMode ? (
-                  <OfficerApplicationForm
-                    applicantName={selected?.profile?.firstName + ' ' + selected?.profile?.lastName}
-                    originalNotes={selected?.notes!}
-                    originalStatus={selected?.status!}
-                    originalScore={selected?.score!}
-                    onSubmit={async (formData) => {
-                      await gqlQueries.updateSingleApplication({
-                        data: {
-                          notes: { set: formData.notes },
-                          status: { set: formData.status },
-                          score: { set: formData.score },
-                        },
-                        where: {
-                          id: selected?.id!,
-                        },
-                      });
-                      alert('Your edit was successfully recorded.');
-                      router.reload();
-                    }}
-                  />
-                ) : selected == undefined ? (
-                  ''
+                {selected === undefined ? (
+                  <p className='mt-3'>No Applicant Selected</p>
                 ) : (
-                  <div>
-                    <h1 className="text-3xl text-center mx-auto text-gray-100">
-                      {selected.profile?.firstName + ' ' + selected.profile?.lastName}
-                    </h1>
-                    <label className="text-xl">Notes</label>
-                    <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
-                      <p>{selected.notes}</p>
-                    </div>
-                    <label className="text-xl">Status: {prettyStatus(selected.status)}</label>
-                    <label className="text-xl block">Score: {selected.score}</label>
+                  <div className="text-gray-100">
+                    {selected.responses.map((response, i) => {
+                      return (
+                        <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
+                          <p>Question: {data.application?.questions[i]}</p>
+                          <p className="mt-2">Response: {response}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
-              </div>
-              <div>
-                <label className="text-xl">Applicant Responses</label>
-                <div>
-                  {selected === undefined ? (
-                    <p>No Applicant Selected</p>
-                  ) : (
-                    <div className="text-gray-100">
-                      {selected.responses.map((response) => {
-                        return (
-                          <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
-                            <p>{response}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
           </div>
