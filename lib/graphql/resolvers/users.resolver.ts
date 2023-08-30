@@ -1,14 +1,18 @@
 import { Ctx, FieldResolver, Query, Resolver, Root, UseMiddleware } from 'type-graphql';
-import { User, Event } from '@generated/type-graphql';
+import { User, Event, Profile } from '@generated/type-graphql';
 import type { TContext } from '../interfaces/context.interface';
 import { InjectSessionMiddleware } from '../middlewares/inject-session';
 import { injectable } from 'tsyringe';
 import AdditionalUserService from '../services/users.service';
+import ProfileService from '../services/profile.service';
 
 @Resolver(() => User)
 @injectable()
 export default class AdditionalUserResolver {
-  constructor(private userService: AdditionalUserService) {}
+  constructor(
+    private userService: AdditionalUserService,
+    private profileService: ProfileService  
+  ) {}
 
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
@@ -29,5 +33,11 @@ export default class AdditionalUserResolver {
   @FieldResolver(() => String)
   async resumeFilename(@Root() user: User): Promise<string> {
     return this.userService.getResumeFileName(user.id);
+  }
+
+  @FieldResolver(() => [Profile]) 
+  async userProfiles(@Root() user: User): Promise<Profile[]> {
+    if (!this.userService.checkIfUserIsOfficer(user.id)) return [];
+    return this.profileService.getAllProfiles();
   }
 }

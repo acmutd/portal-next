@@ -1,0 +1,37 @@
+query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
+  me {
+    isOfficer
+  }
+  application(where: $whereApp) {
+    id
+    name
+    externalResourceUrl
+    description
+    questions
+    divisionId
+    division {
+      id
+      deptName
+    }
+    fillApplications {
+      id
+      profileId
+      profile {
+        id
+        firstName
+        lastName
+        netid
+        classStanding
+      }
+      appId
+      responses
+      status
+      first
+      notes
+      second
+      third
+      score
+      interviewLink
+    }
+  }
+}

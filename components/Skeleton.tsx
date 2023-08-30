@@ -19,8 +19,11 @@ import { useSession } from 'next-auth/react';
 import HomeIcon from '../icons/HomeIcon';
 import SignOutIcon from '../icons/SignOutIcon';
 import AdminIcon from 'icons/AdminIcon';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
+import { OfficerStatusContext } from './context/OfficerStatus';
 
-const pages = [
+const navBarPages = [
   {
     uri: '/',
     name: 'home',
@@ -42,7 +45,7 @@ const pages = [
     svg: ProfileIcon,
   },
   {
-    uri: '/profile/resume',
+    uri: '/resume',
     name: 'resume',
     svg: CameraIcon,
   },
@@ -51,18 +54,25 @@ const pages = [
     name: 'sign out',
     svg: SignOutIcon,
   },
-  {
+];
+
+const officerOnlyPages = [...navBarPages, {
     uri: '/admin',
     name: 'admin',
     svg: AdminIcon,
-  },
-];
+}];
 
 const Skeleton = ({ children }: any) => {
   const mobile = useMediaQuery({ maxWidth: 900 });
   const router = useRouter();
-  const { data: session } = useSession();
-  // if (disable) return children;
+  const { data: session, status } = useSession();
+  const { data: officerStatusData, isLoading } = useQuery(
+    ['officerStatus'],
+    () => gqlQueries.getOfficerStatus(),
+    { enabled: status === 'authenticated' }
+  );
+  if (isLoading || status === 'loading') return <></>;
+
   if (!session)
     return (
       <>
@@ -73,50 +83,64 @@ const Skeleton = ({ children }: any) => {
       </>
     );
 
+  // Examples:
+  // /profile -> /profile
+  // /profile/* -> /profile
+  // /opportunities -> /opportunities
+  // /opportunities/* -> /opportunities
+  function mostMatchingNavBarPath(path: string) : string | undefined {
+    if (path === '/' || path === '/auth/signout') return path;
+    const split = path.split('/');
+    if (split.length < 2) return undefined;
+    return `/${split[1]}`; // for example /opportunities/admin -> /opportunities
+  }
+
   return (
     <>
-      <Background splotches={3} />
-      <div className="h-screen w-screen overflow-x-hidden flex">
-        {!mobile && (
-          <>
-            <ACMDesktopNavbar>
-              <Link href="/" passHref>
-                <ACMDesktopNavbarItem isLogo>
-                  <Image src={WhiteACMLogo} alt="ACM Logo" />
-                </ACMDesktopNavbarItem>
-              </Link>
-              {pages.map((page, idx) => (
-                <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                  <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
-                    {page.name}
+      <OfficerStatusContext.Provider value={!!officerStatusData?.me.isOfficer}>
+        <Background splotches={3} />
+        <div className="h-screen w-screen overflow-x-hidden flex">
+          {!mobile && (
+            <>
+              <ACMDesktopNavbar>
+                <Link href="/" passHref>
+                  <ACMDesktopNavbarItem isLogo>
+                    <Image src={WhiteACMLogo} alt="ACM Logo" />
                   </ACMDesktopNavbarItem>
                 </Link>
-              ))}
-            </ACMDesktopNavbar>
-          </>
-        )}
-        <div className="w-full h-full">
-          <div className="w-full relative">{children}</div>
-          {mobile && (
-            <>
-              <MobileNavPlaceholder />
-              <ACMMobileNavbar>
-                {pages.map((page, idx) => {
-                  const active = router.pathname === page.uri;
-                  return (
-                    <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                      <ACMMobileNavbarItem $active={active}>
-                        {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
-                        <span className="text-center whitespace-nowrap">{page.name}</span>
-                      </ACMMobileNavbarItem>
-                    </Link>
-                  );
-                })}
-              </ACMMobileNavbar>
+                {(officerStatusData?.me.isOfficer ? officerOnlyPages : navBarPages).map((page, idx) => (
+                  <Link key={idx} href={page.uri} passHref className="cursor-pointer">
+                    <ACMDesktopNavbarItem $active={page.uri === mostMatchingNavBarPath(router.asPath)} key={idx}>
+                      {page.name}
+                    </ACMDesktopNavbarItem>
+                  </Link>
+                ))}
+              </ACMDesktopNavbar>
             </>
           )}
+          <div className="w-full h-full">
+            <div className="w-full relative">{children}</div>
+            {mobile && (
+              <>
+                <MobileNavPlaceholder />
+                <ACMMobileNavbar>
+                  {(officerStatusData?.me.isOfficer ? officerOnlyPages : navBarPages).map((page, idx) => {
+                    const active = mostMatchingNavBarPath(router.asPath)  === page.uri;
+                    return (
+                      <Link key={idx} href={page.uri} passHref className="cursor-pointer">
+                        <ACMMobileNavbarItem $active={active}>
+                          {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
+                          <span className="text-center whitespace-nowrap">{page.name}</span>
+                        </ACMMobileNavbarItem>
+                      </Link>
+                    );
+                  })}
+                </ACMMobileNavbar>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </OfficerStatusContext.Provider>
     </>
   );
 };

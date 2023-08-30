@@ -19,18 +19,18 @@ export default class AdditionalUserService {
   }
 
   async checkIfUserIsOfficer(userId: string): Promise<boolean> {
-    const officerRole = await this.prismaConnection.role.findFirst({
+    const profile = await this.prismaConnection.profile.findFirst({
       where: {
-        roleName: 'officer',
-      },
+        userId
+      }
     });
-    const isOfficer = await this.prismaConnection.rolesOnUser.findFirst({
+    if (!profile) return false;
+    const officer = await this.prismaConnection.officer.findFirst({
       where: {
-        roleId: officerRole!.id,
-        userId,
-      },
+        profileId: profile.id
+      }
     });
-    return !!isOfficer;
+    return !!officer;
   }
 
   async getAttendedEventsByUserId(userId: string): Promise<Event[]> {

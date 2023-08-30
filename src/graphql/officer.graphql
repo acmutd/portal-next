@@ -1,0 +1,22 @@
+query getAddOfficerPageData {
+  me {
+    userProfiles {
+      id
+      firstName
+      lastName
+      netid
+    }
+    profile {
+      officer {
+        divisions {
+          id
+          deptName
+        }
+      }
+    }
+  }
+}
+
+mutation addUserToDivision($data: AddUserToDivisionInput!) {
+  addUserToDivision(data: $data)
+}
