@@ -1,8 +1,8 @@
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { dehydrate, useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
 
 import ACMButton from '../components/PortalButton';
 import { useEffect } from 'react';
@@ -11,19 +11,10 @@ import { GraphQLError } from 'graphql';
 import ErrorComponent from 'components/ErrorComponent';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  await queryClient.prefetchQuery('homepageData', () =>
-    gqlQueries.getHomePageUserInfo({
-      where: {
-        userId: session?.id || '',
-      },
-    }),
-  );
   const { profileVisited } = ctx.req.cookies;
   return {
     props: {
       profileVisited: profileVisited ?? null,
-      dehydratedState: dehydrate(queryClient),
     },
   };
 };
