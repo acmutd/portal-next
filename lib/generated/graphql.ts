@@ -1234,6 +1234,19 @@ export type FilledApplicationScalarWhereInput = {
   third?: InputMaybe<StringFilter>;
 };
 
+export type FilledApplicationUpdateInput = {
+  app?: InputMaybe<ApplicationUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  first?: InputMaybe<StringFieldUpdateOperationsInput>;
+  interviewLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  notes?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutFillApplicationsNestedInput>;
+  responses?: InputMaybe<FilledApplicationUpdateresponsesInput>;
+  score?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
+  second?: InputMaybe<StringFieldUpdateOperationsInput>;
+  status?: InputMaybe<StringFieldUpdateOperationsInput>;
+  third?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
 export type FilledApplicationUpdateManyMutationInput = {
   first?: InputMaybe<StringFieldUpdateOperationsInput>;
   interviewLink?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -1389,6 +1402,7 @@ export type Mutation = {
   updateOneAccount?: Maybe<Account>;
   updateOneEvent?: Maybe<Event>;
   updateOneEventReservation?: Maybe<EventReservation>;
+  updateOneFilledApplication?: Maybe<FilledApplication>;
   updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   updateOneVanityLink?: Maybe<VanityLink>;
@@ -1490,6 +1504,12 @@ export type MutationUpdateOneEventArgs = {
 export type MutationUpdateOneEventReservationArgs = {
   data: EventReservationUpdateInput;
   where: EventReservationWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneFilledApplicationArgs = {
+  data: FilledApplicationUpdateInput;
+  where: FilledApplicationWhereUniqueInput;
 };
 
 
@@ -1624,6 +1644,19 @@ export type NullableIntFieldUpdateOperationsInput = {
 export type NullableStringFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['String']>;
   unset?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type Officer = {
+  __typename?: 'Officer';
+  _count?: Maybe<OfficerCount>;
+  divisionIds: Array<Scalars['String']>;
+  id: Scalars['String'];
+  profileId: Scalars['String'];
+};
+
+export type OfficerCount = {
+  __typename?: 'OfficerCount';
+  divisions: Scalars['Int'];
 };
 
 export type OfficerCreateNestedManyWithoutDivisionsInput = {
@@ -1780,6 +1813,8 @@ export type Profile = {
   _count?: Maybe<ProfileCount>;
   classStanding: Scalars['String'];
   email: Scalars['String'];
+  events: Array<EventReservation>;
+  fillApplications: Array<FilledApplication>;
   firstName: Scalars['String'];
   id: Scalars['String'];
   lastName: Scalars['String'];
@@ -1787,11 +1822,33 @@ export type Profile = {
   membershipStatus: Scalars['Boolean'];
   membershipTS?: Maybe<Scalars['DateTime']>;
   netid: Scalars['String'];
+  officer?: Maybe<Officer>;
   resume: Scalars['Boolean'];
   resumeTS?: Maybe<Scalars['DateTime']>;
   roles: Array<Scalars['String']>;
+  user: User;
   userId: Scalars['String'];
   utdStudent: Scalars['Boolean'];
+};
+
+
+export type ProfileEventsArgs = {
+  cursor?: InputMaybe<EventReservationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<EventReservationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<EventReservationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<EventReservationWhereInput>;
+};
+
+
+export type ProfileFillApplicationsArgs = {
+  cursor?: InputMaybe<FilledApplicationWhereUniqueInput>;
+  distinct?: InputMaybe<Array<FilledApplicationScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<FilledApplicationOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FilledApplicationWhereInput>;
 };
 
 export type ProfileCount = {
@@ -2170,6 +2227,7 @@ export type ProfileWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  application?: Maybe<Application>;
   applications: Array<Application>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
@@ -2182,6 +2240,11 @@ export type Query = {
   typeformApplications: Array<TypeformApplication>;
   upcomingEvents: Array<Event>;
   vanityLinks: Array<VanityLink>;
+};
+
+
+export type QueryApplicationArgs = {
+  where: ApplicationWhereUniqueInput;
 };
 
 
@@ -2976,6 +3039,19 @@ export type SubmitSingleApplicationMutationVariables = Exact<{
 
 export type SubmitSingleApplicationMutation = { __typename?: 'Mutation', createOneFilledApplication: { __typename?: 'FilledApplication', id: string } };
 
+export type UpdateSingleApplicationMutationVariables = Exact<{
+  where: FilledApplicationWhereUniqueInput;
+  data: FilledApplicationUpdateInput;
+}>;
+
+
+export type UpdateSingleApplicationMutation = { __typename?: 'Mutation', updateOneFilledApplication?: { __typename?: 'FilledApplication', id: string } | null };
+
+export type GetApplicationAdminPageDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetApplicationAdminPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisionIds: Array<string> } | null } | null }, returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', id: string, deptName: string } }> };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -3027,6 +3103,13 @@ export type MigrateEventMutationVariables = Exact<{
 
 
 export type MigrateEventMutation = { __typename?: 'Mutation', checkInOldEvent: Array<{ __typename?: 'EventCheckin', eventId: string, profileId: string }> };
+
+export type FindFilledApplicationsQueryVariables = Exact<{
+  whereApp: ApplicationWhereUniqueInput;
+}>;
+
+
+export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, application?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, questions: Array<string>, divisionId: string, division: { __typename?: 'Division', id: string, deptName: string }, fillApplications: Array<{ __typename?: 'FilledApplication', id: string, profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null, profile: { __typename?: 'Profile', id: string, firstName: string, lastName: string, netid: string, classStanding: string } }> } | null };
 
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -3175,6 +3258,34 @@ export const SubmitSingleApplicationDocument = gql`
   }
 }
     `;
+export const UpdateSingleApplicationDocument = gql`
+    mutation updateSingleApplication($where: FilledApplicationWhereUniqueInput!, $data: FilledApplicationUpdateInput!) {
+  updateOneFilledApplication(where: $where, data: $data) {
+    id
+  }
+}
+    `;
+export const GetApplicationAdminPageDataDocument = gql`
+    query getApplicationAdminPageData {
+  me {
+    profile {
+      officer {
+        divisionIds
+      }
+    }
+  }
+  returnAllOpenApp {
+    id
+    name
+    division {
+      id
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+}
+    `;
 export const CheckInToEventDocument = gql`
     mutation checkInToEvent($checkInData: EventCheckinInput!) {
   checkinToEvent(options: $checkInData) {
@@ -3253,6 +3364,45 @@ export const MigrateEventDocument = gql`
   checkInOldEvent(email: $email, netID: $netId) {
     eventId
     profileId
+  }
+}
+    `;
+export const FindFilledApplicationsDocument = gql`
+    query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
+  me {
+    isOfficer
+  }
+  application(where: $whereApp) {
+    id
+    name
+    externalResourceUrl
+    description
+    questions
+    divisionId
+    division {
+      id
+      deptName
+    }
+    fillApplications {
+      id
+      profileId
+      profile {
+        id
+        firstName
+        lastName
+        netid
+        classStanding
+      }
+      appId
+      responses
+      status
+      first
+      notes
+      second
+      third
+      score
+      interviewLink
+    }
   }
 }
     `;
@@ -3438,6 +3588,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     submitSingleApplication(variables: SubmitSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SubmitSingleApplicationMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<SubmitSingleApplicationMutation>(SubmitSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'submitSingleApplication', 'mutation');
     },
+    updateSingleApplication(variables: UpdateSingleApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateSingleApplicationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateSingleApplicationMutation>(UpdateSingleApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateSingleApplication', 'mutation');
+    },
+    getApplicationAdminPageData(variables?: GetApplicationAdminPageDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationAdminPageDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationAdminPageDataQuery>(GetApplicationAdminPageDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationAdminPageData', 'query');
+    },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
     },
@@ -3461,6 +3617,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     migrateEvent(variables: MigrateEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MigrateEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<MigrateEventMutation>(MigrateEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'migrateEvent', 'mutation');
+    },
+    findFilledApplications(variables: FindFilledApplicationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindFilledApplicationsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindFilledApplicationsQuery>(FindFilledApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFilledApplications', 'query');
     },
     getHomePageUserInfo(variables: GetHomePageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetHomePageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHomePageUserInfo', 'query');

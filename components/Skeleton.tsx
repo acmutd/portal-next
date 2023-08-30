@@ -20,7 +20,7 @@ import HomeIcon from '../icons/HomeIcon';
 import SignOutIcon from '../icons/SignOutIcon';
 import AdminIcon from 'icons/AdminIcon';
 
-const pages = [
+const navBarPages = [
   {
     uri: '/',
     name: 'home',
@@ -42,7 +42,7 @@ const pages = [
     svg: ProfileIcon,
   },
   {
-    uri: '/profile/resume',
+    uri: '/resume',
     name: 'resume',
     svg: CameraIcon,
   },
@@ -73,6 +73,18 @@ const Skeleton = ({ children }: any) => {
       </>
     );
 
+  // Examples:
+  // /profile -> /profile
+  // /profile/* -> /profile
+  // /opportunities -> /opportunities
+  // /opportunities/* -> /opportunities
+  function mostMatchingNavBarPath(path: string) : string | undefined {
+    if (path === '/' || path === '/auth/signout') return path;
+    const split = path.split('/');
+    if (split.length < 2) return undefined;
+    return `/${split[1]}`; // for example /opportunities/admin -> /opportunities
+  }
+
   return (
     <>
       <Background splotches={3} />
@@ -85,10 +97,16 @@ const Skeleton = ({ children }: any) => {
                   <Image src={WhiteACMLogo} alt="ACM Logo" />
                 </ACMDesktopNavbarItem>
               </Link>
-              {pages.map((page, idx) => (
-                <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                  <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
-                    {page.name}
+              {navBarPages.map((navBarPage, idx) => (
+                <Link key={idx} href={navBarPage.uri} passHref className="cursor-pointer">
+                  <ACMDesktopNavbarItem
+                    $active={ 
+                      //if navBarPage is the best match with the current router
+                      mostMatchingNavBarPath(router.asPath) === navBarPage.uri
+                    }
+                    key={idx}
+                  >
+                    {navBarPage.name}
                   </ACMDesktopNavbarItem>
                 </Link>
               ))}
@@ -101,7 +119,7 @@ const Skeleton = ({ children }: any) => {
             <>
               <MobileNavPlaceholder />
               <ACMMobileNavbar>
-                {pages.map((page, idx) => {
+                {navBarPages.map((page, idx) => {
                   const active = router.pathname === page.uri;
                   return (
                     <Link key={idx} href={page.uri} passHref className="cursor-pointer">

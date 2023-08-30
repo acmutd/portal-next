@@ -43,6 +43,12 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     updateOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEditVanityLink)],
   },
   FilledApplication: {
+    filledApplication: [UseMiddleware(onlyOfficerAllowed)],
+    filledApplications: [UseMiddleware(onlyOfficerAllowed)],
+    findFirstFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
+    deleteManyFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
+    deleteOneFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
     createOneFilledApplication: [UseMiddleware(onApplicationSubmissionComplete)]
-  }
+  },
+  
 };

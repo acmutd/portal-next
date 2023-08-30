@@ -1,10 +1,10 @@
-import { Application } from '@generated/type-graphql';
+import { Event, Application } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
-import { Arg, Ctx, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
 import ReturnAllOpenApp from '../services/ReturnAllOpenApp.service';
 
-@Resolver(() => Application)
+@Resolver(() => Event)
 @injectable()
 export default class ReturnAllOpenAppResolver {
   constructor(
