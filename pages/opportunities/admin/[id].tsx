@@ -185,7 +185,7 @@ const EditApplicationPage: NextPage = () => {
                     <option value="">status</option>
                     <option value="pending">pending</option>
                     <option value="accepted">accepted</option>
-                    <option value="not selected">not selected</option>
+                    <option value="notselected">not selected</option>
                   </select>
                   <select className="rounded-xl" onChange={(e) => setScoreSelected(e.target.value)}>
                     <option value="">score</option>
