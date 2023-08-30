@@ -1,3 +1,4 @@
+import { StartExecutionCommand } from '@aws-sdk/client-sfn';
 import { createStepFunctionInstance } from '../../aws/setup';
 import { v4 as uuid } from 'uuid';
 
@@ -11,16 +12,14 @@ export async function sendEmail<SubstitutionsType>(
   recipientEmail: string,
 ) {
   const stepFunction = createStepFunctionInstance();
-  return stepFunction
-    .startExecution({
-      stateMachineArn: process.env.SENDGRID_ARN!,
-      name: uuid(),
-      input: JSON.stringify({
-        ...payload,
-        from: 'development@acmutd.co',
-        from_name: 'ACM Development',
-        to: recipientEmail,
-      }),
+  return stepFunction.send(new StartExecutionCommand({
+    stateMachineArn: process.env.SENDGRID_ARN!,
+    name: uuid(),
+    input: JSON.stringify({
+      ...payload,
+      from: 'development@acmutd.co',
+      from_name: 'ACM Development',
+      to: recipientEmail,
     })
-    .promise();
+  }));
 }
