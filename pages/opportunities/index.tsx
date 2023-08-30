@@ -81,7 +81,7 @@ const ApplicationsPage: NextPage = () => {
     <div className="px-16 py-[65px] relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
       <CircularBlur backgroundColor="#daa635" bottom="20%" right="15%" />
-      <header className="flex items-center relative mb-[30px]">
+      <header className="flex flex-col gap-y-4 lg:flex-row items-center relative mb-[30px]">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
             <Tab className={({ selected }) => (

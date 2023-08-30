@@ -5,7 +5,7 @@ interface MyApplicationViewProps {
 }
 
 export default function MyApplicationView({ appData } : MyApplicationViewProps) {
-    return <div className="w-full flex flex-wrap gap-[30px]">
+    return <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
         {appData.map(({
             status, app: { name }
         }) => (

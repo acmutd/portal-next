@@ -18,7 +18,6 @@ export default function AdminToolsPage() {
     {
       title: 'Manage Division Application',
       description: "Click here to manage your division(s)' applications.",
-      // TODO: update onChosen to match appropriate action
       onChosen: () => router.push('/opportunities/admin'),
     },
     {
@@ -27,7 +26,7 @@ export default function AdminToolsPage() {
       onChosen: () => router.push('/admin/officer/add'),
     },
   ];
-  if (isOfficer) {
+  if (!isOfficer) {
     return <AdminOnlyComponent />
   }
   return (
