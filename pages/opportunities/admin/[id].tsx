@@ -40,6 +40,10 @@ const EditApplicationPage: NextPage = () => {
   const [formEditMode, setFormEditMode] = useState(false);
   const [filterQueryName, setFilterQueryName] = useState('');
   const [filterQueryNetID, setFilterQueryNetID] = useState('');
+  const [yearSelected, setYearSelected] = useState('');
+  const [statusSelected, setStatusSelected] = useState('');
+  const [scoreSelected, setScoreSelected] = useState<string | number>('');
+
   type FilledAppData = {
     __typename?: 'FilledApplication';
     id: string;
@@ -58,6 +62,8 @@ const EditApplicationPage: NextPage = () => {
       id: string;
       firstName: string;
       lastName: string;
+      netid: string;
+      classStanding: string;
     };
   };
   const [selected, setSelected] = useState<FilledAppData>();
@@ -89,6 +95,47 @@ const EditApplicationPage: NextPage = () => {
     return <div>No applicants have submitted a response yet</div>;
   }
 
+  // create function that filters list of applicants based on name, netid, year, status, and score
+  // also using react useMemo to memoize the list of applicants
+  function allFilters(filledApps: FilledAppData[]) {
+    let searchBarFiltered = filledApps.filter(
+      (filledApp) =>
+        (`${filledApp.profile?.firstName} ${filledApp.profile?.lastName}` as string)
+          .toLowerCase()
+          .includes(filterQueryName.trim().toLowerCase()) &&
+        filledApp.profile?.netid.includes(filterQueryNetID),
+    );
+    if (yearSelected !== '') {
+      searchBarFiltered = searchBarFiltered.filter(
+        (filledApp) => filledApp.profile?.classStanding == yearSelected,
+      );
+    }
+    if (statusSelected !== '') {
+      searchBarFiltered = searchBarFiltered.filter(
+        (filledApp) => filledApp.status == statusSelected,
+      );
+    }
+    if (scoreSelected !== '') {
+      searchBarFiltered = searchBarFiltered.filter(
+        (filledApp) => filledApp.score && filledApp.score == scoreSelected,
+      );
+    }
+    return searchBarFiltered;
+  }
+
+  function prettyStatus(status: string): string {
+    switch (status) {
+      case 'pending':
+        return 'Pending';
+      case 'accepted':
+        return 'Accepted';
+      case 'notselected':
+        return 'Not Selected';
+      default:
+        return 'Null';
+    }
+  }
+
   return (
     <div className="w-full p-5 mt-5">
       <div className="flex flex-row place-content-center">
@@ -104,7 +151,7 @@ const EditApplicationPage: NextPage = () => {
       </Link>
       <div className="flex flex-col place-content-center">
         <div className="flex flex-row p-5 mt-5 place-content-center w-full">
-          <div>
+          <div className="w-1/3">
             {/* ^ Left Side*/}
             <div>
               {/* ^ Search Box*/}
@@ -119,59 +166,61 @@ const EditApplicationPage: NextPage = () => {
               />
               {/* Search by netID */}
               <input
-                className="rounded-xl"
+                className="rounded-xl block"
                 type="text"
                 id="netid"
                 placeholder="netid"
                 onChange={(e) => setFilterQueryNetID(e.target.value)}
               />
-              {/* <div>
+              <div>
                 <span>
-                  <select className="rounded-xl">
-                    <option value="class"></option>
+                  <select className="rounded-xl text-black" onChange={(e) => setYearSelected(e.target.value)}>
+                    <option value="">class</option>
+                    <option value="freshman">freshman</option>
+                    <option value="sophomore">sophomore</option>
+                    <option value="junior">junior</option>
+                    <option value="senior">senior</option>
                   </select>
-                  <select className="rounded-xl">
-                    <option value="status"></option>
+                  <select className="rounded-xl" onChange={(e) => setStatusSelected(e.target.value)}>
+                    <option value="">status</option>
+                    <option value="pending">pending</option>
+                    <option value="accepted">accepted</option>
+                    <option value="not selected">not selected</option>
                   </select>
-                  <select className="rounded-xl">
-                    <option value="preference"></option>
+                  <select className="rounded-xl" onChange={(e) => setScoreSelected(e.target.value)}>
+                    <option value="">score</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
                   </select>
                 </span>
-              </div> */}
+              </div>
               {/* List of applicants */}
               <p className="text-gray-100 text-xl mt-3">Matching Applicants</p>
               {isLoading ? (
                 <LoadingComponent></LoadingComponent>
               ) : (
-                <div className="text-gray-100 border border-gray-300 rounded-xl bg-transparent p-3">
-                  {data.application.fillApplications
-                    .filter(
-                      (filledApp) =>
-                        (filledApp.profile.firstName
-                          .toLowerCase()
-                          .includes(filterQueryName.toLowerCase()) ||
-                          filledApp.profile.lastName
-                            .toLowerCase()
-                            .includes(filterQueryName.toLowerCase())) &&
-                        filledApp.profile.netid.includes(filterQueryNetID),
-                    )
-                    .map((filledApp, i) => (
-                      <div key={filledApp.id}>
-                        <button onClick={() => setSelected(filledApp)}>
-                          <p>{filledApp.profile.firstName + ' ' + filledApp.profile.lastName}</p>
-                        </button>
-                      </div>
-                    ))}
+                <div className="text-gray-100 border border-gray-300 rounded-xl bg-transparent p-3 w-[60%]">
+                  {allFilters(data?.application?.fillApplications).map((filledApp, i) => (
+                    <div key={filledApp.id}>
+                      <button onClick={() => setSelected(filledApp)}>
+                        <p>{filledApp.profile?.firstName + ' ' + filledApp.profile?.lastName}</p>
+                      </button>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
           </div>
-          <div className="text-gray-100">
+          <div className="w-[10%]"></div>
+          <div className="text-gray-100 w-1/3">
             {/* Right Side*/}
             <div className="flex flex-col px-5">
-              <div className="text-xl">Applicant Details</div>
-              <label>Notes</label>
-              <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
+              {/* <div className="text-xl">Applicant Details</div> */}
+              {/* <label>Notes</label> */}
+              <div>
                 {formEditMode ? (
                   <OfficerApplicationForm
                     applicantName={selected?.profile?.firstName + ' ' + selected?.profile?.lastName}
@@ -193,10 +242,19 @@ const EditApplicationPage: NextPage = () => {
                       router.reload();
                     }}
                   />
+                ) : selected == undefined ? (
+                  ''
                 ) : (
                   <div>
-                    <p>{selected === undefined ? '' : String(selected.notes)} </p>
-                    <button></button>
+                    <h1 className="text-3xl text-center mx-auto text-gray-100">
+                      {selected.profile?.firstName + ' ' + selected.profile?.lastName}
+                    </h1>
+                    <label className="text-xl">Notes</label>
+                    <div className="appearance-none block w-4/5 text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600">
+                      <p>{selected.notes}</p>
+                    </div>
+                    <label className="text-xl">Status: {prettyStatus(selected.status)}</label>
+                    <label className="text-xl block">Score: {selected.score}</label>
                   </div>
                 )}
               </div>

@@ -21,6 +21,7 @@ query findFilledApplications($whereApp: ApplicationWhereUniqueInput!) {
         firstName
         lastName
         netid
+        classStanding
       }
       appId
       responses
