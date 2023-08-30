@@ -23,7 +23,7 @@ import { gqlQueries } from 'src/api';
 import { useQuery } from 'react-query';
 import { OfficerStatusContext } from './context/OfficerStatus';
 
-const pages = [
+const navBarPages = [
   {
     uri: '/',
     name: 'home',
@@ -45,7 +45,7 @@ const pages = [
     svg: ProfileIcon,
   },
   {
-    uri: '/profile/resume',
+    uri: '/resume',
     name: 'resume',
     svg: CameraIcon,
   },
@@ -56,7 +56,7 @@ const pages = [
   },
 ];
 
-const officerOnlyPages = [...pages, {
+const officerOnlyPages = [...navBarPages, {
     uri: '/admin',
     name: 'admin',
     svg: AdminIcon,
@@ -83,6 +83,18 @@ const Skeleton = ({ children }: any) => {
       </>
     );
 
+  // Examples:
+  // /profile -> /profile
+  // /profile/* -> /profile
+  // /opportunities -> /opportunities
+  // /opportunities/* -> /opportunities
+  function mostMatchingNavBarPath(path: string) : string | undefined {
+    if (path === '/' || path === '/auth/signout') return path;
+    const split = path.split('/');
+    if (split.length < 2) return undefined;
+    return `/${split[1]}`; // for example /opportunities/admin -> /opportunities
+  }
+
   return (
     <>
       <OfficerStatusContext.Provider value={!!officerStatusData?.me.isOfficer}>
@@ -96,9 +108,9 @@ const Skeleton = ({ children }: any) => {
                     <Image src={WhiteACMLogo} alt="ACM Logo" />
                   </ACMDesktopNavbarItem>
                 </Link>
-                {(officerStatusData?.me.isOfficer ? officerOnlyPages : pages).map((page, idx) => (
+                {(officerStatusData?.me.isOfficer ? officerOnlyPages : navBarPages).map((page, idx) => (
                   <Link key={idx} href={page.uri} passHref className="cursor-pointer">
-                    <ACMDesktopNavbarItem $active={page.uri === router.asPath} key={idx}>
+                    <ACMDesktopNavbarItem $active={page.uri === mostMatchingNavBarPath(router.asPath)} key={idx}>
                       {page.name}
                     </ACMDesktopNavbarItem>
                   </Link>
@@ -112,8 +124,8 @@ const Skeleton = ({ children }: any) => {
               <>
                 <MobileNavPlaceholder />
                 <ACMMobileNavbar>
-                  {(officerStatusData?.me.isOfficer ? officerOnlyPages : pages).map((page, idx) => {
-                    const active = router.pathname === page.uri;
+                  {(officerStatusData?.me.isOfficer ? officerOnlyPages : navBarPages).map((page, idx) => {
+                    const active = mostMatchingNavBarPath(router.asPath)  === page.uri;
                     return (
                       <Link key={idx} href={page.uri} passHref className="cursor-pointer">
                         <ACMMobileNavbarItem $active={active}>

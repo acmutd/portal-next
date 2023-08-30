@@ -19,7 +19,7 @@ export default function AdminToolsPage() {
       title: 'Manage Division Application',
       description: "Click here to manage your division(s)' applications.",
       // TODO: update onChosen to match appropriate action
-      onChosen: () => router.push('/opportunities'),
+      onChosen: () => router.push('/opportunities/admin'),
     },
     {
       title: 'Add officer to division',

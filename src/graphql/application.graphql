@@ -48,3 +48,29 @@ mutation submitSingleApplication($data: FilledApplicationCreateInput!) {
     id
   }
 }
+
+mutation updateSingleApplication($where: FilledApplicationWhereUniqueInput!, $data: FilledApplicationUpdateInput!) {
+  updateOneFilledApplication(where: $where, data: $data) {
+    id
+  }
+}
+
+query getApplicationAdminPageData {
+  me {
+    profile {
+      officer {
+        divisionIds
+      }
+    }
+  }
+  returnAllOpenApp {
+    id
+    name
+    division {
+      id
+      deptName
+    }
+    externalResourceUrl
+    description
+  }
+}
