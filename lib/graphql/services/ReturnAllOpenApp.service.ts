@@ -9,7 +9,7 @@ export default class ReturnAllOpenApp {
     const eventFilter = {
       where: {
         expireDate: {
-          lte: currentDate,
+          gte: currentDate,
         },
       },
     };
