@@ -9,31 +9,23 @@ import ACMButton from '../../components/PortalButton';
 import { useState, useEffect } from 'react';
 import { setCookies } from 'cookies-next';
 import ProfileEditView from 'components/profile/ProfileEditView';
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Router from 'next/router';
 import Link from 'next/link';
 import EmailToast from 'components/EmailToast';
 import { GetServerSideProps } from 'next';
 import ProfileView from 'components/profile/ProfileView';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
 import { GraphQLError } from 'graphql/error';
 import ErrorComponent from 'components/ErrorComponent';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  await queryClient.prefetchQuery('profileData', () =>
-    gqlQueries.findProfile({
-      where: {
-        userId: session?.id || '',
-      },
-    }),
-  );
   const { profileVisited } = ctx.req.cookies;
   return {
     props: {
       profileVisited: profileVisited ?? null,
-      dehydratedState: dehydrate(queryClient),
+      // dehydratedState: dehydrate(queryClient),
     },
   };
 };
@@ -89,9 +81,6 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
                 type="submit"
                 className="bg-purple-600 text-gray-100 font-semibold p-2 rounded-lg"
                 form="profile-form"
-                onClick={() => {
-                  setOpen(true);
-                }}
               >
                 save
               </button>
@@ -108,6 +97,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
                 // if (error && error.message.includes('[VALIDATION_ERROR]')) {
                 //   alert('NetID has already been linked to an account');
                 // }
+                setOpen(true);
                 setFormEditMode(false);
                 refetch();
                 Router.push('/profile');

@@ -57,6 +57,8 @@ export default function EventForm({
         className="flex flex-col gap-y-3"
         onSubmit={handleSubmit(async (vals) => {
           await onFormSubmit(vals as any);
+          alert("Event created");
+          onGoBack();
         })}
       >
         {/* NEW STYLE TODO: */}
@@ -162,16 +164,7 @@ export default function EventForm({
           <button
             className="p-3 rounded-lg bg-green-400 font-semibold hover:bg-green-500"
             disabled={!isDirty || !isValid}
-            onClick={async () => {
-              try {
-                await onFormSubmit(eventForm);
-                alert('Event created');
-                onGoBack();
-              } catch (error) {
-                alert('Unexpected error! Please try again later');
-                console.error(error);
-              }
-            }}
+            type="submit"
           >
             {submitActionName}
           </button>

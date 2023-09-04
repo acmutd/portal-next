@@ -52,5 +52,5 @@ const apolloServer = new ApolloServer<TContext>({
 });
 
 export default startServerAndCreateNextHandler(apolloServer, {
-  context: async (req, res) => ({ req, res, prisma: getPrismaConnection() }),
+  context: async (req, res) => ({ req, res, prisma: getPrismaConnection(), sentEmail: false }),
 });

@@ -1,24 +1,13 @@
 import { Button } from '@mui/material';
 import LoadingComponent from 'components/LoadingComponent';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
-import { log } from 'console';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { dehydrate, useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['viewAllApps'], () =>
-    gqlQueries.getApplicationAdminPageData(),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 const ViewApplicationsPage: NextPage = () => {
   const router = useRouter();

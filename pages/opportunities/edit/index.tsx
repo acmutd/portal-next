@@ -1,32 +1,14 @@
 import Button from 'components/Button';
 import AddNewApplicationCard from 'components/typeformApplicationSystem/AddNewApplicationCard';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import CircularBlur from '../../../components/CircularBlur';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate } from 'react-query';
+import { gqlQueries } from 'src/api';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery('editAppData', () =>
-    gqlQueries.getEditViewApplicationList({
-      where: {
-        active: {
-          equals: true,
-        },
-      },
-    }),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 const ApplicationsEditPage: NextPage = () => {
   const { status } = useSession({ required: true });

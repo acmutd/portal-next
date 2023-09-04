@@ -1,37 +1,14 @@
-import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
 import ACMButton from 'components/PortalButton';
-import ApplicationForm from 'components/applications/ApplicationForm';
 import OfficerApplicationForm from 'components/applications/OfficerApplicationForm';
-import {
-  FilledApplication,
-  FilledApplicationScalarFieldEnum,
-  FindFilledApplicationsDocument,
-  FindFilledApplicationsQuery,
-} from 'lib/generated/graphql';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { dehydrate, useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['manageSingleApp'], () =>
-    gqlQueries.findFilledApplications({
-      whereApp: {
-        id: ctx.params!.id! as string,
-      },
-    }),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
@@ -68,7 +45,7 @@ const EditApplicationPage: NextPage = () => {
   };
   const [selected, setSelected] = useState<FilledAppData>();
   const { data, isLoading, error } = useQuery(
-    ['manageSingleApp'],
+    [`manageSingleApp${id}`],
     () =>
       gqlQueries.findFilledApplications({
         whereApp: {
@@ -135,6 +112,8 @@ const EditApplicationPage: NextPage = () => {
         return 'Null';
     }
   }
+
+  console.log(data);
 
   return (
     <div className="w-full p-5 mt-5">

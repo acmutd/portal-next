@@ -2,31 +2,14 @@ import { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
 import contentDisposition from 'content-disposition';
 import mime from 'mime-types';
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useQuery } from 'react-query';
 import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import DocumentIcon from 'icons/DocumentIcon';
-import { GetServerSideProps } from 'next';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate } from 'react-query';
+import { gqlQueries } from 'src/api';
 import { Action, FileCategory } from 'lib/generated/graphql';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-  await queryClient.prefetchQuery('resumeData', () =>
-    gqlQueries.getResumePageUserInfo({
-      where: {
-        userId: session?.id || '',
-      },
-    }),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
