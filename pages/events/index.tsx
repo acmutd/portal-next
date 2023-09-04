@@ -75,6 +75,7 @@ export default function EventPage() {
               id: currentEvent.id,
             },
           });
+          alert("event updated");
         }}
         submitActionName="Save changes"
         event={currentEvent}

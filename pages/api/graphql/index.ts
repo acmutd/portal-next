@@ -22,7 +22,7 @@ import { TContext } from 'lib/graphql/interfaces/context.interface';
 import ReturnAllOpenAppResolver from 'lib/graphql/resolvers/ReturnAllOpenApp.resolver';
 import OfficerResolver from 'lib/graphql/resolvers/officer.resolver';
 
-if (process.env.NODE_ENV !== 'development') {
+if (true) {
   applyResolversEnhanceMap(resolversEnhanceMap);
 }
 

@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import { useContext } from 'react';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
+import { useForm } from 'react-hook-form';
+import { TypeformApplication } from '@generated/type-graphql';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
@@ -15,6 +17,7 @@ const CreateApplicationPage: NextPage = () => {
   }
 
   useSession({ required: true });
+  const formHookData = useForm<Omit<TypeformApplication, 'id'>>();
 
   return (
     <div className="px-16 py-[65px] w-full">
@@ -27,13 +30,16 @@ const CreateApplicationPage: NextPage = () => {
           <div className="text-2xl font-semibold text-gray-100">Create Typeform Application</div>
         </div>
         <div className="w-full flex justify-center">
-          <TypeformCreateForm />
+          <TypeformCreateForm 
+            formHookData={formHookData}
+          />
         </div>
         <div className="flex gap-20">
           <button
             type="submit"
             className="bg-purple-600 text-gray-100 font-semibold px-12 py-2 rounded-lg"
             form="create-typeform"
+            disabled={formHookData.formState.isSubmitting}
             onClick={() => {
               sessionStorage.setItem('showToast', '1');
             }}

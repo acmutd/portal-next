@@ -48,6 +48,7 @@ export default function AddEventPage() {
             end: new Date(form.end),
           },
         });
+        alert("Event created");
       }}
       submitActionName="Create Event"
     />
