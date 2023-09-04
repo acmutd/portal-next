@@ -1,12 +1,12 @@
 export default function LoadingComponent() {
   return (
-    <div className="bg-yellow-400 rounded-lg w-full mx-auto p-3 my-4 flex gap-x-3 items-center">
+    <div className="bg-transparent border-2 border-gray-100 rounded-lg w-full mx-auto p-3 my-4 flex gap-x-3 items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-6 w-6"
         fill="none"
         viewBox="0 0 24 24"
-        stroke="currentColor"
+        stroke="white"
         strokeWidth={2}
       >
         <path
@@ -15,7 +15,7 @@ export default function LoadingComponent() {
           d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <h1 className="font-medium text-xl">Loading...</h1>
+      <h1 className="font-medium text-xl text-white">Loading...</h1>
     </div>
   );
 }
