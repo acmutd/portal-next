@@ -74,7 +74,7 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
           date: createdEvent.start.toDateString(),
           last_name: profile!.lastName,
           name: createdEvent.summary,
-          public_event: true,
+          public_event: createdEvent.isPublic,
           subject: 'Event Creation Confirmation',
         },
         profile!.email,
