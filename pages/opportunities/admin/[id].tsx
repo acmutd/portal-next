@@ -1,3 +1,4 @@
+import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
 import ACMButton from 'components/PortalButton';
 import OfficerApplicationForm from 'components/applications/OfficerApplicationForm';
@@ -62,14 +63,23 @@ const EditApplicationPage: NextPage = () => {
 
   if (!data?.me.isOfficer) {
     return (
-      <div>
+      <div className="text-white text-lg p-5">
         You are not authorized to view this page, please log in with your acm officer account
       </div>
     );
   }
 
+  if (!data.application) {
+    return <div className='flex gap-y-2 flex-col rounded-lg mt-5 text-white text-lg p-5'>
+      <p>No application exists. Please make sure that the application id is correct and that you have appropriate access to this application</p>
+      <Link href="/opportunities/admin" passHref>
+        <Button>go back</Button>
+      </Link>
+    </div>
+  }
+
   if (!data?.application?.fillApplications) {
-    return <div>No applicants have submitted a response yet</div>;
+    return <div className="text-white text-lg p-5">No applicants have submitted a response yet</div>;
   }
 
   // create function that filters list of applicants based on name, netid, year, status, and score

@@ -56,8 +56,11 @@ const ViewApplicationsPage: NextPage = () => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-x-16 px-16">
-        <button className="text-gray-100 font-semibold p-2 rounded-lg" onClick={router.back}>
-          cancel
+        <button className="text-gray-100 font-semibold p-2 rounded-lg" onClick={(e) => {
+          e.preventDefault();
+          router.push('/admin');
+        }}>
+          go back to admin
         </button>
       </div>
     </div>
