@@ -25,6 +25,16 @@ export default function AdminToolsPage() {
       description: 'Add new officer into division.',
       onChosen: () => router.push('/admin/officer/add'),
     },
+    {
+      title: 'Create Division Application',
+      description: "Click here to create new application for your division",
+      onChosen: () => router.push('/admin/opportunities/create')
+    },
+    {
+      title: "Manage Typeform Application",
+      description: "Click here to manage all Typeform application",
+      onChosen: () => router.push('/admin/typeform/')
+    }
   ];
   if (!isOfficer) {
     return <AdminOnlyComponent />

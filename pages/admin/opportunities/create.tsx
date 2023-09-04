@@ -52,7 +52,7 @@ export default function CreateApplicationPage() {
                 </button>
                 <button className="text-gray-100 font-semibold p-2 rounded-lg" onClick={(e) => {
                     e.preventDefault();
-                    router.push('/admin/opportunities')
+                    router.push('/admin')
                 }}>
                     cancel
                 </button>

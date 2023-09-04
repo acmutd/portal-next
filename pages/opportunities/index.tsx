@@ -79,11 +79,11 @@ const ApplicationsPage: NextPage = () => {
         </Tab.Group>
         <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
 
-        {data!.me.isOfficer && (
-          <Link href="/opportunities/edit">
+        {/* {data!.me.isOfficer && (
+          <Link href="/admin/typeform">
             <Button>edit</Button>
           </Link>
-        )}
+        )} */}
       </header>
       {tabIndex === 0 ? <MyApplicationView 
         appData={data!.filledApplications}

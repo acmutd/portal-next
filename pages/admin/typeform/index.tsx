@@ -34,13 +34,18 @@ const ApplicationsEditPage: NextPage = () => {
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
       <CircularBlur backgroundColor="#daa635" bottom="20%" right="15%" />
       <header className="flex items-center justify-center relative mb-[30px]">
-        <h1 className="text-[48px] font-Gilroy text-white font-semibold">applications</h1>
-        <Link href="/opportunities">
-          <Button className="absolute right-0">save</Button>
+        <Link href="/admin" passHref>
+          <button className="absolute left-0 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-8 h-8">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+            <p className="text-white text-lg">click to go back</p>
+          </button>
         </Link>
+        <h1 className="text-[48px] font-Gilroy text-white font-semibold">applications</h1>
       </header>
       <div className="w-full flex flex-wrap gap-[30px]">
-        <Link href="/opportunities/create">
+        <Link href="/admin/typeform/create">
           <AddNewApplicationCard />
         </Link>
         {data!.typeformApplications.map(
@@ -49,7 +54,7 @@ const ApplicationsEditPage: NextPage = () => {
               title={typeformName}
               description={description}
               buttons={[
-                <Link href={`/opportunities/edit/${id}`}>
+                <Link href={`/admin/typeform/${id}`}>
                   <Button>edit</Button>
                 </Link>,
               ]}
