@@ -72,7 +72,7 @@ const EditApplicationPage: NextPage = () => {
   if (!data.application) {
     return <div className='flex gap-y-2 flex-col rounded-lg mt-5 text-white text-lg p-5'>
       <p>No application exists. Please make sure that the application id is correct and that you have appropriate access to this application</p>
-      <Link href="/opportunities/admin" passHref>
+      <Link href="/admin/opportunities" passHref>
         <Button>go back</Button>
       </Link>
     </div>
@@ -130,7 +130,7 @@ const EditApplicationPage: NextPage = () => {
       <div className="flex flex-row place-content-center">
         <h1 className="text-3xl font-semibold text-gray-100">View Applicant Responses</h1>
       </div>
-      <Link href={`/opportunities/admin/`}>
+      <Link href={`/admin/opportunities/`}>
         <button>
           <div className="text-3xl font-semibold text-gray-100">
             {/* TODO: replace arrow with svg */}

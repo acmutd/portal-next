@@ -43,7 +43,7 @@ const ViewApplicationsPage: NextPage = () => {
                   division={application.division.deptName}
                   key={application.id}
                   buttons={[
-                    <Link href={`/opportunities/admin/${application.id}`}>
+                    <Link href={`/admin/opportunities/${application.id}`}>
                       <Button>manage</Button>
                     </Link>,
                   ]}
