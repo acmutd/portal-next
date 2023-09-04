@@ -9,9 +9,13 @@ import CircularBlur from '../../../components/CircularBlur';
 import { gqlQueries } from 'src/api';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import { useContext } from 'react';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 const ApplicationsEditPage: NextPage = () => {
   const { status } = useSession({ required: true });
+  const isOfficer = useContext(OfficerStatusContext);
   const { data, isLoading, error } = useQuery(
     ['editAppData'],
     () =>
@@ -26,6 +30,7 @@ const ApplicationsEditPage: NextPage = () => {
       enabled: status === 'authenticated',
     },
   );
+  if (!isOfficer) return <AdminOnlyComponent />;
   if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
   if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
 

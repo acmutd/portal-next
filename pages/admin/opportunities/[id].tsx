@@ -1,12 +1,14 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
 import ACMButton from 'components/PortalButton';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 import OfficerApplicationForm from 'components/applications/OfficerApplicationForm';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 
@@ -14,6 +16,7 @@ import { gqlQueries } from 'src/api';
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const isOfficer = useContext(OfficerStatusContext);
   const { status } = useSession({ required: true });
   const [formEditMode, setFormEditMode] = useState(false);
   const [filterQueryName, setFilterQueryName] = useState('');
@@ -57,16 +60,19 @@ const EditApplicationPage: NextPage = () => {
     { enabled: status === 'authenticated' },
   );
 
+  if (!isOfficer) {
+    return (
+      <AdminOnlyComponent />
+    );
+  }
+
   if (isLoading) {
     return <LoadingComponent></LoadingComponent>;
   }
 
-  if (!data?.me.isOfficer) {
-    return (
-      <div className="text-white text-lg p-5">
-        You are not authorized to view this page, please log in with your acm officer account
-      </div>
-    );
+  if (!data) {
+    console.error(error);
+    return <div className="text-white text-lg">Something is wrong. Please try again later...</div>
   }
 
   if (!data.application) {

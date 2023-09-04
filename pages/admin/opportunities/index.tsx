@@ -1,16 +1,20 @@
 import { Button } from '@mui/material';
 import LoadingComponent from 'components/LoadingComponent';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 
 
 const ViewApplicationsPage: NextPage = () => {
   const router = useRouter();
+  const isOfficer = useContext(OfficerStatusContext);
   const { id } = router.query;
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
@@ -19,6 +23,10 @@ const ViewApplicationsPage: NextPage = () => {
     { enabled: status === 'authenticated' },
   );
 
+  if (!isOfficer) {
+    return <AdminOnlyComponent />;
+  }
+  
   if (isLoading) {
     return <LoadingComponent />;
   }

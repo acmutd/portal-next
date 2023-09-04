@@ -1,19 +1,27 @@
 import LoadingComponent from "components/LoadingComponent";
+import AdminOnlyComponent from "components/admin/AdminOnly";
 import CreateApplicationForm from "components/applications/CreateApplicationForm";
+import { OfficerStatusContext } from "components/context/OfficerStatus";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 import { useQuery } from "react-query";
 import { gqlQueries } from "src/api";
 
 export default function CreateApplicationPage() {
     const router = useRouter();
-
+    const isOfficer = useContext(OfficerStatusContext);
     const { status } = useSession({ required: true });
     const { data, isLoading, error } = useQuery(
         ['getDivisionData'],
         () => gqlQueries.getDivisionData(),
         { enabled: status === 'authenticated' }
     ); 
+
+    if (!isOfficer) {
+        return <AdminOnlyComponent />;
+    }
+
 
     if (isLoading) {
         return <LoadingComponent />;

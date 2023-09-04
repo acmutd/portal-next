@@ -1,15 +1,19 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { TypeformEditForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
+  const isOfficer =  useContext(OfficerStatusContext);
   const { id } = router.query;
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
@@ -24,10 +28,15 @@ const EditApplicationPage: NextPage = () => {
       }),
     { enabled: status === 'authenticated' },
   );
+  
+  if (!isOfficer) {
+    return <AdminOnlyComponent />;
+  } 
 
   if (isLoading) {
     return <LoadingComponent />;
   }
+
 
   if (!data!.findFirstTypeformApplication) {
     return <div>No application exists</div>;

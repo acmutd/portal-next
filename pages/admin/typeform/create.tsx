@@ -2,9 +2,17 @@ import { TypeformCreateForm } from 'components/typeformApplicationSystem';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useContext } from 'react';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
+  const isOfficer = useContext(OfficerStatusContext);
+
+  if (!isOfficer) {
+    return <AdminOnlyComponent />;
+  }
 
   useSession({ required: true });
 
