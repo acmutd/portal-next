@@ -11,6 +11,7 @@ import {
   onProfileCreationComplete,
 } from '../middlewares/send-email';
 import { addTypeformHiddenFields, addTypeformWebhook } from '../middlewares/typeform';
+import { checkValidOfficer } from '../middlewares/check-valid-officer';
 
 export const resolversEnhanceMap: ResolversEnhanceMap = {
   Event: {
@@ -50,5 +51,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     deleteOneFilledApplication: [UseMiddleware(onlyOfficerAllowed)],
     createOneFilledApplication: [UseMiddleware(onApplicationSubmissionComplete)]
   },
-  
+  Application: {
+    application: [UseMiddleware(checkValidOfficer)]
+  }
 };

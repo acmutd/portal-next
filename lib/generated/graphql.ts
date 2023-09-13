@@ -291,6 +291,18 @@ export type ApplicationCount = {
   fillApplications: Scalars['Int'];
 };
 
+export type ApplicationCreateInput = {
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  division: DivisionCreateNestedOneWithoutApplicationsInput;
+  expireDate: Scalars['DateTime'];
+  externalResourceUrl: Scalars['String'];
+  fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutAppInput>;
+  id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  questions?: InputMaybe<ApplicationCreatequestionsInput>;
+};
+
 export type ApplicationCreateManyDivisionInput = {
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
@@ -1399,6 +1411,7 @@ export type Mutation = {
   checkInOldEvent: Array<EventCheckin>;
   checkinToEvent: EventCheckin;
   createOneAccount: Account;
+  createOneApplication: Application;
   createOneEvent: Event;
   createOneEventReservation: EventReservation;
   createOneFilledApplication: FilledApplication;
@@ -1443,6 +1456,11 @@ export type MutationCheckinToEventArgs = {
 
 export type MutationCreateOneAccountArgs = {
   data: AccountCreateInput;
+};
+
+
+export type MutationCreateOneApplicationArgs = {
+  data: ApplicationCreateInput;
 };
 
 
@@ -2258,6 +2276,7 @@ export type Query = {
   __typename?: 'Query';
   application?: Maybe<Application>;
   applications: Array<Application>;
+  divisions: Array<Division>;
   eventReservations: Array<EventReservation>;
   events: Array<Event>;
   filledApplications: Array<FilledApplication>;
@@ -2284,6 +2303,16 @@ export type QueryApplicationsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ApplicationWhereInput>;
+};
+
+
+export type QueryDivisionsArgs = {
+  cursor?: InputMaybe<DivisionWhereUniqueInput>;
+  distinct?: InputMaybe<Array<DivisionScalarFieldEnum>>;
+  orderBy?: InputMaybe<Array<DivisionOrderByWithRelationInput>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<DivisionWhereInput>;
 };
 
 
@@ -3087,6 +3116,13 @@ export type GetApplicationAdminPageDataQueryVariables = Exact<{ [key: string]: n
 
 export type GetApplicationAdminPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisionIds: Array<string> } | null } | null }, returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', id: string, deptName: string } }> };
 
+export type CreateApplicationMutationVariables = Exact<{
+  data: ApplicationCreateInput;
+}>;
+
+
+export type CreateApplicationMutation = { __typename?: 'Mutation', createOneApplication: { __typename?: 'Application', id: string } };
+
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
 }>;
@@ -3098,6 +3134,11 @@ export type GetCheckInPageUserInfoQueryVariables = Exact<{ [key: string]: never;
 
 
 export type GetCheckInPageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', id: string } | null } };
+
+export type GetDivisionDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDivisionDataQuery = { __typename?: 'Query', divisions: Array<{ __typename?: 'Division', deptName: string, id: string }> };
 
 export type GetEventPageUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3340,6 +3381,13 @@ export const GetApplicationAdminPageDataDocument = gql`
   }
 }
     `;
+export const CreateApplicationDocument = gql`
+    mutation createApplication($data: ApplicationCreateInput!) {
+  createOneApplication(data: $data) {
+    id
+  }
+}
+    `;
 export const CheckInToEventDocument = gql`
     mutation checkInToEvent($checkInData: EventCheckinInput!) {
   checkinToEvent(options: $checkInData) {
@@ -3354,6 +3402,14 @@ export const GetCheckInPageUserInfoDocument = gql`
     profile {
       id
     }
+  }
+}
+    `;
+export const GetDivisionDataDocument = gql`
+    query getDivisionData {
+  divisions {
+    deptName
+    id
   }
 }
     `;
@@ -3676,11 +3732,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     getApplicationAdminPageData(variables?: GetApplicationAdminPageDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetApplicationAdminPageDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetApplicationAdminPageDataQuery>(GetApplicationAdminPageDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getApplicationAdminPageData', 'query');
     },
+    createApplication(variables: CreateApplicationMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateApplicationMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateApplicationMutation>(CreateApplicationDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createApplication', 'mutation');
+    },
     checkInToEvent(variables: CheckInToEventMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CheckInToEventMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CheckInToEventMutation>(CheckInToEventDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'checkInToEvent', 'mutation');
     },
     getCheckInPageUserInfo(variables?: GetCheckInPageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCheckInPageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetCheckInPageUserInfoQuery>(GetCheckInPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCheckInPageUserInfo', 'query');
+    },
+    getDivisionData(variables?: GetDivisionDataQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDivisionDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDivisionDataQuery>(GetDivisionDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDivisionData', 'query');
     },
     getEventPageUserInfo(variables?: GetEventPageUserInfoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetEventPageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetEventPageUserInfoQuery>(GetEventPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEventPageUserInfo', 'query');

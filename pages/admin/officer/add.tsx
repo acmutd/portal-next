@@ -1,27 +1,15 @@
-import { Profile } from '@generated/type-graphql';
 import LoadingComponent from 'components/LoadingComponent';
 import { GetAddOfficerPageDataQuery } from 'lib/generated/graphql';
-import { GetServerSideProps } from 'next';
 import { useSession } from 'next-auth/react';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { dehydrate, useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
 import debounce from 'lodash.debounce';
 import MakeUserOfficerCard from 'components/admin/MakeUserOfficerCard';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { useRouter } from 'next/router';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 
-export const getServerSideProps: GetServerSideProps = async(ctx) => {
-    await queryClient.prefetchQuery(['addOfficerPage'], () => 
-        gqlQueries.getAddOfficerPageData()
-    );
-    return {
-        props: {
-            dehydratedState: dehydrate(queryClient)
-        }
-    };
-}
 
 
 export default function AddOfficerPage() {

@@ -5,4 +5,5 @@ export interface TContext {
   req: any;
   session?: Session;
   prisma: PrismaClient;
+  sentEmail?: boolean;
 }

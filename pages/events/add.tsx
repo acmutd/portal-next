@@ -1,20 +1,11 @@
 import EventForm from 'components/events/EventForm';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['eventAddData'], () => gqlQueries.getUserOfficerStatusData());
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 export default function AddEventPage() {
   const router = useRouter();
@@ -57,6 +48,7 @@ export default function AddEventPage() {
             end: new Date(form.end),
           },
         });
+        alert("Event created");
       }}
       submitActionName="Create Event"
     />

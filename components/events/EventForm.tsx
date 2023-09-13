@@ -37,7 +37,7 @@ export default function EventForm({
     watch,
     register,
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    formState: { errors, isSubmitting },
     setValue,
   } = useForm<ActiveEventResult>({ mode: 'onChange' });
   const watchStartDate = watch('start', new Date().toISOString());
@@ -57,6 +57,7 @@ export default function EventForm({
         className="flex flex-col gap-y-3"
         onSubmit={handleSubmit(async (vals) => {
           await onFormSubmit(vals as any);
+          onGoBack();
         })}
       >
         {/* NEW STYLE TODO: */}
@@ -161,17 +162,8 @@ export default function EventForm({
         <div className="flex gap-x-3">
           <button
             className="p-3 rounded-lg bg-green-400 font-semibold hover:bg-green-500"
-            disabled={!isDirty || !isValid}
-            onClick={async () => {
-              try {
-                await onFormSubmit(eventForm);
-                alert('Event created');
-                onGoBack();
-              } catch (error) {
-                alert('Unexpected error! Please try again later');
-                console.error(error);
-              }
-            }}
+            disabled={isSubmitting}
+            type="submit"
           >
             {submitActionName}
           </button>

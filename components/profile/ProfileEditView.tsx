@@ -1,8 +1,6 @@
-import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql';
-import type { FindProfileQuery, Profile } from 'lib/generated/graphql';
+import type { FindProfileQuery } from 'lib/generated/graphql';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { gqlQueries } from 'src/api';
 
@@ -79,19 +77,7 @@ export default function ProfileEditView({
                   JSON.parse(JSON.stringify(error)).response.errors[0] as GraphQLError,
                 );
               });
-            // try {
-
-            //   onUpdateFormCompleted();
-            // } catch (error) {
-            //   console.error((error as Error).stack);
-            //   onErrorEncounter(error as GraphQLError);
-            // }
-            // .then((operationResult) => {
-            //   onUpdateFormCompleted(operationResult);
-            // })
-            // .catch((err) => {
-            //   alert(err);
-            // });
+            onUpdateFormCompleted();
           })}
         >
           <div className="flex flex-wrap -mx-3 mb-6">

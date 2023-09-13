@@ -1,0 +1,6 @@
+query getDivisionData {
+    divisions {
+        deptName
+        id
+    }
+}

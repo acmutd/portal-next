@@ -11,21 +11,12 @@ import { useState } from 'react';
 import SingleEventView from 'components/events/SingleEventView';
 import EventForm from 'components/events/EventForm';
 import { useSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
 import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['eventsData'], () => gqlQueries.getEventPageUserInfo());
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 export default function EventPage() {
   const { status } = useSession({ required: true });
@@ -84,6 +75,7 @@ export default function EventPage() {
               id: currentEvent.id,
             },
           });
+          alert("event updated");
         }}
         submitActionName="Save changes"
         event={currentEvent}

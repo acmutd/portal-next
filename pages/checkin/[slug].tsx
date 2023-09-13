@@ -5,19 +5,10 @@ import ErrorComponent from 'components/ErrorComponent';
 import { default as ACMButton } from '../../components/PortalButton';
 import SuccessfulComponent from 'components/SuccessfulComponent';
 import { useSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate, useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { useQuery } from 'react-query';
 import { GraphQLError } from 'graphql';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['checkInData'], () => gqlQueries.getCheckInPageUserInfo());
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: NextRouter }>) {
   return (

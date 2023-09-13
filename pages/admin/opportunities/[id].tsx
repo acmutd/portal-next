@@ -1,41 +1,22 @@
 import Button from 'components/Button';
 import LoadingComponent from 'components/LoadingComponent';
 import ACMButton from 'components/PortalButton';
-import ApplicationForm from 'components/applications/ApplicationForm';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 import OfficerApplicationForm from 'components/applications/OfficerApplicationForm';
-import {
-  FilledApplication,
-  FilledApplicationScalarFieldEnum,
-  FindFilledApplicationsDocument,
-  FindFilledApplicationsQuery,
-} from 'lib/generated/graphql';
-import { GetServerSideProps, NextPage } from 'next';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { dehydrate, useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
+import { useContext, useState } from 'react';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['manageSingleApp'], () =>
-    gqlQueries.findFilledApplications({
-      whereApp: {
-        id: ctx.params!.id! as string,
-      },
-    }),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const isOfficer = useContext(OfficerStatusContext);
   const { status } = useSession({ required: true });
   const [formEditMode, setFormEditMode] = useState(false);
   const [filterQueryName, setFilterQueryName] = useState('');
@@ -68,7 +49,7 @@ const EditApplicationPage: NextPage = () => {
   };
   const [selected, setSelected] = useState<FilledAppData>();
   const { data, isLoading, error } = useQuery(
-    ['manageSingleApp'],
+    [`manageSingleApp${id}`],
     () =>
       gqlQueries.findFilledApplications({
         whereApp: {
@@ -79,20 +60,32 @@ const EditApplicationPage: NextPage = () => {
     { enabled: status === 'authenticated' },
   );
 
+  if (!isOfficer) {
+    return (
+      <AdminOnlyComponent />
+    );
+  }
+
   if (isLoading) {
     return <LoadingComponent></LoadingComponent>;
   }
 
-  if (!data?.me.isOfficer) {
-    return (
-      <div>
-        You are not authorized to view this page, please log in with your acm officer account
-      </div>
-    );
+  if (!data) {
+    console.error(error);
+    return <div className="text-white text-lg">Something is wrong. Please try again later...</div>
+  }
+
+  if (!data.application) {
+    return <div className='flex gap-y-2 flex-col rounded-lg mt-5 text-white text-lg p-5'>
+      <p>No application exists. Please make sure that the application id is correct and that you have appropriate access to this application</p>
+      <Link href="/admin/opportunities" passHref>
+        <Button>go back</Button>
+      </Link>
+    </div>
   }
 
   if (!data?.application?.fillApplications) {
-    return <div>No applicants have submitted a response yet</div>;
+    return <div className="text-white text-lg p-5">No applicants have submitted a response yet</div>;
   }
 
   // create function that filters list of applicants based on name, netid, year, status, and score
@@ -136,12 +129,14 @@ const EditApplicationPage: NextPage = () => {
     }
   }
 
+  console.log(data);
+
   return (
     <div className="w-full p-5 mt-5">
       <div className="flex flex-row place-content-center">
         <h1 className="text-3xl font-semibold text-gray-100">View Applicant Responses</h1>
       </div>
-      <Link href={`/opportunities/admin/`}>
+      <Link href={`/admin/opportunities/`}>
         <button>
           <div className="text-3xl font-semibold text-gray-100">
             {/* TODO: replace arrow with svg */}

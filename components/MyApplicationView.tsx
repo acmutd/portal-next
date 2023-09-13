@@ -9,7 +9,7 @@ export default function MyApplicationView({ appData } : MyApplicationViewProps) 
         {appData.map(({
             status, app: { name }
         }) => (
-        <div className="flex flex-col items-end w-fit">
+        <div key={name} className="flex flex-col items-end w-fit">
             <div className="w-96 p-6 rounded-3xl space-y-2 flex flex-col justify-between bg-gray-200/5 outline outline-gray-100/10">
                 <div className="w-full flex justify-between items-center gap-[20px]">
                     <h4 className="text-[25px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">

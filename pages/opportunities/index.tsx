@@ -1,15 +1,12 @@
-import { PopupButton } from '@typeform/embed-react';
 import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import EmailToast from 'components/EmailToast';
-import ApplicationCard from 'components/typeformApplicationSystem/ApplicationCard';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { gqlQueries, queryClient } from 'src/api';
-import { dehydrate } from 'react-query';
+import { gqlQueries } from 'src/api';
 import { useRouter } from 'next/router';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
@@ -17,22 +14,6 @@ import { Tab } from '@headlessui/react';
 import OpenApplicationsView from 'components/OpenApplicationsView';
 import MyApplicationView from 'components/MyApplicationView';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['applicationPage'], () =>
-    gqlQueries.getApplicationData({
-      where: {
-        active: {
-          equals: true,
-        },
-      },
-    }),
-  );
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
 
 const ApplicationsPage: NextPage = () => {
   const { status, data: signedInUserData } = useSession({ required: true });
@@ -98,11 +79,11 @@ const ApplicationsPage: NextPage = () => {
         </Tab.Group>
         <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
 
-        {data!.me.isOfficer && (
-          <Link href="/opportunities/edit">
+        {/* {data!.me.isOfficer && (
+          <Link href="/admin/typeform">
             <Button>edit</Button>
           </Link>
-        )}
+        )} */}
       </header>
       {tabIndex === 0 ? <MyApplicationView 
         appData={data!.filledApplications}

@@ -22,7 +22,7 @@ import { TContext } from 'lib/graphql/interfaces/context.interface';
 import ReturnAllOpenAppResolver from 'lib/graphql/resolvers/ReturnAllOpenApp.resolver';
 import OfficerResolver from 'lib/graphql/resolvers/officer.resolver';
 
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== "development") {
   applyResolversEnhanceMap(resolversEnhanceMap);
 }
 
@@ -52,5 +52,5 @@ const apolloServer = new ApolloServer<TContext>({
 });
 
 export default startServerAndCreateNextHandler(apolloServer, {
-  context: async (req, res) => ({ req, res, prisma: getPrismaConnection() }),
+  context: async (req, res) => ({ req, res, prisma: getPrismaConnection(), sentEmail: false }),
 });

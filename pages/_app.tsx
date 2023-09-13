@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Hydrate, QueryClientProvider } from 'react-query';
 import { queryClient } from 'src/api';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps<any>) {
   return (
@@ -15,6 +16,9 @@ function MyApp({ Component, pageProps }: AppProps<any>) {
         <SessionProvider session={pageProps.session}>
           <LocalizationProvider dateAdapter={AdapterMoment}>
             <Skeleton>
+              <Head>
+                <title>ACM Portal</title>
+              </Head>
               <Component {...pageProps} />
             </Skeleton>
           </LocalizationProvider>

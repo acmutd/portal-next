@@ -1,10 +1,14 @@
 import Router from 'next/router';
 import type { TypeformApplication } from '@generated/type-graphql';
-import { useForm } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { gqlQueries } from 'src/api';
 
-export default function TypeformCreateForm(): JSX.Element {
-  const { register, handleSubmit } = useForm<Omit<TypeformApplication, 'id'>>();
+interface TypeformCreateFormProps {
+  formHookData: UseFormReturn<Omit<TypeformApplication, "id">, any>;
+}
+
+export default function TypeformCreateForm({ formHookData } : TypeformCreateFormProps): JSX.Element {
+  const { register, handleSubmit } = formHookData;
   return (
     <div className="flex justify-center md:flex-row-reverse w-full md:w-[50%]">
       <form
