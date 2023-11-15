@@ -10,7 +10,6 @@ import DocumentIcon from 'icons/DocumentIcon';
 import { gqlQueries } from 'src/api';
 import { Action, FileCategory } from 'lib/generated/graphql';
 
-
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
   const uploadRef = useRef<HTMLInputElement | null>(null);
@@ -31,6 +30,19 @@ export default function ResumePage() {
       enabled: status === 'authenticated',
     },
   );
+
+  const array = [];
+  for (let i = 0; i < 20; i++) {
+    array.push(
+      <div className="flex items-center justify-between pt-4">
+        <div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+        </div>
+        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>,
+    );
+  }
 
   const handleResumeUploadReady = useCallback(() => {
     if (!uploadRef.current || !uploadRef.current.files) return;
@@ -128,7 +140,25 @@ export default function ResumePage() {
     }
   }, [gqlQueries.getResumeSignedURL, refetchResume]);
 
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading')
+    return (
+      <>
+        <div
+          role="status"
+          className="w-full h-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+              <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+            </div>
+            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+          </div>
+          {array}
+          <span className="sr-only">Loading...</span>
+        </div>
+      </>
+    );
   return (
     <div className="px-16 py-[65px] h-full relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
@@ -144,7 +174,22 @@ export default function ResumePage() {
             <h3 className="text-white text-[24px]">{data?.me.resumeFilename || 'N/A'}</h3>
           </div>
         ) : (
-          <h3 className="text-white font-semibold text-[32px]">Loading...</h3>
+          <>
+            <div
+              role="status"
+              className="w-full h-full p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                  <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+              </div>
+              {array}
+              <span className="sr-only">Loading...</span>
+            </div>
+          </>
         )}
       </div>
 
