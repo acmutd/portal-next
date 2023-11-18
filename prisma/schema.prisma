@@ -193,7 +193,19 @@ model Officer {
     divisionIds String[]   @db.ObjectId
     divisions   Division[] @relation(fields: [divisionIds], references: [id])
 
+    
+    director Director?
+
     @@map("officers")
+}
+
+model Director { 
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    officerId String @unique @db.ObjectId
+    officer Officer @relation(fields: [officerId], references: [id] )
+
+    @@map("directors")
 }
 
 // if explicit m-to-n relations are needed:
