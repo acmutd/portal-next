@@ -198,6 +198,8 @@ model Officer {
 
     @@map("officers")
 }
+// Create new director model - and link them together - play around with it 
+
 
 model Director { 
     id String @id @default(auto()) @map("_id") @db.ObjectId
