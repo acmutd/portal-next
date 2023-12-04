@@ -194,12 +194,10 @@ model Officer {
     divisions   Division[] @relation(fields: [divisionIds], references: [id])
 
     
-    director Director?
+    director Director[]
 
     @@map("officers")
 }
-// Create new director model - and link them together - play around with it 
-
 
 model Director { 
     id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -207,6 +205,8 @@ model Director {
     officerId String @unique @db.ObjectId
     officer Officer @relation(fields: [officerId], references: [id] )
 
+    dummy String?
+    
     @@map("directors")
 }
 
