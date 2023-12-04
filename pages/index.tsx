@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { GraphQLError } from 'graphql';
 import ErrorComponent from 'components/ErrorComponent';
-import { stat } from 'fs';
 import Loading from 'components/Loading';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

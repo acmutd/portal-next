@@ -1,20 +1,9 @@
 import Chart from 'chart.js/auto';
 import { useRef, useEffect } from 'react';
-
-import EventHeader from 'components/events/EventHeader';
-import EventSection from 'components/events/EventSection';
-import { useState } from 'react';
-import SingleEventView from 'components/events/SingleEventView';
-import EventForm from 'components/events/EventForm';
 import { useSession } from 'next-auth/react';
-import { gqlQueries } from 'src/api';
-import { useQuery } from 'react-query';
-import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
-import ErrorComponent from 'components/ErrorComponent';
-import { GraphQLError } from 'graphql/error';
 import Loading from 'components/Loading';
 
-export default function finance() {
+export default function financePage() {
   const estimatedCanvas = useRef(null);
   const actualCanvas = useRef(null);
   const { status } = useSession({ required: true });
