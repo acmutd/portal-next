@@ -177,7 +177,10 @@ model Division {
     deptName String
 
     officerIds String[]  @db.ObjectId
-    officers   Officer[] @relation(fields: [officerIds], references: [id])
+    officers   Officer[] @relation( fields: [officerIds], references: [id] )
+
+    directorIds String[]   @db.ObjectId
+    directors   Director[] @relation( fields:[directorIds], references:[id] )
 
     applications Application[]
 
@@ -193,8 +196,7 @@ model Officer {
     divisionIds String[]   @db.ObjectId
     divisions   Division[] @relation(fields: [divisionIds], references: [id])
 
-    
-    director Director[]
+    director Director?
 
     @@map("officers")
 }
@@ -203,10 +205,11 @@ model Director {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
     officerId String @unique @db.ObjectId
-    officer Officer @relation(fields: [officerId], references: [id] )
+    officer Officer? @relation(fields: [officerId], references: [id] )
 
-    dummy String?
-    
+    divisionIds String[] @db.ObjectId
+    divisions   Division[] @relation( fields: [divisionIds], references: [id] )
+
     @@map("directors")
 }
 
