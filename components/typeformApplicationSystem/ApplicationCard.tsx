@@ -29,7 +29,7 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
         </div>
         <div className="flex gap-1 ml-auto w-fit">
           {buttons.map((button) => (
-            <div className="relative w-fit">{button}</div>
+            <div key={Math.random()} className="relative w-fit">{button}</div>
           ))}
         </div>
       </div>
