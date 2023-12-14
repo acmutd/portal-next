@@ -33,7 +33,7 @@ export default class AdditionalUserService {
     return !!officer;
   }
 
-  async checkIfOfficerIsDirector(userId: string ) : Promise<boolean> {
+  async checkIfUserIsDirector(userId: string ) : Promise<boolean> {
     const profile = await this.prismaConnection.profile.findFirst({
       where: {
         userId

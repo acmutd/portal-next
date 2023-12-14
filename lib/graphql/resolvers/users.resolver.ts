@@ -27,7 +27,7 @@ export default class AdditionalUserResolver {
 
   @FieldResolver( () => Boolean) 
   async isDirector(@Root() user: User): Promise<boolean> {
-    return this.userService.checkIfOfficerIsDirector(user.id);
+    return this.userService.checkIfUserIsDirector(user.id);
   }
 
   @FieldResolver(() => [Event])
