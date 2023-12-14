@@ -42,7 +42,7 @@ export default function DateTimePickerWrapper({
     <DateTimePicker
       label={label}
       value={new Date(date)}
-      minDate={moment(minDate)}
+      minDate={moment(minDate).toDate()}
       onChange={(newValue) => {
         setDate(newValue?.toISOString() || '');
       }}

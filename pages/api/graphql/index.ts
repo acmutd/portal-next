@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { ApolloServer } from '@apollo/server';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { buildSchemaSync } from 'type-graphql';
+import { buildSchemaSync, GraphQLISODateTime } from 'type-graphql';
 import { container } from 'tsyringe';
 import { ObjectId } from 'mongodb';
 import ObjectIdScalar from '../../../lib/graphql/scalars/ObjectIDScalar';
@@ -37,11 +37,10 @@ const schema = buildSchemaSync({
     OldEventResolver,
     OfficerResolver
   ],
-  dateScalarMode: 'isoDate',
   container: {
     get: (someClass) => container.resolve(someClass),
   },
-  scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+  scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }, { type: Date, scalar: GraphQLISODateTime }],
   validate: { forbidUnknownValues: false },
 });
 

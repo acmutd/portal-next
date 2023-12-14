@@ -84,7 +84,7 @@ export default class AdditionalUserService {
       return 'N/A';
     }
     const data = await fileRef.getMetadata();
-    const contentDisposition: string = data[0].contentDisposition;
+    const contentDisposition: string = data[0].contentDisposition!;
     return contentDisposition.substring(22, contentDisposition.length - 1);
   }
 }

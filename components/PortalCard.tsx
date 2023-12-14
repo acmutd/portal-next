@@ -9,7 +9,7 @@ interface CardPropTypes {
   onClick?: () => void;
 }
 
-const CardOutline = styled(motion.div)`
+const CardOutline = styled(motion.div) <CardPropTypes>`
   width: ${(props: CardPropTypes) => props.width || 200}px;
   height: ${(props: CardPropTypes) => props.height || 200}px;
   border-radius: 15px;
