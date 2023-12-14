@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import Loading from 'components/Loading';
 import LoadingComponent from 'components/LoadingComponent';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
@@ -10,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
-
 
 const ViewApplicationsPage: NextPage = () => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const ViewApplicationsPage: NextPage = () => {
   if (!isOfficer) {
     return <AdminOnlyComponent />;
   }
-  
+
   if (isLoading) {
     return <LoadingComponent />;
   }
@@ -43,31 +43,36 @@ const ViewApplicationsPage: NextPage = () => {
         </div>
         <div className="w-full">
           {!isLoading ? (
-            data.returnAllOpenApp.filter((app) => data.me.profile!.officer!.divisionIds.includes(app.division.id)).map((application) => (
-              <div className="mb-10">
-                <ApplicationCard
-                  title={application.name}
-                  description={application.description}
-                  division={application.division.deptName}
-                  key={application.id}
-                  buttons={[
-                    <Link href={`/admin/opportunities/${application.id}`}>
-                      <Button>manage</Button>
-                    </Link>,
-                  ]}
-                />
-              </div>
-            ))
+            data.returnAllOpenApp
+              .filter((app) => data.me.profile!.officer!.divisionIds.includes(app.division.id))
+              .map((application) => (
+                <div className="mb-10">
+                  <ApplicationCard
+                    title={application.name}
+                    description={application.description}
+                    division={application.division.deptName}
+                    key={application.id}
+                    buttons={[
+                      <Link href={`/admin/opportunities/${application.id}`}>
+                        <Button>manage</Button>
+                      </Link>,
+                    ]}
+                  />
+                </div>
+              ))
           ) : (
-            <div>Loading..</div>
+            <Loading />
           )}
         </div>
       </div>
       <div className="grid grid-cols-3 gap-x-16 px-16">
-        <button className="text-gray-100 font-semibold p-2 rounded-lg" onClick={(e) => {
-          e.preventDefault();
-          router.push('/admin');
-        }}>
+        <button
+          className="text-gray-100 font-semibold p-2 rounded-lg"
+          onClick={(e) => {
+            e.preventDefault();
+            router.push('/admin');
+          }}
+        >
           go back to admin
         </button>
       </div>

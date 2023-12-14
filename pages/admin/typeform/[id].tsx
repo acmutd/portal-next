@@ -10,10 +10,9 @@ import { useContext } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 
-
 const EditApplicationPage: NextPage = () => {
   const router = useRouter();
-  const isOfficer =  useContext(OfficerStatusContext);
+  const isOfficer = useContext(OfficerStatusContext);
   const { id } = router.query;
   const { status } = useSession({ required: true });
   const { data, isLoading, error } = useQuery(
@@ -28,15 +27,14 @@ const EditApplicationPage: NextPage = () => {
       }),
     { enabled: status === 'authenticated' },
   );
-  
+
   if (!isOfficer) {
     return <AdminOnlyComponent />;
-  } 
+  }
 
   if (isLoading) {
     return <LoadingComponent />;
   }
-
 
   if (!data!.findFirstTypeformApplication) {
     return <div>No application exists</div>;
@@ -55,7 +53,7 @@ const EditApplicationPage: NextPage = () => {
               id={id as string}
             />
           ) : (
-            <div>Loading..</div>
+            <LoadingComponent />
           )}
         </div>
       </div>

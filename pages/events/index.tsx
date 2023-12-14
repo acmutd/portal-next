@@ -16,7 +16,7 @@ import { useQuery } from 'react-query';
 import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
-
+import Loading from 'components/Loading';
 
 export default function EventPage() {
   const { status } = useSession({ required: true });
@@ -31,10 +31,15 @@ export default function EventPage() {
     GetEventPageUserInfoQuery['upcomingEvents'][0] | null
   >(null);
 
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <Loading />;
   if (error) {
     console.log(error);
-    return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
+    return (
+      <ErrorComponent
+        errorCode={(error as GraphQLError).extensions.code as string}
+        errorMessage={(error as GraphQLError).message}
+      />
+    );
   }
 
   if (currentEvent) {
@@ -75,7 +80,7 @@ export default function EventPage() {
               id: currentEvent.id,
             },
           });
-          alert("event updated");
+          alert('event updated');
         }}
         submitActionName="Save changes"
         event={currentEvent}

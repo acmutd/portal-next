@@ -9,7 +9,7 @@ import CircularBlur from 'components/CircularBlur';
 import DocumentIcon from 'icons/DocumentIcon';
 import { gqlQueries } from 'src/api';
 import { Action, FileCategory } from 'lib/generated/graphql';
-
+import Loading from 'components/Loading';
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);
@@ -128,7 +128,7 @@ export default function ResumePage() {
     }
   }, [gqlQueries.getResumeSignedURL, refetchResume]);
 
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <Loading />;
   return (
     <div className="px-16 py-[65px] h-full relative">
       <CircularBlur backgroundColor="rgba(129, 53, 218, 1)" top="20%" left="10%" />
@@ -144,7 +144,7 @@ export default function ResumePage() {
             <h3 className="text-white text-[24px]">{data?.me.resumeFilename || 'N/A'}</h3>
           </div>
         ) : (
-          <h3 className="text-white font-semibold text-[32px]">Loading...</h3>
+          <Loading />
         )}
       </div>
 

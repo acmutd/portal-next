@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { GraphQLError } from 'graphql';
 import ErrorComponent from 'components/ErrorComponent';
+import Loading from 'components/Loading';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -44,9 +45,8 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
   }, [status]);
 
   let pageTheme: any = 'dark';
-
-  if (!session) {
-    return <></>;
+  if (status !== 'authenticated') {
+    return <Loading />;
   }
 
   if (!session)
@@ -66,8 +66,14 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
 
   // Fetch data
   // const { data, fetching, error } = profileResult;
-  if (isLoading) return <p className="text-gray-100">loading...</p>;
-  if (error || !data) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
+  if (isLoading) return <Loading />;
+  if (error || !data)
+    return (
+      <ErrorComponent
+        errorCode={(error as GraphQLError).extensions.code as string}
+        errorMessage={(error as GraphQLError).message}
+      />
+    );
 
   if (!data.profile) {
     router.push('/profile');

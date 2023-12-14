@@ -12,6 +12,7 @@ import { GraphQLError } from 'graphql/error';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { useContext } from 'react';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
+import Loading from 'components/Loading';
 
 const ApplicationsEditPage: NextPage = () => {
   const { status } = useSession({ required: true });
@@ -31,8 +32,14 @@ const ApplicationsEditPage: NextPage = () => {
     },
   );
   if (!isOfficer) return <AdminOnlyComponent />;
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
+  if (isLoading || status == 'loading') return <Loading />;
+  if (error)
+    return (
+      <ErrorComponent
+        errorCode={(error as GraphQLError).extensions.code as string}
+        errorMessage={(error as GraphQLError).message}
+      />
+    );
 
   return (
     <div className="px-16 py-[65px] relative">
@@ -41,7 +48,14 @@ const ApplicationsEditPage: NextPage = () => {
       <header className="flex items-center justify-center relative mb-[30px]">
         <Link href="/admin" passHref>
           <button className="absolute left-0 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-8 h-8">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="white"
+              className="w-8 h-8"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
             <p className="text-white text-lg">click to go back</p>

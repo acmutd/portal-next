@@ -19,6 +19,7 @@ import { gqlQueries } from 'src/api';
 import { useQuery } from 'react-query';
 import { GraphQLError } from 'graphql/error';
 import ErrorComponent from 'components/ErrorComponent';
+import Loading from 'components/Loading';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { profileVisited } = ctx.req.cookies;
@@ -54,11 +55,16 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
     { enabled: status === 'authenticated' },
   );
 
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <Loading />;
   if (error) return <p className="text-gray-100">whoops... {error}</p>;
   return (
     <>
-      {errors && <ErrorComponent errorCode={errors.extensions.code as string} errorMessage={errors.message} />}
+      {errors && (
+        <ErrorComponent
+          errorCode={errors.extensions.code as string}
+          errorMessage={errors.message}
+        />
+      )}
       <div className="w-full grid place-items-center">
         <div className="flex flex-col p-10 place-items-center">
           <div className="text-[36px] font-semibold text-gray-100">my account</div>

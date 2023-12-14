@@ -13,7 +13,7 @@ import { GraphQLError } from 'graphql/error';
 import { Tab } from '@headlessui/react';
 import OpenApplicationsView from 'components/OpenApplicationsView';
 import MyApplicationView from 'components/MyApplicationView';
-
+import Loading from 'components/Loading';
 
 const ApplicationsPage: NextPage = () => {
   const { status, data: signedInUserData } = useSession({ required: true });
@@ -31,32 +31,36 @@ const ApplicationsPage: NextPage = () => {
           profile: {
             is: {
               email: {
-                equals: signedInUserData?.user?.email || ""
-              }
-            }
-          }
-        }
+                equals: signedInUserData?.user?.email || '',
+              },
+            },
+          },
+        },
       }),
     {
       enabled: status === 'authenticated',
     },
-    );
-    
-    const [open, setOpen] = useState(false);
-    const [tabIndex, setTabIndex] = useState<number>(0); 
+  );
+
+  const [open, setOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState<number>(0);
   useEffect(() => {
     if (sessionStorage.getItem('showToast') == '1') {
       setOpen(true);
       sessionStorage.removeItem('showToast');
     }
   }, []);
-
-  if (isLoading || status == 'loading') return <p className="text-gray-100">loading...</p>;
-  if (error) return <ErrorComponent errorCode={(error as GraphQLError).extensions.code as string} errorMessage={(error as GraphQLError).message}/>;
+  if (isLoading || status == 'loading') return <Loading />;
+  if (error)
+    return (
+      <ErrorComponent
+        errorCode={(error as GraphQLError).extensions.code as string}
+        errorMessage={(error as GraphQLError).message}
+      />
+    );
   if (!data!.me.profile) {
     router.push('/profile');
   }
-
 
   return (
     <div className="px-16 py-[65px] relative">
@@ -65,16 +69,24 @@ const ApplicationsPage: NextPage = () => {
       <header className="flex flex-col gap-y-4 lg:flex-row items-center relative mb-[30px]">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-            <Tab className={({ selected }) => (
-              selected ? 
-              "rounded-xl bg-white p-3" : 
-              "ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white"
-            )}>My Application</Tab>
-            <Tab className={({ selected }) => (
-              selected ? 
-              "rounded-xl bg-white p-3" : 
-              "ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white"
-            )}>Open Application</Tab>
+            <Tab
+              className={({ selected }) =>
+                selected
+                  ? 'rounded-xl bg-white p-3'
+                  : 'ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white'
+              }
+            >
+              My Application
+            </Tab>
+            <Tab
+              className={({ selected }) =>
+                selected
+                  ? 'rounded-xl bg-white p-3'
+                  : 'ring-white ring-opacity-60 ring-offset-2 focus:outline-none p-3 text-white'
+              }
+            >
+              Open Application
+            </Tab>
           </Tab.List>
         </Tab.Group>
         <h1 className="text-[48px] font-Gilroy text-white font-semibold mx-auto">applications</h1>
@@ -85,21 +97,23 @@ const ApplicationsPage: NextPage = () => {
           </Link>
         )} */}
       </header>
-      {tabIndex === 0 ? <MyApplicationView 
-        appData={data!.filledApplications}
-      /> : <OpenApplicationsView 
-        applications={data!.returnAllOpenApp}
-        typeformApplications={data!.typeformApplications}
-        userData={{
-          email: data!.me.profile!.email || "",
-          firstName: data!.me.profile!.firstName || "",
-          lastName: data!.me.profile!.lastName || '',
-          major: data!.me.profile!.major || '',
-          netid: data!.me.profile!.netid || '',
-          classStanding: data!.me.profile!.classStanding || '',
-        }}
-      />}
-     
+      {tabIndex === 0 ? (
+        <MyApplicationView appData={data!.filledApplications} />
+      ) : (
+        <OpenApplicationsView
+          applications={data!.returnAllOpenApp}
+          typeformApplications={data!.typeformApplications}
+          userData={{
+            email: data!.me.profile!.email || '',
+            firstName: data!.me.profile!.firstName || '',
+            lastName: data!.me.profile!.lastName || '',
+            major: data!.me.profile!.major || '',
+            netid: data!.me.profile!.netid || '',
+            classStanding: data!.me.profile!.classStanding || '',
+          }}
+        />
+      )}
+
       <EmailToast open={open} setOpen={setOpen}></EmailToast>
     </div>
   );

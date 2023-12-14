@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { gqlQueries } from 'src/api';
 import { useQuery } from 'react-query';
 import { GraphQLError } from 'graphql';
-
+import Loading from 'components/Loading';
 
 function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: NextRouter }>) {
   return (
@@ -43,11 +43,10 @@ export default function CheckinPage() {
     }
     if (!data!.me.profile) {
       setQueryError(
-        new GraphQLError('Profile does not exist', 
-        {
+        new GraphQLError('Profile does not exist', {
           extensions: {
             code: 'PROFILE_DOES_NOT_EXIST',
-          }
+          },
         }),
       );
       return;
@@ -61,14 +60,17 @@ export default function CheckinPage() {
     });
   }, [isLoading, error, data]);
 
-  if (status == 'loading') return <p className="text-gray-100">loading...</p>;
+  if (isLoading || status == 'loading') return <Loading />;
   if (loading) {
     return <LoadingComponent />;
   }
   if (queryError) {
     return (
       <ViewWrapper router={router}>
-        <ErrorComponent errorCode={queryError.extensions.code as string} errorMessage={queryError.message} />
+        <ErrorComponent
+          errorCode={queryError.extensions.code as string}
+          errorMessage={queryError.message}
+        />
       </ViewWrapper>
     );
   }
