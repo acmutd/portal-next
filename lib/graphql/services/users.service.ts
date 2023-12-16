@@ -33,6 +33,29 @@ export default class AdditionalUserService {
     return !!officer;
   }
 
+  async checkIfUserIsDirector(userId: string ) : Promise<boolean> {
+    const profile = await this.prismaConnection.profile.findFirst({
+      where: {
+        userId
+      }
+    });
+    if (!profile) return false;
+
+    const officer = await this.prismaConnection.officer.findFirst({
+      where: {
+        profileId : profile.id
+      }
+    });
+    if (!officer) return false;
+
+    const director = await this.prismaConnection.director.findFirst({
+      where: {
+        officerId: officer.id
+      }
+    })
+
+    return !!director; 
+  }
   async getAttendedEventsByUserId(userId: string): Promise<Event[]> {
     const profile = await this.prismaConnection.profile.findFirst({
       where: {
