@@ -3362,6 +3362,7 @@ export type User = {
   emailVerified?: Maybe<Scalars['DateTimeISO']['output']>;
   id: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
+  isDirector: Scalars['Boolean']['output'];
   isOfficer: Scalars['Boolean']['output'];
   name?: Maybe<Scalars['String']['output']>;
   profile?: Maybe<Profile>;
@@ -3776,7 +3777,7 @@ export type FindProfileQueryVariables = Exact<{
 }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', profile?: { __typename?: 'Profile', firstName: string, lastName: string, email: string, netid: string, classStanding: string, major: string, utdStudent: boolean } | null };
+export type FindProfileQuery = { __typename?: 'Query', profile?: { __typename?: 'Profile', firstName: string, lastName: string, email: string, netid: string, classStanding: string, major: string, utdStudent: boolean, user: { __typename?: 'User', isDirector: boolean, isOfficer: boolean }, officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } | null };
 
 export type GetResumeSignedUrlMutationVariables = Exact<{
   options: SignedUrlInput;
@@ -4137,6 +4138,15 @@ export const FindProfileDocument = gql`
     classStanding
     major
     utdStudent
+    user {
+      isDirector
+      isOfficer
+    }
+    officer {
+      divisions {
+        deptName
+      }
+    }
   }
 }
     `;

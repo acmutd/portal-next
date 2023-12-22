@@ -23,5 +23,14 @@ query findProfile($where: ProfileWhereUniqueInput!) {
     classStanding
     major
     utdStudent
+    user {
+      isDirector
+      isOfficer
+    }
+    officer {
+      divisions {
+        deptName
+      }
+    }
   }
 }

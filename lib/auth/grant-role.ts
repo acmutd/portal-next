@@ -36,6 +36,7 @@ async function grantOfficerRole(userId: string) {
       divisionIds: []
     }
   });
+  // TODO: Send email notifying that officer status is recorded. 
 }
 
 export const grantRole = async (userId: string, roleName: string) => {
