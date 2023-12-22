@@ -86,5 +86,6 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   OfficerRelationsResolver,
   UpdateOneFilledApplicationResolver,
   CreateOneApplicationResolver,
-  FindManyDivisionResolver
+  FindManyDivisionResolver,
+  FindManyEventResolver
 ];  

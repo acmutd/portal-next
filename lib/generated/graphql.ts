@@ -3710,6 +3710,14 @@ export type GetEventPageUserInfoQueryVariables = Exact<{ [key: string]: never; }
 
 export type GetEventPageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean, attendedEvents: Array<{ __typename?: 'Event', summary: string, start: any, location: string }> }, upcomingEvents: Array<{ __typename?: 'Event', id: string, summary: string, start: any, location: string, end: any, description: string, url: string, isPublic: boolean }> };
 
+export type GetAdminEventDataQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<EventOrderByWithRelationInput> | EventOrderByWithRelationInput>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetAdminEventDataQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', id: string, summary: string, location: string, url: string, description: string, isPublic: boolean, end: any, start: any }> };
+
 export type UpdateEventDataMutationVariables = Exact<{
   data: EventUpdateInput;
   where: EventWhereUniqueInput;
@@ -4000,6 +4008,20 @@ export const GetEventPageUserInfoDocument = gql`
     description
     url
     isPublic
+  }
+}
+    `;
+export const GetAdminEventDataDocument = gql`
+    query getAdminEventData($orderBy: [EventOrderByWithRelationInput!], $take: Int) {
+  events(orderBy: $orderBy, take: $take) {
+    id
+    summary
+    location
+    url
+    description
+    isPublic
+    end
+    start
   }
 }
     `;
@@ -4323,6 +4345,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getEventPageUserInfo(variables?: GetEventPageUserInfoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetEventPageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetEventPageUserInfoQuery>(GetEventPageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEventPageUserInfo', 'query');
+    },
+    getAdminEventData(variables?: GetAdminEventDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetAdminEventDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetAdminEventDataQuery>(GetAdminEventDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAdminEventData', 'query');
     },
     updateEventData(variables: UpdateEventDataMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<UpdateEventDataMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdateEventDataMutation>(UpdateEventDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateEventData', 'mutation');
