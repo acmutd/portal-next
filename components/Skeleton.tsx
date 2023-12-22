@@ -97,7 +97,10 @@ const Skeleton = ({ children }: any) => {
 
   return (
     <>
-      <OfficerStatusContext.Provider value={!!officerStatusData?.me.isOfficer}>
+      <OfficerStatusContext.Provider value={{
+        isDirector: !!officerStatusData?.me.isDirector,
+        isOfficer: !!officerStatusData?.me.isOfficer
+      }}>
         <Background splotches={3} />
         <div className="h-screen w-screen overflow-x-hidden flex">
           {!mobile && (
