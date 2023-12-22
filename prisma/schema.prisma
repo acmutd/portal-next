@@ -197,6 +197,7 @@ model Officer {
     divisions   Division[] @relation(fields: [divisionIds], references: [id])
 
     director Director?
+    dummy String?
 
     @@map("officers")
 }
@@ -209,6 +210,8 @@ model Director {
 
     divisionIds String[] @db.ObjectId
     divisions   Division[] @relation( fields: [divisionIds], references: [id] )
+
+    dummy String?
 
     @@map("directors")
 }

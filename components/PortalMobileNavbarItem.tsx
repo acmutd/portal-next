@@ -14,7 +14,7 @@ interface NextLinkForwardRefTypes {
   href?: string;
 }
 
-const StyledA = styled(motion.a)`
+const StyledA = styled(motion.a) <ACMNavbarItemPropTypes>`
   position: relative;
   overflow: hidden;
 

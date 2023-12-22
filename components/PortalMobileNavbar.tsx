@@ -14,7 +14,7 @@ const MobileDiv = styled.div`
   justify-content: space-evenly;
 `;
 
-const Navbar: React.FC = ({ children }) => {
+const Navbar: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <MobileDiv>{children}</MobileDiv>;
 };
 

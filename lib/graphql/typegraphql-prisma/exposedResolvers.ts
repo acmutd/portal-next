@@ -1,4 +1,4 @@
-import { NonEmptyArray } from 'type-graphql/dist/interfaces/NonEmptyArray';
+import { NonEmptyArray } from 'type-graphql';
 
 import {
   CreateOneAccountResolver,

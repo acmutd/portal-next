@@ -56,7 +56,7 @@ export default function ProfilePage({ profileVisited }: { profileVisited: boolea
   );
 
   if (isLoading || status == 'loading') return <Loading />;
-  if (error) return <p className="text-gray-100">whoops... {error}</p>;
+  if (error) return <p className="text-gray-100">whoops... {error as any}</p>;
   return (
     <>
       {errors && (
