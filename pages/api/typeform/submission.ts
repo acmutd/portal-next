@@ -1,3 +1,4 @@
+import { getPrismaConnection } from 'lib/prisma/manager';
 import { sendApplicationSubmissionEmail } from '../../../lib/graphql/utilities/send-email/application';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -6,6 +7,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const lastName = req.body.form_response.hidden.last_name;
   const email = req.body.form_response.hidden.email;
   const typeformName = req.body.form_response.definition.title;
+  const prisma = getPrismaConnection();
+  await prisma.typeformSubmission.create({
+    data: {
+      email,
+      typeformName
+    }
+  });
   await sendApplicationSubmissionEmail(
     {
       first_name: firstName,

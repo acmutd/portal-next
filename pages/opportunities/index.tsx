@@ -98,7 +98,7 @@ const ApplicationsPage: NextPage = () => {
         )} */}
       </header>
       {tabIndex === 0 ? (
-        <MyApplicationView appData={data!.filledApplications} />
+        <MyApplicationView typeformAppData={data!.me.profile?.typeformSubmissions || []} appData={data!.filledApplications} />
       ) : (
         <OpenApplicationsView
           applications={data!.returnAllOpenApp}
