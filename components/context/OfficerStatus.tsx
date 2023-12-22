@@ -1,3 +1,6 @@
 import { createContext } from 'react';
 
-export const OfficerStatusContext = createContext(false);
+export const OfficerStatusContext = createContext({
+  isDirector: false,
+  isOfficer: false
+});

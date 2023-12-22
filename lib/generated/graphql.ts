@@ -3644,7 +3644,7 @@ export type VanityLinkWhereUniqueInput = {
 export type GetOfficerStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetOfficerStatusQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean } };
+export type GetOfficerStatusQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean, isDirector: boolean } };
 
 export type GetApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
@@ -3869,6 +3869,7 @@ export const GetOfficerStatusDocument = gql`
     query getOfficerStatus {
   me {
     isOfficer
+    isDirector
   }
 }
     `;

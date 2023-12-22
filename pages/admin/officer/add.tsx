@@ -13,12 +13,12 @@ import AdminOnlyComponent from 'components/admin/AdminOnly';
 export default function AddOfficerPage() {
   // Need to get logged in user profile
   const { status, data: signedInUserData } = useSession({ required: true });
-  const isOfficer = useContext(OfficerStatusContext);
+  const officerStatusData = useContext(OfficerStatusContext);
   const router = useRouter();
   const { data, error, isLoading } = useQuery(
     ['addOfficerPage'],
     () => gqlQueries.getAddOfficerPageData(),
-    { enabled: status === 'authenticated' && isOfficer },
+    { enabled: status === 'authenticated' && officerStatusData.isOfficer },
   );
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['officerEligibleProfiles']>([]);
@@ -51,7 +51,7 @@ export default function AddOfficerPage() {
   });
 
   if (isLoading) return <LoadingComponent />;
-  if (!isOfficer) {
+  if (!officerStatusData.isOfficer) {
     return <AdminOnlyComponent />;
   }
 
