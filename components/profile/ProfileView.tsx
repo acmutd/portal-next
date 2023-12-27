@@ -28,6 +28,20 @@ export default function ProfileView({ profile }: ProfileViewProps) {
       <div className="w-full px-3">
         <ProfileField label="major" text={profile.major.toLowerCase()} />
       </div>
+      <div className="flex">
+
+      <div className="w-full px-3">
+        <ProfileField label="is acm officer" text={profile.user.isOfficer ? "true" : "false"} />
+      </div>
+      <div className="w-full px-3">
+        <ProfileField label="is acm director" text={profile.user.isDirector ? "true" : "false"} />
+      </div>
+      </div>
+      {profile.officer && (
+        <div className="w-full px-3">
+          <ProfileField label="division" text={profile.officer!.divisions.length === 0 ? "No divisions" : profile.officer!.divisions.map((division) => division.deptName).join(", ")} />
+        </div>
+      )}
     </div>
   );
 }

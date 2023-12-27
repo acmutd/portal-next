@@ -1,57 +1,46 @@
 import { getPrismaConnection } from 'lib/prisma/manager';
 
-const getRoleObjByName = async (roleName: string) => {
+async function getProfileByUserId(userId: string) {
   const prisma = getPrismaConnection();
-  const role = await prisma.role.findFirst({
+  const profileObj = await prisma.profile.findFirst({
     where: {
-      roleName,
-    },
+      userId
+    }
   });
-  if (role !== null) return role;
-  const newRole = await prisma.role.create({
-    data: {
-      roleName,
-    },
-  });
-  return newRole;
+  return profileObj;
+}
+
+const userAlreadyHaveOfficerRole = async (profileId: string) => {
+  const prisma = getPrismaConnection();
+  const officerObj = await prisma.officer.findFirst({
+    where: {
+      profileId
+    }
+  })
+  return !!officerObj;
 };
 
-const userAlreadyHaveRole = async (userId: string, roleId: string) => {
+async function grantOfficerRole(userId: string) {
   const prisma = getPrismaConnection();
-  const roleObj = await prisma.rolesOnUser.findFirst({
-    where: {
-      roleId,
-      userId,
-    },
-  });
-  return !!roleObj;
-};
-
-export const grantRole = async (userId: string, roleName: string) => {
-  const prisma = getPrismaConnection();
-  const role = await getRoleObjByName(roleName);
-
-  const alreadyHasRole = await userAlreadyHaveRole(userId, role.id);
+  const userProfile = await getProfileByUserId(userId);
+  if (!userProfile) {
+    return;
+  }
+  const alreadyHasRole = await userAlreadyHaveOfficerRole(userProfile.id);
   if (alreadyHasRole) {
     return;
   }
+  await prisma.officer.create({
+    data: {
+      profileId: userProfile.id,
+      divisionIds: []
+    }
+  });
+  // TODO: Send email notifying that officer status is recorded. 
+}
 
-  const roleUser = await prisma.rolesOnUser.create({
-    data: {
-      roleId: role.id,
-      userId: userId,
-    },
-  });
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      roles: {
-        connect: {
-          id: roleUser.id,
-        },
-      },
-    },
-  });
+export const grantRole = async (userId: string, roleName: string) => {
+  if (roleName === "officer") {
+    await grantOfficerRole(userId);
+  }
 };
