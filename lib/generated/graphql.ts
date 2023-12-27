@@ -2755,6 +2755,7 @@ export type Query = {
   filledApplications: Array<FilledApplication>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
   me: User;
+  officerEligibleProfiles: Array<Profile>;
   profile?: Maybe<Profile>;
   profiles: Array<Profile>;
   returnAllOpenApp: Array<Application>;
@@ -3369,7 +3370,6 @@ export type User = {
   resumeFilename: Scalars['String']['output'];
   roles: Array<RolesOnUser>;
   sessions: Array<Session>;
-  userProfiles: Array<Profile>;
 };
 
 
@@ -3754,7 +3754,7 @@ export type GetHomePageUserInfoQuery = { __typename?: 'Query', me: { __typename?
 export type GetAddOfficerPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAddOfficerPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', userProfiles: Array<{ __typename?: 'Profile', id: string, firstName: string, lastName: string, netid: string }>, profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } | null } | null } };
+export type GetAddOfficerPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } | null } | null }, officerEligibleProfiles: Array<{ __typename?: 'Profile', lastName: string, firstName: string, netid: string, id: string }> };
 
 export type AddUserToDivisionMutationVariables = Exact<{
   data: AddUserToDivisionInput;
@@ -4093,12 +4093,6 @@ export const GetHomePageUserInfoDocument = gql`
 export const GetAddOfficerPageDataDocument = gql`
     query getAddOfficerPageData {
   me {
-    userProfiles {
-      id
-      firstName
-      lastName
-      netid
-    }
     profile {
       officer {
         divisions {
@@ -4107,6 +4101,12 @@ export const GetAddOfficerPageDataDocument = gql`
         }
       }
     }
+  }
+  officerEligibleProfiles {
+    lastName
+    firstName
+    netid
+    id
   }
 }
     `;

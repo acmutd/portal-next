@@ -1,11 +1,5 @@
 query getAddOfficerPageData {
   me {
-    userProfiles {
-      id
-      firstName
-      lastName
-      netid
-    }
     profile {
       officer {
         divisions {
@@ -14,6 +8,12 @@ query getAddOfficerPageData {
         }
       }
     }
+  }
+  officerEligibleProfiles {
+    lastName
+    firstName
+    netid
+    id
   }
 }
 

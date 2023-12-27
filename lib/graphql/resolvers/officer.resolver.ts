@@ -1,6 +1,6 @@
-import { Officer } from "@generated/type-graphql";
+import { Officer, Profile } from "@generated/type-graphql";
 import { injectable } from "tsyringe";
-import { Arg, Mutation, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import OfficerService from "../services/officer.service";
 import { AddUserToDivisionInput } from "../schemas/Officer";
 
@@ -14,5 +14,10 @@ export default class OfficerResolver {
     ) {
         await this.officerService.addUserToDivision(data.profileId, data.divisionId);
         return "done";
+    }
+
+    @Query(() => [Profile])
+    async officerEligibleProfiles() {
+        return this.officerService.getOfficerEligibleProfiles();
     }
 } 
