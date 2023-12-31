@@ -32,6 +32,9 @@ query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: F
       major
       netid
       classStanding
+      typeformSubmissions {
+        typeformName
+      }
     }
   }
 }

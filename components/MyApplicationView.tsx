@@ -2,11 +2,12 @@ import { GetApplicationDataQuery } from "lib/generated/graphql"
 
 interface MyApplicationViewProps {
     appData: GetApplicationDataQuery["filledApplications"];
+    typeformAppData: NonNullable<GetApplicationDataQuery["me"]["profile"]>["typeformSubmissions"];
 }
 
-export default function MyApplicationView({ appData } : MyApplicationViewProps) {
+export default function MyApplicationView({ appData, typeformAppData }: MyApplicationViewProps) {
     return <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
-        {appData.map(({
+        {[...appData.map(({
             status, app: { name }
         }) => (
         <div key={name} className="flex flex-col items-end w-fit">
@@ -48,6 +49,17 @@ export default function MyApplicationView({ appData } : MyApplicationViewProps) 
                 
             </div>
         </div>
-    ))}
+        )), ...typeformAppData.map(({ typeformName }) => (
+            <div key={typeformName} className="flex flex-col items-end w-fit">
+                <div className="w-96 p-6 rounded-3xl space-y-2 flex flex-col justify-between bg-gray-200/5 outline outline-gray-100/10">
+                    <div className="w-full flex justify-between items-center gap-[20px]">
+                        <h4 className="text-[25px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+                            {typeformName}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+        ))]}
     </div>
 }

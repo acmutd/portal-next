@@ -249,3 +249,11 @@ model FilledApplication {
 
     @@map("filled_apps")
 }
+
+model TypeformSubmission {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    email String
+    typeformName String
+
+    @@map("typeform_submission")
+}

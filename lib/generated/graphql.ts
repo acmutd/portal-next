@@ -2285,6 +2285,7 @@ export type Profile = {
   resume: Scalars['Boolean']['output'];
   resumeTS?: Maybe<Scalars['DateTimeISO']['output']>;
   roles: Array<Scalars['String']['output']>;
+  typeformSubmissions: Array<TypeformSubmission>;
   user: User;
   userId: Scalars['String']['output'];
   utdStudent: Scalars['Boolean']['output'];
@@ -3354,6 +3355,13 @@ export type TypeformApplicationWhereUniqueInput = {
   typeformName?: InputMaybe<StringFilter>;
 };
 
+export type TypeformSubmission = {
+  __typename?: 'TypeformSubmission';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  typeformName: Scalars['String']['output'];
+};
+
 export type User = {
   __typename?: 'User';
   _count?: Maybe<UserCount>;
@@ -3644,7 +3652,7 @@ export type GetApplicationDataQueryVariables = Exact<{
 }>;
 
 
-export type GetApplicationDataQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
+export type GetApplicationDataQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, filledApplications: Array<{ __typename?: 'FilledApplication', status: string, app: { __typename?: 'Application', name: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string, typeformSubmissions: Array<{ __typename?: 'TypeformSubmission', typeformName: string }> } | null } };
 
 export type GetSingleApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<ApplicationWhereInput>;
@@ -3891,6 +3899,9 @@ export const GetApplicationDataDocument = gql`
       major
       netid
       classStanding
+      typeformSubmissions {
+        typeformName
+      }
     }
   }
 }
