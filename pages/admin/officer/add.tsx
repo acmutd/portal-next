@@ -21,7 +21,7 @@ export default function AddOfficerPage() {
     { enabled: status === 'authenticated' && isOfficer },
   );
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['me']['userProfiles']>([]);
+  const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['officerEligibleProfiles']>([]);
   let filteredProfiles = profiles;
   if (searchQuery !== '') {
     filteredProfiles = profiles.filter(
@@ -41,7 +41,7 @@ export default function AddOfficerPage() {
 
   useEffect(() => {
     if (isLoading) return;
-    if (data) setProfiles(data.me.userProfiles);
+    if (data) setProfiles(data.officerEligibleProfiles);
   }, [data, isLoading]);
 
   useEffect(() => {

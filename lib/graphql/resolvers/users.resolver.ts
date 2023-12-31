@@ -11,7 +11,6 @@ import ProfileService from '../services/profile.service';
 export default class AdditionalUserResolver {
   constructor(
     private userService: AdditionalUserService,
-    private profileService: ProfileService  
   ) {}
 
   @Query(() => User)
@@ -38,11 +37,5 @@ export default class AdditionalUserResolver {
   @FieldResolver(() => String)
   async resumeFilename(@Root() user: User): Promise<string> {
     return this.userService.getResumeFileName(user.id);
-  }
-
-  @FieldResolver(() => [Profile]) 
-  async userProfiles(@Root() user: User): Promise<Profile[]> {
-    if (!this.userService.checkIfUserIsOfficer(user.id)) return [];
-    return this.profileService.getAllProfiles();
   }
 }
