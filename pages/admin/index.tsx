@@ -27,17 +27,22 @@ export default function AdminToolsPage() {
     },
     {
       title: 'Create Division Application',
-      description: "Click here to create new application for your division",
-      onChosen: () => router.push('/admin/opportunities/create')
+      description: 'Click here to create new application for your division',
+      onChosen: () => router.push('/admin/opportunities/create'),
     },
     {
-      title: "Manage Typeform Application",
-      description: "Click here to manage all Typeform application",
-      onChosen: () => router.push('/admin/typeform/')
-    }
+      title: 'Manage Typeform Application',
+      description: 'Click here to manage all Typeform application',
+      onChosen: () => router.push('/admin/typeform/'),
+    },
+    {
+      title: 'Add Event',
+      description: 'Click here to create an event for your division(s)',
+      onChosen: () => router.push('/admin/opportunities'),
+    },
   ];
   if (!isOfficer) {
-    return <AdminOnlyComponent />
+    return <AdminOnlyComponent />;
   }
   return (
     <div className="p-4">
