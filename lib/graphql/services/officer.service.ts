@@ -13,9 +13,6 @@ export default class OfficerService {
         const officer = await this.prismaConnection.officer.findFirst({
             where: {
                 profileId,
-                divisionIds: {
-                    has: divisionId
-                } 
             }
         });
         if (!officer) {
@@ -25,6 +22,17 @@ export default class OfficerService {
                     profileId
                 }
             });
+        } else {
+            await this.prismaConnection.officer.update({
+                data: {
+                    divisionIds: {
+                        push: divisionId
+                    }
+                },
+                where: {
+                    profileId
+                }
+            })
         }
             
     }
