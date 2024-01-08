@@ -30,7 +30,7 @@ export default function SingleEventView({ event, isOfficer, onGoBack }: SingleEv
               href={checkInLink}
             >{`check in link: ${checkInLink}`}</Link>
 
-            <Link className="whitespace-nowrap" href={`/events/${event.id}/qrcode`}>
+            <Link className="whitespace-nowrap" href={`admin/events/${event.id}/qrcode`}>
               {'Click to view QR Code'}
             </Link>
           </>
