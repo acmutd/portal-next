@@ -40,6 +40,11 @@ export default function AdminToolsPage() {
       description: 'Click here to create an event for your division(s)',
       onChosen: () => router.push('/admin/opportunities'),
     },
+    {
+      title: "Edit Events",
+      description: "Click here to edit recent event data",
+      onChosen: () => router.push('/admin/events/edit')
+    }
   ];
   if (!isOfficer) {
     return <AdminOnlyComponent />;

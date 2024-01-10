@@ -18,6 +18,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
     createOneEvent: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onEventCreationComplete)],
     updateOneEvent: [UseMiddleware(onlyOfficerAllowed)],
     deleteOneEvent: [UseMiddleware(onlyOfficerAllowed)],
+    events: [UseMiddleware(onlyOfficerAllowed)]
   },
   TypeformApplication: {
     createOneTypeformApplication: [
