@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default function HomePage({ profileVisited }: { profileVisited: boolean }) {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession({ required: true });
   const router = useRouter();
 
   const { data, error, isLoading } = useQuery(
@@ -36,11 +36,8 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
   );
 
   useEffect(() => {
-    if (status == 'authenticated' && !profileVisited) {
+    if (status === 'authenticated' && !profileVisited) {
       router.push('/profile');
-    }
-    if (status == 'unauthenticated') {
-      router.push('/auth/signin');
     }
   }, [status]);
 
