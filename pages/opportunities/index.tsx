@@ -1,9 +1,7 @@
-import Button from 'components/Button';
 import CircularBlur from 'components/CircularBlur';
 import EmailToast from 'components/EmailToast';
 import { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
@@ -98,7 +96,10 @@ const ApplicationsPage: NextPage = () => {
         )} */}
       </header>
       {tabIndex === 0 ? (
-        <MyApplicationView typeformAppData={data!.me.profile?.typeformSubmissions || []} appData={data!.filledApplications} />
+        <MyApplicationView
+          typeformAppData={data!.me.profile?.typeformSubmissions || []}
+          appData={data!.filledApplications}
+        />
       ) : (
         <OpenApplicationsView
           applications={data!.returnAllOpenApp}

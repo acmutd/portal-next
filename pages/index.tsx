@@ -115,22 +115,26 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
       <h1 className="px-4 text-2xl text-left text-white font-semibold mb-4">attended events</h1>
       <div className="relative">
         <div className="flex flex-col items-center lg:grid lg:grid-cols-2 xl:grid-cols-3 gap-y-6">
-          {data.me?.attendedEvents.slice(0, 3).map((event) => (
-            <div key={event.summary} className="flex flex-col items-end w-fit mx-4">
-              <h3 className="font-bold text-white mr-5 mb-[5px] text-[20px]">development</h3>
-              <div className="bg-gray-200/10 outline outline-gray-100/10 w-80 h-48 p-6 rounded-3xl space-y-2 flex flex-col justify-between">
-                <div>
-                  <div className="w-full flex justify-between items-center gap-[20px]">
-                    <h4 className="text-[25px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
-                      {event.summary}
-                    </h4>
+          {data.me.attendedEvents[0] ? (
+            data.me.attendedEvents.slice(0, 3).map((event) => (
+              <div key={event.summary} className="flex flex-col items-end w-fit mx-4">
+                <h3 className="font-bold text-white mr-5 mb-[5px] text-[20px]">development</h3>
+                <div className="bg-gray-200/10 outline outline-gray-100/10 w-80 h-48 p-6 rounded-3xl space-y-2 flex flex-col justify-between">
+                  <div>
+                    <div className="w-full flex justify-between items-center gap-[20px]">
+                      <h4 className="text-[25px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+                        {event.summary}
+                      </h4>
+                    </div>
+                    <p className="text-white text-sm">{event.description}</p>
                   </div>
-                  <p className="text-white text-sm">{event.description}</p>
+                  <div className="text-white font-semibold relative w-fit ml-auto">Attended</div>
                 </div>
-                <div className="text-white font-semibold relative w-fit ml-auto">Attended</div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h3 className="px-4 text-xl text-left text-white mb-4">No attended events found</h3>
+          )}
         </div>
         <div className="w-fit ml-auto">
           <ACMButton
