@@ -21,7 +21,7 @@ import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export default function EventPage() {
   const { status } = useSession({ required: true });
-  const isOfficer = useContext(OfficerStatusContext);
+  const officerData = useContext(OfficerStatusContext);
   const { data, isLoading, error } = useQuery(
     ['adminEventsData'],
     () => gqlQueries.getAdminEventData({
@@ -39,7 +39,7 @@ export default function EventPage() {
     GetAdminEventDataQuery['events'][0] | null
   >(null);
 
-  if (!isOfficer) return <AdminOnlyComponent />;
+  if (!officerData.isOfficer) return <AdminOnlyComponent />;
 
   if (isLoading || status == 'loading') return <Loading />;
   if (error) {
@@ -100,7 +100,7 @@ export default function EventPage() {
     <div className="w-full text-white p-4">
       <EventHeader
         isInEditMode={true}
-        isOfficer={isOfficer}
+        isOfficer={officerData.isOfficer}
       />
       <div className="flex flex-col gap-y-5">
         <EventSection
