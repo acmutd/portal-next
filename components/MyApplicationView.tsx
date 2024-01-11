@@ -5,7 +5,7 @@ interface MyApplicationViewProps {
   typeformAppData: NonNullable<GetApplicationDataQuery['me']['profile']>['typeformSubmissions'];
 }
 export default function MyApplicationView({ appData, typeformAppData }: MyApplicationViewProps) {
-  return appData.length !== 0 && typeformAppData.length !== 0 ? (
+  return appData.length !== 0 || typeformAppData.length !== 0 ? (
     <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
       {[
         ...appData.map(({ status, app: { name } }) => (

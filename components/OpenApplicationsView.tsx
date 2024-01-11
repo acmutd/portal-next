@@ -23,7 +23,7 @@ export default function OpenApplicationsView({
   userData,
 }: OpenApplicationsViewProps) {
   console.log(applications);
-  return typeformApplications.length !== 0 && applications.length !== 0 ? (
+  return typeformApplications.length !== 0 || applications.length !== 0 ? (
     <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
       {typeformApplications.map(
         ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
