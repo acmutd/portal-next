@@ -22,7 +22,7 @@ export default function OpenApplicationsView({
   typeformApplications,
   userData,
 }: OpenApplicationsViewProps) {
-  return typeformApplications[0] ? (
+  return typeformApplications[0] && applications ? (
     <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
       {typeformApplications.map(
         ({ id, typeformName, description, typeformId, externalResourceUrl, division }) => (
@@ -84,6 +84,6 @@ export default function OpenApplicationsView({
       ))}
     </div>
   ) : (
-    <h3 className="px-4 text-xl text-left text-white font-semibold mb-4">No applications found</h3>
+    <h3 className="px-4 text-xl text-left text-white mb-4">No applications found</h3>
   );
 }

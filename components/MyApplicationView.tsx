@@ -5,7 +5,7 @@ interface MyApplicationViewProps {
   typeformAppData: NonNullable<GetApplicationDataQuery['me']['profile']>['typeformSubmissions'];
 }
 export default function MyApplicationView({ appData, typeformAppData }: MyApplicationViewProps) {
-  return appData[0] ? (
+  return appData[0] && typeformAppData[0] ? (
     <div className="w-full flex flex-col items-center lg:flex-row flex-wrap gap-[30px]">
       {[
         ...appData.map(({ status, app: { name } }) => (
@@ -66,6 +66,6 @@ export default function MyApplicationView({ appData, typeformAppData }: MyApplic
       ]}
     </div>
   ) : (
-    <h3 className="px-4 text-xl text-left text-white font-semibold mb-4">No applications found</h3>
+    <h3 className="px-4 text-xl text-left text-white mb-4">No applications found</h3>
   );
 }

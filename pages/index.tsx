@@ -133,9 +133,7 @@ export default function HomePage({ profileVisited }: { profileVisited: boolean }
               </div>
             ))
           ) : (
-            <h3 className="px-4 text-xl text-left text-white font-semibold mb-4">
-              No attended events found
-            </h3>
+            <h3 className="px-4 text-xl text-left text-white mb-4">No attended events found</h3>
           )}
         </div>
         <div className="w-fit ml-auto">
