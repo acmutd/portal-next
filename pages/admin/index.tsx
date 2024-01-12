@@ -16,24 +16,24 @@ export default function AdminToolsPage() {
       onChosen: () => router.push('/admin/vanity'),
       directorOnly: false
     },
-    {
-      title: 'Manage Division Application',
-      description: "Click here to manage your division(s)' applications.",
-      onChosen: () => router.push('/admin/opportunities'),
-      directorOnly: true
-    },
+    // {
+    //   title: 'Manage Division Application',
+    //   description: "Click here to manage your division(s)' applications.",
+    //   onChosen: () => router.push('/admin/opportunities'),
+    //   directorOnly: true
+    // },
     {
       title: 'Add officer to division',
       description: 'Add new officer into division.',
       onChosen: () => router.push('/admin/officer/add'),
       directorOnly: true
     },
-    {
-      title: 'Create Division Application',
-      description: 'Click here to create new application for your division',
-      onChosen: () => router.push('/admin/opportunities/create'),
-      directorOnly: true
-    },
+    // {
+    //   title: 'Create Division Application',
+    //   description: 'Click here to create new application for your division',
+    //   onChosen: () => router.push('/admin/opportunities/create'),
+    //   directorOnly: true
+    // },
     {
       title: 'Manage Typeform Application',
       description: 'Click here to manage all Typeform application',
