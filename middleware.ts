@@ -11,7 +11,7 @@ export default async function middleware(req: NextRequest) {
       origin: [
         'http://localhost:4200',
         'https://studio.apollographql.com',
-        'https://next.portal.acmutd.co',
+        'https://portal.acmutd.co'
       ],
       credentials: true,
       allowedHeaders: [
