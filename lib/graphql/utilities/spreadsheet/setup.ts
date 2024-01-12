@@ -1,6 +1,6 @@
-import { google } from "googleapis";
+import { google, sheets_v4 } from "googleapis";
 
-const spreadsheetId = process.env.GOOGLE_SHEET_SHEET_ID;
+const spreadsheetId = process.env.BUDGET_SHEET_ID;
 
 const auth = new google.auth.GoogleAuth({
     credentials: {
@@ -10,23 +10,23 @@ const auth = new google.auth.GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
-export async function readData(range: string): Promise<string[][]> {
+export async function readData(ranges: string[]): Promise<sheets_v4.Schema$ValueRange[] | undefined> {
     const sheets = google.sheets({ version: 'v4', auth });
 
     try {
-        const response = await sheets.spreadsheets.values.get({
+        const response = await sheets.spreadsheets.values.batchGet({
             spreadsheetId,
-            range,
+            ranges,
+            majorDimension: "ROWS"
+            
         });
         
-        return response.data.values ?? [];
-
+        return response.data.valueRanges
+        
     } catch (e) {
         console.log(e)
         throw e
         
     }
-
-    
   }
 
