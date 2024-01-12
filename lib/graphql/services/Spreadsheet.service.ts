@@ -1,5 +1,5 @@
 import { singleton } from "tsyringe";
-import { readData } from "../utilities/spreadsheet/setup";
+import { readSpreadsheet } from "../utilities/spreadsheet/setup";
 import { SpreadsheetOverviewRevenueType, SpreadsheetOverviewDivisionsType } from "../schemas/Spreadsheet";
 import { isEqual } from "lodash";
 
@@ -8,7 +8,7 @@ export default class SpreadsheetService {
 
     async getSpreadsheetOverviewRevenueData() : Promise<SpreadsheetOverviewRevenueType[]> {
 
-        const revenueData = await readData( ["Overview!B2:B", "Overview!D2:D", "Overview!F2:F" ] ); 
+        const revenueData = await readSpreadsheet( ["Overview!B2:B", "Overview!D2:D", "Overview!F2:F" ] ); 
 
         const sheetArr:SpreadsheetOverviewRevenueType[] = []
 
@@ -34,14 +34,15 @@ export default class SpreadsheetService {
 
     async getSpreadsheetOverviewDivisionData(): Promise<SpreadsheetOverviewDivisionsType[]> {
         
-        const revenueData = await readData( [ "Overview!B2:B", "Overview!C2:C",
-                                              "Overview!D2:D", "Overview!E2:E", "Overview!F2:F" ] );
+        const revenueData = await readSpreadsheet( [ "Overview!B2:B", "Overview!C2:C",
+                                                     "Overview!D2:D", "Overview!E2:E", "Overview!F2:F" ] );
                                                 
         const sheetArr:SpreadsheetOverviewDivisionsType[] = []
 
         
-        // Find the index of the beginning of the division section 
-        let i = 1 + ( revenueData?.at(0)?.values?.findIndex( obj => isEqual( obj, ['Sub Category'] ) )  ?? -1 )  
+        // Find the index of the beginning of the division section in the Spreadsheet
+        let i = 1 + ( revenueData?.at(0)?.values?.findIndex( obj => isEqual( obj, ['Sub Category'] ) )  
+                      ?? -1 )  
             
         //Loop through the spreadsheet and stop at next section 
         while ( ! isEqual( revenueData?.at(0)?.values?.at(i),  ['Events'] ) ) {
@@ -50,8 +51,8 @@ export default class SpreadsheetService {
 
                 const sheetObject = new SpreadsheetOverviewDivisionsType(); 
 
-                sheetObject.divisionsName     = revenueData?.at(0)?.values?.at(i)?.toString() 
-                // Convert to string to remove unexpected character and symbols - only want digits
+                sheetObject.divisionsName     = revenueData?.at(0)?.values?.at(i)?.toString() || ''
+                // Convert to string to remove unexpected character and symbols and convert to a number - only want digits
                 sheetObject.estimatedBudget   = Number ( revenueData?.at(1)?.values?.at(i)?.toString().replace(/[^\d.]/g, '') ) 
                 sheetObject.actualBudget      = Number ( revenueData?.at(2)?.values?.at(i)?.toString().replace(/[^\d.]/g, '') ) 
 

@@ -37,7 +37,7 @@ export class SpreadsheetOverviewRevenueType {
 @ObjectType()
 export class SpreadsheetOverviewDivisionsType { 
     @Field()
-    public divisionsName ?: string;
+    public divisionsName !: string;
     @Field( () => Float)
     public estimatedBudget !: number;
     @Field( () => Float )

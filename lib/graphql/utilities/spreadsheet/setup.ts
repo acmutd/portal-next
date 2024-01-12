@@ -10,7 +10,7 @@ const auth = new google.auth.GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
-export async function readData(ranges: string[]): Promise<sheets_v4.Schema$ValueRange[] | undefined> {
+export async function readSpreadsheet(ranges: string[]): Promise<sheets_v4.Schema$ValueRange[] | undefined> {
     const sheets = google.sheets({ version: 'v4', auth });
 
     try {
