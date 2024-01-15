@@ -69,7 +69,7 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
     await Promise.all([
       sendEventCreationEmail(
         {
-          checkin_link: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
+          checkin_link: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
           first_name: profile!.firstName,
           date: createdEvent.start.toDateString(),
           last_name: profile!.lastName,
@@ -83,7 +83,7 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
         email: profile!.email,
         name: `${profile!.firstName} ${profile!.lastName}`,
         form_name: 'Event Check-in Generator',
-        url: `https://next.portal.acmutd.co/events/${createdEvent.id}`,
+        url: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
       })
     ]);
   }

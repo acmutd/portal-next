@@ -49,12 +49,18 @@ export default function MakeUserOfficerCard({ firstName, lastName, netid, profil
                 ))}
                 <Button onClick={async() => {
                     await Promise.all(divisions.map(async (division, index) => {
-                        if (divisionStatus[index]) await gqlQueries.addUserToDivision({
-                            data: {
-                                divisionId: division.id,
-                                profileId
-                            }
-                        })
+                      if (divisionStatus[index]) await gqlQueries.addUserToDivision({
+                        data: {
+                          divisions: {
+                            connect: [{
+                              id: division.id
+                            }]
+                          }
+                        },
+                        where: {
+                          profileId
+                        }
+                      })
                     }));
                     alert("Successfully added user to checked division(s)");
                     setDivisionStatus((prev) => prev.map(() => false));

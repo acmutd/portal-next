@@ -17,6 +17,16 @@ query getAddOfficerPageData {
   }
 }
 
-mutation addUserToDivision($data: AddUserToDivisionInput!) {
-  addUserToDivision(data: $data)
+mutation addUserToDivision($data: OfficerUpdateInput!, $where: OfficerWhereUniqueInput!) {
+  updateOneOfficer(data: $data, where: $where) {
+    profile {
+      firstName
+      lastName
+      officer {
+        divisions {
+          deptName
+        }
+      }
+    }
+  }
 }

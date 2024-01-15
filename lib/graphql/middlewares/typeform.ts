@@ -26,7 +26,7 @@ export const addTypeformWebhook: MiddlewareFn<TContext> = async ({ args }, next)
   try {
     const baseUrl =
       process.env.NODE_ENV !== 'development'
-        ? 'https://next.portal.acmutd.co'
+        ? 'https://portal.acmutd.co'
         : 'http://jaeykhsdbn.loclx.io';
     const { status, data } = await axios.put(
       `https://api.typeform.com/forms/${args.data.typeformId}/webhooks/portalv2`,

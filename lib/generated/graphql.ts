@@ -1769,6 +1769,7 @@ export type Mutation = {
   updateOneEvent?: Maybe<Event>;
   updateOneEventReservation?: Maybe<EventReservation>;
   updateOneFilledApplication?: Maybe<FilledApplication>;
+  updateOneOfficer?: Maybe<Officer>;
   updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   updateOneVanityLink?: Maybe<VanityLink>;
@@ -1886,6 +1887,12 @@ export type MutationUpdateOneEventReservationArgs = {
 export type MutationUpdateOneFilledApplicationArgs = {
   data: FilledApplicationUpdateInput;
   where: FilledApplicationWhereUniqueInput;
+};
+
+
+export type MutationUpdateOneOfficerArgs = {
+  data: OfficerUpdateInput;
+  where: OfficerWhereUniqueInput;
 };
 
 
@@ -2146,6 +2153,13 @@ export type OfficerScalarWhereInput = {
   dummy?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<StringFilter>;
   profileId?: InputMaybe<StringFilter>;
+};
+
+export type OfficerUpdateInput = {
+  director?: InputMaybe<DirectorUpdateOneWithoutOfficerNestedInput>;
+  divisions?: InputMaybe<DivisionUpdateManyWithoutOfficersNestedInput>;
+  dummy?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutOfficerNestedInput>;
 };
 
 export type OfficerUpdateManyMutationInput = {
@@ -3773,11 +3787,12 @@ export type GetAddOfficerPageDataQueryVariables = Exact<{ [key: string]: never; 
 export type GetAddOfficerPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } | null } | null }, officerEligibleProfiles: Array<{ __typename?: 'Profile', lastName: string, firstName: string, netid: string, id: string }> };
 
 export type AddUserToDivisionMutationVariables = Exact<{
-  data: AddUserToDivisionInput;
+  data: OfficerUpdateInput;
+  where: OfficerWhereUniqueInput;
 }>;
 
 
-export type AddUserToDivisionMutation = { __typename?: 'Mutation', addUserToDivision: string };
+export type AddUserToDivisionMutation = { __typename?: 'Mutation', updateOneOfficer?: { __typename?: 'Officer', profile: { __typename?: 'Profile', firstName: string, lastName: string, officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } } | null };
 
 export type UpsertProfileMutationVariables = Exact<{
   where: ProfileWhereUniqueInput;
@@ -4145,8 +4160,18 @@ export const GetAddOfficerPageDataDocument = gql`
 }
     `;
 export const AddUserToDivisionDocument = gql`
-    mutation addUserToDivision($data: AddUserToDivisionInput!) {
-  addUserToDivision(data: $data)
+    mutation addUserToDivision($data: OfficerUpdateInput!, $where: OfficerWhereUniqueInput!) {
+  updateOneOfficer(data: $data, where: $where) {
+    profile {
+      firstName
+      lastName
+      officer {
+        divisions {
+          deptName
+        }
+      }
+    }
+  }
 }
     `;
 export const UpsertProfileDocument = gql`

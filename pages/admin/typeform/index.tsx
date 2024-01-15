@@ -20,13 +20,7 @@ const ApplicationsEditPage: NextPage = () => {
   const { data, isLoading, error } = useQuery(
     ['editAppData'],
     () =>
-      gqlQueries.getEditViewApplicationList({
-        where: {
-          active: {
-            equals: true,
-          },
-        },
-      }),
+      gqlQueries.getEditViewApplicationList(),
     {
       enabled: status === 'authenticated',
     },
