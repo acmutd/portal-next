@@ -207,6 +207,7 @@ model Director {
 
     officerId String @unique @db.ObjectId
     officer Officer? @relation(fields: [officerId], references: [id] )
+ 
 
     divisionIds String[] @db.ObjectId
     divisions   Division[] @relation( fields: [divisionIds], references: [id] )
