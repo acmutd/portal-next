@@ -26,7 +26,6 @@ function createSpreadsheetObject( obj: (string | undefined)[], propertyNames: st
         } 
 
     }
-    console.log(spreadSheetObject)
     return spreadSheetObject
 }
 
