@@ -2,8 +2,6 @@ import { singleton } from "tsyringe";
 import {  zip } from "lodash";
 import {sheets_v4} from 'googleapis'
 
-import "reflect-metadata"
-
 function createSpreadsheetObject( obj: any, propertyNames: string[][] ) {
 
     const spreadSheetObject:{ [ key:string ] : any } = {}; 
@@ -43,7 +41,7 @@ export default class SpreadsheetService {
         }
         
         const zippedSheetDataArray = zip(  ...googleSheetRowData.slice(0, sheetData.length ) )   
-        
+
         return zippedSheetDataArray.map( entry => createSpreadsheetObject( entry, propertyNames ))
     }
 }
