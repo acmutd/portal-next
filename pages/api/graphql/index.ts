@@ -15,7 +15,7 @@ import AdditionalCRUDEventResolver from 'lib/graphql/resolvers/AdditionalCRUDEve
 import { resolversEnhanceMap } from 'lib/graphql/typegraphql-prisma/enhancer';
 
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
-import spreadsheetResolver from 'lib/graphql/resolvers/spreadsheet.resolver';
+import SpreadsheetResolver from "lib/graphql/resolvers/Spreadsheet.resolver";
 
 import { exposedResolvers } from '../../../lib/graphql/typegraphql-prisma/exposedResolvers';
 import OldEventResolver from 'lib/graphql/resolvers/OldEvent.resolver';
@@ -40,7 +40,7 @@ const schema = buildSchemaSync({
     AdditionalUserResolver,
     OldEventResolver,
     OfficerResolver,
-    spreadsheetResolver
+    SpreadsheetResolver
   ],
   container: {
     get: (someClass) => container.resolve(someClass),

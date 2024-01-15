@@ -2,14 +2,18 @@ import { singleton } from "tsyringe";
 import {  zip } from "lodash";
 import {sheets_v4} from 'googleapis'
 
-function createSpreadsheetObject( obj: any, propertyNames: string[][] ) {
+function createSpreadsheetObject( obj: (string | undefined)[], propertyNames: string[][] ) {
 
     const spreadSheetObject:{ [ key:string ] : any } = {}; 
     
     for ( let i = 0; i < propertyNames.length; i++ ) {
         
         if ( !obj[i] ){ 
-            spreadSheetObject[propertyNames[i][0]] = "";
+            if( propertyNames[i][1] == 'float') {
+                spreadSheetObject[propertyNames[i][0]] = null;
+            } else {
+                spreadSheetObject[propertyNames[i][0]] = "";
+            }
             continue; 
         }
 
@@ -18,11 +22,11 @@ function createSpreadsheetObject( obj: any, propertyNames: string[][] ) {
         } 
         else 
         {
-            spreadSheetObject[ propertyNames[i][0]] = obj[i].replace(/[^\d.]/g, '') 
+            spreadSheetObject[ propertyNames[i][0]] = obj[i]!.replace(/[^\d.]/g, '') 
         } 
 
     }
-
+    console.log(spreadSheetObject)
     return spreadSheetObject
 }
 
@@ -41,7 +45,7 @@ export default class SpreadsheetService {
         }
         
         const zippedSheetDataArray = zip(  ...googleSheetRowData.slice(0, sheetData.length ) )   
-
+        
         return zippedSheetDataArray.map( entry => createSpreadsheetObject( entry, propertyNames ))
     }
 }
