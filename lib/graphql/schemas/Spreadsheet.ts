@@ -42,8 +42,8 @@ export class SpreadsheetOverviewDivisionsType {
     public estimatedBudget !: number;
     @Field( () => Float )
     public actualBudget !: number;
-    @Field( () => Float  )
-    public difference !: number;
+    @Field( () => Float, {nullable: true}  )
+    public difference ?: number;
     @Field()
     public notes ?: string;
 }

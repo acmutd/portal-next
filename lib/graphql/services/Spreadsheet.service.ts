@@ -1,70 +1,49 @@
 import { singleton } from "tsyringe";
-import { readSpreadsheet } from "../utilities/spreadsheet/setup";
-import { SpreadsheetOverviewRevenueType, SpreadsheetOverviewDivisionsType } from "../schemas/Spreadsheet";
-import { isEqual } from "lodash";
+import {  zip } from "lodash";
+import {sheets_v4} from 'googleapis'
+
+import "reflect-metadata"
+
+function createSpreadsheetObject( obj: any, propertyNames: string[][] ) {
+
+    const spreadSheetObject:{ [ key:string ] : any } = {}; 
+    
+    for ( let i = 0; i < propertyNames.length; i++ ) {
+        
+        if ( !obj[i] ){ 
+            spreadSheetObject[propertyNames[i][0]] = "";
+            continue; 
+        }
+
+        if ( propertyNames[i][1] == 'string') {
+            spreadSheetObject[ propertyNames[i][0] ] = obj[i];
+        } 
+        else 
+        {
+            spreadSheetObject[ propertyNames[i][0]] = obj[i].replace(/[^\d.]/g, '') 
+        } 
+
+    }
+
+    return spreadSheetObject
+}
+
 
 @singleton()
 export default class SpreadsheetService { 
 
-    async getSpreadsheetOverviewRevenueData() : Promise<SpreadsheetOverviewRevenueType[]> {
-
-        const revenueData = await readSpreadsheet( ["Overview!B2:B", "Overview!D2:D", "Overview!F2:F" ] ); 
-
-        const sheetArr:SpreadsheetOverviewRevenueType[] = []
-
-        let i = 0;
-        // Loop through the spreadsheet and stop at Sub Category 
-        while ( ! isEqual( revenueData?.at(0)?.values?.at(i),  ['Sub Category'] ) ) {
-            // Ignore the column with no data
-            if ( ! isEqual ( revenueData?.at(0)?.values?.at(i), [])) {
-
-                const sheetObject = new SpreadsheetOverviewRevenueType(); 
-                
-                sheetObject.itemName     = revenueData?.at(0)?.values?.at(i)?.toString() || ''
-                sheetObject.budgetAmount = Number ( revenueData?.at(1)?.values?.at(i)?.toString().replace(/[^\d.]/g, '') ) 
-                sheetObject.notes        = revenueData?.at(2)?.values?.at(i)?.toString()
-
-                sheetArr.push( sheetObject )
-            }
-            i = i + 1
-        }
-
-        return sheetArr
-    }
-
-    async getSpreadsheetOverviewDivisionData(): Promise<SpreadsheetOverviewDivisionsType[]> {
+    async getSheetData(sheetData: sheets_v4.Schema$ValueRange [], startIndex : number , endIndex : number, propertyNames: string[][] ) {
         
-        const revenueData = await readSpreadsheet( [ "Overview!B2:B", "Overview!C2:C",
-                                                     "Overview!D2:D", "Overview!E2:E", "Overview!F2:F" ] );
-                                                
-        const sheetArr:SpreadsheetOverviewDivisionsType[] = []
-
-        
-        // Find the index of the beginning of the division section in the Spreadsheet
-        let i = 1 + ( revenueData?.at(0)?.values?.findIndex( obj => isEqual( obj, ['Sub Category'] ) )  
-                      ?? -1 )  
-            
-        //Loop through the spreadsheet and stop at next section 
-        while ( ! isEqual( revenueData?.at(0)?.values?.at(i),  ['Events'] ) ) {
-            // Ignore the column with no data
-            if ( ! isEqual ( revenueData?.at(0)?.values?.at(i), [] ) ) {
-
-                const sheetObject = new SpreadsheetOverviewDivisionsType(); 
-
-                sheetObject.divisionsName     = revenueData?.at(0)?.values?.at(i)?.toString() || ''
-                // Convert to string to remove unexpected character and symbols and convert to a number - only want digits
-                sheetObject.estimatedBudget   = Number ( revenueData?.at(1)?.values?.at(i)?.toString().replace(/[^\d.]/g, '') ) 
-                sheetObject.actualBudget      = Number ( revenueData?.at(2)?.values?.at(i)?.toString().replace(/[^\d.]/g, '') ) 
-
-                const calculateDifference     = sheetObject.actualBudget - sheetObject.estimatedBudget 
-                sheetObject.difference        = Number ( revenueData?.at(3)?.values?.at(i)  || ( Math.abs( calculateDifference ) ).toFixed(2) )
-
-                sheetObject.notes             = revenueData?.at(4)?.values?.at(i)?.toString()
-
-                sheetArr.push( sheetObject )
-            }
-            i = i + 1
+        // Convert the sheetData ( object of object ) into an array of string for simplicity 
+        let googleSheetRowData: string[][] = [] 
+        for ( let i = 0; i < sheetData.length; i++ ) {
+            googleSheetRowData.push(  sheetData[i].values!.map( (rowObj) => (rowObj.length === 0) ? "" : rowObj[0] as string ) )  
+            // Split the array to contain only the important information 
+            googleSheetRowData[i] = googleSheetRowData[i].splice( startIndex , endIndex )
         }
-        return sheetArr
+        
+        const zippedSheetDataArray = zip(  ...googleSheetRowData.slice(0, sheetData.length ) )   
+        
+        return zippedSheetDataArray.map( entry => createSpreadsheetObject( entry, propertyNames ))
     }
 }
