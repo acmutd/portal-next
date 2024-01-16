@@ -124,7 +124,7 @@ const Skeleton = ({ children }: any) => {
           <div className="w-full h-full">
             <div className="w-full relative">{children}</div>
             {mobile && (
-              <>
+              <div id="portal-navbar-mobile">
                 <MobileNavPlaceholder />
                 <ACMMobileNavbar>
                   {(officerStatusData?.me.isOfficer ? officerOnlyPages : navBarPages).map((page, idx) => {
@@ -139,7 +139,7 @@ const Skeleton = ({ children }: any) => {
                     );
                   })}
                 </ACMMobileNavbar>
-              </>
+              </div>
             )}
           </div>
         </div>

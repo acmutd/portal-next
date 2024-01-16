@@ -31,12 +31,12 @@ const DesktopDivBG = styled.div`
 
 export default function Navbar({ children }: React.PropsWithChildren<unknown>) {
   return (
-    <>
+    <div id="portal-navbar">
       <Placeholder />
       <DesktopDiv>
         <DesktopDivBG />
         {children}
       </DesktopDiv>
-    </>
+    </div>
   );
 }

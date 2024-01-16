@@ -2741,7 +2741,7 @@ export type ProfileWhereUniqueInput = {
   NOT?: InputMaybe<Array<ProfileWhereInput>>;
   OR?: InputMaybe<Array<ProfileWhereInput>>;
   classStanding?: InputMaybe<StringFilter>;
-  email?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<StringFilter>;
   events?: InputMaybe<EventReservationListRelationFilter>;
   fillApplications?: InputMaybe<FilledApplicationListRelationFilter>;
   firstName?: InputMaybe<StringFilter>;
@@ -3884,6 +3884,13 @@ export type GetEditViewApplicationListQueryVariables = Exact<{
 
 export type GetEditViewApplicationListQuery = { __typename?: 'Query', typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string }>, me: { __typename?: 'User', isOfficer: boolean } };
 
+export type GetUserDataForWidgetViewQueryVariables = Exact<{
+  where?: InputMaybe<TypeformApplicationWhereInput>;
+}>;
+
+
+export type GetUserDataForWidgetViewQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', email: string, firstName: string, lastName: string, major: string, netid: string, classStanding: string } | null }, findFirstTypeformApplication?: { __typename?: 'TypeformApplication', typeformId: string } | null };
+
 export type GetUserOfficerStatusDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4326,6 +4333,23 @@ export const GetEditViewApplicationListDocument = gql`
   }
 }
     `;
+export const GetUserDataForWidgetViewDocument = gql`
+    query getUserDataForWidgetView($where: TypeformApplicationWhereInput) {
+  me {
+    profile {
+      email
+      firstName
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+  findFirstTypeformApplication(where: $where) {
+    typeformId
+  }
+}
+    `;
 export const GetUserOfficerStatusDataDocument = gql`
     query getUserOfficerStatusData {
   me {
@@ -4442,6 +4466,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     getEditViewApplicationList(variables?: GetEditViewApplicationListQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetEditViewApplicationListQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetEditViewApplicationListQuery>(GetEditViewApplicationListDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getEditViewApplicationList', 'query', variables);
+    },
+    getUserDataForWidgetView(variables?: GetUserDataForWidgetViewQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetUserDataForWidgetViewQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetUserDataForWidgetViewQuery>(GetUserDataForWidgetViewDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserDataForWidgetView', 'query', variables);
     },
     getUserOfficerStatusData(variables?: GetUserOfficerStatusDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetUserOfficerStatusDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUserOfficerStatusDataQuery>(GetUserOfficerStatusDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUserOfficerStatusData', 'query', variables);
