@@ -69,6 +69,9 @@ export default function ProfileEditView({
                         ? profile?.utdStudent || false
                         : vals.utdStudent,
                   },
+                  email: {
+                    set: vals.email || profile!.email
+                  }
                 },
               })
               .catch((error) => {
