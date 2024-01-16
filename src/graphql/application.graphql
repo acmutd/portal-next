@@ -1,4 +1,4 @@
-query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
+query getApplicationData($where: TypeformApplicationWhereInput) {
   returnAllOpenApp {
     id
     name
