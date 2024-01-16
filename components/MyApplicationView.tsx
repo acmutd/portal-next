@@ -1,7 +1,8 @@
 import { GetApplicationDataQuery } from 'lib/generated/graphql';
 
 interface MyApplicationViewProps {
-  appData: GetApplicationDataQuery['filledApplications'];
+  // appData: GetApplicationDataQuery['filledApplications'];
+  appData: any[]; // TODO: change back to above type once new app system is completed
   typeformAppData: NonNullable<GetApplicationDataQuery['me']['profile']>['typeformSubmissions'];
 }
 export default function MyApplicationView({ appData, typeformAppData }: MyApplicationViewProps) {
