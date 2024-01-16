@@ -3680,7 +3680,6 @@ export type GetOfficerStatusQuery = { __typename?: 'Query', me: { __typename?: '
 
 export type GetApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
-  fillAppWhere?: InputMaybe<FilledApplicationWhereInput>;
 }>;
 
 
@@ -3907,7 +3906,7 @@ export const GetOfficerStatusDocument = gql`
 }
     `;
 export const GetApplicationDataDocument = gql`
-    query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: FilledApplicationWhereInput) {
+    query getApplicationData($where: TypeformApplicationWhereInput) {
   returnAllOpenApp {
     id
     name
