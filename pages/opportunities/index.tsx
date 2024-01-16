@@ -25,15 +25,6 @@ const ApplicationsPage: NextPage = () => {
             equals: true,
           },
         },
-        fillAppWhere: {
-          profile: {
-            is: {
-              email: {
-                equals: signedInUserData?.user?.email || '',
-              },
-            },
-          },
-        },
       }),
     {
       enabled: status === 'authenticated',
@@ -98,7 +89,7 @@ const ApplicationsPage: NextPage = () => {
       {tabIndex === 0 ? (
         <MyApplicationView
           typeformAppData={data!.me.profile?.typeformSubmissions || []}
-          appData={data!.filledApplications}
+          appData={[]}
         />
       ) : (
         <OpenApplicationsView

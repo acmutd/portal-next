@@ -8,12 +8,6 @@ query getApplicationData($where: TypeformApplicationWhereInput, $fillAppWhere: F
     externalResourceUrl
     description
   }
-  filledApplications(where: $fillAppWhere) {
-    status
-    app {
-      name
-    }
-  }
   typeformApplications(where: $where) {
     id
     active
