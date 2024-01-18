@@ -32,6 +32,7 @@ export default function OpenApplicationsView({
             description={description}
             buttons={[
               <PopupButton
+                keepSession={true}
                 id={typeformId}
                 hidden={{
                   email: userData.email,
