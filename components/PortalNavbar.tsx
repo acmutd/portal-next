@@ -17,6 +17,7 @@ const DesktopDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   row-gap: 2em;
+  top: 0;
 `;
 
 const DesktopDivBG = styled.div`
