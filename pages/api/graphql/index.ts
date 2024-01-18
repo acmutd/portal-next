@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { buildSchemaSync, GraphQLISODateTime } from 'type-graphql';
 import { container } from 'tsyringe';
@@ -52,7 +53,9 @@ const schema = buildSchemaSync({
 const apolloServer = new ApolloServer<TContext>({
   schema,
   introspection: true,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
+  plugins: [process.env.NODE_ENV === 'production'
+    ? ApolloServerPluginLandingPageDisabled()
+    : ApolloServerPluginLandingPageLocalDefault({ footer: false }),],
 });
 
 export default startServerAndCreateNextHandler(apolloServer, {
