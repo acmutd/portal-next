@@ -2,6 +2,7 @@ import { Widget } from '@typeform/embed-react'
 import ErrorComponent from 'components/ErrorComponent';
 import LoadingComponent from 'components/LoadingComponent';
 import { GraphQLError } from 'graphql';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
@@ -9,6 +10,7 @@ import { gqlQueries } from 'src/api'
 
 export default function TypeformApplicationWidgetView() {
   const router = useRouter();
+  useSession({ required: true });
   useEffect(() => {
     const navbarObj = (document.getElementById("portal-navbar") || document.getElementById("portal-navbar-mobile"))!;
     navbarObj.style.display = "none";
