@@ -49,7 +49,9 @@ export default function FillApplicationPage() {
                 data: {
                     profile: {
                         connect: {
-                            email: signedInUserData!.user!.email!
+                            email: {
+                                equals: signedInUserData!.user!.email!
+                            } 
                         }
                     },
                     app: {

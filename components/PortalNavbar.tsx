@@ -17,6 +17,7 @@ const DesktopDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   row-gap: 2em;
+  top: 0;
 `;
 
 const DesktopDivBG = styled.div`
@@ -31,12 +32,12 @@ const DesktopDivBG = styled.div`
 
 export default function Navbar({ children }: React.PropsWithChildren<unknown>) {
   return (
-    <>
+    <div id="portal-navbar">
       <Placeholder />
       <DesktopDiv>
         <DesktopDivBG />
         {children}
       </DesktopDiv>
-    </>
+    </div>
   );
 }

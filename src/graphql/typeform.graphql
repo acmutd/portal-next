@@ -82,3 +82,19 @@ query getEditViewApplicationList($where: TypeformApplicationWhereInput) {
     isOfficer
   }
 }
+
+query getUserDataForWidgetView($where: TypeformApplicationWhereInput) {
+  me {
+    profile {
+      email
+      firstName
+      lastName
+      major
+      netid
+      classStanding
+    }
+  }
+  findFirstTypeformApplication(where: $where) {
+    typeformId
+  }
+}
