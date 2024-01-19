@@ -126,12 +126,14 @@ export default function ProfileEditView({
             </div>
             <div className="w-full px-3">
               <label className="block text-gray-200 font-semibold mb-2">class standing</label>
-              <input
+              <select
                 className="appearance-none block w-full text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
-                type="text"
-                placeholder={profile?.classStanding || ''}
                 {...register('classStanding')}
-              />
+              >
+                {["freshman", "sophomore", "junior", "senior", "graduate"].map((standing) => (
+                  <option value={standing}>{standing}</option>
+                ))}
+              </select>
             </div>
             <div className="w-full px-3">
               <label className="block text-gray-200 font-semibold mb-2">major</label>
