@@ -16,7 +16,11 @@ export default function ProfileEditView({
   onErrorEncounter,
 }: ProfileEditViewProps) {
   // TODO: Handle possibility of `profile` being undefined
-  const { register, handleSubmit } = useForm<NonNullable<typeof profile>>();
+  const { register, handleSubmit } = useForm<NonNullable<typeof profile>>({
+    defaultValues: {
+      classStanding: profile?.classStanding.toLowerCase() || "freshman"
+    }
+  });
   const { data: session } = useSession();
 
   return (
