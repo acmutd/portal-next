@@ -2,6 +2,19 @@ import Chart from 'chart.js/auto';
 import { useRef, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Loading from 'components/Loading';
+import { Query, dehydrate, useQuery } from 'react-query';
+import { GetServerSideProps } from 'next';
+import { gqlQueries, queryClient } from 'src/api';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const divisionBudgetData = await queryClient.prefetchQuery('getSpreadSheetOverviewDivisionsData');
+  console.log(divisionBudgetData);
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
 
 export default function financePage() {
   const estimatedCanvas = useRef(null);
