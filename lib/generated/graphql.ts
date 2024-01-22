@@ -34,21 +34,6 @@ export type Account = {
   userId: Scalars['String']['output'];
 };
 
-export type AccountCreateInput = {
-  access_token?: InputMaybe<Scalars['String']['input']>;
-  expires_at?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<Scalars['String']['input']>;
-  provider: Scalars['String']['input'];
-  providerAccountId: Scalars['String']['input'];
-  refresh_token?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['String']['input']>;
-  session_state?: InputMaybe<Scalars['String']['input']>;
-  token_type?: InputMaybe<Scalars['String']['input']>;
-  type: Scalars['String']['input'];
-  user: UserCreateNestedOneWithoutAccountsInput;
-};
-
 export type AccountCreateManyUserInput = {
   access_token?: InputMaybe<Scalars['String']['input']>;
   expires_at?: InputMaybe<Scalars['Int']['input']>;
@@ -155,20 +140,6 @@ export type AccountScalarWhereInput = {
   token_type?: InputMaybe<StringNullableFilter>;
   type?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
-};
-
-export type AccountUpdateInput = {
-  access_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  expires_at?: InputMaybe<NullableIntFieldUpdateOperationsInput>;
-  id_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  provider?: InputMaybe<StringFieldUpdateOperationsInput>;
-  providerAccountId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  refresh_token?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  scope?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  session_state?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  token_type?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  type?: InputMaybe<StringFieldUpdateOperationsInput>;
-  user?: InputMaybe<UserUpdateOneRequiredWithoutAccountsNestedInput>;
 };
 
 export type AccountUpdateManyMutationInput = {
@@ -1112,13 +1083,6 @@ export type EventReservation = {
   status: Scalars['String']['output'];
 };
 
-export type EventReservationCreateInput = {
-  event: EventCreateNestedOneWithoutProfilesInput;
-  id?: InputMaybe<Scalars['String']['input']>;
-  profile: ProfileCreateNestedOneWithoutEventsInput;
-  status: Scalars['String']['input'];
-};
-
 export type EventReservationCreateManyEventInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   profileId: Scalars['String']['input'];
@@ -1214,12 +1178,6 @@ export type EventReservationScalarWhereInput = {
   id?: InputMaybe<StringFilter>;
   profileId?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringFilter>;
-};
-
-export type EventReservationUpdateInput = {
-  event?: InputMaybe<EventUpdateOneRequiredWithoutProfilesNestedInput>;
-  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutEventsNestedInput>;
-  status?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type EventReservationUpdateManyMutationInput = {
@@ -1751,31 +1709,18 @@ export type Mutation = {
   addUserToDivision: Scalars['String']['output'];
   checkInOldEvent: Array<EventCheckin>;
   checkinToEvent: EventCheckin;
-  createOneAccount: Account;
   createOneApplication: Application;
   createOneEvent: Event;
-  createOneEventReservation: EventReservation;
   createOneFilledApplication: FilledApplication;
-  createOneProfile: Profile;
   createOneTypeformApplication: TypeformApplication;
   createOneVanityLink: VanityLink;
-  deleteOneAccount?: Maybe<Account>;
   deleteOneEvent?: Maybe<Event>;
-  deleteOneEventReservation?: Maybe<EventReservation>;
   deleteOneTypeformApplication?: Maybe<TypeformApplication>;
-  deleteOneVanityLink?: Maybe<VanityLink>;
   transferFile: SignedUrl;
-  updateOneAccount?: Maybe<Account>;
   updateOneEvent?: Maybe<Event>;
-  updateOneEventReservation?: Maybe<EventReservation>;
   updateOneFilledApplication?: Maybe<FilledApplication>;
   updateOneOfficer?: Maybe<Officer>;
-  updateOneProfile?: Maybe<Profile>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
-  updateOneVanityLink?: Maybe<VanityLink>;
-  upsertOneAccount: Account;
-  upsertOneEvent: Event;
-  upsertOneEventReservation: EventReservation;
   upsertOneProfile: Profile;
 };
 
@@ -1796,11 +1741,6 @@ export type MutationCheckinToEventArgs = {
 };
 
 
-export type MutationCreateOneAccountArgs = {
-  data: AccountCreateInput;
-};
-
-
 export type MutationCreateOneApplicationArgs = {
   data: ApplicationCreateInput;
 };
@@ -1811,18 +1751,8 @@ export type MutationCreateOneEventArgs = {
 };
 
 
-export type MutationCreateOneEventReservationArgs = {
-  data: EventReservationCreateInput;
-};
-
-
 export type MutationCreateOneFilledApplicationArgs = {
   data: FilledApplicationCreateInput;
-};
-
-
-export type MutationCreateOneProfileArgs = {
-  data: ProfileCreateInput;
 };
 
 
@@ -1836,18 +1766,8 @@ export type MutationCreateOneVanityLinkArgs = {
 };
 
 
-export type MutationDeleteOneAccountArgs = {
-  where: AccountWhereUniqueInput;
-};
-
-
 export type MutationDeleteOneEventArgs = {
   where: EventWhereUniqueInput;
-};
-
-
-export type MutationDeleteOneEventReservationArgs = {
-  where: EventReservationWhereUniqueInput;
 };
 
 
@@ -1856,31 +1776,14 @@ export type MutationDeleteOneTypeformApplicationArgs = {
 };
 
 
-export type MutationDeleteOneVanityLinkArgs = {
-  where: VanityLinkWhereUniqueInput;
-};
-
-
 export type MutationTransferFileArgs = {
   options: SignedUrlInput;
-};
-
-
-export type MutationUpdateOneAccountArgs = {
-  data: AccountUpdateInput;
-  where: AccountWhereUniqueInput;
 };
 
 
 export type MutationUpdateOneEventArgs = {
   data: EventUpdateInput;
   where: EventWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneEventReservationArgs = {
-  data: EventReservationUpdateInput;
-  where: EventReservationWhereUniqueInput;
 };
 
 
@@ -1896,42 +1799,9 @@ export type MutationUpdateOneOfficerArgs = {
 };
 
 
-export type MutationUpdateOneProfileArgs = {
-  data: ProfileUpdateInput;
-  where: ProfileWhereUniqueInput;
-};
-
-
 export type MutationUpdateOneTypeformApplicationArgs = {
   data: TypeformApplicationUpdateInput;
   where: TypeformApplicationWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneVanityLinkArgs = {
-  data: VanityLinkUpdateInput;
-  where: VanityLinkWhereUniqueInput;
-};
-
-
-export type MutationUpsertOneAccountArgs = {
-  create: AccountCreateInput;
-  update: AccountUpdateInput;
-  where: AccountWhereUniqueInput;
-};
-
-
-export type MutationUpsertOneEventArgs = {
-  create: EventCreateInput;
-  update: EventUpdateInput;
-  where: EventWhereUniqueInput;
-};
-
-
-export type MutationUpsertOneEventReservationArgs = {
-  create: EventReservationCreateInput;
-  update: EventReservationUpdateInput;
-  where: EventReservationWhereUniqueInput;
 };
 
 
@@ -2384,12 +2254,6 @@ export type ProfileCreateNestedOneWithoutOfficerInput = {
   create?: InputMaybe<ProfileCreateWithoutOfficerInput>;
 };
 
-export type ProfileCreateNestedOneWithoutUserInput = {
-  connect?: InputMaybe<ProfileWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
-  create?: InputMaybe<ProfileCreateWithoutUserInput>;
-};
-
 export type ProfileCreateOrConnectWithoutEventsInput = {
   create: ProfileCreateWithoutEventsInput;
   where: ProfileWhereUniqueInput;
@@ -2402,11 +2266,6 @@ export type ProfileCreateOrConnectWithoutFillApplicationsInput = {
 
 export type ProfileCreateOrConnectWithoutOfficerInput = {
   create: ProfileCreateWithoutOfficerInput;
-  where: ProfileWhereUniqueInput;
-};
-
-export type ProfileCreateOrConnectWithoutUserInput = {
-  create: ProfileCreateWithoutUserInput;
   where: ProfileWhereUniqueInput;
 };
 
@@ -2467,25 +2326,6 @@ export type ProfileCreateWithoutOfficerInput = {
   utdStudent: Scalars['Boolean']['input'];
 };
 
-export type ProfileCreateWithoutUserInput = {
-  classStanding: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  events?: InputMaybe<EventReservationCreateNestedManyWithoutProfileInput>;
-  fillApplications?: InputMaybe<FilledApplicationCreateNestedManyWithoutProfileInput>;
-  firstName: Scalars['String']['input'];
-  id?: InputMaybe<Scalars['String']['input']>;
-  lastName: Scalars['String']['input'];
-  major: Scalars['String']['input'];
-  membershipStatus: Scalars['Boolean']['input'];
-  membershipTS?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  netid: Scalars['String']['input'];
-  officer?: InputMaybe<OfficerCreateNestedOneWithoutProfileInput>;
-  resume: Scalars['Boolean']['input'];
-  resumeTS?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  roles?: InputMaybe<ProfileCreaterolesInput>;
-  utdStudent: Scalars['Boolean']['input'];
-};
-
 export type ProfileCreaterolesInput = {
   set: Array<Scalars['String']['input']>;
 };
@@ -2520,23 +2360,6 @@ export type ProfileRelationFilter = {
   is?: InputMaybe<ProfileWhereInput>;
   isNot?: InputMaybe<ProfileWhereInput>;
 };
-
-export enum ProfileScalarFieldEnum {
-  ClassStanding = 'classStanding',
-  Email = 'email',
-  FirstName = 'firstName',
-  Id = 'id',
-  LastName = 'lastName',
-  Major = 'major',
-  MembershipStatus = 'membershipStatus',
-  MembershipTs = 'membershipTS',
-  Netid = 'netid',
-  Resume = 'resume',
-  ResumeTs = 'resumeTS',
-  Roles = 'roles',
-  UserId = 'userId',
-  UtdStudent = 'utdStudent'
-}
 
 export type ProfileUpdateInput = {
   classStanding?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -2581,16 +2404,6 @@ export type ProfileUpdateOneRequiredWithoutOfficerNestedInput = {
   upsert?: InputMaybe<ProfileUpsertWithoutOfficerInput>;
 };
 
-export type ProfileUpdateOneWithoutUserNestedInput = {
-  connect?: InputMaybe<ProfileWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
-  create?: InputMaybe<ProfileCreateWithoutUserInput>;
-  delete?: InputMaybe<ProfileWhereInput>;
-  disconnect?: InputMaybe<ProfileWhereInput>;
-  update?: InputMaybe<ProfileUpdateToOneWithWhereWithoutUserInput>;
-  upsert?: InputMaybe<ProfileUpsertWithoutUserInput>;
-};
-
 export type ProfileUpdateToOneWithWhereWithoutEventsInput = {
   data: ProfileUpdateWithoutEventsInput;
   where?: InputMaybe<ProfileWhereInput>;
@@ -2603,11 +2416,6 @@ export type ProfileUpdateToOneWithWhereWithoutFillApplicationsInput = {
 
 export type ProfileUpdateToOneWithWhereWithoutOfficerInput = {
   data: ProfileUpdateWithoutOfficerInput;
-  where?: InputMaybe<ProfileWhereInput>;
-};
-
-export type ProfileUpdateToOneWithWhereWithoutUserInput = {
-  data: ProfileUpdateWithoutUserInput;
   where?: InputMaybe<ProfileWhereInput>;
 };
 
@@ -2665,24 +2473,6 @@ export type ProfileUpdateWithoutOfficerInput = {
   utdStudent?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
-export type ProfileUpdateWithoutUserInput = {
-  classStanding?: InputMaybe<StringFieldUpdateOperationsInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  events?: InputMaybe<EventReservationUpdateManyWithoutProfileNestedInput>;
-  fillApplications?: InputMaybe<FilledApplicationUpdateManyWithoutProfileNestedInput>;
-  firstName?: InputMaybe<StringFieldUpdateOperationsInput>;
-  lastName?: InputMaybe<StringFieldUpdateOperationsInput>;
-  major?: InputMaybe<StringFieldUpdateOperationsInput>;
-  membershipStatus?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  membershipTS?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  netid?: InputMaybe<StringFieldUpdateOperationsInput>;
-  officer?: InputMaybe<OfficerUpdateOneWithoutProfileNestedInput>;
-  resume?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  resumeTS?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  roles?: InputMaybe<ProfileUpdaterolesInput>;
-  utdStudent?: InputMaybe<BoolFieldUpdateOperationsInput>;
-};
-
 export type ProfileUpdaterolesInput = {
   push?: InputMaybe<Array<Scalars['String']['input']>>;
   set?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -2703,12 +2493,6 @@ export type ProfileUpsertWithoutFillApplicationsInput = {
 export type ProfileUpsertWithoutOfficerInput = {
   create: ProfileCreateWithoutOfficerInput;
   update: ProfileUpdateWithoutOfficerInput;
-  where?: InputMaybe<ProfileWhereInput>;
-};
-
-export type ProfileUpsertWithoutUserInput = {
-  create: ProfileCreateWithoutUserInput;
-  update: ProfileUpdateWithoutUserInput;
   where?: InputMaybe<ProfileWhereInput>;
 };
 
@@ -2765,7 +2549,6 @@ export type Query = {
   application?: Maybe<Application>;
   applications: Array<Application>;
   divisions: Array<Division>;
-  eventReservations: Array<EventReservation>;
   events: Array<Event>;
   filledApplications: Array<FilledApplication>;
   findFirstTypeformApplication?: Maybe<TypeformApplication>;
@@ -2774,11 +2557,9 @@ export type Query = {
   me: User;
   officerEligibleProfiles: Array<Profile>;
   profile?: Maybe<Profile>;
-  profiles: Array<Profile>;
   returnAllOpenApp: Array<Application>;
   typeformApplications: Array<TypeformApplication>;
   upcomingEvents: Array<Event>;
-  vanityLinks: Array<VanityLink>;
 };
 
 
@@ -2804,16 +2585,6 @@ export type QueryDivisionsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<DivisionWhereInput>;
-};
-
-
-export type QueryEventReservationsArgs = {
-  cursor?: InputMaybe<EventReservationWhereUniqueInput>;
-  distinct?: InputMaybe<Array<EventReservationScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<EventReservationOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<EventReservationWhereInput>;
 };
 
 
@@ -2852,16 +2623,6 @@ export type QueryProfileArgs = {
 };
 
 
-export type QueryProfilesArgs = {
-  cursor?: InputMaybe<ProfileWhereUniqueInput>;
-  distinct?: InputMaybe<Array<ProfileScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<ProfileOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<ProfileWhereInput>;
-};
-
-
 export type QueryTypeformApplicationsArgs = {
   cursor?: InputMaybe<TypeformApplicationWhereUniqueInput>;
   distinct?: InputMaybe<Array<TypeformApplicationScalarFieldEnum>>;
@@ -2869,16 +2630,6 @@ export type QueryTypeformApplicationsArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<TypeformApplicationWhereInput>;
-};
-
-
-export type QueryVanityLinksArgs = {
-  cursor?: InputMaybe<VanityLinkWhereUniqueInput>;
-  distinct?: InputMaybe<Array<VanityLinkScalarFieldEnum>>;
-  orderBy?: InputMaybe<Array<VanityLinkOrderByWithRelationInput>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<VanityLinkWhereInput>;
 };
 
 export enum QueryMode {
@@ -3469,37 +3220,15 @@ export type UserCountSessionsArgs = {
   where?: InputMaybe<SessionWhereInput>;
 };
 
-export type UserCreateNestedOneWithoutAccountsInput = {
-  connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAccountsInput>;
-  create?: InputMaybe<UserCreateWithoutAccountsInput>;
-};
-
 export type UserCreateNestedOneWithoutProfileInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProfileInput>;
   create?: InputMaybe<UserCreateWithoutProfileInput>;
 };
 
-export type UserCreateOrConnectWithoutAccountsInput = {
-  create: UserCreateWithoutAccountsInput;
-  where: UserWhereUniqueInput;
-};
-
 export type UserCreateOrConnectWithoutProfileInput = {
   create: UserCreateWithoutProfileInput;
   where: UserWhereUniqueInput;
-};
-
-export type UserCreateWithoutAccountsInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
-  emailVerified?: InputMaybe<Scalars['DateTimeISO']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
-  roles?: InputMaybe<RolesOnUserCreateNestedManyWithoutUserInput>;
-  sessions?: InputMaybe<SessionCreateNestedManyWithoutUserInput>;
 };
 
 export type UserCreateWithoutProfileInput = {
@@ -3530,14 +3259,6 @@ export type UserRelationFilter = {
   isNot?: InputMaybe<UserWhereInput>;
 };
 
-export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
-  connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAccountsInput>;
-  create?: InputMaybe<UserCreateWithoutAccountsInput>;
-  update?: InputMaybe<UserUpdateToOneWithWhereWithoutAccountsInput>;
-  upsert?: InputMaybe<UserUpsertWithoutAccountsInput>;
-};
-
 export type UserUpdateOneRequiredWithoutProfileNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProfileInput>;
@@ -3546,24 +3267,9 @@ export type UserUpdateOneRequiredWithoutProfileNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutProfileInput>;
 };
 
-export type UserUpdateToOneWithWhereWithoutAccountsInput = {
-  data: UserUpdateWithoutAccountsInput;
-  where?: InputMaybe<UserWhereInput>;
-};
-
 export type UserUpdateToOneWithWhereWithoutProfileInput = {
   data: UserUpdateWithoutProfileInput;
   where?: InputMaybe<UserWhereInput>;
-};
-
-export type UserUpdateWithoutAccountsInput = {
-  email?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  emailVerified?: InputMaybe<NullableDateTimeFieldUpdateOperationsInput>;
-  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
-  roles?: InputMaybe<RolesOnUserUpdateManyWithoutUserNestedInput>;
-  sessions?: InputMaybe<SessionUpdateManyWithoutUserNestedInput>;
 };
 
 export type UserUpdateWithoutProfileInput = {
@@ -3574,12 +3280,6 @@ export type UserUpdateWithoutProfileInput = {
   name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   roles?: InputMaybe<RolesOnUserUpdateManyWithoutUserNestedInput>;
   sessions?: InputMaybe<SessionUpdateManyWithoutUserNestedInput>;
-};
-
-export type UserUpsertWithoutAccountsInput = {
-  create: UserCreateWithoutAccountsInput;
-  update: UserUpdateWithoutAccountsInput;
-  where?: InputMaybe<UserWhereInput>;
 };
 
 export type UserUpsertWithoutProfileInput = {
@@ -3631,46 +3331,6 @@ export type VanityLinkCreateInput = {
   originalUrl: Scalars['String']['input'];
   slashtag: Scalars['String']['input'];
   vanityDomain: Scalars['String']['input'];
-};
-
-export type VanityLinkOrderByWithRelationInput = {
-  id?: InputMaybe<SortOrder>;
-  originalUrl?: InputMaybe<SortOrder>;
-  slashtag?: InputMaybe<SortOrder>;
-  vanityDomain?: InputMaybe<SortOrder>;
-};
-
-export enum VanityLinkScalarFieldEnum {
-  Id = 'id',
-  OriginalUrl = 'originalUrl',
-  Slashtag = 'slashtag',
-  VanityDomain = 'vanityDomain'
-}
-
-export type VanityLinkUpdateInput = {
-  originalUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
-  slashtag?: InputMaybe<StringFieldUpdateOperationsInput>;
-  vanityDomain?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type VanityLinkWhereInput = {
-  AND?: InputMaybe<Array<VanityLinkWhereInput>>;
-  NOT?: InputMaybe<Array<VanityLinkWhereInput>>;
-  OR?: InputMaybe<Array<VanityLinkWhereInput>>;
-  id?: InputMaybe<StringFilter>;
-  originalUrl?: InputMaybe<StringFilter>;
-  slashtag?: InputMaybe<StringFilter>;
-  vanityDomain?: InputMaybe<StringFilter>;
-};
-
-export type VanityLinkWhereUniqueInput = {
-  AND?: InputMaybe<Array<VanityLinkWhereInput>>;
-  NOT?: InputMaybe<Array<VanityLinkWhereInput>>;
-  OR?: InputMaybe<Array<VanityLinkWhereInput>>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  originalUrl?: InputMaybe<StringFilter>;
-  slashtag?: InputMaybe<StringFilter>;
-  vanityDomain?: InputMaybe<StringFilter>;
 };
 
 export type GetOfficerStatusQueryVariables = Exact<{ [key: string]: never; }>;
