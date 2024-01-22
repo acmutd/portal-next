@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 export default function AddEventCard() {
   const router = useRouter();
   return (
-    <ACMCard height={150} width={300} onClick={() => router.push('/events/add')}>
+    <ACMCard height={150} width={300} onClick={() => router.push('/admin/events/add')}>
       <h1 className="text-2xl my-auto mx-auto">add new</h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"
