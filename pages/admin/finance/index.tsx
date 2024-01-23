@@ -30,6 +30,9 @@ export default function financePage() {
     }
 
     if (estimatedCtx !== null) {
+      if (Chart.getChart(estimatedCtx)) {
+        Chart.getChart(estimatedCtx)?.destroy();
+      }
       const chart = new Chart(estimatedCtx, {
         type: 'pie',
         data: {
@@ -77,6 +80,9 @@ export default function financePage() {
       });
     }
     if (actualCtx !== null) {
+      if (Chart.getChart(actualCtx)) {
+        Chart.getChart(actualCtx)?.destroy();
+      }
       const chart = new Chart(actualCtx, {
         type: 'pie',
         data: {
