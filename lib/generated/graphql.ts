@@ -3451,6 +3451,11 @@ export type FindFilledApplicationsQueryVariables = Exact<{
 
 export type FindFilledApplicationsQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean }, application?: { __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, questions: Array<string>, divisionId: string, division: { __typename?: 'Division', id: string, deptName: string }, fillApplications: Array<{ __typename?: 'FilledApplication', id: string, profileId: string, appId: string, responses: Array<string>, status: string, first: string, notes?: string | null, second: string, third: string, score?: number | null, interviewLink?: string | null, profile: { __typename?: 'Profile', id: string, firstName: string, lastName: string, netid: string, classStanding: string } }> } | null };
 
+export type GetFinanceDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFinanceDataQuery = { __typename?: 'Query', getSpreadsheetOverviewDivisionsData: Array<{ __typename?: 'SpreadsheetOverviewDivisionsType', actualBudget: number, difference?: number | null, divisionsName: string, notes: string, estimatedBudget: number }>, getSpreadsheetOverviewRevenueData: Array<{ __typename?: 'SpreadsheetOverviewRevenueType', budgetAmount: number, notes: string, itemName: string }> };
+
 export type GetHomePageUserInfoQueryVariables = Exact<{
   where: ProfileWhereUniqueInput;
 }>;
@@ -3800,6 +3805,22 @@ export const FindFilledApplicationsDocument = gql`
   }
 }
     `;
+export const GetFinanceDataDocument = gql`
+    query getFinanceData {
+  getSpreadsheetOverviewDivisionsData {
+    actualBudget
+    difference
+    divisionsName
+    notes
+    estimatedBudget
+  }
+  getSpreadsheetOverviewRevenueData {
+    budgetAmount
+    notes
+    itemName
+  }
+}
+    `;
 export const GetHomePageUserInfoDocument = gql`
     query getHomePageUserInfo($where: ProfileWhereUniqueInput!) {
   me {
@@ -4087,6 +4108,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     findFilledApplications(variables: FindFilledApplicationsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FindFilledApplicationsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindFilledApplicationsQuery>(FindFilledApplicationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findFilledApplications', 'query', variables);
+    },
+    getFinanceData(variables?: GetFinanceDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetFinanceDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetFinanceDataQuery>(GetFinanceDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getFinanceData', 'query', variables);
     },
     getHomePageUserInfo(variables: GetHomePageUserInfoQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetHomePageUserInfoQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetHomePageUserInfoQuery>(GetHomePageUserInfoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getHomePageUserInfo', 'query', variables);
