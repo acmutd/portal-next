@@ -1,24 +1,20 @@
 import Chart from 'chart.js/auto';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import Loading from 'components/Loading';
-import { Query, dehydrate, useQuery } from 'react-query';
-import { GetServerSideProps } from 'next';
-import { gqlQueries, queryClient } from 'src/api';
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await queryClient.prefetchQuery(['getFinanceData'], () => gqlQueries.getFinanceData());
-  return {
-    props: {
-      // dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export default function financePage() {
   const { data, error, isLoading } = useQuery(['getFinanceData'], () =>
     gqlQueries.getFinanceData(),
   );
+  const officerStatusData = useContext(OfficerStatusContext);
+  if (!officerStatusData.isOfficer) {
+    return <AdminOnlyComponent />;
+  }
 
   const estimatedCanvas = useRef(null);
   const actualCanvas = useRef(null);
@@ -55,7 +51,7 @@ export default function financePage() {
           labels: divisionNames,
           datasets: [
             {
-              label: '% of Budget',
+              label: 'Amount estimated to be used',
               data: estimatedBudgets,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
@@ -109,7 +105,7 @@ export default function financePage() {
           labels: divisionNames,
           datasets: [
             {
-              label: '% of Budget',
+              label: 'Amount used',
               data: actualBudgets,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
@@ -153,8 +149,6 @@ export default function financePage() {
         },
       });
     }
-    console.log(actualBudgets);
-    console.log(estimatedBudgets);
   }, [divisionNames, actualBudgets, estimatedBudgets]);
   return (
     <>
