@@ -1,0 +1,15 @@
+query getFinanceData {
+  getSpreadsheetOverviewDivisionsData {
+    actualBudget
+    difference
+    divisionsName
+    notes
+    estimatedBudget
+  }
+
+  getSpreadsheetOverviewRevenueData {
+    budgetAmount
+    notes
+    itemName
+  }
+}

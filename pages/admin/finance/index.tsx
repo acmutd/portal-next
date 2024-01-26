@@ -1,12 +1,37 @@
 import Chart from 'chart.js/auto';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import Loading from 'components/Loading';
+import { useQuery } from 'react-query';
+import { gqlQueries } from 'src/api';
+import { OfficerStatusContext } from 'components/context/OfficerStatus';
+import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export default function financePage() {
+  const { data, error, isLoading } = useQuery(['getFinanceData'], () =>
+    gqlQueries.getFinanceData(),
+  );
+  const officerStatusData = useContext(OfficerStatusContext);
+  if (!officerStatusData.isOfficer) {
+    return <AdminOnlyComponent />;
+  }
+
   const estimatedCanvas = useRef(null);
   const actualCanvas = useRef(null);
   const { status } = useSession({ required: true });
+
+  const divisionNames = data?.getSpreadsheetOverviewDivisionsData.map(
+    (division) => division.divisionsName,
+  );
+
+  const actualBudgets = data?.getSpreadsheetOverviewDivisionsData.map(
+    (division) => division.actualBudget,
+  );
+
+  const estimatedBudgets = data?.getSpreadsheetOverviewDivisionsData.map(
+    (division) => division.estimatedBudget,
+  );
+
   useEffect(() => {
     const estimatedCtx = estimatedCanvas.current;
     const actualCtx = actualCanvas.current;
@@ -17,21 +42,26 @@ export default function financePage() {
     }
 
     if (estimatedCtx !== null) {
+      if (Chart.getChart(estimatedCtx)) {
+        Chart.getChart(estimatedCtx)?.destroy();
+      }
       const chart = new Chart(estimatedCtx, {
         type: 'pie',
         data: {
-          labels: ['Research Funding', 'Dev funding', 'Food', 'Merchandise', 'Other'],
+          labels: divisionNames,
           datasets: [
             {
-              label: '% of Budget',
-              data: [12, 19, 3, 2, 3],
+              label: 'Amount estimated to be used',
+              data: estimatedBudgets,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
                 'rgba(54, 162, 235, 0.5)',
                 'rgba(255, 206, 86, 0.5)',
                 'rgba(75, 192, 192, 0.5)',
                 'rgba(153, 102, 255, 05)',
-                'rgba(255, 159, 64, 0.5)',
+                'rgba(150, 159, 64, 0.5)',
+                'rgba(255, 50, 64, 0.5)',
+                'rgba(20, 40, 100, 0.5)',
               ],
               borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -39,7 +69,9 @@ export default function financePage() {
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(150, 159, 64, 1)',
+                'rgba(255, 50, 64, 1)',
+                'rgba(20, 40, 100, 1)',
               ],
               borderWidth: 1,
             },
@@ -64,21 +96,26 @@ export default function financePage() {
       });
     }
     if (actualCtx !== null) {
+      if (Chart.getChart(actualCtx)) {
+        Chart.getChart(actualCtx)?.destroy();
+      }
       const chart = new Chart(actualCtx, {
         type: 'pie',
         data: {
-          labels: ['Research Funding', 'Dev funding', 'Food', 'Merchandise', 'Other'],
+          labels: divisionNames,
           datasets: [
             {
-              label: '% of Budget',
-              data: [12, 19, 3, 2, 3],
+              label: 'Amount used',
+              data: actualBudgets,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
                 'rgba(54, 162, 235, 0.5)',
                 'rgba(255, 206, 86, 0.5)',
                 'rgba(75, 192, 192, 0.5)',
                 'rgba(153, 102, 255, 05)',
-                'rgba(255, 159, 64, 0.5)',
+                'rgba(150, 159, 64, 0.5)',
+                'rgba(255, 50, 64, 0.5)',
+                'rgba(20, 40, 100, 0.5)',
               ],
               borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -86,7 +123,9 @@ export default function financePage() {
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
+                'rgba(150, 159, 64, 1)',
+                'rgba(255, 50, 64, 1)',
+                'rgba(20, 40, 100, 1)',
               ],
               borderWidth: 1,
             },
@@ -110,8 +149,7 @@ export default function financePage() {
         },
       });
     }
-  }, []);
-
+  }, [divisionNames, actualBudgets, estimatedBudgets]);
   return (
     <>
       {status === 'loading' ? <Loading /> : null}
