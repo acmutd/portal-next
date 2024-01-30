@@ -4,6 +4,8 @@ import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin, EventCheckinInput } from '../schemas/EventCheckin';
 import type { TContext } from '../interfaces/context.interface';
 import { checkValidEvent } from '../middlewares/check-valid-event';
+import { getSession } from 'next-auth/react';
+import { GraphQLError } from 'graphql';
 
 @Resolver(() => EventCheckin)
 @injectable()
@@ -16,6 +18,8 @@ export default class EventCheckinResolver {
     @Arg('options', () => EventCheckinInput) options: EventCheckinInput,
     @Ctx() context: TContext,
   ) {
+    
+
     return this.EventCheckinService.checkInEvent(options, context);
   }
 }
