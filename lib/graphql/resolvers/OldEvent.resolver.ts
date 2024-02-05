@@ -1,11 +1,12 @@
 import { Event } from '@generated/type-graphql';
 import { injectable } from 'tsyringe';
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import type { TContext } from '../interfaces/context.interface';
 import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin } from '../schemas/EventCheckin';
+import { onlyOwners } from '../middlewares/only-owners';
 
 @Resolver(() => Event)
 @injectable()
@@ -15,8 +16,10 @@ export default class OldEventResolver {
     private checkService: EventCheckinService,
     private firebaseService: FirebaseService,
   ) {}
+  
 
   @Mutation(() => [EventCheckin])
+  @UseMiddleware( onlyOwners )
   async checkInOldEvent(
     @Arg('netID', () => String) netId: string,
     @Arg('email', () => String) email: string,

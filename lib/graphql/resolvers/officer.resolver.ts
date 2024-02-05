@@ -24,3 +24,7 @@ export default class OfficerResolver {
         return this.officerService.getOfficerEligibleProfiles();
     }
 } 
+
+module.exports = { 
+    OfficerResolver
+}

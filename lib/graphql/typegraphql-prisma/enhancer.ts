@@ -5,6 +5,7 @@ import { checkNetId } from '../middlewares/check-netid';
 import { onlyOfficerAllowed } from '../middlewares/only-officer';
 import { onlyDirectorAllowed } from '../middlewares/only-director';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
+import { onlyOwners } from '../middlewares/only-owners';
 import {
   onApplicationCreationComplete,
   onApplicationSubmissionComplete,
@@ -40,6 +41,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
       UseMiddleware(checkNetId),
       UseMiddleware(onProfileCreationComplete),
     ],
+    profile: [UseMiddleware( onlyOwners )]
   },
   VanityLink: {
     createOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
