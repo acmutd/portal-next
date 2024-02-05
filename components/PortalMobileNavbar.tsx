@@ -8,7 +8,7 @@ const MobileDiv = styled.div`
   width: 100%;
   border-radius: 20px 20px 0px 0px;
   background-color: white;
-  padding: 0px 50px;
+  padding: 0px 10px;
 
   display: flex;
   justify-content: space-evenly;

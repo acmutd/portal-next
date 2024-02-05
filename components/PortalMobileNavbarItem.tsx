@@ -19,13 +19,14 @@ const StyledA = styled(motion.a) <ACMNavbarItemPropTypes>`
   overflow: hidden;
 
   color: ${(props: ACMNavbarItemPropTypes) => (props.$active ? 'white' : 'black')};
-  font-size: 20px;
-  width: 20%;
+  font-size: 15px;
+  width: 20%;  
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 
   background: ${(props: ACMNavbarItemPropTypes) =>
     props.$active
