@@ -30,16 +30,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
 
   if (router.query.error) {
     if (router.query.error === 'SessionRequired') {
-      return (
-        <>
-          <div className="text-white font-semibold">
-            Error: You must be signed in to view this page. Please sign in and try again.
-          </div>
-          <Link href="/auth/signin">
-            <ACMButton>Sign In</ACMButton>
-          </Link>
-        </>
-      );
+      router.push('/auth/signin');
     }
     return (
       <div className="text-white font-semibold">
