@@ -41,7 +41,7 @@ export default function AddEventPage() {
   return (
     <EventForm
       formAction="Create"
-      onGoBack={() => router.push('/events')}
+      onGoBack={() => router.push('/admin')}
       onFormSubmit={async (form) => {
         // Remove id from form object
         const { id, ...rest } = form;
