@@ -43,7 +43,7 @@ export default function AdminToolsPage() {
     {
       title: 'Add Event',
       description: 'Click here to create an event for your division(s)',
-      onChosen: () => router.push('/admin/opportunities'),
+      onChosen: () => router.push('/admin/events/add'),
       directorOnly: false
     },
     {
