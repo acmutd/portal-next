@@ -18,7 +18,6 @@ import { resolversEnhanceMap } from 'lib/graphql/typegraphql-prisma/enhancer';
 import AdditionalUserResolver from 'lib/graphql/resolvers/users.resolver';
 import SpreadsheetResolver from "lib/graphql/resolvers/Spreadsheet.resolver";
 
-import { resolvers } from "@generated/type-graphql"
 import { exposedResolvers } from '../../../lib/graphql/typegraphql-prisma/exposedResolvers';
 import OldEventResolver from 'lib/graphql/resolvers/OldEvent.resolver';
 import { TContext } from 'lib/graphql/interfaces/context.interface';
@@ -27,13 +26,13 @@ import OfficerResolver from 'lib/graphql/resolvers/officer.resolver';
 import AdditionalProfileResolver from 'lib/graphql/resolvers/AdditionalProfileResolver.resolver';
 
 
-// if (process.env.NODE_ENV !== "development") {
-//   applyResolversEnhanceMap(resolversEnhanceMap);
-// }
+if (process.env.NODE_ENV !== "development") {
+  applyResolversEnhanceMap(resolversEnhanceMap);
+}
 
 const schema = buildSchemaSync({
   resolvers: [
-    ...resolvers,
+    ...exposedResolvers,
     AdditionalProfileResolver,
     ReturnAllOpenAppResolver,
     SignedURLResolver,
@@ -42,7 +41,7 @@ const schema = buildSchemaSync({
     AdditionalUserResolver,
     OldEventResolver,
     OfficerResolver,
-    SpreadsheetResolver
+    SpreadsheetResolver,
   ],
   container: {
     get: (someClass) => container.resolve(someClass),
