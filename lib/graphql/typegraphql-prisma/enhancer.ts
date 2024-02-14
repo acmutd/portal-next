@@ -5,7 +5,7 @@ import { checkNetId } from '../middlewares/check-netid';
 import { onlyOfficerAllowed } from '../middlewares/only-officer';
 import { onlyDirectorAllowed } from '../middlewares/only-director';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
-import { onlyOwners } from '../middlewares/only-owners';
+
 import {
   onApplicationCreationComplete,
   onApplicationSubmissionComplete,
@@ -14,6 +14,7 @@ import {
 } from '../middlewares/send-email';
 import { addTypeformHiddenFields, addTypeformWebhook } from '../middlewares/typeform';
 import { checkValidOfficer } from '../middlewares/check-valid-officer';
+import { onlyProfileOwner } from '../middlewares/only-profile-owner';
 
 export const resolversEnhanceMap: ResolversEnhanceMap = {
   Event: {
@@ -41,7 +42,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
       UseMiddleware(checkNetId),
       UseMiddleware(onProfileCreationComplete),
     ],
-    profile: [UseMiddleware( onlyOwners )]
+    profile: [UseMiddleware( onlyProfileOwner )]
   },
   VanityLink: {
     createOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],

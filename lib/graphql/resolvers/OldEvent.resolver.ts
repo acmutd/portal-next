@@ -6,7 +6,7 @@ import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin } from '../schemas/EventCheckin';
-import { onlyOwners } from '../middlewares/only-owners';
+import { onlyEventOwner } from '../middlewares/only--event-owner';
 
 @Resolver(() => Event)
 @injectable()
@@ -19,7 +19,7 @@ export default class OldEventResolver {
   
 
   @Mutation(() => [EventCheckin])
-  @UseMiddleware( onlyOwners )
+  @UseMiddleware( onlyEventOwner )
   async checkInOldEvent(
     @Arg('netID', () => String) netId: string,
     @Arg('email', () => String) email: string,

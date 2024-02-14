@@ -4,7 +4,7 @@ import { TContext } from "../interfaces/context.interface";
 import { MiddlewareFn } from "type-graphql";
 import { getSession } from "next-auth/react";
 
-export const onlyOwners: MiddlewareFn<TContext> = async({args, context}, next) => {
+export const onlyEventOwner: MiddlewareFn<TContext> = async({args, context}, next) => {
     const session = await getSession(context);
 
     if ( !session ) { 
@@ -21,7 +21,7 @@ export const onlyOwners: MiddlewareFn<TContext> = async({args, context}, next) =
         }
     })
     // session.id is the id user that is requesting access 
-    if ( !owner_Profile || owner_Profile.userId !== session.id  ) {
+    if ( owner_Profile && owner_Profile.userId !== session.id  ) {
         throw new GraphQLError("User does not own data", 
         {
             extensions: {
