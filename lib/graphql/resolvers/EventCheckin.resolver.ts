@@ -6,7 +6,7 @@ import type { TContext } from '../interfaces/context.interface';
 import { checkValidEvent } from '../middlewares/check-valid-event';
 import { getSession } from 'next-auth/react';
 import { GraphQLError } from 'graphql';
-import { onlyEventOwner } from '../middlewares/only--event-owner';
+import { onlyEventOwner } from '../middlewares/only-event-owner';
 
 @Resolver(() => EventCheckin)
 @injectable()

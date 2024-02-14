@@ -6,7 +6,7 @@ import FirebaseService from '../services/FirebaseService.service';
 import AdditionalCRUDEventService from '../services/AdditionalCRUDEvent.service';
 import EventCheckinService from '../services/EventCheckin.service';
 import { EventCheckin } from '../schemas/EventCheckin';
-import { onlyEventOwner } from '../middlewares/only--event-owner';
+import { onlyEventOwner } from '../middlewares/only-event-owner';
 
 @Resolver(() => Event)
 @injectable()
