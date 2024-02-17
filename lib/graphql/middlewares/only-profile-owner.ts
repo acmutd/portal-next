@@ -29,5 +29,7 @@ export const onlyProfileOwner: MiddlewareFn<TContext> = async( {args, context}, 
             }
         })
     }
+
+    return next();
 }
 

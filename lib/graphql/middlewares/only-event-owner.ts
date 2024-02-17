@@ -32,5 +32,5 @@ export const onlyEventOwner: MiddlewareFn<TContext> = async({args, context}, nex
     }
 
 
-    return next; 
+    return next();
 }
