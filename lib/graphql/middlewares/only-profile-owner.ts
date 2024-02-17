@@ -21,7 +21,7 @@ export const onlyProfileOwner: MiddlewareFn<TContext> = async( {args, context}, 
         }
     })
 
-    if ( owner_Profile && owner_Profile.userId !== session.id ) {
+    if ( !owner_Profile || owner_Profile.userId !== session.id ) {
         throw new GraphQLError("User does not own data", 
         {
             extensions: {
