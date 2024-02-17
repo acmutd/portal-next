@@ -40,7 +40,8 @@ export default function VanityForm() {
               await gqlQueries.createVanityLink({
                 data: vals,
               });
-              alert('Vanity Link Generated');
+              alert(`'Vanity Link Generated: https://${vals.vanityDomain}.acmutd.co/${vals.slashtag}'`);
+
             } catch (error) {
               alert('Failed to generate vanity link!');
               console.error(error);
