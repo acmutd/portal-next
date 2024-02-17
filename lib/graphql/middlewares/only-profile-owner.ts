@@ -15,13 +15,13 @@ export const onlyProfileOwner: MiddlewareFn<TContext> = async( {args, context}, 
         });
     }
 
-    const owner_Profile = await context.prisma.profile.findFirst({
+    const ownerProfile = await context.prisma.profile.findFirst({
         where: {
             userId: args.where.profileId
         }
     })
 
-    if ( !owner_Profile || owner_Profile.userId !== session.id ) {
+    if ( !ownerProfile || ownerProfile.userId !== session.id ) {
         throw new GraphQLError("User does not own data", 
         {
             extensions: {
