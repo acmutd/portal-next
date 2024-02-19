@@ -17,7 +17,7 @@ export const onlyProfileOwner: MiddlewareFn<TContext> = async( {args, context}, 
 
     const ownerProfile = await context.prisma.profile.findFirst({
         where: {
-            userId: args.where.profileId
+            userId: args.where.id
         }
     })
 
