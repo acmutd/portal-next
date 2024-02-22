@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { buildSchemaSync, GraphQLISODateTime } from 'type-graphql';

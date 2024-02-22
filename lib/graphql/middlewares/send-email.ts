@@ -9,6 +9,7 @@ import {
 } from '../utilities/send-email';
 import { Event, FilledApplication } from '@generated/type-graphql';
 import { sendSlackNotification } from '../utilities/slack';
+import { sendEventToDiscordGuildEvent } from '../utilities/discord/event';
 
 export const onProfileCreationComplete: MiddlewareFn<TContext> = async ({ args, context }, next) => {
   await next();
@@ -84,7 +85,8 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
         name: `${profile!.firstName} ${profile!.lastName}`,
         form_name: 'Event Check-in Generator',
         url: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
-      })
+      }),
+      await sendEventToDiscordGuildEvent(createdEvent)
     ]);
   }
 };
