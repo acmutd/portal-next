@@ -42,7 +42,7 @@ export default function MakeUserOfficerCard({ firstName, lastName, netid, profil
               <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-100">
                 Check all division you want to add this user to:
                 {divisions.map((division, index) => (
-                    <div className="flex gap-x-2 items-center">
+                    <div className="flex gap-x-2 items-center" key={index} >
                         <Checkbox color="default" sx={{ color: "white"}} checked={divisionStatus[index]} onChange={(e) => updateDivisionStatusAtIndex(index, e.target.checked)}/>
                         <h1 className="text-gray-100">{division.deptName}</h1>
                     </div>
