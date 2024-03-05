@@ -25,7 +25,7 @@ const ApplicationCard: FC<ApplicationCardProps> = ({
             </h4>
             {icon}
           </div>
-          <p className="text-white text-sm">{description}</p>
+          <p className="text-white text-sm break-words">{description}</p>
         </div>
         <div className="flex gap-1 ml-auto w-fit">
           {buttons.map((button) => (
