@@ -42,7 +42,6 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
       UseMiddleware(checkNetId),
       UseMiddleware(onProfileCreationComplete),
     ],
-    profile: [UseMiddleware( onlyProfileOwner )]
   },
   VanityLink: {
     createOneVanityLink: [UseMiddleware(onlyOfficerAllowed), UseMiddleware(onCreateVanityLink)],
