@@ -3,6 +3,9 @@ import { VanityLink, CreateOneVanityLinkArgs } from '@generated/type-graphql';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { gqlQueries } from 'src/api';
+import VanityPopUp  from './VanityPopUp';
+import { useState } from 'react';
+
 
 const vanityDomainOptions = ['content', 'survey', 'apply', 'rsvp', 'join'];
 
@@ -27,12 +30,25 @@ export default function VanityForm() {
     },
   });
 
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [vanitySuccess, setVanitySuccess] = useState(false);
+  const handlePopUp = () => {
+    setIsPopUpOpen(!isPopUpOpen);
+  }
+
   return (
-    <div className="w-full grid place-items-center px-3">
+    <div className="w-full grid place-items-center px-3 relative">
+      <VanityPopUp 
+        vanityDomain='bobthebuilder' 
+        success={vanitySuccess}
+        isOpen={isPopUpOpen}
+        onClose={handlePopUp} 
+      />
       <div className="flex flex-col p-10 place-items-center">
         <div className="text-3xl font-semibold text-gray-100">create a vanity link</div>
       </div>
-      <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
+      <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">\
+      
         <form
           className="w-full"
           onSubmit={handleSubmit(async (vals) => {
@@ -40,13 +56,17 @@ export default function VanityForm() {
               await gqlQueries.createVanityLink({
                 data: vals,
               });
-              alert(`'Vanity Link Generated: https://${vals.vanityDomain}.acmutd.co/${vals.slashtag}'`);
+              
             } catch (error) {
               alert('Failed to generate vanity link!');
               console.error(error);
+              setVanitySuccess(false);
             }
+            setVanitySuccess(true);
+            handlePopUp(); // Open the pop up after the form is submitted successfully 
           })}
         >
+          
           <div className="flex flex-col gap-y-8">
             <div className="flex flex-col gap-y-2 w-full px-3 mb-6">
               <label className="text-2xl block text-gray-200 font-semibold mb-2">

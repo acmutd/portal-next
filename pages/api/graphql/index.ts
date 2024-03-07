@@ -27,7 +27,7 @@ import AdditionalProfileResolver from 'lib/graphql/resolvers/AdditionalProfileRe
 
 
 if (process.env.NODE_ENV !== "development") {
-  applyResolversEnhanceMap(resolversEnhanceMap);
+applyResolversEnhanceMap(resolversEnhanceMap);
 }
 
 const schema = buildSchemaSync({
