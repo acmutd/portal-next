@@ -41,7 +41,7 @@ const schema = buildSchemaSync({
     AdditionalUserResolver,
     OldEventResolver,
     OfficerResolver,
-    SpreadsheetResolver
+    SpreadsheetResolver,
   ],
   container: {
     get: (someClass) => container.resolve(someClass),

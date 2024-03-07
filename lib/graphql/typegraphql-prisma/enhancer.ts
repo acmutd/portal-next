@@ -3,7 +3,9 @@ import { UseMiddleware } from 'type-graphql';
 import { onCreateVanityLink, onEditVanityLink } from '../middlewares/generate-vanity';
 import { checkNetId } from '../middlewares/check-netid';
 import { onlyOfficerAllowed } from '../middlewares/only-officer';
+import { onlyDirectorAllowed } from '../middlewares/only-director';
 import { onlySelfCheckIn, onlySelfUpdateProfile } from '../middlewares/only-self';
+
 import {
   onApplicationCreationComplete,
   onApplicationSubmissionComplete,
@@ -12,6 +14,7 @@ import {
 } from '../middlewares/send-email';
 import { addTypeformHiddenFields, addTypeformWebhook } from '../middlewares/typeform';
 import { checkValidOfficer } from '../middlewares/check-valid-officer';
+import { onlyProfileOwner } from '../middlewares/only-profile-owner';
 
 export const resolversEnhanceMap: ResolversEnhanceMap = {
   Event: {
@@ -22,7 +25,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
   },
   TypeformApplication: {
     createOneTypeformApplication: [
-      UseMiddleware(onlyOfficerAllowed),
+      UseMiddleware(onlyDirectorAllowed),
       UseMiddleware(onApplicationCreationComplete),
       UseMiddleware(addTypeformHiddenFields),
       UseMiddleware(addTypeformWebhook),
@@ -54,5 +57,7 @@ export const resolversEnhanceMap: ResolversEnhanceMap = {
   },
   Application: {
     application: [UseMiddleware(checkValidOfficer)]
-  }
+  },
+  
+
 };
