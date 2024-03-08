@@ -32,23 +32,25 @@ export default function VanityForm() {
 
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [vanitySuccess, setVanitySuccess] = useState(false);
+  const [formData, setFormData] = useState<Omit<VanityLink, "id">>();
+
   const handlePopUp = () => {
     setIsPopUpOpen(!isPopUpOpen);
   }
 
   return (
     <div className="w-full grid place-items-center px-3 relative">
-      <VanityPopUp 
-        vanityDomain='bobthebuilder' 
-        success={vanitySuccess}
-        isOpen={isPopUpOpen}
-        onClose={handlePopUp} 
-      />
+
       <div className="flex flex-col p-10 place-items-center">
         <div className="text-3xl font-semibold text-gray-100">create a vanity link</div>
       </div>
       <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">\
-      
+      <VanityPopUp 
+            vals = {formData} 
+            success={vanitySuccess}
+            isOpen={isPopUpOpen}
+            onClose={handlePopUp} 
+      />
         <form
           className="w-full"
           onSubmit={handleSubmit(async (vals) => {
@@ -62,8 +64,10 @@ export default function VanityForm() {
               console.error(error);
               setVanitySuccess(false);
             }
+            setFormData(vals);
             setVanitySuccess(true);
-            handlePopUp(); // Open the pop up after the form is submitted successfully 
+            handlePopUp(); 
+
           })}
         >
           

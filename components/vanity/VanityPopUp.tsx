@@ -1,14 +1,15 @@
 import React from 'react';
+import { VanityLink } from '@generated/type-graphql';
 
 type vanityPopUpProps = {
     success : boolean; 
-    vanityDomain : string;
+    vals : Omit<VanityLink, "id"> | undefined;
     isOpen : boolean; 
     onClose : () => void;
 }
 
 
-const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vanityDomain, isOpen, onClose}) => {
+const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
     
     if ( !isOpen ) return null; 
 
@@ -28,7 +29,11 @@ const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vanityDomain, isOpen,
                     ? "Vanity Linked Created Successfully"
                     : "Vanity Linked Failed to Generated!"}
                 </div>
-
+                    <div className='text-center text-lg font-semibold mt-5'>
+                        { ( success )
+                        ? `Vanity Link: https://${vals!.vanityDomain}.acmutd.co/${vals!.slashtag}`
+                        : "Please try again"}
+                    </div>
                 
             </section>
          </main>
