@@ -28,8 +28,6 @@ const PopupBorder = styled(motion.button)`
 
 const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
     
-
-
     return (
 
             <Dialog open={ isOpen } onClose={ onClose }>

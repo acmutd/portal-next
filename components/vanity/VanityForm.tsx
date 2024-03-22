@@ -30,7 +30,7 @@ export default function VanityForm() {
     },
   });
 
-  const [isPopUpOpen, setIsPopUpOpen] = useState(true);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [vanitySuccess, setVanitySuccess] = useState(false);
   const [formData, setFormData] = useState<Omit<VanityLink, "id">>();
 
