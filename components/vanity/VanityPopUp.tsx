@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { VanityLink } from '@generated/type-graphql';
+import { Dialog, Transition } from "@headlessui/react";
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
+import CloseIcon from 'icons/CloseIcon';
+
+
 
 type vanityPopUpProps = {
     success : boolean; 
@@ -9,34 +15,53 @@ type vanityPopUpProps = {
 }
 
 
+const PopupBorder = styled(motion.button)`
+  border: solid 2px transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    linear-gradient(120deg, #be185d, #7e22ce);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  color: white;
+  box-shadow: 2px 1000px 1px rgb(24 24 27) inset;
+`;
+
+
 const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
     
-    if ( !isOpen ) return null; 
 
 
     return (
-         <main className='absolute w-full h-full top-0 left-0 flex justify-center items-center bg-slate-800 bg-opacity-50'>
-            <section className="bg-slate-500  w-[30vw] h-[30vh] relative rounded-md ">
-                {/* Improve the design for the popup -> replace close button with a symbol } */}
-                <button 
-                    onClick={onClose}
-                    className= ' absolute top-0 right-0 m-3 p-2 border-black border-2 rounded-md'
-                >
-                    Closed Button 
-                </button>
-                <div className=' text-center text-xl font-semibold mt-20 '>
-                    { ( success )
-                    ? "Vanity Linked Created Successfully"
-                    : "Vanity Linked Failed to Generated!"}
-                </div>
-                    <div className='text-center text-lg font-semibold mt-5'>
-                        { ( success )
-                        ? `Vanity Link: https://${vals!.vanityDomain}.acmutd.co/${vals!.slashtag}`
-                        : "Please try again"}
-                    </div>
+
+            <Dialog open={ isOpen } onClose={ onClose }>
+                <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50" />
                 
-            </section>
-         </main>
+                <div className="fixed inset-0 flex justify-center items-center z-50 text-black text-center" aria-hidden="true">
+                    <PopupBorder className="relative w-2/4 h-1/4 lg:h-2/5 justify-center items-center flex flex-col text-lg md:text-2xl lg:text-4xl rounded-lg shadow-md  " >
+                        
+                        <Dialog.Panel className="w-full h-full mt-14">
+
+                        <Dialog.Description className= {`font-bold mb-12 ${ success ? 'text-green-600' : 'text-red-600' } `} >
+                            { ( success )
+                                ? "Vanity Linked Created Successfully"
+                                : "Vanity Linked Failed to Generated!"}
+                        </Dialog.Description >
+                        <p className="text-sm lg:text-2xl">
+                            { ( success )
+                                ? `Vanity Link: https://${vals!.vanityDomain}.acmutd.co/${vals!.slashtag}`
+                                : "Please try again"}
+                        </p>
+
+
+                        </Dialog.Panel>
+                        <button className="absolute top-0 right-0 m-2">
+                            <CloseIcon />
+                        </button>
+
+                    </PopupBorder>
+                    
+                </div>
+            </Dialog>
+
     )
 
 }

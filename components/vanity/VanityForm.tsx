@@ -30,7 +30,7 @@ export default function VanityForm() {
     },
   });
 
-  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [isPopUpOpen, setIsPopUpOpen] = useState(true);
   const [vanitySuccess, setVanitySuccess] = useState(false);
   const [formData, setFormData] = useState<Omit<VanityLink, "id">>();
 
@@ -60,9 +60,10 @@ export default function VanityForm() {
               });
               
             } catch (error) {
-              alert('Failed to generate vanity link!');
-              console.error(error);
+
               setVanitySuccess(false);
+              console.error(error);
+              
             }
             setFormData(vals);
             setVanitySuccess(true);
