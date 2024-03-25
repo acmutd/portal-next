@@ -9,9 +9,7 @@ import ProfileService from '../services/profile.service';
 @Resolver(() => User)
 @injectable()
 export default class AdditionalUserResolver {
-  constructor(
-    private userService: AdditionalUserService,
-  ) {}
+  constructor(private userService: AdditionalUserService) {}
 
   @Query(() => User)
   @UseMiddleware(InjectSessionMiddleware)
@@ -24,7 +22,7 @@ export default class AdditionalUserResolver {
     return this.userService.checkIfUserIsOfficer(user.id);
   }
 
-  @FieldResolver( () => Boolean) 
+  @FieldResolver(() => Boolean)
   async isDirector(@Root() user: User): Promise<boolean> {
     return this.userService.checkIfUserIsDirector(user.id);
   }
@@ -37,5 +35,10 @@ export default class AdditionalUserResolver {
   @FieldResolver(() => String)
   async resumeFilename(@Root() user: User): Promise<string> {
     return this.userService.getResumeFileName(user.id);
+  }
+
+  @FieldResolver(() => Boolean)
+  async isMember(@Root() user: User): Promise<boolean> {
+    return this.userService.checkIfUserIsMember(user.id);
   }
 }
