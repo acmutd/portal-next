@@ -105,8 +105,8 @@ export const onCreateVanityLink: MiddlewareFn<TContext> = async ({ args, context
     console.error( (error as any).response.data );
     throw new GraphQLError( (error as any).response.data.errors[0].message , {  
       extensions: {
-        code: 'VANITY_LINK_CREATION_ERROR',
-      },
+        code: 'ERROR_GENERATING_VANITY_LINK',
+      }
     });
   }
 };
