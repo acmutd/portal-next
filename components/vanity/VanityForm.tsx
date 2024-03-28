@@ -44,7 +44,7 @@ export default function VanityForm() {
       <div className="flex flex-col p-10 place-items-center">
         <div className="text-3xl font-semibold text-gray-100">create a vanity link</div>
       </div>
-      <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">\
+      <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
       <VanityPopUp 
             vals = {formData} 
             success={vanitySuccess}
