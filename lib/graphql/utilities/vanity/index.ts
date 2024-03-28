@@ -2,7 +2,6 @@ import { StartExecutionCommand } from '@aws-sdk/client-sfn';
 import { createStepFunctionInstance } from '../aws/setup';
 import { v4 as uuid } from 'uuid';
 
-
 interface VanityLinkPayload {
   firstName: string;
   lastName: string;
@@ -14,7 +13,6 @@ interface VanityLinkPayload {
 }
 
 export async function generateVanityLink(payload: VanityLinkPayload) {
-  
   const stepFunction = createStepFunctionInstance();
 
   return stepFunction.send(new StartExecutionCommand({
