@@ -26,9 +26,9 @@ import OfficerResolver from 'lib/graphql/resolvers/officer.resolver';
 import AdditionalProfileResolver from 'lib/graphql/resolvers/AdditionalProfileResolver.resolver';
 
 
-if (process.env.NODE_ENV !== "development") {
+//if (process.env.NODE_ENV !== "development") {
   applyResolversEnhanceMap(resolversEnhanceMap);
-}
+//}
 
 const schema = buildSchemaSync({
   resolvers: [

@@ -33,6 +33,7 @@ export default function VanityForm() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [vanitySuccess, setVanitySuccess] = useState(false);
   const [formData, setFormData] = useState<Omit<VanityLink, "id">>();
+  const [errMsg, setErrMsg] = useState<string>();
 
   const handlePopUp = () => {
     setIsPopUpOpen(!isPopUpOpen);
@@ -48,8 +49,10 @@ export default function VanityForm() {
       <VanityPopUp 
             vals = {formData} 
             success={vanitySuccess}
+            errMsg = {errMsg}
             isOpen={isPopUpOpen}
             onClose={handlePopUp} 
+            
       />
         <form
           className="w-full"
@@ -58,15 +61,14 @@ export default function VanityForm() {
               await gqlQueries.createVanityLink({
                 data: vals,
               });
-              
-            } catch (error) {
-
+              setFormData(vals);
+              setVanitySuccess(true);
+            } catch ( error ) {
               setVanitySuccess(false);
-              console.error(error);
-              
+              console.error(  error );
+              setErrMsg( (error as any).response.errors[0].message  )
             }
-            setFormData(vals);
-            setVanitySuccess(true);
+            
             handlePopUp(); 
 
           })}
@@ -82,6 +84,7 @@ export default function VanityForm() {
                 className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                 placeholder="https://acmutd.co/"
                 {...register('originalUrl')}
+                required
               />
             </div>
             <div className="flex flex-col gap-y-2 w-full px-3 mb-6">
@@ -139,6 +142,7 @@ export default function VanityForm() {
                 className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                 placeholder="cool-slashtag"
                 {...register('slashtag')}
+                required
               />
             </div>
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { VanityLink } from '@generated/type-graphql';
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import CloseIcon from 'icons/CloseIcon';
@@ -10,6 +10,7 @@ import CloseIcon from 'icons/CloseIcon';
 type VanityPopUpProps = {
     success : boolean; 
     vals : Omit<VanityLink, "id"> | undefined;
+    errMsg : string | undefined;
     isOpen : boolean; 
     onClose : () => void;
 }
@@ -26,7 +27,7 @@ const PopupBorder = styled(motion.button)`
 `;
 
 
-const VanityPopUp:React.FC<VanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
+const VanityPopUp:React.FC<VanityPopUpProps>  = ({success, vals, errMsg, isOpen, onClose}) => {
     
     return (
 
@@ -43,17 +44,17 @@ const VanityPopUp:React.FC<VanityPopUpProps>  = ({success, vals, isOpen, onClose
                                 ? "Vanity Linked Created Successfully"
                                 : "Vanity Linked Failed to Generated!"}
                         </Dialog.Description >
-                        <p className="text-sm lg:text-2xl">
+                        <Dialog.Description className="text-sm lg:text-2xl select-text">
                             { ( success )
                                 ? `Vanity Link: https://${vals!.vanityDomain}.acmutd.co/${vals!.slashtag}`
-                                : "Please try again"}
-                        </p>
+                                : `Reason: ${errMsg}`}
+                        </Dialog.Description>
 
-
+                        
                         </Dialog.Panel>
-                        <button className="absolute top-0 right-0 m-2">
+                        <div className="absolute top-0 right-0 m-2" onClick={onClose}>
                             <CloseIcon />
-                        </button>
+                        </div>
 
                     </PopupBorder>
                     
