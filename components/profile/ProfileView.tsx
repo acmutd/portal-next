@@ -30,6 +30,9 @@ export default function ProfileView({ profile }: ProfileViewProps) {
       </div>
       <div className="flex">
 
+      <div className='w-full px-3'>
+        <ProfileField label="is acm member" text={profile.user.isMember ? "true" : "false"} />
+      </div>
       <div className="w-full px-3">
         <ProfileField label="is acm officer" text={profile.user.isOfficer ? "true" : "false"} />
       </div>
