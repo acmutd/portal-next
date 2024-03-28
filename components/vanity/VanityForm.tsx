@@ -3,6 +3,9 @@ import { VanityLink, CreateOneVanityLinkArgs } from '@generated/type-graphql';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { gqlQueries } from 'src/api';
+import VanityPopUp  from './VanityPopUp';
+import { useState } from 'react';
+
 
 const vanityDomainOptions = ['content', 'survey', 'apply', 'rsvp', 'join'];
 
@@ -27,12 +30,30 @@ export default function VanityForm() {
     },
   });
 
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [vanitySuccess, setVanitySuccess] = useState(false);
+  const [formData, setFormData] = useState<Omit<VanityLink, "id">>();
+  const [errMsg, setErrMsg] = useState<string>();
+
+  const handlePopUp = () => {
+    setIsPopUpOpen(!isPopUpOpen);
+  }
+
   return (
-    <div className="w-full grid place-items-center px-3">
+    <div className="w-full grid place-items-center px-3 relative">
+
       <div className="flex flex-col p-10 place-items-center">
         <div className="text-3xl font-semibold text-gray-100">create a vanity link</div>
       </div>
       <div className="flex flex-col md:flex-row-reverse w-full md:w-[50%]">
+      <VanityPopUp 
+            vals = {formData} 
+            success={vanitySuccess}
+            errMsg = {errMsg}
+            isOpen={isPopUpOpen}
+            onClose={handlePopUp} 
+            
+      />
         <form
           className="w-full"
           onSubmit={handleSubmit(async (vals) => {
@@ -40,13 +61,19 @@ export default function VanityForm() {
               await gqlQueries.createVanityLink({
                 data: vals,
               });
-              alert('Vanity Link Generated');
-            } catch (error) {
-              alert('Failed to generate vanity link!');
-              console.error(error);
+              setFormData(vals);
+              setVanitySuccess(true);
+            } catch ( error ) {
+              setVanitySuccess(false);
+              console.error(  error );
+              setErrMsg( (error as any).response.errors[0].message  )
             }
+            
+            handlePopUp(); 
+
           })}
         >
+          
           <div className="flex flex-col gap-y-8">
             <div className="flex flex-col gap-y-2 w-full px-3 mb-6">
               <label className="text-2xl block text-gray-200 font-semibold mb-2">
@@ -57,6 +84,7 @@ export default function VanityForm() {
                 className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                 placeholder="https://acmutd.co/"
                 {...register('originalUrl')}
+                required
               />
             </div>
             <div className="flex flex-col gap-y-2 w-full px-3 mb-6">
@@ -114,6 +142,7 @@ export default function VanityForm() {
                 className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                 placeholder="cool-slashtag"
                 {...register('slashtag')}
+                required
               />
             </div>
 
