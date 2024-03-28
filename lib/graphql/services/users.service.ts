@@ -21,40 +21,40 @@ export default class AdditionalUserService {
   async checkIfUserIsOfficer(userId: string): Promise<boolean> {
     const profile = await this.prismaConnection.profile.findFirst({
       where: {
-        userId
-      }
+        userId,
+      },
     });
     if (!profile) return false;
     const officer = await this.prismaConnection.officer.findFirst({
       where: {
-        profileId: profile.id
-      }
+        profileId: profile.id,
+      },
     });
     return !!officer;
   }
 
-  async checkIfUserIsDirector(userId: string ) : Promise<boolean> {
+  async checkIfUserIsDirector(userId: string): Promise<boolean> {
     const profile = await this.prismaConnection.profile.findFirst({
       where: {
-        userId
-      }
+        userId,
+      },
     });
     if (!profile) return false;
 
     const officer = await this.prismaConnection.officer.findFirst({
       where: {
-        profileId : profile.id
-      }
+        profileId: profile.id,
+      },
     });
     if (!officer) return false;
 
     const director = await this.prismaConnection.director.findFirst({
       where: {
-        officerId: officer.id
-      }
-    })
+        officerId: officer.id,
+      },
+    });
 
-    return !!director; 
+    return !!director;
   }
   async getAttendedEventsByUserId(userId: string): Promise<Event[]> {
     const profile = await this.prismaConnection.profile.findFirst({
@@ -86,5 +86,16 @@ export default class AdditionalUserService {
     const data = await fileRef.getMetadata();
     const contentDisposition: string = data[0].contentDisposition!;
     return contentDisposition.substring(22, contentDisposition.length - 1);
+  }
+
+  async checkIfUserIsMember(userId: string): Promise<boolean> {
+    const isDirector = await this.checkIfUserIsDirector(userId);
+    if (isDirector) return true;
+    const isOfficer = await this.checkIfUserIsOfficer(userId);
+    if (isOfficer) return true;
+
+    const attendedEvents = await this.getAttendedEventsByUserId(userId);
+
+    return attendedEvents.length >= 5;
   }
 }

@@ -26,6 +26,7 @@ query findProfile($where: ProfileWhereUniqueInput!) {
     user {
       isDirector
       isOfficer
+      isMember
     }
     officer {
       divisions {

@@ -9,8 +9,13 @@ import {
 } from '../utilities/send-email';
 import { Event, FilledApplication } from '@generated/type-graphql';
 import { sendSlackNotification } from '../utilities/slack';
+import { sendEventToDiscordGuildEvent } from '../utilities/discord/event';
+import { addEventToGCal } from '../utilities/gcal/event';
 
-export const onProfileCreationComplete: MiddlewareFn<TContext> = async ({ args, context }, next) => {
+export const onProfileCreationComplete: MiddlewareFn<TContext> = async (
+  { args, context },
+  next,
+) => {
   await next();
   if (!context.sentEmail) {
     context.sentEmail = true;
@@ -51,7 +56,7 @@ export const onApplicationCreationComplete: MiddlewareFn<TContext> = async (
         email: profile!.email,
         form_name: 'Application Generator',
         name: `${profile!.firstName} ${profile!.lastName}`,
-      })
+      }),
     ]);
   }
 };
@@ -84,29 +89,37 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
         name: `${profile!.firstName} ${profile!.lastName}`,
         form_name: 'Event Check-in Generator',
         url: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
-      })
+      }),
+      await sendEventToDiscordGuildEvent(createdEvent),
+      await addEventToGCal(createdEvent),
     ]);
   }
 };
 
-export const onApplicationSubmissionComplete: MiddlewareFn<TContext> = async({args, context}, next) => {
+export const onApplicationSubmissionComplete: MiddlewareFn<TContext> = async (
+  { args, context },
+  next,
+) => {
   const filledApplication: FilledApplication = await next();
   if (!context.sentEmail) {
     context.sentEmail = true;
     const profile = await context.prisma.profile.findFirst({
       where: {
-        id: filledApplication.profileId
-      }
+        id: filledApplication.profileId,
+      },
     });
     const appData = await context.prisma.application.findFirst({
       where: {
-        id: filledApplication.appId
-      }
-    })
-    await sendApplicationSubmissionEmail({
-      first_name: profile!.firstName,
-      last_name: profile!.lastName,
-      typeform_id: appData!.name
-    }, profile!.email);
+        id: filledApplication.appId,
+      },
+    });
+    await sendApplicationSubmissionEmail(
+      {
+        first_name: profile!.firstName,
+        last_name: profile!.lastName,
+        typeform_id: appData!.name,
+      },
+      profile!.email,
+    );
   }
-}
+};
