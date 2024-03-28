@@ -7,7 +7,7 @@ import CloseIcon from 'icons/CloseIcon';
 
 
 
-type vanityPopUpProps = {
+type VanityPopUpProps = {
     success : boolean; 
     vals : Omit<VanityLink, "id"> | undefined;
     isOpen : boolean; 
@@ -26,7 +26,7 @@ const PopupBorder = styled(motion.button)`
 `;
 
 
-const VanityPopUp:React.FC<vanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
+const VanityPopUp:React.FC<VanityPopUpProps>  = ({success, vals, isOpen, onClose}) => {
     
     return (
 
