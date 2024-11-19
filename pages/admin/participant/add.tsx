@@ -37,7 +37,7 @@ export default function AddParticipant() {
       setFilteredProfiles(
         (data?.profiles || []).filter(
           (profile) =>
-            profile.netid === searchQuery ||
+            profile.netid.toLowerCase() === searchQuery.toLowerCase() ||
             `${profile.firstName} ${profile.lastName}`.toLowerCase() ===
               searchQuery.toLowerCase() ||
             profile.firstName.toLowerCase() === searchQuery.toLowerCase() ||
