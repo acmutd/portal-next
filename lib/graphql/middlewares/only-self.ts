@@ -45,10 +45,10 @@ export const onlySelfUpdateProfile: MiddlewareFn<TContext> = async ({ context, a
     },
   });
   if (profile && profile.userId !== session.id) {
-    throw new GraphQLError('Invalid user found',
+    throw new GraphQLError('This netid already has an account associated with it',
     {
       extensions: {
-        code : 'INVALID_USER_FOUND',
+        code : 'NETID_IN_USE',
       }
     });
   }
