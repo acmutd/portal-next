@@ -10,18 +10,22 @@ interface ProfileEditViewProps {
   onErrorEncounter: (error: GraphQLError) => void;
 }
 
-export default function ProfileEditView({
-  profile,
-  onUpdateFormCompleted,
-  onErrorEncounter,
-}: ProfileEditViewProps) {
-  // TODO: Handle possibility of `profile` being undefined
-  const { register, handleSubmit } = useForm<NonNullable<typeof profile>>({
-    defaultValues: {
-      classStanding: profile?.classStanding.toLowerCase() || "freshman"
-    }
-  });
+export default function ProfileEditView({ profile, onUpdateFormCompleted, onErrorEncounter }: ProfileEditViewProps) {
   const { data: session } = useSession();
+
+  // Provide fallback defaults
+  const defaultValues = {
+    firstName: profile?.firstName ?? '',
+    lastName: profile?.lastName ?? '',
+    email: profile?.email ?? '',
+    netid: profile?.netid ?? '',
+    classStanding: profile?.classStanding?.toLowerCase() ?? 'freshman',
+    major: profile?.major ?? '',
+    utdStudent: profile?.utdStudent ?? false,
+  };
+
+  // Declare the form with safe types
+  const { register, handleSubmit } = useForm<typeof defaultValues>({ defaultValues });
 
   return (
     <>
@@ -30,60 +34,35 @@ export default function ProfileEditView({
           id="profile-form"
           className="w-full max-w-lg"
           onSubmit={handleSubmit(async (vals) => {
-            await gqlQueries
-              .upsertProfile({
-                where: {
-                  netid: vals.netid || profile!.netid,
-                },
-                create: {
-                  user: {
-                    connect: {
-                      id: session!.id,
-                    },
-                  },
-                  firstName: vals.firstName,
-                  lastName: vals.lastName,
-                  email: session!.user!.email!,
-                  netid: vals.netid,
-                  classStanding: vals.classStanding,
-                  major: vals.major,
-                  utdStudent: vals.utdStudent,
-                  membershipStatus: false,
-                  resume: false,
-                },
-                update: {
-                  firstName: {
-                    set: vals.firstName || profile!.firstName,
-                  },
-                  lastName: {
-                    set: vals.lastName || profile!.lastName,
-                  },
-                  netid: {
-                    set: vals.netid || profile!.netid,
-                  },
-                  classStanding: {
-                    set: vals.classStanding || profile!.classStanding,
-                  },
-                  major: {
-                    set: vals.major || profile!.major,
-                  },
-                  utdStudent: {
-                    set:
-                      vals.utdStudent === undefined
-                        ? profile?.utdStudent || false
-                        : vals.utdStudent,
-                  },
-                  email: {
-                    set: vals.email || profile!.email
-                  }
-                },
-              })
-              .catch((error) => {
-                // const err: GraphQLError[] = ;
-                onErrorEncounter(
-                  JSON.parse(JSON.stringify(error)).response.errors[0] as GraphQLError,
-                );
-              });
+            await gqlQueries.upsertProfile({
+              where: {
+                netid: vals.netid, // so if profile was undefined, we rely purely on new netid
+              },
+              create: {
+                user: { connect: { id: session?.id } },
+                firstName: vals.firstName,
+                lastName: vals.lastName,
+                email: session?.user?.email ?? '',
+                netid: vals.netid,
+                classStanding: vals.classStanding,
+                major: vals.major,
+                utdStudent: vals.utdStudent,
+                membershipStatus: false,
+                resume: false,
+              },
+              update: {
+                firstName: { set: vals.firstName },
+                lastName: { set: vals.lastName },
+                netid: { set: vals.netid },
+                classStanding: { set: vals.classStanding },
+                major: { set: vals.major },
+                utdStudent: { set: vals.utdStudent },
+                email: { set: vals.email },
+              },
+            }).catch((error) => {
+              onErrorEncounter(JSON.parse(JSON.stringify(error)).response.errors[0]);
+            });
+    
             onUpdateFormCompleted();
           })}
         >
