@@ -33,7 +33,7 @@ model Account {
 
 model EventReservation {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  profile   Profile @relation(fields: [profileId], references: [id])
+  profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String  @db.ObjectId
   event     Event   @relation(fields: [eventId], references: [id])
   eventId   String  @db.ObjectId
