@@ -24,7 +24,7 @@ export default function TypeformCreateForm({ formHookData } : TypeformCreateForm
                 externalResourceUrl: vals.externalResourceUrl,
                 typeformId: vals.typeformId,
                 typeformName: vals.typeformName,
-                division: vals.division,
+                division: vals.division || '',
               },
             })
             .then(() => {
