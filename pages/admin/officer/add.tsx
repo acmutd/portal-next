@@ -9,6 +9,7 @@ import MakeUserOfficerCard from 'components/admin/MakeUserOfficerCard';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { useRouter } from 'next/router';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
+import Fuse from 'fuse.js';
 
 export default function AddOfficerPage() {
   // Need to get logged in user profile
@@ -21,16 +22,16 @@ export default function AddOfficerPage() {
     { enabled: status === 'authenticated' && officerStatusData.isOfficer },
   );
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['officerEligibleProfiles']>([]);
+  const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['officerEligibleProfiles']>(
+    [],
+  );
   let filteredProfiles = profiles;
   if (searchQuery !== '') {
-    filteredProfiles = profiles.filter(
-      (profile) =>
-        profile.netid === searchQuery ||
-        `${profile.firstName} ${profile.lastName}`.toLowerCase() === searchQuery.toLowerCase() ||
-        profile.firstName.toLowerCase() === searchQuery.toLowerCase() ||
-        profile.lastName.toLowerCase() === searchQuery.toLowerCase(),
-    );
+    const fuse = new Fuse(profiles, {
+      keys: ['firstName', 'lastName'],
+    });
+    const result = fuse.search(searchQuery);
+    filteredProfiles = result.map((data) => data.item);
   } else {
     filteredProfiles = [];
   }

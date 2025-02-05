@@ -2284,6 +2284,7 @@ export type Mutation = {
   updateOneScoreEntry?: Maybe<ScoreEntry>;
   updateOneTypeformApplication?: Maybe<TypeformApplication>;
   upsertOneDirector: Director;
+  upsertOneOfficer: Officer;
   upsertOneParticipant: Participant;
   upsertOneProfile: Profile;
 };
@@ -2415,6 +2416,13 @@ export type MutationUpsertOneDirectorArgs = {
   create: DirectorCreateInput;
   update: DirectorUpdateInput;
   where: DirectorWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneOfficerArgs = {
+  create: OfficerCreateInput;
+  update: OfficerUpdateInput;
+  where: OfficerWhereUniqueInput;
 };
 
 
@@ -2565,6 +2573,14 @@ export type OfficerCount = {
 
 export type OfficerCountDivisionsArgs = {
   where?: InputMaybe<DivisionWhereInput>;
+};
+
+export type OfficerCreateInput = {
+  director?: InputMaybe<DirectorCreateNestedOneWithoutOfficerInput>;
+  divisions?: InputMaybe<DivisionCreateNestedManyWithoutOfficersInput>;
+  dummy?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  profile: ProfileCreateNestedOneWithoutOfficerInput;
 };
 
 export type OfficerCreateNestedManyWithoutDivisionsInput = {
@@ -5327,12 +5343,13 @@ export type GetAddOfficerPageDataQueryVariables = Exact<{ [key: string]: never; 
 export type GetAddOfficerPageDataQuery = { __typename?: 'Query', me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } | null } | null }, officerEligibleProfiles: Array<{ __typename?: 'Profile', lastName: string, firstName: string, netid: string, id: string }> };
 
 export type AddUserToDivisionMutationVariables = Exact<{
-  data: OfficerUpdateInput;
   where: OfficerWhereUniqueInput;
+  create: OfficerCreateInput;
+  update: OfficerUpdateInput;
 }>;
 
 
-export type AddUserToDivisionMutation = { __typename?: 'Mutation', updateOneOfficer?: { __typename?: 'Officer', profile: { __typename?: 'Profile', firstName: string, lastName: string, officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } } | null };
+export type AddUserToDivisionMutation = { __typename?: 'Mutation', upsertOneOfficer: { __typename?: 'Officer', profile: { __typename?: 'Profile', firstName: string, lastName: string }, divisions: Array<{ __typename?: 'Division', deptName: string }> } };
 
 export type GetAddParticipantPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5913,16 +5930,14 @@ export const GetAddOfficerPageDataDocument = gql`
 }
     `;
 export const AddUserToDivisionDocument = gql`
-    mutation addUserToDivision($data: OfficerUpdateInput!, $where: OfficerWhereUniqueInput!) {
-  updateOneOfficer(data: $data, where: $where) {
+    mutation addUserToDivision($where: OfficerWhereUniqueInput!, $create: OfficerCreateInput!, $update: OfficerUpdateInput!) {
+  upsertOneOfficer(where: $where, create: $create, update: $update) {
     profile {
       firstName
       lastName
-      officer {
-        divisions {
-          deptName
-        }
-      }
+    }
+    divisions {
+      deptName
     }
   }
 }
