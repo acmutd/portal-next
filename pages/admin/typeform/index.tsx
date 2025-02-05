@@ -20,17 +20,10 @@ const ApplicationsEditPage: NextPage = () => {
 
   const { data, isLoading, error } = useQuery(
     ['editAppData'],
-    () => gqlQueries.getEditViewApplicationList({
-      where: {
-        active: {
-          equals: true
-        }
-      }
-    }),
+    () => gqlQueries.getEditViewApplicationList(),
     {
       enabled: status === 'authenticated',
       retry: false,
-      refetchOnWindowFocus: true
     },
   );
 
@@ -39,7 +32,7 @@ const ApplicationsEditPage: NextPage = () => {
   if (error) {
     return (
       <ErrorComponent
-        errorCode={(error instanceof GraphQLError ? error.extensions?.code?.toString() : 'UNKNOWN_ERROR')}
+        errorCode={(error instanceof GraphQLError ? error.extensions?.code?.toString() || 'UNKNOWN_ERROR' : 'UNKNOWN_ERROR')}
         errorMessage={error instanceof Error ? error.message : 'An unknown error occurred'}
       />
     );

@@ -4888,7 +4888,7 @@ export type TypeformApplication = {
   __typename?: 'TypeformApplication';
   active: Scalars['Boolean']['output'];
   description: Scalars['String']['output'];
-  division: Scalars['String']['output'];
+  division?: Maybe<Scalars['String']['output']>;
   endpoint: Scalars['String']['output'];
   externalResourceUrl: Scalars['String']['output'];
   id: Scalars['String']['output'];
@@ -4899,7 +4899,7 @@ export type TypeformApplication = {
 export type TypeformApplicationCreateInput = {
   active: Scalars['Boolean']['input'];
   description: Scalars['String']['input'];
-  division: Scalars['String']['input'];
+  division?: InputMaybe<Scalars['String']['input']>;
   endpoint: Scalars['String']['input'];
   externalResourceUrl: Scalars['String']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
@@ -4932,7 +4932,7 @@ export enum TypeformApplicationScalarFieldEnum {
 export type TypeformApplicationUpdateInput = {
   active?: InputMaybe<BoolFieldUpdateOperationsInput>;
   description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  division?: InputMaybe<StringFieldUpdateOperationsInput>;
+  division?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   endpoint?: InputMaybe<StringFieldUpdateOperationsInput>;
   externalResourceUrl?: InputMaybe<StringFieldUpdateOperationsInput>;
   typeformId?: InputMaybe<StringFieldUpdateOperationsInput>;
@@ -4945,7 +4945,7 @@ export type TypeformApplicationWhereInput = {
   OR?: InputMaybe<Array<TypeformApplicationWhereInput>>;
   active?: InputMaybe<BoolFilter>;
   description?: InputMaybe<StringFilter>;
-  division?: InputMaybe<StringFilter>;
+  division?: InputMaybe<StringNullableFilter>;
   endpoint?: InputMaybe<StringFilter>;
   externalResourceUrl?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -4959,7 +4959,7 @@ export type TypeformApplicationWhereUniqueInput = {
   OR?: InputMaybe<Array<TypeformApplicationWhereInput>>;
   active?: InputMaybe<BoolFilter>;
   description?: InputMaybe<StringFilter>;
-  division?: InputMaybe<StringFilter>;
+  division?: InputMaybe<StringNullableFilter>;
   endpoint?: InputMaybe<StringFilter>;
   externalResourceUrl?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -5173,7 +5173,7 @@ export type GetApplicationDataQueryVariables = Exact<{
 }>;
 
 
-export type GetApplicationDataQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string, endpoint: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string, typeformSubmissions: Array<{ __typename?: 'TypeformSubmission', typeformName: string }> } | null } };
+export type GetApplicationDataQuery = { __typename?: 'Query', returnAllOpenApp: Array<{ __typename?: 'Application', id: string, name: string, externalResourceUrl: string, description: string, division: { __typename?: 'Division', deptName: string } }>, typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division?: string | null, externalResourceUrl: string, endpoint: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string, typeformSubmissions: Array<{ __typename?: 'TypeformSubmission', typeformName: string }> } | null } };
 
 export type GetSingleApplicationDataQueryVariables = Exact<{
   where?: InputMaybe<ApplicationWhereInput>;
@@ -5260,7 +5260,7 @@ export type GetDivisionDataQuery = { __typename?: 'Query', divisions: Array<{ __
 export type GetEventPageUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetEventPageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean, attendedEvents: Array<{ __typename?: 'Event', summary: string, start: any, location: string }> }, upcomingEvents: Array<{ __typename?: 'Event', id: string, summary: string, start: any, location: string, end: any, description: string, url: string, isPublic: boolean }> };
+export type GetEventPageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', isOfficer: boolean, attendedEvents: Array<{ __typename?: 'Event', id: string, summary: string, start: any, end: any, location: string, description: string }> }, upcomingEvents: Array<{ __typename?: 'Event', id: string, summary: string, start: any, location: string, end: any, description: string, url: string, isPublic: boolean }> };
 
 export type GetAdminEventDataQueryVariables = Exact<{
   orderBy?: InputMaybe<Array<EventOrderByWithRelationInput> | EventOrderByWithRelationInput>;
@@ -5485,14 +5485,14 @@ export type GetTypeformApplicationsWithUserDataQueryVariables = Exact<{
 }>;
 
 
-export type GetTypeformApplicationsWithUserDataQuery = { __typename?: 'Query', typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
+export type GetTypeformApplicationsWithUserDataQuery = { __typename?: 'Query', typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division?: string | null, externalResourceUrl: string }>, me: { __typename?: 'User', isOfficer: boolean, profile?: { __typename?: 'Profile', firstName: string, email: string, lastName: string, major: string, netid: string, classStanding: string } | null } };
 
 export type FindTypeformApplicationQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
 }>;
 
 
-export type FindTypeformApplicationQuery = { __typename?: 'Query', findFirstTypeformApplication?: { __typename?: 'TypeformApplication', id: string, typeformName: string, description: string, endpoint: string, externalResourceUrl: string, active: boolean, typeformId: string, division: string } | null };
+export type FindTypeformApplicationQuery = { __typename?: 'Query', findFirstTypeformApplication?: { __typename?: 'TypeformApplication', id: string, typeformName: string, description: string, endpoint: string, externalResourceUrl: string, active: boolean, typeformId: string, division?: string | null } | null };
 
 export type UpdateTypeformApplicationMutationVariables = Exact<{
   data: TypeformApplicationUpdateInput;
@@ -5514,7 +5514,7 @@ export type GetEditViewApplicationListQueryVariables = Exact<{
 }>;
 
 
-export type GetEditViewApplicationListQuery = { __typename?: 'Query', typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division: string }>, me: { __typename?: 'User', isOfficer: boolean } };
+export type GetEditViewApplicationListQuery = { __typename?: 'Query', typeformApplications: Array<{ __typename?: 'TypeformApplication', id: string, active: boolean, description: string, typeformId: string, typeformName: string, division?: string | null }>, me: { __typename?: 'User', isOfficer: boolean } };
 
 export type GetUserDataForWidgetViewQueryVariables = Exact<{
   where?: InputMaybe<TypeformApplicationWhereInput>;
@@ -5735,9 +5735,12 @@ export const GetEventPageUserInfoDocument = gql`
     query getEventPageUserInfo {
   me {
     attendedEvents {
+      id
       summary
       start
+      end
       location
+      description
     }
     isOfficer
   }

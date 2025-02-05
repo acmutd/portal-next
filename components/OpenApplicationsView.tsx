@@ -17,8 +17,8 @@ interface OpenApplicationsViewProps {
   };
 }
 
-const getDivisionColors = (division: string) => {
-  const divisionLower = division.toLowerCase();
+const getDivisionColors = (division: string | null | undefined) => {
+  const divisionLower = division?.toLowerCase() || '';
   if (divisionLower.includes('project')) {
     return {
       bg: 'bg-blue-600/20',

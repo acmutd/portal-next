@@ -1,9 +1,12 @@
 query getEventPageUserInfo {
   me {
     attendedEvents {
+      id
       summary
       start
+      end
       location
+      description
     }
     isOfficer
   }
