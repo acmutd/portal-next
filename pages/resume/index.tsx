@@ -9,7 +9,7 @@ import CircularBlur from 'components/CircularBlur';
 import DocumentIcon from 'icons/DocumentIcon';
 import { gqlQueries } from 'src/api';
 import { Action, FileCategory } from 'lib/generated/graphql';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 
 export default function ResumePage() {
   const [uploadReady, setUploadReady] = useState(false);

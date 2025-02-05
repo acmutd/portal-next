@@ -39,6 +39,7 @@ import {
   CreateOneApplicationResolver,
   FindManyDivisionResolver,
   UpdateOneOfficerResolver,
+  CreateOneOfficerResolver,
   ScoreboardRelationsResolver,
   CreateOneEventCategoryResolver,
   UpsertOneParticipantResolver,
@@ -100,5 +101,6 @@ export const exposedResolvers: NonEmptyArray<Function> = [
   FindManyDivisionResolver,
   FindManyEventResolver,
   UpdateOneOfficerResolver,
-  UpdateOneScoreEntryResolver
+  UpdateOneScoreEntryResolver,
+  CreateOneOfficerResolver
 ];

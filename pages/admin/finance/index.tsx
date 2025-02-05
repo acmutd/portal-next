@@ -1,7 +1,7 @@
 import Chart from 'chart.js/auto';
 import { useRef, useEffect, useContext } from 'react';
 import { useSession } from 'next-auth/react';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';

@@ -1,3 +1,4 @@
+// pages/admin/AddOfficerPage.tsx
 import LoadingComponent from 'components/LoadingComponent';
 import { GetAddOfficerPageDataQuery } from 'lib/generated/graphql';
 import { useSession } from 'next-auth/react';
@@ -11,74 +12,75 @@ import { useRouter } from 'next/router';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 
 export default function AddOfficerPage() {
-  // Need to get logged in user profile
-  const { status, data: signedInUserData } = useSession({ required: true });
+  const { status } = useSession({ required: true });
   const officerStatusData = useContext(OfficerStatusContext);
   const router = useRouter();
-  const { data, error, isLoading } = useQuery(
+
+  // Query to fetch eligible profiles (those that can become officers)
+  const { data, isLoading } = useQuery(
     ['addOfficerPage'],
     () => gqlQueries.getAddOfficerPageData(),
-    { enabled: status === 'authenticated' && officerStatusData.isOfficer },
+    { enabled: status === 'authenticated' && officerStatusData.isOfficer }
   );
+
+  // Query to fetch all available divisions
+  const { data: divisionsData, isLoading: isDivisionsLoading } = useQuery(
+    ['divisions'],
+    () => gqlQueries.getDivisionData(),
+    { enabled: status === 'authenticated' }
+  );
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [profiles, setProfiles] = useState<GetAddOfficerPageDataQuery['officerEligibleProfiles']>([]);
-  let filteredProfiles = profiles;
-  if (searchQuery !== '') {
-    filteredProfiles = profiles.filter(
-      (profile) =>
-        profile.netid === searchQuery ||
-        `${profile.firstName} ${profile.lastName}`.toLowerCase() === searchQuery.toLowerCase() ||
-        profile.firstName.toLowerCase() === searchQuery.toLowerCase() ||
-        profile.lastName.toLowerCase() === searchQuery.toLowerCase(),
-    );
-  } else {
-    filteredProfiles = [];
-  }
 
-  const debouncedResults = useMemo(() => {
-    return debounce((e) => setSearchQuery(e.target.value), 300);
-  }, []);
+  // Use substring search (case-insensitive)
+  const lowerSearch = searchQuery.toLowerCase();
+  const filteredProfiles =
+    searchQuery === ''
+      ? profiles
+      : profiles.filter((profile) =>
+          profile.netid.toLowerCase().includes(lowerSearch) ||
+          (`${profile.firstName} ${profile.lastName}`).toLowerCase().includes(lowerSearch)
+        );
+
+  const debouncedResults = useMemo(
+    () => debounce((e) => setSearchQuery(e.target.value), 300),
+    []
+  );
 
   useEffect(() => {
-    if (isLoading) return;
-    if (data) setProfiles(data.officerEligibleProfiles);
+    if (!isLoading && data) {
+      setProfiles(data.officerEligibleProfiles);
+    }
   }, [data, isLoading]);
 
   useEffect(() => {
     return () => {
       debouncedResults.cancel();
     };
-  });
+  }, [debouncedResults]);
 
-  if (isLoading) return <LoadingComponent />;
+  if (isLoading || isDivisionsLoading) return <LoadingComponent />;
   if (!officerStatusData.isOfficer) {
     return <AdminOnlyComponent />;
   }
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl text-white p-3">Add user to division as officer</h1>
-      {/* Search Box (search by either name or netid) */}
+      <h1 className="text-2xl text-white p-3">Make a User an Officer</h1>
       <input
-        placeholder="Start off by looking for someone by their name or netid"
+        placeholder="Search by name or netid"
         className="bg-transparent border border-2-gray rounded-2xl w-full lg:w-3/5 text-white"
         type="text"
         onChange={debouncedResults}
       />
-
-      {/* Data result (show all data that matches) */}
       {filteredProfiles.map((profile) => (
         <div key={profile.id} className="my-3 w-3/5">
           <MakeUserOfficerCard
             firstName={profile.firstName}
             lastName={profile.lastName}
             netid={profile.netid}
-            divisions={
-              data?.me.profile?.officer?.divisions.map(({ id, deptName }) => ({
-                id,
-                deptName,
-              })) || []
-            }
+            availableDivisions={divisionsData?.divisions || []} // Pass the full list of divisions
             profileId={profile.id}
           />
         </div>

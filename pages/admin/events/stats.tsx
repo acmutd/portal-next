@@ -1,5 +1,5 @@
 import ErrorComponent from 'components/ErrorComponent';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import EventListView from 'components/admin/events/EventListView';
 import EventParticipantListView from 'components/admin/events/EventParticipantListView';

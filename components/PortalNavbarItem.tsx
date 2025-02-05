@@ -19,11 +19,20 @@ interface NextLinkForwardRefTypes {
 const StyledA = styled(motion.a)<ACMNavbarItemPropTypes>`
   position: relative;
   overflow: hidden;
-  padding: 10px 0px;
-
+  padding: 12px 0px;
   width: 100%;
   color: ${(props) => (props.theme === 'dark' ? 'white' : 'black')};
   font-size: 36px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: ${(props) =>
+      props.$active
+        ? `linear-gradient(90deg,${props.color || '#E10087'} 0%,${
+            props.gradientColor || props.color || '#4004C0'
+          } 100%)`
+        : 'rgba(255, 255, 255, 0.1)'};
+  }
 
   background: ${(props) =>
     props.$active

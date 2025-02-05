@@ -1,4 +1,4 @@
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import NewScoreboardForm from 'components/admin/scoreboard/add/NewScoreboardForm';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';

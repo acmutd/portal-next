@@ -1,5 +1,5 @@
 import ErrorComponent from 'components/ErrorComponent';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import AddDirectorForm from 'components/admin/director/add/AddDirectorForm';
 import PageTitle from 'components/admin/director/add/PageTitle';
@@ -77,10 +77,10 @@ export default function AddDirectorPage() {
 
   return (
     <div className="p-5">
-      <PageTitle handleGoBack={() => router.push('/admin/director/manage')} />
+      <PageTitle handleGoBack={() => router.push('/admin/director/view')} />
       <AddDirectorForm
-        availableDivisions={data!.me!.profile!.officer!.divisions}
-        eligibleOfficers={data!.directorEligibleOfficers}
+        availableDivisions={data!.divisions}
+        eligibleOfficers={data!.officers}
         handleAddNewOfficer={(officerId, divisionId) =>
           addNewDirectorHandler(officerId, divisionId).then(() =>
             alert('Successfully added new officer'),

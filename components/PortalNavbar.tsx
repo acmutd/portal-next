@@ -21,14 +21,16 @@ const DesktopDiv = styled.div`
 `;
 
 const DesktopDivBG = styled.div`
-  background-color: #ffffff17;
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 90%;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 `;
+
 
 export default function Navbar({ children }: React.PropsWithChildren<unknown>) {
   return (

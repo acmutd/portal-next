@@ -16,7 +16,9 @@ import { useQuery } from 'react-query';
 import { GetEventPageUserInfoQuery } from 'lib/generated/graphql';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Events';
+import EventCard from 'components/events/EventCard';
+import AddEventCard from 'components/events/AddEventCard';
 
 export default function EventPage() {
   const { status } = useSession({ required: true });
@@ -50,27 +52,44 @@ export default function EventPage() {
   }
 
   return (
-    <div className="w-full text-white p-4">
-      <EventHeader
-        isInEditMode={false}
-        isOfficer={data!.me.isOfficer}
-      />
-      <div className="flex flex-col gap-y-5">
-        <EventSection
-          sectionName="upcoming events"
-          events={data!.upcomingEvents}
-          onEventSelected={(eventIndex) => setCurrentEvent(data!.upcomingEvents[eventIndex])}
-          allowedActions={['click to view details']}
-          allowCreateEventAction={data!.me.isOfficer}
-          isEditMode={false}
+    <div className="min-h-screen w-full p-8">
+      <div className="max-w-7xl mx-auto">
+        <EventHeader
+          isInEditMode={false}
+          isOfficer={data!.me.isOfficer}
         />
-        <EventSection
-          sectionName="attended events"
-          events={data!.me.attendedEvents}
-          allowedActions={[]}
-          allowCreateEventAction={false}
-          isEditMode={false}
-        />
+        <div className="space-y-12">
+          <section>
+            <h2 className="text-2xl font-bold text-white mb-6">Upcoming Events</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data!.upcomingEvents.map((event, index) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => setCurrentEvent(data!.upcomingEvents[index])}
+                  eventActions={['click to view details']}
+                />
+              ))}
+              {data!.me.isOfficer && (
+                <AddEventCard />
+              )}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-white mb-6">Attended Events</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {data!.me.attendedEvents.map((event) => (
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  onClick={() => {}}
+                  eventActions={[]}
+                />
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );

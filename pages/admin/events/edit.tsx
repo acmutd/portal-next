@@ -15,7 +15,7 @@ import { useQuery } from 'react-query';
 import { GetAdminEventDataQuery, SortOrder } from 'lib/generated/graphql';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 

@@ -25,10 +25,8 @@ import {
 import { Button } from 'components/ui/button';
 
 interface AddDirectorFormProps {
-  eligibleOfficers: GetAddDirectorPageInfoQuery['directorEligibleOfficers'];
-  availableDivisions: NonNullable<
-    NonNullable<GetAddDirectorPageInfoQuery['me']['profile']>['officer']
-  >['divisions'];
+  eligibleOfficers: GetAddDirectorPageInfoQuery['officers'];
+  availableDivisions: GetAddDirectorPageInfoQuery['divisions'];
   handleAddNewOfficer: (officerId: string, divisionId: string) => Promise<void>;
 }
 
@@ -122,22 +120,54 @@ export default function AddDirectorForm({
             control={form.control}
             name="divisionId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel className="text-white">Division</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select division" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {availableDivisions.map((division) => (
-                      <SelectItem key={division.id} value={division.id}>
-                        {division.deptName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          'w-full justify-between',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        {field.value
+                          ? availableDivisions.find((division) => division.id === field.value)?.deptName
+                          : 'Select division'}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0">
+                    <Command className="w-[47.7vw]">
+                      <CommandInput placeholder="Search division..." />
+                      <CommandList>
+                        <CommandEmpty>No division found.</CommandEmpty>
+                        <CommandGroup>
+                          {availableDivisions.map((division) => (
+                            <CommandItem
+                              value={division.deptName}
+                              key={division.id}
+                              onSelect={() => {
+                                form.setValue('divisionId', division.id);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  division.id === field.value ? 'opacity-100' : 'opacity-0',
+                                )}
+                              />
+                              {division.deptName}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormMessage />
               </FormItem>
             )}

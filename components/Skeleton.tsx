@@ -142,7 +142,11 @@ const Skeleton = ({ children }: any) => {
                       return (
                         <Link key={idx} href={page.uri} passHref className="cursor-pointer">
                           <ACMMobileNavbarItem $active={active}>
-                            {page.svg && <page.svg fill={active ? '#fff' : '#000'} />}
+                            <page.svg 
+                              width="24" 
+                              height="24" 
+                              fill={active ? '#fff' : 'rgba(255, 255, 255, 0.6)'} 
+                            />
                             <span className="text-center whitespace-nowrap">{page.name}</span>
                           </ACMMobileNavbarItem>
                         </Link>

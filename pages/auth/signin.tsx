@@ -1,4 +1,3 @@
-import ACMButton from 'components/PortalButton';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
 import Image from 'next/image';
@@ -10,7 +9,7 @@ import {
   useSession,
 } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import WhiteACMLogo from '../../public/assets/acm/logo_white.svg';
 
 interface SignInPageProps {
   providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>;
@@ -20,8 +19,6 @@ interface SignInPageProps {
 const providerIcons: Record<string, string> = {
   Google: '/assets/acm/google.png',
   Discord: '/assets/acm/discord.png',
-  'ACM Account': '/assets/acm/logo_white.svg',
-  Cognito: '/assets/acm/logo_white.fbdb4d95.svg',
 };
 
 export default function SignInPage({ providers }: SignInPageProps) {
@@ -41,53 +38,64 @@ export default function SignInPage({ providers }: SignInPageProps) {
   }
 
   return (
-    <div className="w-full grid place-items-center h-full">
-      <div className="flex flex-col md:flex-row w-full md:w-[65%] place-items-center md:h-[30%]">
-        <div className="w-[70%] flex flex-row md:flex-col place-items-center">
-          <div>
-            <img className="-rotate-12" src="/assets/acm/mrpeechi.png" alt="acm mascot" />
+    <div className="min-h-screen w-full p-4 md:p-8 flex flex-col justify-center items-center">
+      <div className="w-full max-w-6xl flex flex-col md:flex-row justify-center items-center gap-8">
+        {/* Portal Title Section */}
+        <div className="w-full md:w-[512px] flex flex-col items-center gap-4 mb-8 md:mb-0">
+          <div className="flex justify-center items-center gap-4">
+            <Image src={WhiteACMLogo} alt="ACM Logo" width={150} height={150} />
+            <div className="text-white text-[100px] font-bold font-['Gilroy']">
+              portal
+            </div>
+          </div>
+          <div className="text-center text-white text-3xl font-extralight font-['Gilroy']">
+            The world's largest international
+            <br />
+            computing society, here at UT Dallas
           </div>
         </div>
-        <div className="w-full flex flex-col h-full">
-          <div className="flex flex-col p-10 place-items-center space-y-1 h-full">
-            {!session && <div className="text-2xl font-bold text-gray-100">Welcome to the</div>}
-            <div className="flex flex-row place-content-center space-x-2">
-              <div className="flex flex-col place-content-center">
-                <Image src="/assets/acm/logo_white.svg" alt="ACM Logo" width={70} height={70} />
-              </div>
-              <div className="flex flex-col place-content-center">
-                <p className="text-4xl text-white font-bold text-center">acm</p>
-                <p className="text-4xl text-white font-bold text-center">portal</p>
-              </div>
+
+        {/* Sign In Section */}
+        <div className="w-full md:w-auto p-6 bg-black/30 flex flex-col justify-start items-center gap-6">
+          <div className="w-full px-2.5 flex flex-col items-center gap-2.5">
+            <div>
+              <span className="text-white text-2xl md:text-3xl font-bold font-['Gilroy']">
+                Sign in{' '}
+              </span>
+              <span className="text-white text-2xl md:text-3xl font-normal font-['Gilroy']">
+                to access acm portal{' '}
+              </span>
             </div>
           </div>
-          <div className="flex flex-row place-content-center space-x-2">
-            <div className="text-xl mt-6 font-semibold text-gray-100 h-[60%]">
-              {session ? 'connect your account' : 'log in'} with
-            </div>
-          </div>
-          {Object.values(providers)
-            .filter(
-              (provider) =>
-                (provider.id !== 'google_admin' && provider.name != 'Cognito') || session,
-            )
-            .map((provider) => (
-              <div className=" text-white flex place-content-center mt-2 p-2" key={provider.name}>
+          <div className="w-full flex flex-col items-center gap-3">
+            {Object.values(providers)
+              .filter((provider) => provider.name === 'Google' || provider.name === 'Discord')
+              .map((provider) => (
                 <button
-                  type="button"
-                  className="text-l font-semibold  text-gray-100 flex space-x-2 place-content-evenly px-3 py-2"
+                  key={provider.name}
                   onClick={() => signIn(provider.id, { callbackUrl: `${window.location.origin}/` })}
+                  className="w-full max-w-[432px] px-8 py-3 bg-white/10 backdrop-blur-sm flex justify-center items-center gap-8"
                 >
-                  <div className="flex flex-col place-content-center">
-                    <img src={providerIcons[provider.name]} alt={provider.name} />
+                  <div className="w-10 h-10 relative flex items-center justify-center">
+                    <Image
+                      src={providerIcons[provider.name]}
+                      alt={provider.name}
+                      width={42}
+                      height={42}
+                      className="object-contain"
+                    />
                   </div>
-                  <div className="mx-5 w-full h-full whitespace-nowrap overflow-hidden flex flex-col place-content-center text-xl">
-                    <div>{provider.name != 'ACM Account' ? provider.name : 'ACM Email'}</div>
+                  <div>
+                    <span className="text-white text-xl md:text-3xl font-normal font-['Gilroy']">
+                      Continue with{' '}
+                    </span>
+                    <span className="text-white text-xl md:text-3xl font-bold font-['Gilroy']">
+                      {provider.name}
+                    </span>
                   </div>
-                  {/* <span>{provider.name}</span> */}
                 </button>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { gqlQueries } from 'src/api';
 import { useQuery } from 'react-query';
 import ErrorComponent from 'components/ErrorComponent';
 import { GraphQLError } from 'graphql/error';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { useContext } from 'react';
 import AdminOnlyComponent from 'components/admin/AdminOnly';

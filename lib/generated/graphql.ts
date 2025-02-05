@@ -1540,9 +1540,14 @@ export type EventReservation = {
   event: Event;
   eventId: Scalars['String']['output'];
   id: Scalars['String']['output'];
-  profile: Profile;
+  profile?: Maybe<Profile>;
   profileId: Scalars['String']['output'];
   status: Scalars['String']['output'];
+};
+
+
+export type EventReservationProfileArgs = {
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
 export type EventReservationCreateManyEventInput = {
@@ -1591,7 +1596,7 @@ export type EventReservationCreateOrConnectWithoutProfileInput = {
 
 export type EventReservationCreateWithoutEventInput = {
   id?: InputMaybe<Scalars['String']['input']>;
-  profile: ProfileCreateNestedOneWithoutEventsInput;
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutEventsInput>;
   status: Scalars['String']['input'];
 };
 
@@ -1695,7 +1700,7 @@ export type EventReservationUpdateWithWhereUniqueWithoutProfileInput = {
 };
 
 export type EventReservationUpdateWithoutEventInput = {
-  profile?: InputMaybe<ProfileUpdateOneRequiredWithoutEventsNestedInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutEventsNestedInput>;
   status?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1723,7 +1728,7 @@ export type EventReservationWhereInput = {
   event?: InputMaybe<EventRelationFilter>;
   eventId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  profile?: InputMaybe<ProfileRelationFilter>;
+  profile?: InputMaybe<ProfileNullableRelationFilter>;
   profileId?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringFilter>;
 };
@@ -1735,7 +1740,7 @@ export type EventReservationWhereUniqueInput = {
   event?: InputMaybe<EventRelationFilter>;
   eventId?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  profile?: InputMaybe<ProfileRelationFilter>;
+  profile?: InputMaybe<ProfileNullableRelationFilter>;
   profileId?: InputMaybe<StringFilter>;
   profileId_eventId?: InputMaybe<EventReservationProfileIdEventIdCompoundUniqueInput>;
   status?: InputMaybe<StringFilter>;
@@ -2267,6 +2272,7 @@ export type Mutation = {
   createOneEvent: Event;
   createOneEventCategory: EventCategory;
   createOneFilledApplication: FilledApplication;
+  createOneOfficer: Officer;
   createOneScoreEntry: ScoreEntry;
   createOneScoreboard: Scoreboard;
   createOneTypeformApplication: TypeformApplication;
@@ -2322,6 +2328,11 @@ export type MutationCreateOneEventCategoryArgs = {
 
 export type MutationCreateOneFilledApplicationArgs = {
   data: FilledApplicationCreateInput;
+};
+
+
+export type MutationCreateOneOfficerArgs = {
+  data: OfficerCreateInput;
 };
 
 
@@ -2565,6 +2576,14 @@ export type OfficerCount = {
 
 export type OfficerCountDivisionsArgs = {
   where?: InputMaybe<DivisionWhereInput>;
+};
+
+export type OfficerCreateInput = {
+  director?: InputMaybe<DirectorCreateNestedOneWithoutOfficerInput>;
+  divisions?: InputMaybe<DivisionCreateNestedManyWithoutOfficersInput>;
+  dummy?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  profile: ProfileCreateNestedOneWithoutOfficerInput;
 };
 
 export type OfficerCreateNestedManyWithoutDivisionsInput = {
@@ -3366,14 +3385,6 @@ export type ProfileUpdateInput = {
   utdStudent?: InputMaybe<BoolFieldUpdateOperationsInput>;
 };
 
-export type ProfileUpdateOneRequiredWithoutEventsNestedInput = {
-  connect?: InputMaybe<ProfileWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutEventsInput>;
-  create?: InputMaybe<ProfileCreateWithoutEventsInput>;
-  update?: InputMaybe<ProfileUpdateToOneWithWhereWithoutEventsInput>;
-  upsert?: InputMaybe<ProfileUpsertWithoutEventsInput>;
-};
-
 export type ProfileUpdateOneRequiredWithoutFillApplicationsNestedInput = {
   connect?: InputMaybe<ProfileWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutFillApplicationsInput>;
@@ -3396,6 +3407,16 @@ export type ProfileUpdateOneRequiredWithoutParticipantNestedInput = {
   create?: InputMaybe<ProfileCreateWithoutParticipantInput>;
   update?: InputMaybe<ProfileUpdateToOneWithWhereWithoutParticipantInput>;
   upsert?: InputMaybe<ProfileUpsertWithoutParticipantInput>;
+};
+
+export type ProfileUpdateOneWithoutEventsNestedInput = {
+  connect?: InputMaybe<ProfileWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutEventsInput>;
+  create?: InputMaybe<ProfileCreateWithoutEventsInput>;
+  delete?: InputMaybe<ProfileWhereInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  update?: InputMaybe<ProfileUpdateToOneWithWhereWithoutEventsInput>;
+  upsert?: InputMaybe<ProfileUpsertWithoutEventsInput>;
 };
 
 export type ProfileUpdateToOneWithWhereWithoutEventsInput = {
@@ -5191,7 +5212,7 @@ export type CreateApplicationMutation = { __typename?: 'Mutation', createOneAppl
 export type GetAttendanceInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAttendanceInfoQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', summary: string, description: string, location: string, start: any, end: any, profiles: Array<{ __typename?: 'EventReservation', profile: { __typename?: 'Profile', firstName: string, lastName: string } }> }> };
+export type GetAttendanceInfoQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', summary: string, description: string, location: string, start: any, end: any, profiles: Array<{ __typename?: 'EventReservation', profile?: { __typename?: 'Profile', firstName: string, lastName: string } | null }> }> };
 
 export type CheckInToEventMutationVariables = Exact<{
   checkInData: EventCheckinInput;
@@ -5220,7 +5241,7 @@ export type DeleteDirectorMutation = { __typename?: 'Mutation', deleteOneDirecto
 export type GetAddDirectorPageInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAddDirectorPageInfoQuery = { __typename?: 'Query', directorEligibleOfficers: Array<{ __typename?: 'Officer', id: string, profile: { __typename?: 'Profile', firstName: string, lastName: string } }>, me: { __typename?: 'User', profile?: { __typename?: 'Profile', officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string, id: string }> } | null } | null } };
+export type GetAddDirectorPageInfoQuery = { __typename?: 'Query', officers: Array<{ __typename?: 'Officer', id: string, profile: { __typename?: 'Profile', firstName: string, lastName: string } }>, divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> };
 
 export type AddNewDirectorMutationVariables = Exact<{
   where: DirectorWhereUniqueInput;
@@ -5306,7 +5327,7 @@ export type GetHomePageUserInfoQueryVariables = Exact<{
 }>;
 
 
-export type GetHomePageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', attendedEvents: Array<{ __typename?: 'Event', description: string, location: string, summary: string, start: any }> }, profile?: { __typename?: 'Profile', firstName: string, netid: string, email: string } | null };
+export type GetHomePageUserInfoQuery = { __typename?: 'Query', me: { __typename?: 'User', isDirector: boolean, isOfficer: boolean, isMember: boolean, attendedEvents: Array<{ __typename?: 'Event', description: string, location: string, summary: string, start: any }> }, profile?: { __typename?: 'Profile', firstName: string, netid: string, email: string, officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } | null };
 
 export type GetMemberListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5332,7 +5353,14 @@ export type AddUserToDivisionMutationVariables = Exact<{
 }>;
 
 
-export type AddUserToDivisionMutation = { __typename?: 'Mutation', updateOneOfficer?: { __typename?: 'Officer', profile: { __typename?: 'Profile', firstName: string, lastName: string, officer?: { __typename?: 'Officer', divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } } | null };
+export type AddUserToDivisionMutation = { __typename?: 'Mutation', updateOneOfficer?: { __typename?: 'Officer', profile: { __typename?: 'Profile', firstName: string, lastName: string, officer?: { __typename?: 'Officer', divisionIds: Array<string>, divisions: Array<{ __typename?: 'Division', deptName: string }> } | null } } | null };
+
+export type CreateOneOfficerMutationVariables = Exact<{
+  data: OfficerCreateInput;
+}>;
+
+
+export type CreateOneOfficerMutation = { __typename?: 'Mutation', createOneOfficer: { __typename?: 'Officer', id: string, profile: { __typename?: 'Profile', id: string, firstName: string, lastName: string }, divisions: Array<{ __typename?: 'Division', id: string, deptName: string }> } };
 
 export type GetAddParticipantPageDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5675,22 +5703,16 @@ export const DeleteDirectorDocument = gql`
     `;
 export const GetAddDirectorPageInfoDocument = gql`
     query getAddDirectorPageInfo {
-  directorEligibleOfficers {
+  officers {
     id
     profile {
       firstName
       lastName
     }
   }
-  me {
-    profile {
-      officer {
-        divisions {
-          deptName
-          id
-        }
-      }
-    }
+  divisions {
+    id
+    deptName
   }
 }
     `;
@@ -5860,6 +5882,9 @@ export const GetFinanceDataDocument = gql`
 export const GetHomePageUserInfoDocument = gql`
     query getHomePageUserInfo($where: ProfileWhereUniqueInput!) {
   me {
+    isDirector
+    isOfficer
+    isMember
     attendedEvents {
       description
       location
@@ -5871,6 +5896,11 @@ export const GetHomePageUserInfoDocument = gql`
     firstName
     netid
     email
+    officer {
+      divisions {
+        deptName
+      }
+    }
   }
 }
     `;
@@ -5919,10 +5949,27 @@ export const AddUserToDivisionDocument = gql`
       firstName
       lastName
       officer {
+        divisionIds
         divisions {
           deptName
         }
       }
+    }
+  }
+}
+    `;
+export const CreateOneOfficerDocument = gql`
+    mutation createOneOfficer($data: OfficerCreateInput!) {
+  createOneOfficer(data: $data) {
+    id
+    profile {
+      id
+      firstName
+      lastName
+    }
+    divisions {
+      id
+      deptName
     }
   }
 }
@@ -6363,6 +6410,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     addUserToDivision(variables: AddUserToDivisionMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<AddUserToDivisionMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<AddUserToDivisionMutation>(AddUserToDivisionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'addUserToDivision', 'mutation', variables);
+    },
+    createOneOfficer(variables: CreateOneOfficerMutationVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<CreateOneOfficerMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateOneOfficerMutation>(CreateOneOfficerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createOneOfficer', 'mutation', variables);
     },
     getAddParticipantPageData(variables?: GetAddParticipantPageDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<GetAddParticipantPageDataQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAddParticipantPageDataQuery>(GetAddParticipantPageDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAddParticipantPageData', 'query', variables);
