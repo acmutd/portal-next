@@ -68,6 +68,13 @@ export default function AdminToolsPage() {
     //   directorOnly: true
     // },
     {
+      title: 'Onboard New Officers',
+      description: 'Onboard new officers to GSuite. Automatically creates ACM email and sends welcome email.',
+      onChosen: () => router.push('/admin/officer-onboarding'),
+      directorOnly: true,
+      devDirectorOrExecOnly: false,
+    },
+    {
       title: 'ACM Directors',
       description: 'View and Manage ACM Directors',
       onChosen: () => router.push('/admin/director/view'),
@@ -103,11 +110,13 @@ export default function AdminToolsPage() {
           .map(({ title, description, onChosen }, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-3xl gap-y-4 flex flex-col justify-around bg-gray-200/5 outline outline-gray-100/10"
+              className={`p-6 rounded-3xl gap-y-4 flex flex-col justify-around bg-gray-200/5 outline outline-gray-100/10 ${
+          idx === 6 ? 'ring-2 ring-yellow-300 ring-offset-2 ring-offset-black animate-pulse' : ''
+              }`}
             >
               <div>
-                <h2 className="text-white font-bold text-xl mb-2">{title}</h2>
-                <p className="text-white">{description}</p>
+          <h2 className="text-white font-bold text-xl mb-2">{title}</h2>
+          <p className="text-white">{description}</p>
               </div>
               <Button onClick={onChosen} className="ml-auto">
                 Select
