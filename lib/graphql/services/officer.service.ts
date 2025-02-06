@@ -67,15 +67,13 @@ export default class OfficerService {
     async getOfficerEligibleProfiles(): Promise<Profile[]> {
         return this.prismaConnection.profile.findMany({
             where: {
-                user: {
-                    accounts: {
-                        some: {
-                            provider: {
-                                equals: "google_admin"
-                            }
-                        }
+                participant: {
+                    is: {
+                      divisions: {
+                        some: {} // ensures there's at least one associated division
+                      }
                     }
-                }
+                  }
             }
         })
     }
