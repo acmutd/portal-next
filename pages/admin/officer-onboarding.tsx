@@ -1,4 +1,28 @@
 import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { motion } from 'framer-motion';
+import { TrashIcon } from '@radix-ui/react-icons'; // import trashcan icon
+
+const orgUnits = ['/Development', '/Education', '/Research', '/HackUTD', '/Projects', '/Industry'];
+const groups = [
+  'acmindustry@acmutd.co',
+  'community@acmutd.co',
+  'development@acmutd.co',
+  'education@acmutd.co',
+  'finance-team@acmutd.co',
+  'hackutd-experience@acmutd.co',
+  'hackutd-finance@acmutd.co',
+  'hackutd-logistics@acmutd.co',
+  'hackutd-marketing@acmutd.co',
+  'hackutd@acmutd.co',
+  'hackutdindustry@acmutd.co',
+  'media@acmutd.co',
+  'outreach@acmutd.co',
+  'projects@acmutd.co',
+  'research@acmutd.co',
+  'tip@acmutd.co',
+  'sponsor@acmutd.co'
+];
 
 interface Officer {
   first_name: string;
@@ -9,168 +33,197 @@ interface Officer {
 }
 
 const OfficerOnboardingPage = () => {
-  const [officers, setOfficers] = useState<Officer[]>([{
-    first_name: '',
-    last_name: '',
-    org_unit_path: '',
-    groups: [],
-    send_to_email: ''
-  } as Officer]);
-  const [onboardingResults, setOnboardingResults] = useState<any[]>([]);
+  const { status } = useSession({ required: true });
+  const [officers, setOfficers] = useState<Officer[]>([
+    {
+      first_name: '',
+      last_name: '',
+      org_unit_path: '',
+      groups: [],
+      send_to_email: ''
+    }
+  ]);
   const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<any[]>([]);
   const [error, setError] = useState('');
 
-  const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (index: number, field: keyof Officer, value: any) => {
     const newOfficers = [...officers];
-    const { name, value } = event.target;
-    if (name in newOfficers[index]) {
-      (newOfficers[index] as any)[name] = value;
+    newOfficers[index] = { ...newOfficers[index], [field]: value };
+    setOfficers(newOfficers);
+  };
+
+  const handleRemoveOfficer = (index: number) => {
+    // Only allow removal if there is more than one officer
+    if (officers.length > 1) {
+      const newOfficers = officers.filter((_, i) => i !== index);
+      setOfficers(newOfficers);
     }
-    setOfficers(newOfficers);
   };
 
-  const handleGroupChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const newOfficers = [...officers] as Officer[];
-    newOfficers[index].groups = (event.target.value).split(',').map((group: string) => group.trim());
-    setOfficers(newOfficers);
-  };
-
-
-  const addOfficerForm = () => {
-    setOfficers([...officers, { first_name: '', last_name: '', org_unit_path: '', groups: [], send_to_email: '' }]);
-  };
-
-  const removeOfficerForm = (index: number) => {
-    const newOfficers = [...officers];
-    newOfficers.splice(index, 1);
-    setOfficers(newOfficers);
-  };
-
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
     setError('');
-    setOnboardingResults([]);
+    setResults([]);
 
     try {
       const response = await fetch('/api/admin/onboard-officer', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ officers }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.error || 'Failed to onboard officers');
-      } else {
-        const resultData = await response.json();
-        setOnboardingResults(resultData.results);
-      }
-    } catch (e: any) {
-      console.error('Frontend error:', e);
-      setError('Error onboarding officers: ' + e.message);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setResults(data.results);
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h1>Officer Onboarding</h1>
-      <form onSubmit={handleSubmit}>
-        {officers.map((officer, index) => (
-          <div key={index} style={{ marginBottom: '20px', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
-            <h3>Officer {index + 1}</h3>
-            <div style={{ marginBottom: '10px' }}>
-              <label htmlFor={`first_name-${index}`} style={{ display: 'block', marginBottom: '5px' }}>First Name:</label>
-              <input
-                type="text"
-                id={`first_name-${index}`}
-                name="first_name"
-                value={officer.first_name}
-                onChange={(event) => handleInputChange(index, event)}
-                style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                required
-              />
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <label htmlFor={`last_name-${index}`} style={{ display: 'block', marginBottom: '5px' }}>Last Name:</label>
-              <input
-                type="text"
-                id={`last_name-${index}`}
-                name="last_name"
-                value={officer.last_name}
-                onChange={(event) => handleInputChange(index, event)}
-                style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                required
-              />
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <label htmlFor={`org_unit_path-${index}`} style={{ display: 'block', marginBottom: '5px' }}>Org Unit Path:</label>
-              <input
-                type="text"
-                id={`org_unit_path-${index}`}
-                name="org_unit_path"
-                value={officer.org_unit_path}
-                onChange={(event) => handleInputChange(index, event)}
-                style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                required
-              />
-            </div>
-             <div style={{ marginBottom: '10px' }}>
-              <label htmlFor={`groups-${index}`} style={{ display: 'block', marginBottom: '5px' }}>Groups (comma-separated):</label>
-              <input
-                type="text"
-                id={`groups-${index}`}
-                name="groups"
-                value={officer.groups.join(', ')} // Display groups as comma-separated string
-                onChange={(event) => handleGroupChange(index, event)}
-                style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-              />
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <label htmlFor={`send_to_email-${index}`} style={{ display: 'block', marginBottom: '5px' }}>Personal Email:</label>
-              <input
-                type="email"
-                id={`send_to_email-${index}`}
-                name="send_to_email"
-                value={officer.send_to_email}
-                onChange={(event) => handleInputChange(index, event)}
-                style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                required
-              />
-            </div>
-            {officers.length > 1 && (
-              <button type="button" onClick={() => removeOfficerForm(index)}>Remove Officer</button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={addOfficerForm}>Add Officer</button>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Onboarding Officers...' : 'Onboard Officers'}
-        </button>
-      </form>
-
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-
-      {onboardingResults.length > 0 && (
-        <div>
-          <h2>Onboarding Results</h2>
-          {onboardingResults.map((result, index) => (
-            <div key={index} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #eee', borderRadius: '3px' }}>
-              <p><strong>Email:</strong> {result.email}</p>
-              <p><strong>Status:</strong> {result.status}</p>
-              {result.error && <p style={{ color: 'red' }}><strong>Error:</strong> {result.error}</p>}
-              {result.data && result.status === 'success' && (
-                <pre>{JSON.stringify(result.data, null, 2)}</pre>
+    <div className="min-h-screen text-white p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Officer Onboarding</h1>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {officers.map((officer, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="relative bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50"
+            >
+              {/* Trashcan button (only visible when more than one officer exists) */}
+              {officers.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => handleRemoveOfficer(index)}
+                  className="absolute top-2 right-2 text-red-500 hover:text-red-400"
+                >
+                  <TrashIcon className="h-6 w-6" />
+                </button>
               )}
-            </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2">First Name</label>
+                  <input
+                    type="text"
+                    value={officer.first_name}
+                    onChange={(e) => handleInputChange(index, 'first_name', e.target.value)}
+                    className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    value={officer.last_name}
+                    onChange={(e) => handleInputChange(index, 'last_name', e.target.value)}
+                    className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Send To Email</label>
+                  <input
+                    type="text"
+                    value={officer.send_to_email}
+                    onChange={(e) => handleInputChange(index, 'send_to_email', e.target.value)}
+                    className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">Organization Unit</label>
+                  <select
+                    value={officer.org_unit_path}
+                    onChange={(e) => handleInputChange(index, 'org_unit_path', e.target.value)}
+                    className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2"
+                    required
+                  >
+                    <option value="">Select Unit</option>
+                    {orgUnits.map(unit => (
+                      <option key={unit} value={unit}>
+                        {unit}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium mb-2">Groups</label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {groups.map(group => (
+                      <label key={group} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={officer.groups.includes(group)}
+                          onChange={(e) => {
+                            const newGroups = e.target.checked
+                              ? [...officer.groups, group]
+                              : officer.groups.filter(g => g !== group);
+                            handleInputChange(index, 'groups', newGroups);
+                          }}
+                          className="rounded border-gray-700 bg-gray-900/50"
+                        />
+                        <span className="text-sm">{group.split('@')[0]}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </div>
-      )}
+
+          <div className="flex gap-4">
+            <button
+              type="button"
+              onClick={() =>
+                setOfficers([
+                  ...officers,
+                  { first_name: '', last_name: '', org_unit_path: '', groups: [], send_to_email: '' }
+                ])
+              }
+              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+            >
+              Add Another Officer
+            </button>
+            
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition disabled:opacity-50"
+            >
+              {loading ? 'Processing...' : 'Onboard Officers'}
+            </button>
+          </div>
+        </form>
+
+        {/* Results section */}
+        {results.length > 0 && (
+          <div className="mt-8 space-y-4">
+            <h2 className="text-xl font-semibold">Results</h2>
+            {results.map((result, index) => (
+              <div
+                key={index}
+                className={`p-4 rounded-lg ${
+                  result.status === 'success' ? 'bg-green-900/50' : 'bg-red-900/50'
+                }`}
+              >
+                <p className="font-medium">{result.email}</p>
+                <p>{result.status === 'success' ? 'Successfully onboarded' : result.error}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
