@@ -1,4 +1,4 @@
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import MemberManagementList from 'components/admin/member/manage/MemberManagementList';
 import PageTitle from 'components/admin/member/manage/PageTitle';

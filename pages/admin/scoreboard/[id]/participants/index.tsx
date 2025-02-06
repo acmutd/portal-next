@@ -1,5 +1,5 @@
 import Button from 'components/Button';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import ScoreboardParticipantsTable from 'components/admin/scoreboard/[id]/participants/ScoreboardParticipantsTable';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';

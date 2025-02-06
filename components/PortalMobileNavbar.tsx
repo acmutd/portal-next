@@ -7,16 +7,16 @@ const MobileDiv = styled.div`
   height: 100px;
   width: 100%;
   border-radius: 20px 20px 0px 0px;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0px 10px;
 
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+  z-index: 50;
 `;
-
-const Navbar: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <MobileDiv>{children}</MobileDiv>;
-};
 
 // Used to make sure MobileDiv does not overlay content
 // Must have same height as MobileDiv
@@ -26,6 +26,27 @@ const MobileNavPlaceholder = styled.div`
   margin-top: 20px;
 `;
 
-export default Navbar;
+const NavItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+const Navbar: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return <MobileDiv>{children}</MobileDiv>;
+};
+
+export default Navbar;
 export { MobileNavPlaceholder };

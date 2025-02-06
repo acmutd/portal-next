@@ -1,4 +1,4 @@
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import ScoreboardInfoForm from 'components/admin/scoreboard/[id]/ScoreboardInfoForm';
 import ScoreboardResetDialog from 'components/admin/scoreboard/[id]/ScoreboardResetDialog';

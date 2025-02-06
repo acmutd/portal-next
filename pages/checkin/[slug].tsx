@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { gqlQueries } from 'src/api';
 import { useQuery } from 'react-query';
 import { GraphQLError } from 'graphql';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 
 function ViewWrapper({ children, router }: React.PropsWithChildren<{ router: NextRouter }>) {
   return (
@@ -86,13 +86,18 @@ export default function CheckinPage() {
 
   return (
     <ViewWrapper router={router}>
-      <SuccessfulComponent message="Check-in successful" />
-      {pointClaims.map((claim) => (
-        <SuccessfulComponent
-          key={claim.scoreboardName}
-          message={`You gained ${claim.scoreValue} points in ${claim.scoreboardName}`}
-        />
-      ))}
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 space-y-4">
+        <div className="w-full max-w-xl">
+          <SuccessfulComponent message="Check-in successful" />
+        </div>
+        {pointClaims.map((claim) => (
+          <div key={claim.scoreboardName} className="w-full max-w-xl">
+            <SuccessfulComponent
+              message={`You gained ${claim.scoreValue} points in ${claim.scoreboardName}`}
+            />
+          </div>
+        ))}
+      </div>
     </ViewWrapper>
   );
 }

@@ -8,7 +8,8 @@
     "lint": "next lint",
     "generate:schema": "ts-node -O '{\"module\":\"commonjs\"}' lib/graphql/emitSchemaSDL.ts",
     "prisma:generate": "prisma generate",
-    "prisma:push": "doppler run -- prisma db push"
+    "prisma:push": "doppler run -- prisma db push",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/server": "^4.9.5",

@@ -7,10 +7,12 @@ import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import { useForm } from 'react-hook-form';
 import { TypeformApplication } from '@generated/type-graphql';
+import { useQueryClient } from 'react-query';
 
 const CreateApplicationPage: NextPage = () => {
   const router = useRouter();
   const isOfficer = useContext(OfficerStatusContext);
+  const queryClient = useQueryClient();
 
   if (!isOfficer) {
     return <AdminOnlyComponent />;
@@ -42,6 +44,8 @@ const CreateApplicationPage: NextPage = () => {
             disabled={formHookData.formState.isSubmitting}
             onClick={() => {
               sessionStorage.setItem('showToast', '1');
+              queryClient.invalidateQueries(['editAppData']);
+              router.push('/admin/typeform');
             }}
           >
             save

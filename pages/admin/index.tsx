@@ -20,6 +20,20 @@ export default function AdminToolsPage() {
   const officerStatusData = useContext(OfficerStatusContext);
   const options: AdminFunctionalityOptionType[] = [
     {
+      title: 'ACM Events',
+      description: 'Manage events: create, edit, and view statistics',
+      onChosen: () => router.push('/admin/events'),
+      directorOnly: false,
+      devDirectorOrExecOnly: false,
+    },
+    {
+      title: 'Applications',
+      description: 'Click here to manage all Typeform applications',
+      onChosen: () => router.push('/admin/typeform/'),
+      directorOnly: true,
+      devDirectorOrExecOnly: false,
+    },
+    {
       title: 'Create Vanity Link',
       description: 'Click here to start creating your Vanity URL with ACM domain.',
       onChosen: () => router.push('/admin/vanity'),
@@ -27,14 +41,14 @@ export default function AdminToolsPage() {
       devDirectorOrExecOnly: false,
     },
     {
-      title: 'View events statistics',
-      description: 'Click here to view participation metrics of ACM events.',
-      onChosen: () => router.push('/admin/events/stats'),
+      title: 'Add Participant To Division',
+      description: 'Click here to add participant into your division',
+      onChosen: () => router.push('/admin/participant/add'),
       directorOnly: true,
       devDirectorOrExecOnly: false,
     },
     {
-      title: 'Add officer to division',
+      title: 'Add Officer To Division',
       description: 'Add new officer into division.',
       onChosen: () => router.push('/admin/officer/add'),
       directorOnly: true,
@@ -47,13 +61,6 @@ export default function AdminToolsPage() {
       directorOnly: true,
       devDirectorOrExecOnly: true,
     },
-    {
-      title: 'Manage Scoreboard',
-      description: 'Manage Scoreboard owned by your division',
-      onChosen: () => router.push('/admin/scoreboard/'),
-      directorOnly: true,
-      devDirectorOrExecOnly: false,
-    },
     // {
     //   title: 'Create Division Application',
     //   description: 'Click here to create new application for your division',
@@ -61,37 +68,16 @@ export default function AdminToolsPage() {
     //   directorOnly: true
     // },
     {
-      title: 'Manage Director',
-      description: 'Manage Director',
-      onChosen: () => router.push('/admin/director/manage'),
-      directorOnly: true,
-      devDirectorOrExecOnly: true,
-    },
-    {
-      title: 'Manage Typeform Application',
-      description: 'Click here to manage all Typeform application',
-      onChosen: () => router.push('/admin/typeform/'),
+      title: 'ACM Directors',
+      description: 'View and Manage ACM Directors',
+      onChosen: () => router.push('/admin/director/view'),
       directorOnly: true,
       devDirectorOrExecOnly: false,
     },
     {
-      title: 'Add Event',
-      description: 'Click here to create an event for your division(s)',
-      onChosen: () => router.push('/admin/events/add'),
-      directorOnly: false,
-      devDirectorOrExecOnly: false,
-    },
-    {
-      title: 'Edit Events',
-      description: 'Click here to edit recent event data',
-      onChosen: () => router.push('/admin/events/edit'),
-      directorOnly: false,
-      devDirectorOrExecOnly: false,
-    },
-    {
-      title: 'Add participant into division',
-      description: 'Click here to add participant into your division',
-      onChosen: () => router.push('/admin/participant/add'),
+      title: 'Manage Scoreboard',
+      description: 'Manage Scoreboard owned by your division',
+      onChosen: () => router.push('/admin/scoreboard/'),
       directorOnly: true,
       devDirectorOrExecOnly: false,
     },
@@ -106,9 +92,9 @@ export default function AdminToolsPage() {
     return <AdminOnlyComponent />;
   }
   return (
-    <div className="p-4">
-      <h1 className="text-[40px] text-white my-5 py-3">Admin Tools</h1>
-      <div className="flex flex-col gap-y-6 w-full">
+    <div className="p-4 h-screen">
+      <h1 className="text-[32px] text-white mb-4">Admin Tools</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {options
           .filter(({ directorOnly }) => (officerStatusData.isDirector ? true : !directorOnly))
           .filter(({ devDirectorOrExecOnly }) =>
@@ -117,10 +103,12 @@ export default function AdminToolsPage() {
           .map(({ title, description, onChosen }, idx) => (
             <div
               key={idx}
-              className="mx-auto w-4/5 lg:h-40 p-6 rounded-3xl gap-y-4 flex flex-col justify-around bg-gray-200/5 outline outline-gray-100/10"
+              className="p-6 rounded-3xl gap-y-4 flex flex-col justify-around bg-gray-200/5 outline outline-gray-100/10"
             >
-              <h2 className="text-white font-bold text-xl">{title}</h2>
-              <p className="text-white">{description}</p>
+              <div>
+                <h2 className="text-white font-bold text-xl mb-2">{title}</h2>
+                <p className="text-white">{description}</p>
+              </div>
               <Button onClick={onChosen} className="ml-auto">
                 Select
               </Button>

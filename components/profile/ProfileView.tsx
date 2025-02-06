@@ -7,44 +7,54 @@ interface ProfileViewProps {
 
 export default function ProfileView({ profile }: ProfileViewProps) {
   if (!profile) return <p className="text-gray-100">please set up your profile</p>;
-  return (
-    // view mode
-    <div className="flex w-1/2 flex-wrap mb-6">
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <ProfileField label="first name" text={profile.firstName.toLowerCase()} />
-      </div>
-      <div className="w-full md:w-1/2 px-3">
-        <ProfileField label="last name" text={profile.lastName.toLowerCase()} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="email" text={profile.email.toLowerCase()} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="netid" text={profile.netid.toLowerCase()} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="class standing" text={profile.classStanding.toLowerCase()} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="major" text={profile.major.toLowerCase()} />
-      </div>
-      <div className="flex">
 
-      <div className='w-full px-3'>
-        <ProfileField label="is acm member" text={profile.user.isMember ? "true" : "false"} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="is acm officer" text={profile.user.isOfficer ? "true" : "false"} />
-      </div>
-      <div className="w-full px-3">
-        <ProfileField label="is acm director" text={profile.user.isDirector ? "true" : "false"} />
-      </div>
-      </div>
-      {profile.officer && (
-        <div className="w-full px-3">
-          <ProfileField label="division" text={profile.officer!.divisions.length === 0 ? "No divisions" : profile.officer!.divisions.map((division) => division.deptName).join(", ")} />
+  const getHighestPosition = () => {
+    if (profile.user.isDirector) return "Director";
+    if (profile.user.isOfficer) return "Officer";
+    if (profile.user.isMember) return "Member";
+    return "Non-Member";
+  };
+
+  return (
+    <div className="w-full max-w-4xl bg-gray-200/5 outline outline-gray-100/10 rounded-xl p-8">
+      {/* Header Section */}
+      <div className="mb-8">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="text-4xl text-white font-bold">
+            {profile.firstName} {profile.lastName}
+          </div>
         </div>
-      )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="px-3 py-1 rounded-full bg-purple-600/20 text-purple-400 text-sm font-medium">
+            {getHighestPosition()}
+          </span>
+          {profile.officer && profile.officer.divisions.length > 0 && (
+            <span className="px-3 py-1 rounded-full bg-blue-600/20 text-blue-400 text-sm font-medium">
+              {profile.officer.divisions.map(d => d.deptName).join(", ")}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Info Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div className="space-y-1">
+          <div className="text-gray-400 text-sm font-medium">Email</div>
+          <div className="text-white truncate">{profile.email}</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-gray-400 text-sm font-medium">NetID</div>
+          <div className="text-white truncate">{profile.netid}</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-gray-400 text-sm font-medium">Class Standing</div>
+          <div className="text-white truncate">{profile.classStanding}</div>
+        </div>
+        <div className="space-y-1">
+          <div className="text-gray-400 text-sm font-medium">Major</div>
+          <div className="text-white truncate">{profile.major}</div>
+        </div>
+      </div>
     </div>
   );
 }

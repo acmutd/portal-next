@@ -20,22 +20,16 @@ mutation deleteDirector($where: DirectorWhereUniqueInput!) {
 }
 
 query getAddDirectorPageInfo {
-  directorEligibleOfficers {
+  officers {
     id
     profile {
       firstName
       lastName
     }
   }
-  me {
-    profile {
-      officer {
-        divisions {
-          deptName
-          id
-        }
-      }
-    }
+  divisions {
+    id
+    deptName
   }
 }
 

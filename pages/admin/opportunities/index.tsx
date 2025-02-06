@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import LoadingComponent from 'components/LoadingComponent';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';

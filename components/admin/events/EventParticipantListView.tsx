@@ -64,9 +64,9 @@ export default function EventParticipantListView({ currentEvent }: EventParticip
                   onClick={() => {
                     const value = Math.floor(Math.random() * filteredProfiles.length);
                     alert(
-                      filteredProfiles[value].profile.firstName +
+                      filteredProfiles[value]?.profile?.firstName +
                         ' ' +
-                        filteredProfiles[value].profile.lastName,
+                        filteredProfiles[value]?.profile?.lastName,
                     );
                   }}
                 >
@@ -83,8 +83,8 @@ export default function EventParticipantListView({ currentEvent }: EventParticip
                 <TableBody>
                   {filteredProfiles.map(({ profile }, idx) => (
                     <TableRow key={idx}>
-                      <TableCell>{profile.firstName}</TableCell>
-                      <TableCell>{profile.lastName}</TableCell>
+                      <TableCell>{profile?.firstName}</TableCell>
+                      <TableCell>{profile?.lastName}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

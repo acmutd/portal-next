@@ -14,26 +14,42 @@ interface NextLinkForwardRefTypes {
   href?: string;
 }
 
-const StyledA = styled(motion.a) <ACMNavbarItemPropTypes>`
+const StyledA = styled(motion.a)<ACMNavbarItemPropTypes>`
   position: relative;
   overflow: hidden;
-
-  color: ${(props: ACMNavbarItemPropTypes) => (props.$active ? 'white' : 'black')};
-  font-size: 15px;
+  color: ${(props) => (props.$active ? 'white' : 'rgba(255, 255, 255, 0.6)')};
+  font-size: 12px;
   width: 20%;  
-
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 4px;
+  padding: 8px;
+  transition: all 0.3s ease;
 
+  &:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
 
-  background: ${(props: ACMNavbarItemPropTypes) =>
+  background: ${(props) =>
     props.$active
       ? `linear-gradient(30deg,${props.color || '#E10087'} 0%,${
           props.gradientColor || props.color || '#4004C0'
         } 100%)`
       : 'none'};
+
+  svg {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover svg {
+    transform: scale(1.1);
+  }
 `;
 
 const SVGPlaceholder = styled.div`

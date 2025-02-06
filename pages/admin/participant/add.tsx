@@ -1,4 +1,4 @@
-import Loading from 'components/Loading';
+import Loading from 'components/Loading_Apply';
 import AdminOnlyComponent from 'components/admin/AdminOnly';
 import MakeUserParticipantCard from 'components/admin/participants/add/MakeUserParticipantCard';
 import { OfficerStatusContext } from 'components/context/OfficerStatus';

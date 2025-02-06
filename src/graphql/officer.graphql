@@ -23,10 +23,26 @@ mutation addUserToDivision($data: OfficerUpdateInput!, $where: OfficerWhereUniqu
       firstName
       lastName
       officer {
+        divisionIds
         divisions {
           deptName
         }
       }
+    }
+  }
+}
+
+mutation createOneOfficer($data: OfficerCreateInput!) {
+  createOneOfficer(data: $data) {
+    id
+    profile {
+      id
+      firstName
+      lastName
+    }
+    divisions {
+      id
+      deptName
     }
   }
 }

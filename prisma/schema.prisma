@@ -146,7 +146,7 @@ model TypeformApplication {
   externalResourceUrl String
   typeformId          String
   typeformName        String
-  division            String
+  division            String?
 
   @@map("typeform_applications")
 }
@@ -265,7 +265,7 @@ model Division {
 model Officer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @unique @db.ObjectId
 
   divisionIds String[]   @db.ObjectId

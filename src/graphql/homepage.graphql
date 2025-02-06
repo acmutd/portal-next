@@ -1,5 +1,8 @@
 query getHomePageUserInfo($where: ProfileWhereUniqueInput!) {
   me {
+    isDirector
+    isOfficer
+    isMember
     attendedEvents {
       description
       location
@@ -11,5 +14,10 @@ query getHomePageUserInfo($where: ProfileWhereUniqueInput!) {
     firstName
     netid
     email
+    officer {
+      divisions {
+        deptName
+      }
+    }
   }
 }

@@ -139,7 +139,7 @@ export default function TypeformEditForm({
             <label className="block text-2xl text-gray-200 font-semibold mb-2">division</label>
             <select
               className="appearance-none block w-full text-gray-100 rounded-2xl py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-300"
-              defaultValue={currentApplicationData ? currentApplicationData.division : ''}
+              defaultValue={currentApplicationData?.division ?? ''}
               {...register('division')}
             >
               <option value="Development">Development</option>
