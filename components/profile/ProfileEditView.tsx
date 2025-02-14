@@ -135,6 +135,9 @@ export default function ProfileEditView({ profile, onUpdateFormCompleted, onErro
               <span className="text-sm">utd student</span>
             </label>
           </div>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Save Profile
+          </button>
         </form>
       </div>
     </>
