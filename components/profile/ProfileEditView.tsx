@@ -110,11 +110,11 @@ export default function ProfileEditView({ profile, onUpdateFormCompleted, onErro
             <div className="w-full px-3">
               <label className="block text-gray-200 font-semibold mb-2">class standing</label>
               <select
-                className="appearance-none block w-full text-black hover:text-gray-100 rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
+                className="appearance-none block w-full text-white rounded py-3 px-4 mb-3 leading-tight focus:outline-none bg-transparent border border-gray-600"
                 {...register('classStanding')}
               >
                 {["freshman", "sophomore", "junior", "senior", "graduate"].map((standing) => (
-                  <option value={standing}>{standing}</option>
+                  <option className="text-black hover:text-gray-100" value={standing}>{standing}</option>
                 ))}
               </select>
             </div>
