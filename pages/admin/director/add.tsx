@@ -22,7 +22,7 @@ export default function AddDirectorPage() {
     ['addDirectorPageData'],
     () => gqlQueries.getAddDirectorPageInfo(),
     {
-      enabled: status === 'authenticated' && officerData.isDirector && isDevDirectorOrExecutive,
+      enabled: status === 'authenticated' && officerData.isDirector,
     },
   );
 
@@ -62,7 +62,7 @@ export default function AddDirectorPage() {
     }
   };
 
-  if (!officerData.isDirector || !isDevDirectorOrExecutive) return <AdminOnlyComponent />;
+  if (!officerData.isDirector) return <AdminOnlyComponent />;
   if (isLoading || status === 'loading') return <Loading />;
 
   if (error) {

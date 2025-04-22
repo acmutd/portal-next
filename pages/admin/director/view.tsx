@@ -29,6 +29,11 @@ export default function ViewDirectorsPage() {
   );
 
   const removeDirectorHandler = async (directorId: string) => {
+    if (!isDevDirectorOrExecutive) {
+      alert('Only Development or Executive directors can remove directors');
+      return;
+    }
+    
     try {
       await gqlQueries.deleteDirector({
         where: {
@@ -73,11 +78,9 @@ export default function ViewDirectorsPage() {
           </svg>
         </div>
         <h1 className="text-3xl text-white p-3">Current Directors</h1>
-        {isDevDirectorOrExecutive && (
-          <Button onClick={() => router.push('/admin/director/add')} className="ml-auto">
-            Add New Director
-          </Button>
-        )}
+        <Button onClick={() => router.push('/admin/director/add')} className="ml-auto">
+          Add New Director
+        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data.directors.map((director) => (
