@@ -47,6 +47,27 @@ const getDivisionColors = (division: string | null | undefined) => {
       hover: 'hover:outline-green-500/30'
     };
   }
+  if (divisionLower.includes('community')) {
+    return {
+      bg: 'bg-yellow-600/20',
+      text: 'text-yellow-400',
+      hover: 'hover:outline-yellow-500/30'
+    };
+  }
+  if (divisionLower.includes('industry')) {
+    return {
+      bg: 'bg-gray-600/20',
+      text: 'text-gray-400',
+      hover: 'hover:outline-gray-500/30'
+    };
+  }
+  if (divisionLower.includes('hackutd')) {
+    return {
+      bg: 'bg-pink-600/20',
+      text: 'text-pink-400',
+      hover: 'hover:outline-pink-500/30'
+    };
+  }
   return {
     bg: 'bg-purple-600/20',
     text: 'text-purple-400',

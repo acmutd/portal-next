@@ -5,7 +5,7 @@ import { OfficerStatusContext } from 'components/context/OfficerStatus';
 import { GraphQLError } from 'graphql';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { gqlQueries } from 'src/api';
 import Button from 'components/Button';
@@ -20,15 +20,34 @@ export default function ViewDirectorsPage() {
     officerData.directorOfDivisions.includes('Development') ||
     officerData.directorOfDivisions.includes('Executive');
 
-  console.log('Is Dev Director or Executive:', isDevDirectorOrExecutive);
+  // Redirect non-officers from this page completely
+  useEffect(() => {
+    if (status === 'authenticated' && !officerData.isOfficer) {
+      router.push('/dashboard');
+    }
+  }, [status, officerData.isOfficer, router]);
 
   const { data, isLoading, error } = useQuery(
     ['directorData'],
     () => gqlQueries.getDirectorManagementPageInfo(),
-    { enabled: status === 'authenticated' && officerData.isDirector },
+    { 
+      enabled: status === 'authenticated' && officerData.isDirector,
+      retry: false,
+      onError: (err) => {
+        console.error('Error fetching director data:', err);
+        if ((err as GraphQLError).message === 'User is not director') {
+          router.push('/admin');
+        }
+      }
+    },
   );
 
   const removeDirectorHandler = async (directorId: string) => {
+    if (!isDevDirectorOrExecutive) {
+      alert('Only Development or Executive directors can remove directors');
+      return;
+    }
+    
     try {
       await gqlQueries.deleteDirector({
         where: {
@@ -44,15 +63,15 @@ export default function ViewDirectorsPage() {
     }
   };
 
-  if (!officerData.isDirector) return <AdminOnlyComponent />;
+  if (!officerData.isOfficer) return <AdminOnlyComponent />;
   if (isLoading || status === 'loading' || !data) return <Loading />;
 
   if (error) {
     console.error(error);
     return (
       <ErrorComponent
-        errorCode={(error as GraphQLError).extensions.code as string}
-        errorMessage={(error as GraphQLError).message}
+        errorCode={(error as GraphQLError).extensions?.code as string || 'ERROR'}
+        errorMessage={(error as GraphQLError).message || 'An error occurred'}
       />
     );
   }
@@ -73,7 +92,7 @@ export default function ViewDirectorsPage() {
           </svg>
         </div>
         <h1 className="text-3xl text-white p-3">Current Directors</h1>
-        {isDevDirectorOrExecutive && (
+        {officerData.isDirector && (
           <Button onClick={() => router.push('/admin/director/add')} className="ml-auto">
             Add New Director
           </Button>
