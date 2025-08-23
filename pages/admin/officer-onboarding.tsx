@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { TrashIcon } from '@radix-ui/react-icons'; // import trashcan icon
 
-const orgUnits = ['/Development', '/Education', '/Research', '/HackUTD', '/Projects', '/Industry'];
+const orgUnits = ['/Development', '/Education', '/Research', '/HackUTD', '/Projects', '/Industry', '/Media', '/Community'];
 const groups = [
   'acmindustry@acmutd.co',
   'community@acmutd.co',
@@ -88,7 +88,7 @@ const OfficerOnboardingPage = () => {
     <div className="min-h-screen text-white p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Officer Onboarding</h1>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {officers.map((officer, index) => (
             <motion.div
@@ -139,7 +139,7 @@ const OfficerOnboardingPage = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium mb-2">Organization Unit</label>
                   <select
@@ -156,7 +156,7 @@ const OfficerOnboardingPage = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium mb-2">Groups</label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -195,7 +195,7 @@ const OfficerOnboardingPage = () => {
             >
               Add Another Officer
             </button>
-            
+
             <button
               type="submit"
               disabled={loading}
@@ -213,9 +213,8 @@ const OfficerOnboardingPage = () => {
             {results.map((result, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-lg ${
-                  result.status === 'success' ? 'bg-green-900/50' : 'bg-red-900/50'
-                }`}
+                className={`p-4 rounded-lg ${result.status === 'success' ? 'bg-green-900/50' : 'bg-red-900/50'
+                  }`}
               >
                 <p className="font-medium">{result.email}</p>
                 <p>{result.status === 'success' ? 'Successfully onboarded' : result.error}</p>
