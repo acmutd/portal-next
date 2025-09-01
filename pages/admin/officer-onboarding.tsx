@@ -3,7 +3,8 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { TrashIcon } from '@radix-ui/react-icons'; // import trashcan icon
 
-const orgUnits = ['/Development', '/Education', '/Research', '/HackUTD', '/Projects', '/Industry', '/Media', '/Community'];
+// org units and groups from google admin
+const orgUnits = ['/Development', '/Education', '/Research', '/HackUTD', '/Projects', '/Industry', '/Media', '/Community', '/Finance', 'N/A'];
 const groups = [
   'acmindustry@acmutd.co',
   'community@acmutd.co',
