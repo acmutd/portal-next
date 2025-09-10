@@ -71,7 +71,7 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
         userId: session!.id,
       },
     });
-    await Promise.all([
+    await Promise.allSettled([
       sendEventCreationEmail(
         {
           checkin_link: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
