@@ -90,7 +90,6 @@ export const onEventCreationComplete: MiddlewareFn<TContext> = async ({ args, co
         form_name: 'Event Check-in Generator',
         url: `https://portal.acmutd.co/checkin/${createdEvent.id}`,
       }),
-      await sendEventToDiscordGuildEvent(createdEvent),
       await addEventToGCal(createdEvent),
     ]);
   }
